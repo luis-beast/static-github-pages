@@ -33,43 +33,44 @@ const CommandCard = ({ command }: CommandCardProps) => {
       >
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <div className="flex flex-wrap items-center gap-2 mb-2">
+            <div className="mb-2">
               <span className="font-mono font-semibold text-primary text-lg">
                 {command.name}
               </span>
-              {visibleAliases.length > 0 && (
-                <div className="flex flex-wrap items-center gap-1.5">
-                  <span className="text-muted-foreground text-sm">also:</span>
-                  {visibleAliases.map((alias, i) => (
-                    <span key={alias} className="text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded">
-                      {alias}
-                    </span>
-                  ))}
-                  {hiddenCount > 0 && !showAllAliases && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowAllAliases(true);
-                      }}
-                      className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
-                    >
-                      +{hiddenCount} more
-                    </button>
-                  )}
-                  {showAllAliases && hiddenCount > 0 && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowAllAliases(false);
-                      }}
-                      className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
-                    >
-                      show less
-                    </button>
-                  )}
-                </div>
-              )}
             </div>
+            
+            {visibleAliases.length > 0 && (
+              <div className="flex flex-wrap items-center gap-1.5 mb-2">
+                <span className="text-muted-foreground text-sm">also:</span>
+                {visibleAliases.map((alias) => (
+                  <span key={alias} className="text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded">
+                    {alias}
+                  </span>
+                ))}
+                {hiddenCount > 0 && !showAllAliases && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowAllAliases(true);
+                    }}
+                    className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
+                  >
+                    +{hiddenCount} more
+                  </button>
+                )}
+                {showAllAliases && hiddenCount > 0 && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setShowAllAliases(false);
+                    }}
+                    className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
+                  >
+                    show less
+                  </button>
+                )}
+              </div>
+            )}
             
             <div className="flex items-center gap-3 mb-3">
               <PermissionBadge permission={command.permission} />

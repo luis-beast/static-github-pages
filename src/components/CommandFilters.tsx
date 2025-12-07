@@ -62,23 +62,30 @@ const CommandFilters = ({
           <label className="text-sm font-medium text-foreground mb-2 block">
             Filter by permission
           </label>
-          <div className="flex flex-wrap gap-4">
-            {permissions.map((perm) => (
-              <div key={perm.value} className="flex items-center space-x-2">
-                <Checkbox
-                  id={perm.value}
-                  checked={selectedPermissions.includes(perm.value)}
-                  onCheckedChange={() => onPermissionToggle(perm.value)}
-                  className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-                />
-                <label
-                  htmlFor={perm.value}
-                  className="text-sm text-secondary-foreground cursor-pointer"
+          <div className="flex flex-wrap gap-2">
+            {permissions.map((perm) => {
+              const isActive = selectedPermissions.includes(perm.value);
+              const colorClasses: Record<Permission, string> = {
+                follower: "bg-perm-follower/20 text-perm-follower border-perm-follower/30",
+                subscriber: "bg-perm-subscriber/20 text-perm-subscriber border-perm-subscriber/30",
+                moderator: "bg-perm-moderator/20 text-perm-moderator border-perm-moderator/30",
+                streamer: "bg-perm-streamer/20 text-perm-streamer border-perm-streamer/30",
+              };
+              
+              return (
+                <button
+                  key={perm.value}
+                  onClick={() => onPermissionToggle(perm.value)}
+                  className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium border transition-all cursor-pointer ${
+                    isActive 
+                      ? colorClasses[perm.value]
+                      : "bg-secondary/50 text-muted-foreground border-border/50 opacity-50 hover:opacity-75"
+                  }`}
                 >
                   {perm.label}
-                </label>
-              </div>
-            ))}
+                </button>
+              );
+            })}
           </div>
         </div>
       </div>
