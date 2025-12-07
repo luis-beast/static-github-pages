@@ -14,9 +14,9 @@ const MAX_VISIBLE_ALIASES = 2;
 const CommandCard = ({ command }: CommandCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showAllAliases, setShowAllAliases] = useState(false);
-  const [showVariations, setShowVariations] = useState(false);
-  const hasDetails = command.parameterGroups && command.parameterGroups.length > 0;
+  const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
   const hasVariations = command.usageVariations && command.usageVariations.length > 0;
+  const hasDetails = hasParameterGroups || hasVariations;
 
   const visibleAliases = showAllAliases 
     ? command.aliases 
@@ -71,26 +71,7 @@ const CommandCard = ({ command }: CommandCardProps) => {
                     show less
                   </button>
                 )}
-            
-            {showVariations && hasVariations && (
-              <div className="mt-2 space-y-1 animate-fade-in">
-                {command.usageVariations!.map((variation, index) => (
-                  <code key={index} className="block text-muted-foreground text-sm font-mono">
-                    {variation.split("(").map((part, i) => {
-                      if (i === 0) return part;
-                      const [param, rest] = part.split(")");
-                      return (
-                        <span key={i}>
-                          <span className="text-muted-foreground/60">({param})</span>
-                          {rest}
-                        </span>
-                      );
-                    })}
-                  </code>
-                ))}
               </div>
-            )}
-            </div>
             )}
             
             <div className="flex items-center gap-3 mb-3">
@@ -107,27 +88,6 @@ const CommandCard = ({ command }: CommandCardProps) => {
                   );
                 })}
               </code>
-              {hasVariations && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setShowVariations(!showVariations);
-                  }}
-                  className="text-primary text-xs font-medium hover:text-primary/80 transition-colors flex items-center gap-1"
-                >
-                  {showVariations ? (
-                    <>
-                      <ChevronUp className="w-3 h-3" />
-                      hide variations
-                    </>
-                  ) : (
-                    <>
-                      <ChevronDown className="w-3 h-3" />
-                      +{command.usageVariations!.length} variations
-                    </>
-                  )}
-                </button>
-              )}
             </div>
             
             <p className="text-secondary-foreground text-sm">
@@ -155,21 +115,47 @@ const CommandCard = ({ command }: CommandCardProps) => {
       </button>
       
       {hasDetails && isExpanded && (
-        <div className="border-t border-border/50 bg-secondary/20 p-4 animate-slide-down">
-          <h4 className="text-sm font-semibold text-foreground mb-4">Parameters</h4>
-          <div className="space-y-4">
-            {command.parameterGroups?.map((group, index) => (
-              <div key={index} className="bg-card/50 rounded-lg p-3">
-                <div className="font-medium text-foreground mb-2">{group.name}</div>
-                <div className="flex flex-wrap gap-2 mb-2">
-                  {group.aliases.map((alias, aliasIndex) => (
-                    <ParameterBubble key={aliasIndex} value={alias} />
-                  ))}
-                </div>
-                <p className="text-muted-foreground text-sm">{group.description}</p>
+        <div className="border-t border-border/50 bg-secondary/20 p-4 animate-slide-down space-y-6">
+          {hasVariations && (
+            <div>
+              <h4 className="text-sm font-semibold text-foreground mb-3">Also works as</h4>
+              <div className="space-y-1">
+                {command.usageVariations!.map((variation, index) => (
+                  <code key={index} className="block text-muted-foreground text-sm font-mono">
+                    {variation.split("(").map((part, i) => {
+                      if (i === 0) return part;
+                      const [param, rest] = part.split(")");
+                      return (
+                        <span key={i}>
+                          <span className="text-muted-foreground/60">({param})</span>
+                          {rest}
+                        </span>
+                      );
+                    })}
+                  </code>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          )}
+          
+          {hasParameterGroups && (
+            <div>
+              <h4 className="text-sm font-semibold text-foreground mb-4">Options</h4>
+              <div className="space-y-4">
+                {command.parameterGroups?.map((group, index) => (
+                  <div key={index} className="bg-card/50 rounded-lg p-3">
+                    <div className="font-medium text-foreground mb-2">{group.name}</div>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      {group.aliases.map((alias, aliasIndex) => (
+                        <ParameterBubble key={aliasIndex} value={alias} />
+                      ))}
+                    </div>
+                    <p className="text-muted-foreground text-sm">{group.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

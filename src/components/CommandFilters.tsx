@@ -76,7 +76,7 @@ const CommandFilters = ({
                 <button
                   key={perm.value}
                   onClick={() => onPermissionToggle(perm.value)}
-                  className={`inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium border transition-all cursor-pointer ${
+                  className={`inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border transition-all cursor-pointer ${
                     isActive 
                       ? colorClasses[perm.value]
                       : "bg-secondary/50 text-muted-foreground border-border/50 opacity-50 hover:opacity-75"
