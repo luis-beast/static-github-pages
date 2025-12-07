@@ -1,0 +1,153 @@
+import { Command } from "@/types/command";
+
+export const commands: Command[] = [
+  {
+    id: "setscene",
+    name: "!setscene",
+    aliases: ["!changescene", "!scene"],
+    permission: "moderator",
+    description: "This command allows you to change the scene currently showing on stream.",
+    usage: "!setscene (scene)",
+    parameterGroups: [
+      {
+        name: "Starting Scene",
+        aliases: ["start", "starting", "begin"],
+        description: "These parameters change the scene to the starting/intro scene shown before the stream begins.",
+      },
+      {
+        name: "BRB Scene",
+        aliases: ["brb", "be right back", "intermission"],
+        description: "These parameters switch to the 'Be Right Back' scene for short breaks.",
+      },
+      {
+        name: "Ending Scene",
+        aliases: ["end", "ending", "outro"],
+        description: "These parameters transition to the ending scene when wrapping up the stream.",
+      },
+      {
+        name: "Chrome Scene",
+        aliases: ["chrome", "browser", "web"],
+        description: "These parameters switch to the browser/chrome scene for browsing content.",
+      },
+      {
+        name: "Game Scene",
+        aliases: ["game", "gameplay", "play"],
+        description: "These parameters switch back to the main gameplay scene.",
+      },
+    ],
+  },
+  {
+    id: "shoutout",
+    name: "!shoutout",
+    aliases: ["!so"],
+    permission: "moderator",
+    description: "Give a shoutout to another streamer, promoting their channel to viewers.",
+    usage: "!shoutout (username)",
+    parameterGroups: [
+      {
+        name: "Username",
+        aliases: ["@username", "username"],
+        description: "The Twitch username of the streamer you want to shoutout.",
+      },
+    ],
+  },
+  {
+    id: "timeout",
+    name: "!timeout",
+    aliases: ["!to"],
+    permission: "moderator",
+    description: "Temporarily prevent a user from chatting in the stream.",
+    usage: "!timeout (user) (duration)",
+    parameterGroups: [
+      {
+        name: "Duration",
+        aliases: ["30", "60", "300", "600"],
+        description: "The timeout duration in seconds. Common values are 30s, 1min, 5min, or 10min.",
+      },
+    ],
+  },
+  {
+    id: "discord",
+    name: "!discord",
+    aliases: ["!dc", "!server"],
+    permission: "follower",
+    description: "Displays the invite link to the community Discord server.",
+    usage: "!discord",
+  },
+  {
+    id: "socials",
+    name: "!socials",
+    aliases: ["!social", "!links"],
+    permission: "follower",
+    description: "Shows all the streamer's social media links.",
+    usage: "!socials",
+  },
+  {
+    id: "lurk",
+    name: "!lurk",
+    aliases: ["!lurking"],
+    permission: "follower",
+    description: "Let the streamer know you're lurking and watching silently.",
+    usage: "!lurk",
+  },
+  {
+    id: "hug",
+    name: "!hug",
+    aliases: ["!hugs"],
+    permission: "subscriber",
+    description: "Send a virtual hug to another viewer or the streamer.",
+    usage: "!hug (user)",
+  },
+  {
+    id: "emoteonly",
+    name: "!emoteonly",
+    aliases: ["!eo"],
+    permission: "moderator",
+    description: "Toggle emote-only mode in chat.",
+    usage: "!emoteonly (on/off)",
+    parameterGroups: [
+      {
+        name: "Enable",
+        aliases: ["on", "enable", "yes"],
+        description: "Turns on emote-only mode - only emotes can be sent in chat.",
+      },
+      {
+        name: "Disable",
+        aliases: ["off", "disable", "no"],
+        description: "Turns off emote-only mode - regular messages are allowed again.",
+      },
+    ],
+  },
+  {
+    id: "title",
+    name: "!title",
+    aliases: ["!settitle"],
+    permission: "streamer",
+    description: "Change the stream title.",
+    usage: "!title (new title)",
+  },
+  {
+    id: "game",
+    name: "!game",
+    aliases: ["!setgame", "!category"],
+    permission: "streamer",
+    description: "Change the stream category/game.",
+    usage: "!game (game name)",
+  },
+  {
+    id: "uptime",
+    name: "!uptime",
+    aliases: [],
+    permission: "follower",
+    description: "Shows how long the stream has been live.",
+    usage: "!uptime",
+  },
+  {
+    id: "followage",
+    name: "!followage",
+    aliases: ["!fa"],
+    permission: "follower",
+    description: "Check how long you've been following the channel.",
+    usage: "!followage",
+  },
+];
