@@ -14,4 +14,5 @@ export interface Command {
   description: string;
   usage: string;
   parameterGroups?: ParameterGroup[];
+  massCompatible?: boolean;
 }

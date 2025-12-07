@@ -91,6 +91,13 @@ const CommandCard = ({ command }: CommandCardProps) => {
             <p className="text-secondary-foreground text-sm">
               {command.description}
             </p>
+            
+            {command.massCompatible && (
+              <div className="mt-2 inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-accent/30 px-2 py-1 rounded">
+                <span>Works with</span>
+                <span className="font-mono font-medium text-primary">!mass</span>
+              </div>
+            )}
           </div>
           
           {hasDetails && (
