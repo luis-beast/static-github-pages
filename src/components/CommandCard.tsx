@@ -14,7 +14,9 @@ const MAX_VISIBLE_ALIASES = 2;
 const CommandCard = ({ command }: CommandCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showAllAliases, setShowAllAliases] = useState(false);
+  const [showVariations, setShowVariations] = useState(false);
   const hasDetails = command.parameterGroups && command.parameterGroups.length > 0;
+  const hasVariations = command.usageVariations && command.usageVariations.length > 0;
 
   const visibleAliases = showAllAliases 
     ? command.aliases 
@@ -69,7 +71,26 @@ const CommandCard = ({ command }: CommandCardProps) => {
                     show less
                   </button>
                 )}
+            
+            {showVariations && hasVariations && (
+              <div className="mt-2 space-y-1 animate-fade-in">
+                {command.usageVariations!.map((variation, index) => (
+                  <code key={index} className="block text-muted-foreground text-sm font-mono">
+                    {variation.split("(").map((part, i) => {
+                      if (i === 0) return part;
+                      const [param, rest] = part.split(")");
+                      return (
+                        <span key={i}>
+                          <span className="text-muted-foreground/60">({param})</span>
+                          {rest}
+                        </span>
+                      );
+                    })}
+                  </code>
+                ))}
               </div>
+            )}
+            </div>
             )}
             
             <div className="flex items-center gap-3 mb-3">
@@ -86,6 +107,27 @@ const CommandCard = ({ command }: CommandCardProps) => {
                   );
                 })}
               </code>
+              {hasVariations && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowVariations(!showVariations);
+                  }}
+                  className="text-primary text-xs font-medium hover:text-primary/80 transition-colors flex items-center gap-1"
+                >
+                  {showVariations ? (
+                    <>
+                      <ChevronUp className="w-3 h-3" />
+                      hide variations
+                    </>
+                  ) : (
+                    <>
+                      <ChevronDown className="w-3 h-3" />
+                      +{command.usageVariations!.length} variations
+                    </>
+                  )}
+                </button>
+              )}
             </div>
             
             <p className="text-secondary-foreground text-sm">
