@@ -13,6 +13,7 @@ export interface Command {
   permission: Permission;
   description: string;
   usage: string;
+  usageVariations?: string[];
   parameterGroups?: ParameterGroup[];
   massCompatible?: boolean;
 }

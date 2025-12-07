@@ -137,8 +137,13 @@ export const commands: Command[] = [
     name: "!pin",
     aliases: [],
     permission: "subscriber",
-    description: "Pin your Stream Avatar in place. Can target another user's avatar.",
-    usage: "!pin (user)",
+    description: "Pin your Stream Avatar in place. Can target another user's avatar and specify exact coordinates.",
+    usage: "!pin (user) (x) (y)",
+    usageVariations: [
+      "!pin",
+      "!pin (x) (y)",
+      "!pin (user)",
+    ],
     massCompatible: true,
   },
   {
@@ -161,8 +166,8 @@ export const commands: Command[] = [
       },
       {
         name: "Pin All",
-        aliases: ["pin"],
-        description: "Pins all Stream Avatars on screen.",
+        aliases: ["pin", "pin (x) (y)"],
+        description: "Pins all Stream Avatars on screen. Can specify coordinates.",
       },
       {
         name: "Hug User",
