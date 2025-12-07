@@ -12,7 +12,7 @@ const Navigation = () => {
               alt="Streamer avatar" 
               className="w-10 h-10 rounded-lg object-cover"
             />
-            <span className="font-semibold text-lg gradient-text">StreamerHub</span>
+            <span className="font-semibold text-lg gradient-text">The Layman</span>
           </div>
           
           <div className="flex items-center gap-1">
