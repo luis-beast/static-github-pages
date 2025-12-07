@@ -9,9 +9,17 @@ interface CommandCardProps {
   command: Command;
 }
 
+const MAX_VISIBLE_ALIASES = 2;
+
 const CommandCard = ({ command }: CommandCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showAllAliases, setShowAllAliases] = useState(false);
   const hasDetails = command.parameterGroups && command.parameterGroups.length > 0;
+
+  const visibleAliases = showAllAliases 
+    ? command.aliases 
+    : command.aliases.slice(0, MAX_VISIBLE_ALIASES);
+  const hiddenCount = command.aliases.length - MAX_VISIBLE_ALIASES;
 
   return (
     <div className="glass-card rounded-lg overflow-hidden hover-lift animate-fade-in">
@@ -30,9 +38,36 @@ const CommandCard = ({ command }: CommandCardProps) => {
                 {command.name}
               </span>
               {command.aliases.length > 0 && (
-                <span className="text-muted-foreground text-sm">
-                  also: {command.aliases.join(", ")}
-                </span>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-muted-foreground text-sm">also:</span>
+                  {visibleAliases.map((alias, i) => (
+                    <span key={alias} className="text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded">
+                      {alias}
+                    </span>
+                  ))}
+                  {hiddenCount > 0 && !showAllAliases && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowAllAliases(true);
+                      }}
+                      className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
+                    >
+                      +{hiddenCount} more
+                    </button>
+                  )}
+                  {showAllAliases && hiddenCount > 0 && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowAllAliases(false);
+                      }}
+                      className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
+                    >
+                      show less
+                    </button>
+                  )}
+                </div>
               )}
             </div>
             
