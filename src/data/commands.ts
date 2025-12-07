@@ -69,10 +69,25 @@ export const commands: Command[] = [
   {
     id: "discord",
     name: "!discord",
-    aliases: ["!dc", "!server"],
+    aliases: [],
     permission: "follower",
     description: "Displays the invite link to the community Discord server.",
     usage: "!discord",
+  },
+  {
+    id: "addtry",
+    name: "!addtry",
+    aliases: ["!addtries", "!tryagain", "!anothertry", "!yetanotherfail", "!tryingagain", "!onetry", "!moretries"],
+    permission: "moderator",
+    description: "Adds additional tries to a viewer's attempt counter for challenges or games.",
+    usage: "!addtry (user) (amount)",
+    parameterGroups: [
+      {
+        name: "Amount",
+        aliases: ["1", "5", "10"],
+        description: "The number of tries to add. Common values are 1, 5, or 10.",
+      },
+    ],
   },
   {
     id: "socials",
