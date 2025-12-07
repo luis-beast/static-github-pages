@@ -37,7 +37,7 @@ const CommandCard = ({ command }: CommandCardProps) => {
               <span className="font-mono font-semibold text-primary text-lg">
                 {command.name}
               </span>
-              {command.aliases.length > 0 && (
+              {visibleAliases.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1.5">
                   <span className="text-muted-foreground text-sm">also:</span>
                   {visibleAliases.map((alias, i) => (
