@@ -8,9 +8,9 @@ interface QuoteCardProps {
 const QuoteCard = ({ number, quote, game, timestamp }: QuoteCardProps) => {
   return (
     <div className="glass-card rounded-lg p-4 hover-lift animate-fade-in">
-      <div className="flex items-start gap-4">
-        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center text-center">
-          <span className="text-primary font-mono font-semibold leading-none">#{number}</span>
+      <div className="flex items-center gap-4">
+        <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/20 flex items-center justify-center">
+          <span className="text-primary font-mono font-semibold">#{number}</span>
         </div>
         
         <div className="flex-1 min-w-0">

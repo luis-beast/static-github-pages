@@ -122,8 +122,8 @@ const Commands = () => {
         
         <div className="space-y-4">
           {filteredAndSortedCommands.length > 0 ? (
-            filteredAndSortedCommands.map((command) => (
-              <CommandCard key={command.id} command={command} />
+            filteredAndSortedCommands.map((command, index) => (
+              <CommandCard key={command.id} command={command} orderNumber={index + 1} />
             ))
           ) : (
             <div className="glass-card rounded-lg p-8 text-center">

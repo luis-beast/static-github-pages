@@ -7,11 +7,12 @@ import { cn } from "@/lib/utils";
 
 interface CommandCardProps {
   command: Command;
+  orderNumber: number;
 }
 
 const MAX_VISIBLE_ALIASES = 2;
 
-const CommandCard = ({ command }: CommandCardProps) => {
+const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showAllAliases, setShowAllAliases] = useState(false);
   const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
@@ -34,6 +35,9 @@ const CommandCard = ({ command }: CommandCardProps) => {
         )}
       >
         <div className="flex items-start justify-between gap-4">
+          <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+            <span className="text-primary font-mono font-semibold">{orderNumber}</span>
+          </div>
           <div className="flex-1 min-w-0">
             <div className="mb-2">
               <span className="font-mono font-semibold text-primary text-lg">
