@@ -1,5 +1,6 @@
 import { Permission } from "@/components/PermissionBadge";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -15,6 +16,12 @@ interface CommandFiltersProps {
   onSortChange: (sort: SortOption) => void;
   selectedPermissions: Permission[];
   onPermissionToggle: (permission: Permission) => void;
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+  availableTags: string[];
+  selectedTags: string[];
+  onTagToggle: (tag: string) => void;
+  resultCount: number;
 }
 
 const permissions: { value: Permission; label: string }[] = [
@@ -36,11 +43,33 @@ const CommandFilters = ({
   onSortChange,
   selectedPermissions,
   onPermissionToggle,
+  searchQuery,
+  onSearchChange,
+  availableTags,
+  selectedTags,
+  onTagToggle,
+  resultCount,
 }: CommandFiltersProps) => {
   return (
-    <div className="glass-card rounded-lg p-4 mb-6">
-      <div className="flex flex-col md:flex-row md:items-center gap-6">
+    <div className="glass-card rounded-lg p-4 mb-6 space-y-4">
+      <div className="flex flex-col md:flex-row md:items-center gap-4">
         <div className="flex-1">
+          <label className="text-sm font-medium text-foreground mb-2 block">
+            Search
+          </label>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search commands..."
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              className="pl-10 bg-secondary border-border"
+            />
+          </div>
+        </div>
+        
+        <div className="flex-shrink-0">
           <label className="text-sm font-medium text-foreground mb-2 block">
             Sort by
           </label>
@@ -57,7 +86,9 @@ const CommandFilters = ({
             </SelectContent>
           </Select>
         </div>
-        
+      </div>
+      
+      <div className="flex flex-col md:flex-row md:items-start gap-4">
         <div className="flex-1">
           <label className="text-sm font-medium text-foreground mb-2 block">
             Filter by permission
@@ -88,6 +119,36 @@ const CommandFilters = ({
             })}
           </div>
         </div>
+        
+        {availableTags.length > 0 && (
+          <div className="flex-1">
+            <label className="text-sm font-medium text-foreground mb-2 block">
+              Filter by tag
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {availableTags.map((tag) => {
+                const isActive = selectedTags.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    onClick={() => onTagToggle(tag)}
+                    className={`inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border transition-all cursor-pointer ${
+                      isActive 
+                        ? "bg-primary/20 text-primary border-primary/30"
+                        : "bg-secondary/50 text-muted-foreground border-border/50 opacity-50 hover:opacity-75"
+                    }`}
+                  >
+                    {tag}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        )}
+      </div>
+      
+      <div className="text-sm text-muted-foreground">
+        Showing {resultCount} command{resultCount !== 1 ? 's' : ''}
       </div>
     </div>
   );

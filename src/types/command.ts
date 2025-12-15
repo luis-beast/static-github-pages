@@ -16,4 +16,5 @@ export interface Command {
   usageVariations?: string[];
   parameterGroups?: ParameterGroup[];
   massCompatible?: boolean;
+  tags?: string[];
 }
