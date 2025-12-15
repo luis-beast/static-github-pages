@@ -113,6 +113,7 @@ export const commands: Command[] = [
     description: "Send a virtual hug to another viewer or the streamer.",
     usage: "!hug (user)",
     massCompatible: true,
+    tags: ["Stream Avatars"],
   },
   {
     id: "freeze",
@@ -122,6 +123,7 @@ export const commands: Command[] = [
     description: "Freeze your Stream Avatar in place. Can target another user's avatar.",
     usage: "!freeze (user)",
     massCompatible: true,
+    tags: ["Stream Avatars"],
   },
   {
     id: "bomb",
@@ -131,6 +133,7 @@ export const commands: Command[] = [
     description: "Throw a bomb at your Stream Avatar. Can target another user's avatar.",
     usage: "!bomb (user)",
     massCompatible: true,
+    tags: ["Stream Avatars"],
   },
   {
     id: "pin",
@@ -145,6 +148,7 @@ export const commands: Command[] = [
       "!pin (user) (x) (y)",
     ],
     massCompatible: true,
+    tags: ["Stream Avatars"],
   },
   {
     id: "mass",
@@ -175,6 +179,7 @@ export const commands: Command[] = [
         description: "Makes all Stream Avatars hug the targeted user.",
       },
     ],
+    tags: ["Stream Avatars"],
   },
   {
     id: "emoteonly",

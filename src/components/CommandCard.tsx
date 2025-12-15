@@ -94,12 +94,19 @@ const CommandCard = ({ command }: CommandCardProps) => {
               {command.description}
             </p>
             
-            {command.massCompatible && (
-              <div className="mt-2 inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-accent/30 px-2 py-1 rounded">
-                <span>Works with</span>
-                <span className="font-mono font-medium text-primary">!mass</span>
-              </div>
-            )}
+            <div className="flex flex-wrap items-center gap-2 mt-2">
+              {command.massCompatible && (
+                <div className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-accent/30 px-2 py-1 rounded">
+                  <span>Works with</span>
+                  <span className="font-mono font-medium text-primary">!mass</span>
+                </div>
+              )}
+              {command.tags?.map((tag) => (
+                <span key={tag} className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary/10 text-primary/80">
+                  {tag}
+                </span>
+              ))}
+            </div>
           </div>
           
           {hasDetails && (

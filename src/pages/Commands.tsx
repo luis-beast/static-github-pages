@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Navigation from "@/components/Navigation";
 import CommandCard from "@/components/CommandCard";
 import CommandFilters, { SortOption } from "@/components/CommandFilters";
@@ -12,14 +12,29 @@ const permissionOrder: Record<Permission, number> = {
   streamer: 4,
 };
 
+const allPermissions: Permission[] = ["follower", "subscriber", "moderator", "streamer"];
+
 const Commands = () => {
   const [sortBy, setSortBy] = useState<SortOption>("name-asc");
-  const [selectedPermissions, setSelectedPermissions] = useState<Permission[]>([
-    "follower",
-    "subscriber",
-    "moderator",
-    "streamer",
-  ]);
+  const [selectedPermissions, setSelectedPermissions] = useState<Permission[]>(allPermissions);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+
+  // Get all unique tags from commands
+  const availableTags = useMemo(() => {
+    const tags = new Set<string>();
+    commands.forEach(cmd => {
+      cmd.tags?.forEach(tag => tags.add(tag));
+    });
+    return Array.from(tags).sort();
+  }, []);
+
+  // Auto-select all permissions when user deselects all
+  useEffect(() => {
+    if (selectedPermissions.length === 0) {
+      setSelectedPermissions(allPermissions);
+    }
+  }, [selectedPermissions]);
 
   const handlePermissionToggle = (permission: Permission) => {
     setSelectedPermissions((prev) =>
@@ -29,10 +44,36 @@ const Commands = () => {
     );
   };
 
+  const handleTagToggle = (tag: string) => {
+    setSelectedTags((prev) =>
+      prev.includes(tag)
+        ? prev.filter((t) => t !== tag)
+        : [...prev, tag]
+    );
+  };
+
   const filteredAndSortedCommands = useMemo(() => {
     let result = commands.filter((cmd) =>
       selectedPermissions.includes(cmd.permission)
     );
+
+    // Filter by tags (if any tags selected)
+    if (selectedTags.length > 0) {
+      result = result.filter((cmd) =>
+        cmd.tags?.some(tag => selectedTags.includes(tag))
+      );
+    }
+
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      result = result.filter((cmd) =>
+        cmd.name.toLowerCase().includes(query) ||
+        cmd.aliases.some(alias => alias.toLowerCase().includes(query)) ||
+        cmd.description.toLowerCase().includes(query) ||
+        cmd.tags?.some(tag => tag.toLowerCase().includes(query))
+      );
+    }
 
     result.sort((a, b) => {
       switch (sortBy) {
@@ -50,7 +91,7 @@ const Commands = () => {
     });
 
     return result;
-  }, [sortBy, selectedPermissions]);
+  }, [sortBy, selectedPermissions, searchQuery, selectedTags]);
 
   return (
     <div className="min-h-screen">
@@ -71,6 +112,12 @@ const Commands = () => {
           onSortChange={setSortBy}
           selectedPermissions={selectedPermissions}
           onPermissionToggle={handlePermissionToggle}
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          availableTags={availableTags}
+          selectedTags={selectedTags}
+          onTagToggle={handleTagToggle}
+          resultCount={filteredAndSortedCommands.length}
         />
         
         <div className="space-y-4">
