@@ -67,7 +67,7 @@ export const commands: Command[] = [
     id: "7tv",
     name: "!7tv",
     permission: "follower",
-    commandGroups: ["Extension", "Twitch"],
+    commandGroups: ["Link", "Twitch"],
     description: "This command gives you a link to be able to view the emotes added to Layman's channel through 7TV.",
   },
   {
@@ -75,7 +75,7 @@ export const commands: Command[] = [
     name: "!8ball",
     aliases: ["!eightball", "!magic8ball", "!magiceightball", "!predict"],
     permission: "follower",
-    commandGroups: ["Chance"],
+    commandGroups: ["Chance", "Fun"],
     description: "This command shakes a virtual Magic 8 ball for you.",
   },
   {
@@ -302,7 +302,7 @@ export const commands: Command[] = [
     name: "!coin",
     aliases: ["!coinflip"],
     permission: "follower",
-    commandGroups: ["Chance"],
+    commandGroups: ["Chance", "Fun"],
     description: "This command flips a virtual coin for you.",
   },
   {
@@ -318,7 +318,7 @@ export const commands: Command[] = [
     name: "!dance",
     massCompatible: true,
     permission: "follower",
-    commandGroups: ["Avatars"],
+    commandGroups: ["Avatars", "Fun"],
     description: "This command makes your avatar do a little boogie.",
   },
   {
@@ -389,7 +389,7 @@ export const commands: Command[] = [
     id: "escape",
     name: "!escape",
     permission: "follower",
-    commandGroups: ["Special"],
+    commandGroups: ["Special", "Fun"],
     description: "This command says a funny message designed by TheOracleMind.",
   },
   {
@@ -434,7 +434,7 @@ export const commands: Command[] = [
     name: "!fart",
     massCompatible: true,
     permission: "follower",
-    commandGroups: ["Avatars"],
+    commandGroups: ["Avatars", "Fun"],
     description: "This command lets your avatar let out some air...",
   },
   {
@@ -512,7 +512,7 @@ export const commands: Command[] = [
     name: "!hidechrome",
     aliases: ["!hide", "!chrome", "!chromeisblockingthestream"],
     permission: "subscriber",
-    commandGroups: ["OBS", "Stream"],
+    commandGroups: ["OBS", "Stream", "Utility"],
     description: "This command allows you to hide the chrome window Layman uses that blocks the center of the stream.",
   },
   {
@@ -598,7 +598,7 @@ export const commands: Command[] = [
     name: "!lounge",
     usage: "[message]",
     permission: "moderator",
-    commandGroups: ["Discord"],
+    commandGroups: ["Discord", "Moderation"],
     description: "This command sends a message through Francis to the #layman-lounge🛋️ for quick alerts.",
   },
   {
@@ -699,14 +699,14 @@ export const commands: Command[] = [
     id: "mutediscord",
     name: "!mutediscord",
     permission: "moderator",
-    commandGroups: ["OBS", "Stream"],
+    commandGroups: ["OBS", "Stream", "Utility"],
     description: "This command mutes Discord for stream only. Meaning Layman can still hear you.",
   },
   {
     id: "mutelayman",
     name: "!mutelayman",
     permission: "moderator",
-    commandGroups: ["OBS", "Stream"],
+    commandGroups: ["OBS", "Stream", "Utility"],
     description: "This command mutes Layman's microphone for stream.",
   },
   {
@@ -721,7 +721,7 @@ export const commands: Command[] = [
     name: "!peter",
     aliases: ["!peterpiper", "!peterpepper", "!peterwiththepeppers"],
     permission: "follower",
-    commandGroups: ["Special"],
+    commandGroups: [],
     description: "This command says a tongue twister about Peter Piper.",
   },
   {
