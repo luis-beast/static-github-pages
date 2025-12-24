@@ -1,4 +1,4 @@
-import { getGameColor, getGameColorWithOpacity } from "@/lib/tagColors";
+import GameBadge from "./GameBadge";
 
 interface QuoteCardProps {
   number: number;
@@ -8,9 +8,6 @@ interface QuoteCardProps {
 }
 
 const QuoteCard = ({ number, quote, game, timestamp }: QuoteCardProps) => {
-  const gameColor = getGameColor(game);
-  const gameBgColor = getGameColorWithOpacity(game, 0.15);
-
   return (
     <div className="glass-card rounded-lg p-4 hover-lift animate-fade-in">
       <div className="flex items-center gap-4">
@@ -24,16 +21,7 @@ const QuoteCard = ({ number, quote, game, timestamp }: QuoteCardProps) => {
           </p>
           
           <div className="flex flex-wrap items-center gap-3">
-            <span 
-              className="inline-flex items-center px-3 py-1 rounded-md text-sm font-medium border"
-              style={{
-                backgroundColor: gameBgColor,
-                color: gameColor,
-                borderColor: gameColor,
-              }}
-            >
-              {game}
-            </span>
+            <GameBadge game={game} size="md" isActive={true} />
             <span className="text-muted-foreground text-sm">
               {timestamp}
             </span>

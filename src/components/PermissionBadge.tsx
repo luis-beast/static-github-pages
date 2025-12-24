@@ -10,23 +10,27 @@ interface PermissionBadgeProps {
   className?: string;
 }
 
-export const permissionConfig: Record<Permission, { label: string; className: string }> = {
+export const permissionConfig: Record<Permission, { label: string; color: string }> = {
   follower: {
     label: "Follower",
-    className: "bg-perm-follower/20 text-perm-follower border-perm-follower/30",
+    color: "hsl(200, 80%, 55%)",
   },
   subscriber: {
     label: "Subscriber",
-    className: "bg-perm-subscriber/20 text-perm-subscriber border-perm-subscriber/30",
+    color: "hsl(45, 90%, 55%)",
   },
   moderator: {
     label: "Moderator",
-    className: "bg-perm-moderator/20 text-perm-moderator border-perm-moderator/30",
+    color: "hsl(150, 70%, 45%)",
   },
   streamer: {
     label: "Streamer",
-    className: "bg-perm-streamer/20 text-perm-streamer border-perm-streamer/30",
+    color: "hsl(270, 100%, 50%)",
   },
+};
+
+const getPermissionColorWithOpacity = (color: string, opacity: number): string => {
+  return color.replace("hsl(", "hsla(").replace(")", `, ${opacity})`);
 };
 
 const PermissionBadge = ({ 
@@ -37,6 +41,8 @@ const PermissionBadge = ({
   className 
 }: PermissionBadgeProps) => {
   const config = permissionConfig[permission];
+  const permColor = config.color;
+  const permBgColor = getPermissionColorWithOpacity(permColor, isActive ? 0.20 : 0.03);
   
   const sizeClasses = {
     sm: "px-2 py-0.5 text-sm",
@@ -49,14 +55,17 @@ const PermissionBadge = ({
     <Component
       onClick={onClick}
       className={cn(
-        "inline-flex items-center rounded-md font-medium border transition-all",
+        "inline-flex items-center rounded-md font-medium border transition-all duration-200",
         sizeClasses[size],
-        isActive 
-          ? config.className
-          : "bg-secondary/50 text-muted-foreground border-border/50 opacity-50 hover:opacity-75",
-        onClick && "cursor-pointer",
+        onClick && "cursor-pointer hover:scale-105",
         className
       )}
+      style={{
+        backgroundColor: permBgColor,
+        color: isActive ? permColor : `${permColor.slice(0, -1)}, 0.4)`.replace("hsl", "hsla"),
+        borderColor: isActive ? permColor : `${permColor.slice(0, -1)}, 0.2)`.replace("hsl", "hsla"),
+        opacity: isActive ? 1 : 0.4,
+      }}
     >
       {config.label}
     </Component>
