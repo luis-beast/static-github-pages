@@ -113,31 +113,42 @@ const Commands = () => {
       <Navigation />
       
       <main className="container mx-auto px-4 py-8">
-        <header className="mb-8">
+        <motion.header 
+          className="mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-2">
             Stream Commands
           </h1>
           <p className="text-muted-foreground">
             All available chat commands and how to use them
           </p>
-        </header>
+        </motion.header>
         
-        <CommandFilters
-          alphabeticalOrder={alphabeticalOrder}
-          onAlphabeticalToggle={handleAlphabeticalToggle}
-          roleSort={roleSort}
-          onRoleSortCycle={handleRoleSortCycle}
-          selectedPermissions={selectedPermissions}
-          onPermissionToggle={handlePermissionToggle}
-          searchQuery={searchQuery}
-          onSearchChange={setSearchQuery}
-          availableTags={availableTags}
-          selectedTags={selectedTags}
-          onTagToggle={handleTagToggle}
-          onClearTags={handleClearTags}
-          onClearPermissions={handleClearPermissions}
-          resultCount={filteredAndSortedCommands.length}
-        />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
+          <CommandFilters
+            alphabeticalOrder={alphabeticalOrder}
+            onAlphabeticalToggle={handleAlphabeticalToggle}
+            roleSort={roleSort}
+            onRoleSortCycle={handleRoleSortCycle}
+            selectedPermissions={selectedPermissions}
+            onPermissionToggle={handlePermissionToggle}
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            availableTags={availableTags}
+            selectedTags={selectedTags}
+            onTagToggle={handleTagToggle}
+            onClearTags={handleClearTags}
+            onClearPermissions={handleClearPermissions}
+            resultCount={filteredAndSortedCommands.length}
+          />
+        </motion.div>
         
         <LayoutGroup>
           <div className="space-y-4">

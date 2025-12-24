@@ -59,16 +59,26 @@ const Index = () => {
       <Navigation />
       
       <main className="container mx-auto px-4 py-8">
-        <header className="mb-8">
+        <motion.header 
+          className="mb-8"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
+        >
           <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-2">
             Stream Quotes
           </h1>
           <p className="text-muted-foreground">
             Memorable moments captured by the community
           </p>
-        </header>
+        </motion.header>
         
-        <div className="glass-card rounded-lg p-4 mb-6 space-y-4">
+        <motion.div 
+          className="glass-card rounded-lg p-4 mb-6 space-y-4"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.1 }}
+        >
           <div className="flex flex-col md:flex-row md:items-end gap-4">
             {/* Game Filter - Left */}
             {availableGames.length > 0 && (
@@ -120,7 +130,7 @@ const Index = () => {
           <div className="text-sm text-muted-foreground">
             Showing {filteredQuotes.length} quote{filteredQuotes.length !== 1 ? 's' : ''}
           </div>
-        </div>
+        </motion.div>
         
         <LayoutGroup>
           <div className="space-y-4">

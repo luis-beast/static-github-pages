@@ -6,6 +6,8 @@ import PermissionBadge from "./PermissionBadge";
 import TagBadge from "./TagBadge";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+import { motion, AnimatePresence } from "framer-motion";
+import AnimatedCount from "@/components/AnimatedCount";
 
 interface CommandCardProps {
   command: Command;
@@ -120,43 +122,62 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
             <div className="flex flex-wrap items-center gap-3 mb-3">
               <PermissionBadge permission={command.permission} size="md" />
               
-              {visibleAliases.length > 0 && (
+              {aliases.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1.5">
                   <span className="text-muted-foreground text-sm">also:</span>
-                  {visibleAliases.map((alias, index) => (
-                    <span 
-                      key={alias} 
-                      className={cn(
-                        "text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded",
-                        showAllAliases && index >= MAX_VISIBLE_ALIASES && "animate-badge-pop"
-                      )}
-                      style={showAllAliases && index >= MAX_VISIBLE_ALIASES ? { animationDelay: `${(index - MAX_VISIBLE_ALIASES) * 50}ms` } : undefined}
-                    >
-                      {alias}
-                    </span>
-                  ))}
-                  {hiddenCount > 0 && !showAllAliases && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowAllAliases(true);
-                      }}
-                      className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
-                    >
-                      +{hiddenCount} more
-                    </button>
-                  )}
-                  {showAllAliases && hiddenCount > 0 && (
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setShowAllAliases(false);
-                      }}
-                      className="text-primary text-sm font-medium hover:text-primary/80 transition-colors animate-badge-pop"
-                    >
-                      show less
-                    </button>
-                  )}
+                  <AnimatePresence mode="popLayout">
+                    {visibleAliases.map((alias, index) => (
+                      <motion.span 
+                        key={alias} 
+                        className="text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded"
+                        initial={{ opacity: 0, scale: 0.7 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.7 }}
+                        transition={{ 
+                          duration: 0.2, 
+                          delay: showAllAliases && index >= MAX_VISIBLE_ALIASES ? (index - MAX_VISIBLE_ALIASES) * 0.05 : 0 
+                        }}
+                      >
+                        {alias}
+                      </motion.span>
+                    ))}
+                  </AnimatePresence>
+                  
+                  {/* +X more button */}
+                  <AnimatePresence mode="wait">
+                    {hiddenCount > 0 && !showAllAliases && (
+                      <motion.button
+                        key="more-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowAllAliases(true);
+                        }}
+                        className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 20 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        +<AnimatedCount value={hiddenCount} /> more
+                      </motion.button>
+                    )}
+                    {showAllAliases && hiddenCount > 0 && (
+                      <motion.button
+                        key="less-button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setShowAllAliases(false);
+                        }}
+                        className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -20 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        show less
+                      </motion.button>
+                    )}
+                  </AnimatePresence>
                 </div>
               )}
             </div>

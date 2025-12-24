@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -7,6 +7,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Tags, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import AnimatedCount from "@/components/AnimatedCount";
 
 interface PopoverPickerProps<T extends string> {
   items: T[];
@@ -34,15 +36,44 @@ function PopoverPicker<T extends string>({
   size = "md",
 }: PopoverPickerProps<T>) {
   const [open, setOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const prevHiddenCountRef = useRef(0);
 
-  const visibleSelected = selectedItems.slice(0, maxVisibleSelected);
+  const visibleSelected = isExpanded 
+    ? selectedItems 
+    : selectedItems.slice(0, maxVisibleSelected);
   const hiddenCount = selectedItems.length - maxVisibleSelected;
+
+  // Track expansion state changes
+  useEffect(() => {
+    prevHiddenCountRef.current = hiddenCount;
+  }, [hiddenCount]);
+
+  // Reset expansion when cleared
+  useEffect(() => {
+    if (selectedItems.length === 0) {
+      setIsExpanded(false);
+    }
+  }, [selectedItems.length]);
 
   const buttonSizeClasses = size === "sm" 
     ? "text-xs px-2.5 py-1.5" 
     : "text-sm px-3 py-2";
 
   const popoverWidth = size === "sm" ? "w-[260px]" : "w-[280px]";
+
+  const handleExpand = () => {
+    setIsExpanded(true);
+  };
+
+  const handleCollapse = () => {
+    setIsExpanded(false);
+  };
+
+  const handleClear = () => {
+    setIsExpanded(false);
+    onClearAll();
+  };
 
   return (
     <div className="flex flex-wrap items-center gap-2">
@@ -60,11 +91,7 @@ function PopoverPicker<T extends string>({
                 selectedItems.length > 0 ? "ml-2 min-w-[1.5rem] opacity-100" : "ml-0 w-0 opacity-0 px-0"
               )}
             >
-              {selectedItems.length > 0 && (
-                <span key={selectedItems.length} className="animate-count-change inline-block">
-                  {selectedItems.length}
-                </span>
-              )}
+              <AnimatedCount value={selectedItems.length} />
             </span>
           </Button>
         </PopoverTrigger>
@@ -82,9 +109,7 @@ function PopoverPicker<T extends string>({
           {selectedItems.length >= clearThreshold && (
             <button
               className="mt-2 w-full text-muted-foreground hover:text-foreground hover:bg-accent px-2.5 py-1.5 text-xs rounded transition-colors cursor-pointer inline-flex items-center justify-center gap-1.5"
-              onClick={() => {
-                onClearAll();
-              }}
+              onClick={handleClear}
             >
               <X className="w-3 h-3" />
               Clear
@@ -94,39 +119,72 @@ function PopoverPicker<T extends string>({
       </Popover>
       
       {/* Selected items display with +X more */}
-      {selectedItems.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5 p-0.5">
-          {visibleSelected.map((item, index) => (
-            <div 
-              key={item} 
-              className="p-0.5 animate-badge-pop"
-              style={{ animationDelay: `${index * 50}ms` }}
+      <AnimatePresence mode="popLayout">
+        {selectedItems.length > 0 && (
+          <motion.div 
+            className="flex flex-wrap items-center gap-1.5 p-0.5"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+          >
+            <AnimatePresence mode="popLayout">
+              {visibleSelected.map((item, index) => (
+                <motion.div 
+                  key={item} 
+                  className="p-0.5"
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.7 }}
+                  transition={{ 
+                    duration: 0.2, 
+                    delay: isExpanded && index >= maxVisibleSelected ? (index - maxVisibleSelected) * 0.05 : 0 
+                  }}
+                >
+                  {renderBadge(item, true, () => onToggle(item))}
+                </motion.div>
+              ))}
+            </AnimatePresence>
+            
+            {/* +X more button */}
+            <AnimatePresence mode="wait">
+              {hiddenCount > 0 && !isExpanded && (
+                <motion.button
+                  key="more-button"
+                  onClick={handleExpand}
+                  className="text-xs text-muted-foreground px-2 py-1 hover:text-foreground transition-colors"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  +<AnimatedCount value={hiddenCount} /> more
+                </motion.button>
+              )}
+            </AnimatePresence>
+
+            {/* Clear button - shows when expanded or when clearThreshold met */}
+            <motion.button
+              onClick={handleClear}
+              className={cn(
+                "text-muted-foreground hover:text-foreground hover:bg-accent py-1 text-xs rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-200 overflow-hidden",
+                (isExpanded && hiddenCount > 0) || selectedItems.length >= clearThreshold
+                  ? "px-2.5 opacity-100 scale-100" 
+                  : "px-0 w-0 opacity-0 scale-0"
+              )}
+              initial={false}
+              animate={{
+                width: (isExpanded && hiddenCount > 0) || selectedItems.length >= clearThreshold ? "auto" : 0,
+                opacity: (isExpanded && hiddenCount > 0) || selectedItems.length >= clearThreshold ? 1 : 0,
+              }}
+              transition={{ duration: 0.2 }}
             >
-              {renderBadge(item, true, () => onToggle(item))}
-            </div>
-          ))}
-          <span 
-            className={cn(
-              "text-xs text-muted-foreground px-2 py-1 overflow-hidden transition-all duration-200",
-              hiddenCount > 0 ? "w-auto opacity-100" : "w-0 px-0 opacity-0"
-            )}
-          >
-            +{hiddenCount} more
-          </span>
-          <button
-            onClick={onClearAll}
-            className={cn(
-              "text-muted-foreground hover:text-foreground hover:bg-accent py-1 text-xs rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-200",
-              hiddenCount > 0 
-                ? "px-2.5 opacity-100 scale-100 animate-badge-pop" 
-                : "px-0 w-0 opacity-0 scale-0"
-            )}
-          >
-            <X className="w-3 h-3" />
-            Clear
-          </button>
-        </div>
-      )}
+              <X className="w-3 h-3" />
+              Clear
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

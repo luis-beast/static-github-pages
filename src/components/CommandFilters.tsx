@@ -6,6 +6,7 @@ import PermissionBadge from "@/components/PermissionBadge";
 import TagBadge from "@/components/TagBadge";
 import PopoverPicker from "@/components/PopoverPicker";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export type AlphabeticalOrder = "asc" | "desc";
 export type RoleSort = "off" | "asc" | "desc";
@@ -64,15 +65,25 @@ const CommandFilters = ({
                 />
               </div>
             ))}
-            {selectedPermissions.length >= 3 && (
-              <button
-                onClick={onClearPermissions}
-                className="text-muted-foreground hover:text-foreground hover:bg-accent px-2.5 py-1 text-xs rounded transition-colors cursor-pointer inline-flex items-center gap-1.5"
-              >
-                <X className="w-3 h-3" />
-                Clear
-              </button>
-            )}
+            {/* Animated Clear button - same style as PopoverPicker */}
+            <motion.button
+              onClick={onClearPermissions}
+              className={cn(
+                "text-muted-foreground hover:text-foreground hover:bg-accent py-1 text-xs rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-200 overflow-hidden",
+                selectedPermissions.length >= 3
+                  ? "px-2.5 opacity-100 scale-100" 
+                  : "px-0 w-0 opacity-0 scale-0"
+              )}
+              initial={false}
+              animate={{
+                width: selectedPermissions.length >= 3 ? "auto" : 0,
+                opacity: selectedPermissions.length >= 3 ? 1 : 0,
+              }}
+              transition={{ duration: 0.2 }}
+            >
+              <X className="w-3 h-3" />
+              Clear
+            </motion.button>
           </div>
         </div>
         
