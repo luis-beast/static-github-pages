@@ -40,46 +40,34 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
             <span className="text-primary font-mono font-semibold">{orderNumber}</span>
           </div>
           <div className="flex-1 min-w-0">
-            <div className="mb-2">
+            {/* Line 1: Command name + usage parameters */}
+            <div className="mb-2 flex items-baseline gap-1">
               <span className="font-mono font-semibold text-primary text-lg">
                 {command.name}
               </span>
+              {command.usage && (() => {
+                // Extract just the parameters from usage (everything after the command name)
+                const usageParams = command.usage.replace(command.name, '').trim();
+                if (!usageParams) return null;
+                return (
+                  <code className="text-muted-foreground text-base font-mono">
+                    {usageParams.split("[").map((part, i) => {
+                      if (i === 0) return part;
+                      const [param, rest] = part.split("]");
+                      return (
+                        <span key={i}>
+                          <span className="text-muted-foreground/60">[{param}]</span>
+                          {rest}
+                        </span>
+                      );
+                    })}
+                  </code>
+                );
+              })()}
             </div>
             
-            {visibleAliases.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5 mb-2">
-                <span className="text-muted-foreground text-sm">also:</span>
-                {visibleAliases.map((alias) => (
-                  <span key={alias} className="text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded">
-                    {alias}
-                  </span>
-                ))}
-                {hiddenCount > 0 && !showAllAliases && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowAllAliases(true);
-                    }}
-                    className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
-                  >
-                    +{hiddenCount} more
-                  </button>
-                )}
-                {showAllAliases && hiddenCount > 0 && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setShowAllAliases(false);
-                    }}
-                    className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
-                  >
-                    show less
-                  </button>
-                )}
-              </div>
-            )}
-            
-            <div className="flex items-center gap-3 mb-3">
+            {/* Line 2: Permission + Aliases */}
+            <div className="flex flex-wrap items-center gap-3 mb-3">
               <span className={`inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border ${
                 {
                   follower: "bg-perm-follower/20 text-perm-follower border-perm-follower/30",
@@ -90,19 +78,38 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
               }`}>
                 {command.permission.charAt(0).toUpperCase() + command.permission.slice(1)}
               </span>
-              {command.usage && (
-                <code className="text-muted-foreground text-sm font-mono">
-                  {command.usage.split("[").map((part, i) => {
-                    if (i === 0) return part;
-                    const [param, rest] = part.split("]");
-                    return (
-                      <span key={i}>
-                        <span className="text-muted-foreground/60">[{param}]</span>
-                        {rest}
-                      </span>
-                    );
-                  })}
-                </code>
+              
+              {visibleAliases.length > 0 && (
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-muted-foreground text-sm">also:</span>
+                  {visibleAliases.map((alias) => (
+                    <span key={alias} className="text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded">
+                      {alias}
+                    </span>
+                  ))}
+                  {hiddenCount > 0 && !showAllAliases && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowAllAliases(true);
+                      }}
+                      className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
+                    >
+                      +{hiddenCount} more
+                    </button>
+                  )}
+                  {showAllAliases && hiddenCount > 0 && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowAllAliases(false);
+                      }}
+                      className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
+                    >
+                      show less
+                    </button>
+                  )}
+                </div>
               )}
             </div>
             
