@@ -17,7 +17,7 @@ const Navigation = () => {
           
           <div className="flex items-center gap-1">
             <NavLink 
-              to="/" 
+              to="/quotes" 
               className="px-4 py-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-all duration-200"
               activeClassName="text-foreground bg-secondary"
             >

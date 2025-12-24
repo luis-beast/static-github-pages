@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Copy, Check } from "lucide-react";
 import { Command } from "@/types/command";
 import ParameterBubble from "./ParameterBubble";
+import PermissionBadge from "./PermissionBadge";
+import TagBadge from "./TagBadge";
 import { cn } from "@/lib/utils";
-import { getTagColor, getTagColorWithOpacity, toProperCase } from "@/lib/tagColors";
+import { toast } from "@/hooks/use-toast";
 
 interface CommandCardProps {
   command: Command;
@@ -11,6 +13,55 @@ interface CommandCardProps {
 }
 
 const MAX_VISIBLE_ALIASES = 2;
+
+// Extracts copyable text: name + usage before first bracket
+const getCopyableCommand = (name: string, usage?: string): string => {
+  if (!usage) return name;
+  // Get everything after the command name
+  const usageParams = usage.replace(name, '').trim();
+  if (!usageParams) return name;
+  
+  // Find first bracket and take everything before it
+  const bracketIndex = usageParams.indexOf('[');
+  if (bracketIndex !== -1) {
+    const beforeBracket = usageParams.substring(0, bracketIndex).trim();
+    return beforeBracket ? `${name} ${beforeBracket}` : name;
+  }
+  return `${name} ${usageParams}`;
+};
+
+interface CopyButtonProps {
+  text: string;
+}
+
+const CopyButton = ({ text }: CopyButtonProps) => {
+  const [copied, setCopied] = useState(false);
+  
+  const handleCopy = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    toast({
+      description: `Copied: ${text}`,
+      duration: 2000,
+    });
+    setTimeout(() => setCopied(false), 2000);
+  };
+  
+  return (
+    <button
+      onClick={handleCopy}
+      className="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-secondary/50 transition-colors text-muted-foreground hover:text-foreground"
+      title="Copy command"
+    >
+      {copied ? (
+        <Check className="w-4 h-4 text-green-500" />
+      ) : (
+        <Copy className="w-4 h-4" />
+      )}
+    </button>
+  );
+};
 
 const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,6 +75,9 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
     ? aliases 
     : aliases.slice(0, MAX_VISIBLE_ALIASES);
   const hiddenCount = aliases.length - MAX_VISIBLE_ALIASES;
+
+  // Get usage params for display
+  const usageParams = command.usage ? command.usage.replace(command.name, '').trim() : null;
 
   return (
     <div className="glass-card rounded-lg overflow-hidden hover-lift animate-fade-in">
@@ -40,44 +94,31 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
             <span className="text-primary font-mono font-semibold">{orderNumber}</span>
           </div>
           <div className="flex-1 min-w-0">
-            {/* Line 1: Command name + usage parameters */}
-            <div className="mb-2 flex items-baseline gap-2">
+            {/* Line 1: Command name + usage parameters + copy button */}
+            <div className="mb-2 flex items-center gap-2">
               <span className="font-mono font-semibold text-primary text-lg">
                 {command.name}
               </span>
-              {command.usage && (() => {
-                // Extract just the parameters from usage (everything after the command name)
-                const usageParams = command.usage.replace(command.name, '').trim();
-                if (!usageParams) return null;
-                return (
-                  <code className="text-muted-foreground text-base font-mono">
-                    {usageParams.split("[").map((part, i) => {
-                      if (i === 0) return part;
-                      const [param, rest] = part.split("]");
-                      return (
-                        <span key={i}>
-                          <span className="text-muted-foreground/60">[{param}]</span>
-                          {rest}
-                        </span>
-                      );
-                    })}
-                  </code>
-                );
-              })()}
+              {usageParams && (
+                <code className="text-muted-foreground text-base font-mono">
+                  {usageParams.split("[").map((part, i) => {
+                    if (i === 0) return part;
+                    const [param, rest] = part.split("]");
+                    return (
+                      <span key={i}>
+                        <span className="text-muted-foreground/60">[{param}]</span>
+                        {rest}
+                      </span>
+                    );
+                  })}
+                </code>
+              )}
+              <CopyButton text={getCopyableCommand(command.name, command.usage)} />
             </div>
             
             {/* Line 2: Permission + Aliases */}
             <div className="flex flex-wrap items-center gap-3 mb-3">
-              <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium border ${
-                {
-                  follower: "bg-perm-follower/20 text-perm-follower border-perm-follower/30",
-                  subscriber: "bg-perm-subscriber/20 text-perm-subscriber border-perm-subscriber/30",
-                  moderator: "bg-perm-moderator/20 text-perm-moderator border-perm-moderator/30",
-                  streamer: "bg-perm-streamer/20 text-perm-streamer border-perm-streamer/30",
-                }[command.permission]
-              }`}>
-                {command.permission.charAt(0).toUpperCase() + command.permission.slice(1)}
-              </span>
+              <PermissionBadge permission={command.permission} size="md" />
               
               {visibleAliases.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1.5">
@@ -120,34 +161,11 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
             {(command.massCompatible || (command.commandGroups && command.commandGroups.filter(g => g).length > 0)) && (
               <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-border/30">
                 {command.massCompatible && (
-                  <span 
-                    className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border"
-                    style={{ 
-                      backgroundColor: "hsla(280, 70%, 55%, 0.15)",
-                      color: "hsl(280, 70%, 65%)",
-                      borderColor: "hsl(280, 70%, 65%)"
-                    }}
-                  >
-                    !mass
-                  </span>
+                  <TagBadge tag="!mass" size="sm" />
                 )}
-                {command.commandGroups?.filter(group => group).map((group) => {
-                  const tagColor = getTagColor(group);
-                  const tagBgColor = getTagColorWithOpacity(group, 0.15);
-                  return (
-                    <span 
-                      key={group} 
-                      className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border"
-                      style={{ 
-                        backgroundColor: tagBgColor,
-                        color: tagColor,
-                        borderColor: tagColor
-                      }}
-                    >
-                      {toProperCase(group)}
-                    </span>
-                  );
-                })}
+                {command.commandGroups?.filter(group => group).map((group) => (
+                  <TagBadge key={group} tag={group} size="sm" />
+                ))}
               </div>
             )}
           </div>
@@ -195,13 +213,14 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                 {command.parameterGroups?.map((group, index) => (
                   <div key={index} className="bg-card/50 rounded-lg p-3">
                     <div className="font-medium text-foreground mb-2">{group.title}</div>
-                    <div className="flex items-baseline gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-2">
                       <span className="font-mono font-semibold text-primary text-base">{group.name}</span>
                       {group.usage && (
                         <code className="text-muted-foreground/70 text-sm font-mono">
                           {group.usage}
                         </code>
                       )}
+                      <CopyButton text={getCopyableCommand(group.name, group.usage)} />
                     </div>
                     {group.aliases && group.aliases.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-2">

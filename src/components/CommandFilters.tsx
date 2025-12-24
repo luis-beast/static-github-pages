@@ -1,6 +1,5 @@
 import { Permission } from "@/components/PermissionBadge";
 import { Search } from "lucide-react";
-import { getTagColor, getTagColorWithOpacity, toProperCase } from "@/lib/tagColors";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -9,6 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import PermissionBadge from "@/components/PermissionBadge";
+import TagBadge from "@/components/TagBadge";
 
 export type SortOption = "name-asc" | "name-desc" | "perm-asc" | "perm-desc";
 
@@ -25,12 +26,7 @@ interface CommandFiltersProps {
   resultCount: number;
 }
 
-const permissions: { value: Permission; label: string }[] = [
-  { value: "follower", label: "Follower" },
-  { value: "subscriber", label: "Subscriber" },
-  { value: "moderator", label: "Moderator" },
-  { value: "streamer", label: "Streamer" },
-];
+const permissions: Permission[] = ["follower", "subscriber", "moderator", "streamer"];
 
 const sortOptions: { value: SortOption; label: string }[] = [
   { value: "name-asc", label: "Name (A-Z)" },
@@ -95,29 +91,15 @@ const CommandFilters = ({
             Filter by permission
           </label>
           <div className="flex flex-wrap gap-2">
-            {permissions.map((perm) => {
-              const isActive = selectedPermissions.includes(perm.value);
-              const colorClasses: Record<Permission, string> = {
-                follower: "bg-perm-follower/20 text-perm-follower border-perm-follower/30",
-                subscriber: "bg-perm-subscriber/20 text-perm-subscriber border-perm-subscriber/30",
-                moderator: "bg-perm-moderator/20 text-perm-moderator border-perm-moderator/30",
-                streamer: "bg-perm-streamer/20 text-perm-streamer border-perm-streamer/30",
-              };
-              
-              return (
-                <button
-                  key={perm.value}
-                  onClick={() => onPermissionToggle(perm.value)}
-                  className={`inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border transition-all cursor-pointer ${
-                    isActive 
-                      ? colorClasses[perm.value]
-                      : "bg-secondary/50 text-muted-foreground border-border/50 opacity-50 hover:opacity-75"
-                  }`}
-                >
-                  {perm.label}
-                </button>
-              );
-            })}
+            {permissions.map((perm) => (
+              <PermissionBadge
+                key={perm}
+                permission={perm}
+                size="md"
+                isActive={selectedPermissions.includes(perm)}
+                onClick={() => onPermissionToggle(perm)}
+              />
+            ))}
           </div>
         </div>
         
@@ -127,30 +109,15 @@ const CommandFilters = ({
               Filter by tag
             </label>
             <div className="flex flex-wrap gap-2">
-              {availableTags.map((tag) => {
-                const isActive = selectedTags.includes(tag);
-                const tagColor = getTagColor(tag);
-                const tagBgColor = getTagColorWithOpacity(tag, 0.15);
-                return (
-                  <button
-                    key={tag}
-                    onClick={() => onTagToggle(tag)}
-                    className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium border transition-all cursor-pointer"
-                    style={isActive ? { 
-                      backgroundColor: tagBgColor,
-                      color: tagColor,
-                      borderColor: tagColor
-                    } : {
-                      backgroundColor: "hsla(270, 30%, 20%, 0.5)",
-                      color: "hsl(270, 15%, 60%)",
-                      borderColor: "hsl(270, 15%, 60%)",
-                      opacity: 0.5
-                    }}
-                  >
-                    {toProperCase(tag)}
-                  </button>
-                );
-              })}
+              {availableTags.map((tag) => (
+                <TagBadge
+                  key={tag}
+                  tag={tag}
+                  size="md"
+                  isActive={selectedTags.includes(tag)}
+                  onClick={() => onTagToggle(tag)}
+                />
+              ))}
             </div>
           </div>
         )}
