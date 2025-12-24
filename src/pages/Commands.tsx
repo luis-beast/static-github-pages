@@ -48,6 +48,14 @@ const Commands = () => {
     );
   };
 
+  const handleClearTags = () => {
+    setSelectedTags([]);
+  };
+
+  const handleClearPermissions = () => {
+    setSelectedPermissions([]);
+  };
+
   const filteredAndSortedCommands = useMemo(() => {
     // If no permissions selected, show all commands; otherwise filter by selected
     let result = selectedPermissions.length === 0
@@ -116,6 +124,8 @@ const Commands = () => {
           availableTags={availableTags}
           selectedTags={selectedTags}
           onTagToggle={handleTagToggle}
+          onClearTags={handleClearTags}
+          onClearPermissions={handleClearPermissions}
           resultCount={filteredAndSortedCommands.length}
         />
         

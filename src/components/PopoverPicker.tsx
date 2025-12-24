@@ -1,0 +1,109 @@
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Tags, X } from "lucide-react";
+
+interface PopoverPickerProps<T extends string> {
+  items: T[];
+  selectedItems: T[];
+  onToggle: (item: T) => void;
+  onClearAll: () => void;
+  renderBadge: (item: T, isActive: boolean, onClick: () => void) => React.ReactNode;
+  label: string;
+  icon?: React.ReactNode;
+  maxVisibleSelected?: number;
+  clearThreshold?: number;
+  size?: "sm" | "md";
+}
+
+function PopoverPicker<T extends string>({
+  items,
+  selectedItems,
+  onToggle,
+  onClearAll,
+  renderBadge,
+  label,
+  icon = <Tags className="w-4 h-4" />,
+  maxVisibleSelected = 5,
+  clearThreshold = 3,
+  size = "md",
+}: PopoverPickerProps<T>) {
+  const [open, setOpen] = useState(false);
+
+  const visibleSelected = selectedItems.slice(0, maxVisibleSelected);
+  const hiddenCount = selectedItems.length - maxVisibleSelected;
+
+  const buttonSizeClasses = size === "sm" 
+    ? "text-xs px-2.5 py-1.5" 
+    : "text-sm px-3 py-2";
+
+  const popoverWidth = size === "sm" ? "w-[260px]" : "w-[280px]";
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button 
+            variant="outline" 
+            className={cn("bg-secondary border-border", buttonSizeClasses)}
+          >
+            {icon}
+            <span className="ml-2">{label}</span>
+            {selectedItems.length > 0 && (
+              <span className="ml-2 px-1.5 py-0.5 text-xs bg-primary/20 text-primary rounded">
+                {selectedItems.length}
+              </span>
+            )}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent 
+          className={cn("p-3 bg-card border-border", popoverWidth)} 
+          align="start"
+        >
+          <div className="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto">
+            {items.map((item) => (
+              <div key={item}>
+                {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
+              </div>
+            ))}
+          </div>
+          {selectedItems.length >= clearThreshold && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mt-2 w-full text-muted-foreground hover:text-foreground"
+              onClick={() => {
+                onClearAll();
+              }}
+            >
+              Clear
+            </Button>
+          )}
+        </PopoverContent>
+      </Popover>
+      
+      {/* Selected items display with +X more */}
+      {selectedItems.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5">
+          {visibleSelected.map((item) => (
+            <div key={item}>
+              {renderBadge(item, true, () => onToggle(item))}
+            </div>
+          ))}
+          {hiddenCount > 0 && (
+            <span className="text-xs text-muted-foreground px-2 py-1">
+              +{hiddenCount} more
+            </span>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default PopoverPicker;
