@@ -20,13 +20,13 @@ const Commands = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  // Get all unique tags from commands
+  // Get all unique command groups from commands
   const availableTags = useMemo(() => {
-    const tags = new Set<string>();
+    const groups = new Set<string>();
     commands.forEach(cmd => {
-      cmd.tags?.forEach(tag => tags.add(tag));
+      cmd.commandGroups?.forEach(group => groups.add(group));
     });
-    return Array.from(tags).sort();
+    return Array.from(groups).sort();
   }, []);
 
   // Auto-select all permissions when user deselects all
@@ -57,10 +57,10 @@ const Commands = () => {
       selectedPermissions.includes(cmd.permission)
     );
 
-    // Filter by tags (if any tags selected)
+    // Filter by command groups (if any selected)
     if (selectedTags.length > 0) {
       result = result.filter((cmd) =>
-        cmd.tags?.some(tag => selectedTags.includes(tag))
+        cmd.commandGroups?.some(group => selectedTags.includes(group))
       );
     }
 
@@ -69,9 +69,9 @@ const Commands = () => {
       const query = searchQuery.toLowerCase();
       result = result.filter((cmd) =>
         cmd.name.toLowerCase().includes(query) ||
-        cmd.aliases.some(alias => alias.toLowerCase().includes(query)) ||
+        (cmd.aliases?.some(alias => alias.toLowerCase().includes(query)) ?? false) ||
         cmd.description.toLowerCase().includes(query) ||
-        cmd.tags?.some(tag => tag.toLowerCase().includes(query))
+        (cmd.commandGroups?.some(group => group.toLowerCase().includes(query)) ?? false)
       );
     }
 
