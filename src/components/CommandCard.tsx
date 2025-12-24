@@ -208,7 +208,7 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
           
           {hasParameterGroups && (
             <div>
-              <h4 className="text-sm font-semibold text-foreground mb-4">Options</h4>
+              <h4 className="text-sm font-semibold text-foreground mb-4">Variants</h4>
               <div className="space-y-4">
                 {command.parameterGroups?.map((group, index) => (
                   <div key={index} className="bg-card/50 rounded-lg p-3">

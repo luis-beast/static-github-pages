@@ -77,7 +77,7 @@ const Index = () => {
           {availableGames.length > 0 && (
             <div>
               <label className="text-sm font-medium text-foreground mb-2 block">
-                Filter by game
+                Game Filter
               </label>
               <div className="flex flex-wrap gap-2">
                 {availableGames.map((game) => (

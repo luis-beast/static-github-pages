@@ -1,4 +1,13 @@
-// Unique HSL colors for command group tags
+// Toggle for randomized colors vs unified brand colors
+// false = All tags/games use Layman Legion Color (#BB66FF), Layman tag uses Layman Color (#8800FF)
+// true = Use randomized hue assignment
+export const USE_RANDOMIZED_COLORS = false;
+
+// Brand colors
+const LAYMAN_LEGION_COLOR = "hsl(270, 100%, 71%)";  // #BB66FF - for general tags/games
+const LAYMAN_COLOR = "hsl(270, 100%, 50%)";         // #8800FF - for Layman tag (brand color)
+
+// Unique HSL colors for command group tags (used when USE_RANDOMIZED_COLORS = true)
 // Avoiding: follower (200), subscriber (45), moderator (150), streamer/layman (270)
 // Also avoiding purple hues (250-290) to keep them distinct from The Layman brand color
 const TAG_HUES = [
@@ -69,30 +78,54 @@ function getHueForGame(game: string): number {
 
 export function getTagColor(tag: string): string {
   const normalizedTag = tag.toLowerCase();
-  // "layman" uses the brand color
+  
+  // "layman" always uses the Layman Color (brand color)
   if (normalizedTag === "layman") {
-    return `hsl(270, 100%, 50%)`;
+    return LAYMAN_COLOR;
   }
+  
+  // If not using randomized colors, return Layman Legion Color
+  if (!USE_RANDOMIZED_COLORS) {
+    return LAYMAN_LEGION_COLOR;
+  }
+  
   const hue = getHueForTag(tag);
   return `hsl(${hue}, 70%, 55%)`;
 }
 
 export function getTagColorWithOpacity(tag: string, opacity: number): string {
   const normalizedTag = tag.toLowerCase();
-  // "layman" uses the brand color
+  
+  // "layman" always uses the Layman Color (brand color)
   if (normalizedTag === "layman") {
     return `hsla(270, 100%, 50%, ${opacity})`;
   }
+  
+  // If not using randomized colors, return Layman Legion Color with opacity
+  if (!USE_RANDOMIZED_COLORS) {
+    return `hsla(270, 100%, 71%, ${opacity})`;
+  }
+  
   const hue = getHueForTag(tag);
   return `hsla(${hue}, 70%, 55%, ${opacity})`;
 }
 
 export function getGameColor(game: string): string {
+  // If not using randomized colors, return Layman Legion Color
+  if (!USE_RANDOMIZED_COLORS) {
+    return LAYMAN_LEGION_COLOR;
+  }
+  
   const hue = getHueForGame(game);
   return `hsl(${hue}, 70%, 55%)`;
 }
 
 export function getGameColorWithOpacity(game: string, opacity: number): string {
+  // If not using randomized colors, return Layman Legion Color with opacity
+  if (!USE_RANDOMIZED_COLORS) {
+    return `hsla(270, 100%, 71%, ${opacity})`;
+  }
+  
   const hue = getHueForGame(game);
   return `hsla(${hue}, 70%, 55%, ${opacity})`;
 }
