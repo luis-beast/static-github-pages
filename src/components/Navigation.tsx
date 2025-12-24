@@ -1,4 +1,5 @@
 import { NavLink } from "@/components/NavLink";
+import { Link } from "react-router-dom";
 import avatar from "@/assets/avatar.jpeg";
 
 const Navigation = () => {
@@ -6,14 +7,14 @@ const Navigation = () => {
     <nav className="glass-card sticky top-0 z-50 border-b border-border/50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <div className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <img 
               src={avatar} 
               alt="Streamer avatar" 
               className="w-10 h-10 rounded-lg object-cover"
             />
-            <span className="font-semibold text-lg gradient-text">The Layman</span>
-          </div>
+            <span className="font-semibold text-lg" style={{ color: 'hsl(270, 100%, 50%)' }}>The Layman</span>
+          </Link>
           
           <div className="flex items-center gap-1">
             <NavLink 

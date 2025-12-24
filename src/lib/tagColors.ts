@@ -1,21 +1,21 @@
 // Unique HSL colors for command group tags
-// Avoiding: follower (200), subscriber (45), moderator (150), streamer (270)
+// Avoiding: follower (200), subscriber (45), moderator (150), streamer/layman (270)
+// Also avoiding purple hues (250-290) to keep them distinct from The Layman brand color
 const TAG_HUES = [
   20,   // Orange
   330,  // Pink
   180,  // Cyan
   60,   // Yellow-green
-  300,  // Magenta
   120,  // Green
   240,  // Blue
   350,  // Red-pink
   80,   // Lime
   210,  // Sky blue
   15,   // Burnt orange
-  290,  // Purple-magenta
   160,  // Teal
   30,   // Gold
-  260,  // Violet
+  0,    // Red
+  140,  // Mint
 ];
 
 // Map to store consistent color assignments
@@ -44,11 +44,21 @@ function getHueForTag(tag: string): number {
 }
 
 export function getTagColor(tag: string): string {
+  const normalizedTag = tag.toLowerCase();
+  // "layman" uses the brand color
+  if (normalizedTag === "layman") {
+    return `hsl(270, 100%, 50%)`;
+  }
   const hue = getHueForTag(tag);
   return `hsl(${hue}, 70%, 55%)`;
 }
 
 export function getTagColorWithOpacity(tag: string, opacity: number): string {
+  const normalizedTag = tag.toLowerCase();
+  // "layman" uses the brand color
+  if (normalizedTag === "layman") {
+    return `hsla(270, 100%, 50%, ${opacity})`;
+  }
   const hue = getHueForTag(tag);
   return `hsla(${hue}, 70%, 55%, ${opacity})`;
 }
