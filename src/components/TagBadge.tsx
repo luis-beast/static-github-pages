@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { getTagColor, toProperCase } from "@/lib/tagColors";
+import { getTagColor } from "@/lib/tagColors";
 
 interface TagBadgeProps {
   tag: string;
@@ -46,7 +46,7 @@ const TagBadge = ({
         opacity: isActive ? 1 : 0.4,
       }}
     >
-      {toProperCase(tag)}
+      {tag}
     </Component>
   );
 };

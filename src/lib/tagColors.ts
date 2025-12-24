@@ -97,9 +97,13 @@ export function getGameColorWithOpacity(game: string, opacity: number): string {
   return `hsla(${hue}, 70%, 55%, ${opacity})`;
 }
 
-export function toProperCase(str: string): string {
+/**
+ * Normalizes a string for search by converting to lowercase and removing diacritics/accents.
+ * This allows "pokemon" to match "Pokémon", "cafe" to match "Café", etc.
+ */
+export function normalizeForSearch(str: string): string {
   return str
-    .split(" ")
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(" ");
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
 }

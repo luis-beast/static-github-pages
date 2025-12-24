@@ -7,7 +7,7 @@ export const commands: Command[] = [
     usage: "[scene]",
     aliases: ["!changescene"],
     permission: "moderator",
-    commandGroups: ["obs", "scene"],
+    commandGroups: ["OBS", "Scene"],
     description: "This command changes the scene currently showing on stream.",
     parameterGroups: [
       {
@@ -60,14 +60,14 @@ export const commands: Command[] = [
     usage: "[username]",
     aliases: ["!so"],
     permission: "moderator",
-    commandGroups: ["promotion"],
+    commandGroups: ["Promotion"],
     description: "This command promotes another streamer's channel to Layman's viewers.",
   },
   {
     id: "7tv",
     name: "!7tv",
     permission: "follower",
-    commandGroups: ["extension", "twitch"],
+    commandGroups: ["Extension", "Twitch"],
     description: "This command gives you a link to be able to view the emotes added to Layman's channel through 7TV.",
   },
   {
@@ -75,7 +75,7 @@ export const commands: Command[] = [
     name: "!8ball",
     aliases: ["!eightball", "!magic8ball", "!magiceightball", "!predict"],
     permission: "follower",
-    commandGroups: ["chance"],
+    commandGroups: ["Chance"],
     description: "This command shakes a virtual Magic 8 ball for you.",
   },
   {
@@ -83,7 +83,7 @@ export const commands: Command[] = [
     name: "!addchips",
     usage: "[username] [amount]",
     permission: "moderator",
-    commandGroups: ["economy"],
+    commandGroups: ["Economy"],
     description: "This command adds The Layman's currency to a viewer.",
     parameterGroups: [
       {
@@ -99,7 +99,7 @@ export const commands: Command[] = [
     name: "!adddeath",
     aliases: ["!adddeaths"],
     permission: "follower",
-    commandGroups: ["death"],
+    commandGroups: ["Death"],
     description: "This command adds a death to the stream category to track Layman's deaths in-game... of course.",
   },
   {
@@ -107,28 +107,28 @@ export const commands: Command[] = [
     name: "!addtry",
     aliases: ["!anothertry", "!tryagain", "!addattempt", "!addattempts"],
     permission: "follower",
-    commandGroups: ["tries", "death"],
+    commandGroups: ["Tries", "Death"],
     description: "This command adds an attempt made to the current struggle The Layman is suffering.",
   },
   {
     id: "advice",
     name: "!advice",
     permission: "subscriber",
-    commandGroups: ["chance"],
+    commandGroups: ["Chance"],
     description: "This command says advice you have given before.",
   },
   {
     id: "age",
     name: "!age",
     permission: "follower",
-    commandGroups: ["layman", "lore"],
+    commandGroups: ["Layman", "Lore"],
     description: "This command says Layman's age.",
   },
   {
     id: "agent",
     name: "!agent",
     permission: "follower",
-    commandGroups: ["valorant"],
+    commandGroups: ["VALORANT"],
     description: "This command says a random agent from VALORANT.",
   },
   {
@@ -136,7 +136,7 @@ export const commands: Command[] = [
     name: "!birthday",
     aliases: ["!anniversary"],
     permission: "follower",
-    commandGroups: ["layman", "lore"],
+    commandGroups: ["Layman", "Lore"],
     description: "This command says how much time until another year is added to The Layman.",
   },
   {
@@ -145,14 +145,14 @@ export const commands: Command[] = [
     massCompatible: true,
     usage: "[username]",
     permission: "follower",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command attacks another viewer's avatar with your avatar.",
   },
   {
     id: "basketball",
     name: "!basketball",
     permission: "subscriber",
-    commandGroups: ["avatars", "minigame"],
+    commandGroups: ["Avatars", "Mini-game"],
     description: "This command starts a game of basketball with the viewers that join.",
     parameterGroups: [
       {
@@ -168,14 +168,14 @@ export const commands: Command[] = [
     name: "!battlenet",
     aliases: ["!battle.net"],
     permission: "follower",
-    commandGroups: ["layman", "gamertag"],
+    commandGroups: ["Layman", "Gamertag"],
     description: "This command says The Layman's Battle.net gamertag.",
   },
   {
     id: "battleroyale",
     name: "!battleroyale",
     permission: "follower",
-    commandGroups: ["avatars", "minigame"],
+    commandGroups: ["Avatars", "Mini-game"],
     description: "This command starts a fighting competition with every present avatar.",
     parameterGroups: [
       {
@@ -191,7 +191,7 @@ export const commands: Command[] = [
     name: "!bomb",
     massCompatible: true,
     permission: "follower",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command drops a bomb where your avatar is.",
     parameterGroups: [
       {
@@ -206,7 +206,7 @@ export const commands: Command[] = [
     id: "boss",
     name: "!boss",
     permission: "subscriber",
-    commandGroups: ["avatars", "minigame"],
+    commandGroups: ["Avatars", "Mini-game"],
     description: "This command starts a boss fight with everyone that joins.",
     parameterGroups: [
       {
@@ -241,7 +241,7 @@ export const commands: Command[] = [
     usage: "[position]",
     aliases: ["!changespotify"],
     permission: "moderator",
-    commandGroups: ["obs", "spotify"],
+    commandGroups: ["OBS", "Spotify"],
     description: "This command changes the position of the Spotify overlay.",
     parameterGroups: [
       {
@@ -279,14 +279,14 @@ export const commands: Command[] = [
     name: "!chegg",
     usage: "[question]",
     permission: "follower",
-    commandGroups: ["question"],
+    commandGroups: ["Question"],
     description: "This command works with Chegg to answer any questions you have about anything.",
   },
   {
     id: "chips",
     name: "!chips",
     permission: "follower",
-    commandGroups: ["economy", "viewer"],
+    commandGroups: ["Economy", "Viewer"],
     description: "This command checks how much you have of The Layman's currency.",
     parameterGroups: [
       {
@@ -302,7 +302,7 @@ export const commands: Command[] = [
     name: "!coin",
     aliases: ["!coinflip"],
     permission: "follower",
-    commandGroups: ["chance"],
+    commandGroups: ["Chance"],
     description: "This command flips a virtual coin for you.",
   },
   {
@@ -310,7 +310,7 @@ export const commands: Command[] = [
     name: "!commands",
     aliases: ["!cmds"],
     permission: "follower",
-    commandGroups: ["layman", "setup", "link"],
+    commandGroups: ["Layman", "Setup", "Link"],
     description: "This command sends a link with EVERYTHING you can do in The Layman's chat.",
   },
   {
@@ -318,7 +318,7 @@ export const commands: Command[] = [
     name: "!dance",
     massCompatible: true,
     permission: "follower",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command makes your avatar do a little boogie.",
   },
   {
@@ -326,7 +326,7 @@ export const commands: Command[] = [
     name: "!dbd",
     aliases: ["!bhvr"],
     permission: "follower",
-    commandGroups: ["layman", "gamertag"],
+    commandGroups: ["Layman", "Gamertag"],
     description: "This command says Layman's Dead By Daylight gamertag.",
   },
   {
@@ -334,7 +334,7 @@ export const commands: Command[] = [
     name: "!deaths",
     aliases: ["!death"],
     permission: "follower",
-    commandGroups: ["layman", "death"],
+    commandGroups: ["Layman", "Death"],
     description: "This command tells us how many times Layman has died in the current game we are playing during this stream.",
   },
   {
@@ -343,7 +343,7 @@ export const commands: Command[] = [
     usage: "[amount]",
     aliases: ["!roll"],
     permission: "follower",
-    commandGroups: ["economy", "gamble"],
+    commandGroups: ["Economy", "Gamble"],
     description: "This command lets you roll 2 virtual dice and Francis does the same. Who comes out on top? They'll be the winner.",
     parameterGroups: [
       {
@@ -359,7 +359,7 @@ export const commands: Command[] = [
     id: "discord",
     name: "!discord",
     permission: "follower",
-    commandGroups: ["layman", "link", "social"],
+    commandGroups: ["Layman", "Link", "Social"],
     description: "This command sends the link for you to join The Layman's World.",
   },
   {
@@ -367,7 +367,7 @@ export const commands: Command[] = [
     name: "!duel",
     usage: "[username]",
     permission: "follower",
-    commandGroups: ["avatars", "minigame"],
+    commandGroups: ["Avatars", "Mini-game"],
     description: "This command allows you to 1v1 someone to the death.",
     parameterGroups: [
       {
@@ -382,14 +382,14 @@ export const commands: Command[] = [
     id: "endstream",
     name: "!endstream",
     permission: "moderator",
-    commandGroups: ["obs", "stream"],
+    commandGroups: ["OBS", "Stream"],
     description: "This command ends The Layman's stream.",
   },
   {
     id: "escape",
     name: "!escape",
     permission: "follower",
-    commandGroups: ["special"],
+    commandGroups: ["Special"],
     description: "This command says a funny message designed by TheOracleMind.",
   },
   {
@@ -397,7 +397,7 @@ export const commands: Command[] = [
     name: "!explode",
     massCompatible: true,
     permission: "subscriber",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command shakes your avatar until it disappears.",
     parameterGroups: [
       {
@@ -412,7 +412,7 @@ export const commands: Command[] = [
     id: "fact",
     name: "!fact",
     permission: "subscriber",
-    commandGroups: ["chance"],
+    commandGroups: ["Chance"],
     description: "This command tells you a random fun fact.",
     parameterGroups: [
       {
@@ -434,14 +434,14 @@ export const commands: Command[] = [
     name: "!fart",
     massCompatible: true,
     permission: "follower",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command lets your avatar let out some air...",
   },
   {
     id: "fighter",
     name: "!fighter",
     permission: "follower",
-    commandGroups: ["super smash bros ultimate"],
+    commandGroups: ["Super Smash Bros. Ultimate"],
     description: "This command gives you a fighter to play from Super Smash Bros. Ultimate.",
   },
   {
@@ -449,7 +449,7 @@ export const commands: Command[] = [
     name: "!firework",
     massCompatible: true,
     permission: "subscriber",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command throws your avatar up in the air and explodes.",
     parameterGroups: [
       {
@@ -465,7 +465,7 @@ export const commands: Command[] = [
     name: "!freeze",
     massCompatible: true,
     permission: "follower",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command puts your avatar in a icicle.",
     parameterGroups: [
       {
@@ -481,7 +481,7 @@ export const commands: Command[] = [
     name: "!game",
     aliases: ["!category"],
     permission: "follower",
-    commandGroups: ["layman", "stream"],
+    commandGroups: ["Layman", "Stream"],
     description: "This command says the game The Layman is currently playing.",
   },
   {
@@ -490,21 +490,21 @@ export const commands: Command[] = [
     usage: "[username] [amount]",
     aliases: ["!givechips"],
     permission: "follower",
-    commandGroups: ["economy"],
+    commandGroups: ["Economy"],
     description: "This command lets you give someone else some of your chips.",
   },
   {
     id: "headset",
     name: "!headset",
     permission: "follower",
-    commandGroups: ["layman", "setup"],
+    commandGroups: ["Layman", "Setup"],
     description: "This command tells you the way Layman hears everything.",
   },
   {
     id: "height",
     name: "!height",
     permission: "follower",
-    commandGroups: ["layman", "lore"],
+    commandGroups: ["Layman", "Lore"],
     description: "This command tells you how tall Layman is.",
   },
   {
@@ -512,7 +512,7 @@ export const commands: Command[] = [
     name: "!hidechrome",
     aliases: ["!hide", "!chrome", "!chromeisblockingthestream"],
     permission: "subscriber",
-    commandGroups: ["obs", "stream"],
+    commandGroups: ["OBS", "Stream"],
     description: "This command allows you to hide the chrome window Layman uses that blocks the center of the stream.",
   },
   {
@@ -521,7 +521,7 @@ export const commands: Command[] = [
     massCompatible: true,
     usage: "[username]",
     permission: "follower",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command gives a warm embrace to someone else's avatar with your avatar.",
   },
   {
@@ -529,7 +529,7 @@ export const commands: Command[] = [
     name: "!instagram",
     aliases: ["!ig"],
     permission: "follower",
-    commandGroups: ["layman", "link", "social"],
+    commandGroups: ["Layman", "Link", "Social"],
     description: "This command lets you check out Layman's Instagram.",
   },
   {
@@ -537,7 +537,7 @@ export const commands: Command[] = [
     name: "!ip",
     aliases: ["!ipaddress", "!internetprotocol", "!internetprotocoladdress"],
     permission: "follower",
-    commandGroups: ["layman", "lore", "setup"],
+    commandGroups: ["Layman", "Lore", "Setup"],
     description: "This command tells you Layman's IP address.",
   },
   {
@@ -545,7 +545,7 @@ export const commands: Command[] = [
     name: "!spotifyjam",
     aliases: ["!jam"],
     permission: "follower",
-    commandGroups: ["spotify", "link"],
+    commandGroups: ["Spotify", "Link"],
     description: "This command lets you join Layman's Spotify Jam session. If he started it...",
   },
   {
@@ -553,7 +553,7 @@ export const commands: Command[] = [
     name: "!joke",
     aliases: ["!dadjoke", "!cringejoke"],
     permission: "subscriber",
-    commandGroups: ["chance"],
+    commandGroups: ["Chance"],
     description: "This command gives you a HILARIOUS joke to laugh at.",
     parameterGroups: [
       {
@@ -569,28 +569,28 @@ export const commands: Command[] = [
     name: "!jump",
     massCompatible: true,
     permission: "follower",
-    commandGroups: ["avatars", "minigame"],
+    commandGroups: ["Avatars", "Mini-game"],
     description: "This command makes your avatar jump to either celebrate or catch a star.",
   },
   {
     id: "keyboard",
     name: "!keyboard",
     permission: "follower",
-    commandGroups: ["layman", "setup"],
+    commandGroups: ["Layman", "Setup"],
     description: "This command tells you what The Layman uses to type everything.",
   },
   {
     id: "leaderboard",
     name: "!leaderboard",
     permission: "follower",
-    commandGroups: ["viewer", "statistics"],
+    commandGroups: ["Viewer", "Statistics"],
     description: "This command lets you see the 5 highest watchtime viewers.",
   },
   {
     id: "location",
     name: "!location",
     permission: "follower",
-    commandGroups: ["layman", "lore", "setup"],
+    commandGroups: ["Layman", "Lore", "Setup"],
     description: "This command tells you where The Layman is currently at.",
   },
   {
@@ -598,7 +598,7 @@ export const commands: Command[] = [
     name: "!lounge",
     usage: "[message]",
     permission: "moderator",
-    commandGroups: ["discord"],
+    commandGroups: ["Discord"],
     description: "This command sends a message through Francis to the #layman-lounge🛋️ for quick alerts.",
   },
   {
@@ -606,7 +606,7 @@ export const commands: Command[] = [
     name: "!lurk",
     aliases: ["!brb", "!afk"],
     permission: "follower",
-    commandGroups: ["viewer"],
+    commandGroups: ["Viewer"],
     description: "This command lets The Layman know that you are stepping away for a bit, so he doesn't just keep talking to himself.",
   },
   {
@@ -614,7 +614,7 @@ export const commands: Command[] = [
     name: "!myanimelist",
     aliases: ["!mal"],
     permission: "follower",
-    commandGroups: ["layman", "lore"],
+    commandGroups: ["Layman", "Lore"],
     description: "This command lets you see the animes or mangas that Layman has seen or read.",
   },
   {
@@ -623,7 +623,7 @@ export const commands: Command[] = [
     usage: "[title]",
     aliases: ["!streammarker", "!highlight", "!highlightmarker"],
     permission: "moderator",
-    commandGroups: ["stream", "twitch"],
+    commandGroups: ["Stream", "Twitch"],
     description: "This command sets a marker at the current stream time, so the layman could look at it again.",
   },
   {
@@ -631,7 +631,7 @@ export const commands: Command[] = [
     name: "!mass",
     usage: "[command]",
     permission: "moderator",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command allows you to make every present avatar do the command you'd like to do also.",
     parameterGroups: [
       {
@@ -677,7 +677,7 @@ export const commands: Command[] = [
     name: "!microphone",
     aliases: ["!mic"],
     permission: "follower",
-    commandGroups: ["layman", "setup"],
+    commandGroups: ["Layman", "Setup"],
     description: "This command tells you how Layman sounds so amazing talk to y'all.",
   },
   {
@@ -685,35 +685,35 @@ export const commands: Command[] = [
     name: "!minigame exclude",
     usage: "[username]",
     permission: "moderator",
-    commandGroups: ["avatars", "minigame"],
+    commandGroups: ["Avatars", "Mini-game"],
     description: "This command excludes someone from participating in any avatar minigames.",
   },
   {
     id: "mouse",
     name: "!mouse",
     permission: "follower",
-    commandGroups: ["layman", "setup"],
+    commandGroups: ["Layman", "Setup"],
     description: "This command shows you what Layman uses to have such amazing aim.",
   },
   {
     id: "mutediscord",
     name: "!mutediscord",
     permission: "moderator",
-    commandGroups: ["obs", "stream"],
+    commandGroups: ["OBS", "Stream"],
     description: "This command mutes Discord for stream only. Meaning Layman can still hear you.",
   },
   {
     id: "mutelayman",
     name: "!mutelayman",
     permission: "moderator",
-    commandGroups: ["obs", "stream"],
+    commandGroups: ["OBS", "Stream"],
     description: "This command mutes Layman's microphone for stream.",
   },
   {
     id: "pause",
     name: "!pause",
     permission: "follower",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command pauses your avatar in place.",
   },
   {
@@ -721,14 +721,14 @@ export const commands: Command[] = [
     name: "!peter",
     aliases: ["!peterpiper", "!peterpepper", "!peterwiththepeppers"],
     permission: "follower",
-    commandGroups: ["special"],
+    commandGroups: ["Special"],
     description: "This command says a tongue twister about Peter Piper.",
   },
   {
     id: "pin",
     name: "!pin",
     permission: "subscriber",
-    commandGroups: ["avatars"],
+    commandGroups: ["Avatars"],
     description: "This command pins your avatar in place.",
     parameterGroups: [
       {
@@ -755,7 +755,7 @@ export const commands: Command[] = [
     id: "pokeball",
     name: "!pokeball",
     permission: "follower",
-    commandGroups: ["pokemon"],
+    commandGroups: ["Pokémon"],
     description: "This command throws a pokeball to catch a wild Pokemon.",
   },
   {
@@ -763,7 +763,7 @@ export const commands: Command[] = [
     name: "!pokepc",
     aliases: ["!pokedex"],
     permission: "follower",
-    commandGroups: ["pokemon"],
+    commandGroups: ["Pokémon"],
     description: "This command shows your Pokemon collection.",
   },
   {
@@ -772,7 +772,7 @@ export const commands: Command[] = [
     usage: "[answer]",
     aliases: ["!questionofthestream"],
     permission: "follower",
-    commandGroups: ["viewer", "interactive"],
+    commandGroups: ["Viewer", "Interactive"],
     description: "This command answers the question of the stream.",
   },
   {
@@ -780,7 +780,7 @@ export const commands: Command[] = [
     name: "!randomviewer",
     aliases: ["!randomuser", "!viewer", "!user"],
     permission: "moderator",
-    commandGroups: ["viewer", "moderation"],
+    commandGroups: ["Viewer", "Moderation"],
     description: "This command picks a random viewer from chat.",
   },
   {
@@ -788,14 +788,14 @@ export const commands: Command[] = [
     name: "!rank",
     aliases: ["!ranks"],
     permission: "follower",
-    commandGroups: ["viewer", "statistics"],
+    commandGroups: ["Viewer", "Statistics"],
     description: "This command shows your current rank in the community.",
   },
   {
     id: "refreshspotify",
     name: "!refreshspotify",
     permission: "moderator",
-    commandGroups: ["obs", "spotify"],
+    commandGroups: ["OBS", "Spotify"],
     description: "This command refreshes the Spotify overlay.",
   },
   {
@@ -804,7 +804,7 @@ export const commands: Command[] = [
     usage: "[message]",
     aliases: ["!reminder", "!remind", "!remember"],
     permission: "moderator",
-    commandGroups: ["stream", "utility"],
+    commandGroups: ["Stream", "Utility"],
     description: "This command sets a reminder for Layman.",
   },
   {
@@ -812,7 +812,7 @@ export const commands: Command[] = [
     name: "!removechips",
     usage: "[username] [amount]",
     permission: "moderator",
-    commandGroups: ["economy"],
+    commandGroups: ["Economy"],
     description: "This command removes The Layman's currency from a viewer.",
     parameterGroups: [
       {
@@ -828,21 +828,21 @@ export const commands: Command[] = [
     name: "!resetlobby",
     aliases: ["!resetroom", "!resetarena"],
     permission: "moderator",
-    commandGroups: ["avatars", "minigame"],
+    commandGroups: ["Avatars", "Mini-game"],
     description: "This command resets the avatar lobby/arena.",
   },
   {
     id: "richest",
     name: "!richest",
     permission: "follower",
-    commandGroups: ["economy", "statistics"],
+    commandGroups: ["Economy", "Statistics"],
     description: "This command shows the richest viewers in chat.",
   },
   {
     id: "rizz",
     name: "!rizz",
     permission: "follower",
-    commandGroups: ["chance", "fun"],
+    commandGroups: ["Chance", "Fun"],
     description: "This command checks your rizz level.",
     parameterGroups: [
       {
@@ -857,7 +857,7 @@ export const commands: Command[] = [
     id: "lobby",
     name: "!lobby",
     permission: "follower",
-    commandGroups: ["viewer", "interactive"],
+    commandGroups: ["Viewer", "Interactive"],
     description: "This command shows the current lobby information.",
   },
 ];
