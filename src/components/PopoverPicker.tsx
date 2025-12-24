@@ -65,9 +65,9 @@ function PopoverPicker<T extends string>({
           className={cn("p-3 bg-card border-border", popoverWidth)} 
           align="start"
         >
-          <div className="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto p-0.5">
+          <div className="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto p-1">
             {items.map((item) => (
-              <div key={item} className="p-0.5">
+              <div key={item} className="p-0.5 max-w-[80%]">
                 {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
               </div>
             ))}

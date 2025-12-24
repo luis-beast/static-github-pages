@@ -13,7 +13,7 @@ const Navigation = () => {
               alt="Streamer avatar" 
               className="w-10 h-10 rounded-lg object-cover"
             />
-            <span className="font-semibold text-lg" style={{ background: 'linear-gradient(to bottom, #8800FF, #bb66ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>The Layman</span>
+            <span className="font-semibold text-lg" style={{ background: 'linear-gradient(to bottom, #bb66ff, #8800FF)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>The Layman</span>
           </Link>
           
           <div className="flex items-center gap-1">

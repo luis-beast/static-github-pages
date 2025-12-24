@@ -62,8 +62,13 @@ const TagBadge = ({
         opacity: isActive ? 1 : inactiveOpacity,
       }}
     >
-      {onClick && isHovered && (
-        <span className="mr-1 transition-all duration-200 animate-fade-in">
+      {onClick && (
+        <span 
+          className={cn(
+            "transition-all duration-200 overflow-hidden",
+            isHovered ? "opacity-100 w-3 mr-1" : "opacity-0 w-0 mr-0"
+          )}
+        >
           {isActive ? (
             <X className={iconSize} />
           ) : (
