@@ -4,7 +4,7 @@ import { Command } from "@/types/command";
 import PermissionBadge from "./PermissionBadge";
 import ParameterBubble from "./ParameterBubble";
 import { cn } from "@/lib/utils";
-import { getTagColor, toProperCase } from "@/lib/tagColors";
+import { getTagColor, getTagColorWithOpacity, toProperCase } from "@/lib/tagColors";
 
 interface CommandCardProps {
   command: Command;
@@ -118,12 +118,13 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                 )}
                 {command.commandGroups?.filter(group => group).map((group) => {
                   const tagColor = getTagColor(group);
+                  const tagBgColor = getTagColorWithOpacity(group, 0.15);
                   return (
                     <span 
                       key={group} 
                       className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border"
                       style={{ 
-                        backgroundColor: `${tagColor}18`,
+                        backgroundColor: tagBgColor,
                         color: tagColor,
                         borderColor: tagColor
                       }}

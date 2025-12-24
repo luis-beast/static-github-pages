@@ -1,6 +1,6 @@
 import { Permission } from "@/components/PermissionBadge";
 import { Search } from "lucide-react";
-import { getTagColor, toProperCase } from "@/lib/tagColors";
+import { getTagColor, getTagColorWithOpacity, toProperCase } from "@/lib/tagColors";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -130,13 +130,14 @@ const CommandFilters = ({
               {availableTags.map((tag) => {
                 const isActive = selectedTags.includes(tag);
                 const tagColor = getTagColor(tag);
+                const tagBgColor = getTagColorWithOpacity(tag, 0.15);
                 return (
                   <button
                     key={tag}
                     onClick={() => onTagToggle(tag)}
                     className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium border transition-all cursor-pointer"
                     style={isActive ? { 
-                      backgroundColor: `${tagColor}18`,
+                      backgroundColor: tagBgColor,
                       color: tagColor,
                       borderColor: tagColor
                     } : {
