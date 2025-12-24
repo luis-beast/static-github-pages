@@ -99,7 +99,7 @@ export const commands: Command[] = [
     name: "!adddeath",
     aliases: ["!adddeaths"],
     permission: "follower",
-    commandGroups: ["Death", "Layman"],
+    commandGroups: ["Layman", "Death"],
     description: "This command adds a death to the stream category to track Layman's deaths in-game... of course.",
   },
   {
@@ -107,7 +107,7 @@ export const commands: Command[] = [
     name: "!addtry",
     aliases: ["!anothertry", "!tryagain", "!addattempt", "!addattempts"],
     permission: "follower",
-    commandGroups: ["Tries", "Death", "Layman"],
+    commandGroups: ["Layman", "Tries", "Death"],
     description: "This command adds an attempt made to the current struggle The Layman is suffering.",
   },
   {
