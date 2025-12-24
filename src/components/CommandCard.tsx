@@ -108,9 +108,9 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                   <span 
                     className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border"
                     style={{ 
-                      backgroundColor: "hsla(280, 70%, 55%, 0.12)",
+                      backgroundColor: "hsla(280, 70%, 55%, 0.15)",
                       color: "hsl(280, 70%, 65%)",
-                      borderColor: "hsla(280, 70%, 55%, 0.3)"
+                      borderColor: "hsl(280, 70%, 65%)"
                     }}
                   >
                     !mass
@@ -123,9 +123,9 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                       key={group} 
                       className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border"
                       style={{ 
-                        backgroundColor: `${tagColor}20`,
+                        backgroundColor: `${tagColor}18`,
                         color: tagColor,
-                        borderColor: `${tagColor}50`
+                        borderColor: tagColor
                       }}
                     >
                       {toProperCase(group)}
