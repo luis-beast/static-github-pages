@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { getTagColor, getTagColorWithOpacity, toProperCase } from "@/lib/tagColors";
+import { getTagColor, toProperCase } from "@/lib/tagColors";
 
 interface TagBadgeProps {
   tag: string;
@@ -9,6 +9,10 @@ interface TagBadgeProps {
   className?: string;
 }
 
+const getColorWithOpacity = (color: string, opacity: number): string => {
+  return color.replace("hsl(", "hsla(").replace(")", `, ${opacity})`);
+};
+
 const TagBadge = ({ 
   tag, 
   size = "sm", 
@@ -17,7 +21,7 @@ const TagBadge = ({
   className 
 }: TagBadgeProps) => {
   const tagColor = getTagColor(tag);
-  const tagBgColor = getTagColorWithOpacity(tag, isActive ? 0.20 : 0.03);
+  const tagBgColor = getColorWithOpacity(tagColor, isActive ? 0.20 : 0.03);
   
   const sizeClasses = {
     sm: "px-2.5 py-1 text-xs",
@@ -37,8 +41,8 @@ const TagBadge = ({
       )}
       style={{
         backgroundColor: tagBgColor,
-        color: isActive ? tagColor : `${tagColor}40`,
-        borderColor: isActive ? tagColor : `${tagColor}20`,
+        color: isActive ? tagColor : getColorWithOpacity(tagColor, 0.4),
+        borderColor: isActive ? tagColor : getColorWithOpacity(tagColor, 0.2),
         opacity: isActive ? 1 : 0.4,
       }}
     >
