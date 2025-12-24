@@ -88,7 +88,7 @@ const CommandFilters = ({
       <div className="flex flex-col md:flex-row md:items-start gap-4">
         <div className="flex-1">
           <label className="text-sm font-medium text-foreground mb-2 block">
-            Filter by permission
+            Role Filter
           </label>
           <div className="flex flex-wrap gap-2">
             {permissions.map((perm) => (
@@ -106,7 +106,7 @@ const CommandFilters = ({
         {availableTags.length > 0 && (
           <div className="flex-1">
             <label className="text-sm font-medium text-foreground mb-2 block">
-              Filter by tag
+              Tag Filter
             </label>
             <div className="flex flex-wrap gap-2">
               {availableTags.map((tag) => (
