@@ -4,6 +4,7 @@ import Navigation from "@/components/Navigation";
 import QuoteCard from "@/components/QuoteCard";
 import { Input } from "@/components/ui/input";
 import { quotes } from "@/data/quotes";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -70,6 +71,8 @@ const Index = () => {
           )}
         </div>
       </main>
+      
+      <ScrollToTopButton />
     </div>
   );
 };
