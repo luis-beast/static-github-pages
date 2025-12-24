@@ -4,6 +4,7 @@ import CommandCard from "@/components/CommandCard";
 import CommandFilters, { SortOption } from "@/components/CommandFilters";
 import { Permission } from "@/components/PermissionBadge";
 import { commands } from "@/data/commands";
+import { normalizeForSearch } from "@/lib/tagColors";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 const permissionOrder: Record<Permission, number> = {
@@ -59,14 +60,14 @@ const Commands = () => {
       );
     }
 
-    // Filter by search query
+    // Filter by search query (accent-insensitive)
     if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase();
+      const normalizedQuery = normalizeForSearch(searchQuery);
       result = result.filter((cmd) =>
-        cmd.name.toLowerCase().includes(query) ||
-        (cmd.aliases?.some(alias => alias.toLowerCase().includes(query)) ?? false) ||
-        cmd.description.toLowerCase().includes(query) ||
-        (cmd.commandGroups?.some(group => group.toLowerCase().includes(query)) ?? false)
+        normalizeForSearch(cmd.name).includes(normalizedQuery) ||
+        (cmd.aliases?.some(alias => normalizeForSearch(alias).includes(normalizedQuery)) ?? false) ||
+        normalizeForSearch(cmd.description).includes(normalizedQuery) ||
+        (cmd.commandGroups?.some(group => normalizeForSearch(group).includes(normalizedQuery)) ?? false)
       );
     }
 
