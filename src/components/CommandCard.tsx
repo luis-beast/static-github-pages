@@ -41,7 +41,7 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
           </div>
           <div className="flex-1 min-w-0">
             {/* Line 1: Command name + usage parameters */}
-            <div className="mb-2 flex items-baseline gap-1">
+            <div className="mb-2 flex items-baseline gap-2">
               <span className="font-mono font-semibold text-primary text-lg">
                 {command.name}
               </span>
