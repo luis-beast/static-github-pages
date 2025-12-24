@@ -1,5 +1,5 @@
 import { Permission } from "@/components/PermissionBadge";
-import { Search } from "lucide-react";
+import { Search, Tags, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/select";
 import PermissionBadge from "@/components/PermissionBadge";
 import TagBadge from "@/components/TagBadge";
+import PopoverPicker from "@/components/PopoverPicker";
 
 export type SortOption = "name-asc" | "name-desc" | "perm-asc" | "perm-desc";
 
@@ -23,6 +24,8 @@ interface CommandFiltersProps {
   availableTags: string[];
   selectedTags: string[];
   onTagToggle: (tag: string) => void;
+  onClearTags: () => void;
+  onClearPermissions: () => void;
   resultCount: number;
 }
 
@@ -45,6 +48,8 @@ const CommandFilters = ({
   availableTags,
   selectedTags,
   onTagToggle,
+  onClearTags,
+  onClearPermissions,
   resultCount,
 }: CommandFiltersProps) => {
   return (
@@ -90,7 +95,7 @@ const CommandFilters = ({
           <label className="text-sm font-medium text-foreground mb-2 block">
             Role Filter
           </label>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             {permissions.map((perm) => (
               <PermissionBadge
                 key={perm}
@@ -100,6 +105,15 @@ const CommandFilters = ({
                 onClick={() => onPermissionToggle(perm)}
               />
             ))}
+            {selectedPermissions.length >= 3 && (
+              <button
+                onClick={onClearPermissions}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-full bg-destructive/20 text-destructive border border-destructive/50 hover:bg-destructive/30 transition-colors cursor-pointer"
+              >
+                <X className="w-3 h-3" />
+                Clear
+              </button>
+            )}
           </div>
         </div>
         
@@ -108,17 +122,24 @@ const CommandFilters = ({
             <label className="text-sm font-medium text-foreground mb-2 block">
               Tag Filter
             </label>
-            <div className="flex flex-wrap gap-2">
-              {availableTags.map((tag) => (
+            <PopoverPicker
+              items={availableTags}
+              selectedItems={selectedTags}
+              onToggle={onTagToggle}
+              onClearAll={onClearTags}
+              renderBadge={(tag, isActive, onClick) => (
                 <TagBadge
-                  key={tag}
                   tag={tag}
-                  size="md"
-                  isActive={selectedTags.includes(tag)}
-                  onClick={() => onTagToggle(tag)}
+                  size="sm"
+                  isActive={isActive}
+                  onClick={onClick}
                 />
-              ))}
-            </div>
+              )}
+              label="Pick Tags"
+              icon={<Tags className="w-4 h-4" />}
+              maxVisibleSelected={5}
+              clearThreshold={3}
+            />
           </div>
         )}
       </div>

@@ -1,11 +1,12 @@
 import { useState, useMemo } from "react";
-import { Search } from "lucide-react";
+import { Search, Gamepad2 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import QuoteCard from "@/components/QuoteCard";
 import GameBadge from "@/components/GameBadge";
 import { Input } from "@/components/ui/input";
 import { quotes } from "@/data/quotes";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
+import PopoverPicker from "@/components/PopoverPicker";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,6 +25,10 @@ const Index = () => {
         ? prev.filter((g) => g !== game)
         : [...prev, game]
     );
+  };
+
+  const handleClearGames = () => {
+    setSelectedGames([]);
   };
 
   const filteredQuotes = useMemo(() => {
@@ -79,17 +84,25 @@ const Index = () => {
               <label className="text-sm font-medium text-foreground mb-2 block">
                 Game Filter
               </label>
-              <div className="flex flex-wrap gap-2">
-                {availableGames.map((game) => (
+              <PopoverPicker
+                items={availableGames}
+                selectedItems={selectedGames}
+                onToggle={handleGameToggle}
+                onClearAll={handleClearGames}
+                renderBadge={(game, isActive, onClick) => (
                   <GameBadge
-                    key={game}
                     game={game}
-                    size="md"
-                    isActive={selectedGames.includes(game)}
-                    onClick={() => handleGameToggle(game)}
+                    size="sm"
+                    isActive={isActive}
+                    onClick={onClick}
                   />
-                ))}
-              </div>
+                )}
+                label="Pick Games"
+                icon={<Gamepad2 className="w-4 h-4" />}
+                maxVisibleSelected={5}
+                clearThreshold={3}
+                size="sm"
+              />
             </div>
           )}
           
