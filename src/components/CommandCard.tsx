@@ -195,10 +195,10 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                 {command.parameterGroups?.map((group, index) => (
                   <div key={index} className="bg-card/50 rounded-lg p-3">
                     <div className="font-medium text-foreground mb-2">{group.title}</div>
-                    <div className="flex items-baseline gap-1 mb-2">
-                      <span className="font-mono font-semibold text-primary text-lg">{group.name}</span>
+                    <div className="flex items-baseline gap-2 mb-2">
+                      <span className="font-mono font-semibold text-primary text-base">{group.name}</span>
                       {group.usage && (
-                        <code className="text-muted-foreground text-base font-mono">
+                        <code className="text-muted-foreground/70 text-sm font-mono">
                           {group.usage}
                         </code>
                       )}
