@@ -99,7 +99,7 @@ export const commands: Command[] = [
     name: "!adddeath",
     aliases: ["!adddeaths"],
     permission: "follower",
-    commandGroups: ["Death"],
+    commandGroups: ["Death", "Layman"],
     description: "This command adds a death to the stream category to track Layman's deaths in-game... of course.",
   },
   {
@@ -107,7 +107,7 @@ export const commands: Command[] = [
     name: "!addtry",
     aliases: ["!anothertry", "!tryagain", "!addattempt", "!addattempts"],
     permission: "follower",
-    commandGroups: ["Tries", "Death"],
+    commandGroups: ["Tries", "Death", "Layman"],
     description: "This command adds an attempt made to the current struggle The Layman is suffering.",
   },
   {
@@ -614,7 +614,7 @@ export const commands: Command[] = [
     name: "!myanimelist",
     aliases: ["!mal"],
     permission: "follower",
-    commandGroups: ["Layman", "Lore"],
+    commandGroups: ["Layman", "Lore", "Social"],
     description: "This command lets you see the animes or mangas that Layman has seen or read.",
   },
   {
