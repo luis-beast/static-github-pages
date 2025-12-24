@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { getGameColor, getGameColorWithOpacity } from "@/lib/tagColors";
+import { getGameColor, USE_RANDOMIZED_COLORS } from "@/lib/tagColors";
 
 interface GameBadgeProps {
   game: string;
@@ -15,7 +15,14 @@ const getColorWithOpacity = (color: string, opacity: number): string => {
 
 const GameBadge = ({ game, size = "sm", isActive = true, onClick, className }: GameBadgeProps) => {
   const gameColor = getGameColor(game);
-  const gameBgColor = getColorWithOpacity(gameColor, isActive ? 0.20 : 0.03);
+  
+  // When not using randomized colors, games get slightly brighter inactive state
+  const inactiveOpacity = !USE_RANDOMIZED_COLORS ? 0.55 : 0.4;
+  const inactiveBgOpacity = !USE_RANDOMIZED_COLORS ? 0.06 : 0.03;
+  const inactiveColorOpacity = !USE_RANDOMIZED_COLORS ? 0.55 : 0.4;
+  const inactiveBorderOpacity = !USE_RANDOMIZED_COLORS ? 0.35 : 0.2;
+  
+  const gameBgColor = getColorWithOpacity(gameColor, isActive ? 0.20 : inactiveBgOpacity);
   
   const sizeClasses = {
     sm: "px-2 py-0.5 text-xs",
@@ -35,9 +42,9 @@ const GameBadge = ({ game, size = "sm", isActive = true, onClick, className }: G
       )}
       style={{
         backgroundColor: gameBgColor,
-        color: isActive ? gameColor : getColorWithOpacity(gameColor, 0.4),
-        borderColor: isActive ? gameColor : getColorWithOpacity(gameColor, 0.2),
-        opacity: isActive ? 1 : 0.4,
+        color: isActive ? gameColor : getColorWithOpacity(gameColor, inactiveColorOpacity),
+        borderColor: isActive ? gameColor : getColorWithOpacity(gameColor, inactiveBorderOpacity),
+        opacity: isActive ? 1 : inactiveOpacity,
       }}
     >
       {game}

@@ -42,7 +42,15 @@ const PermissionBadge = ({
 }: PermissionBadgeProps) => {
   const config = permissionConfig[permission];
   const permColor = config.color;
-  const permBgColor = getPermissionColorWithOpacity(permColor, isActive ? 0.20 : 0.03);
+  const isStreamer = permission === "streamer";
+  
+  // Streamer uses darker Layman Color, so needs higher opacity when inactive
+  const inactiveOpacity = isStreamer ? 0.6 : 0.4;
+  const inactiveBgOpacity = isStreamer ? 0.08 : 0.03;
+  const inactiveColorOpacity = isStreamer ? 0.6 : 0.4;
+  const inactiveBorderOpacity = isStreamer ? 0.4 : 0.2;
+  
+  const permBgColor = getPermissionColorWithOpacity(permColor, isActive ? 0.20 : inactiveBgOpacity);
   
   const sizeClasses = {
     sm: "px-2 py-0.5 text-sm",
@@ -62,9 +70,9 @@ const PermissionBadge = ({
       )}
       style={{
         backgroundColor: permBgColor,
-        color: isActive ? permColor : `${permColor.slice(0, -1)}, 0.4)`.replace("hsl", "hsla"),
-        borderColor: isActive ? permColor : `${permColor.slice(0, -1)}, 0.2)`.replace("hsl", "hsla"),
-        opacity: isActive ? 1 : 0.4,
+        color: isActive ? permColor : getPermissionColorWithOpacity(permColor, inactiveColorOpacity),
+        borderColor: isActive ? permColor : getPermissionColorWithOpacity(permColor, inactiveBorderOpacity),
+        opacity: isActive ? 1 : inactiveOpacity,
       }}
     >
       {config.label}
