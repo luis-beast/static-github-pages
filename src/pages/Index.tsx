@@ -123,14 +123,15 @@ const Index = () => {
         
         <div className="space-y-4">
           {filteredQuotes.length > 0 ? (
-            filteredQuotes.map((quote) => (
-              <QuoteCard
-                key={quote.number}
-                number={quote.number}
-                quote={quote.quote}
-                game={quote.game}
-                timestamp={quote.timestamp}
-              />
+            filteredQuotes.map((quote, index) => (
+              <div key={quote.number} style={{ animationDelay: `${index * 30}ms` }}>
+                <QuoteCard
+                  number={quote.number}
+                  quote={quote.quote}
+                  game={quote.game}
+                  timestamp={quote.timestamp}
+                />
+              </div>
             ))
           ) : (
             <div className="glass-card rounded-lg p-8 text-center">
