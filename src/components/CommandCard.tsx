@@ -19,10 +19,11 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
   const hasVariations = command.usageVariations && command.usageVariations.length > 0;
   const hasDetails = hasParameterGroups || hasVariations;
 
+  const aliases = command.aliases || [];
   const visibleAliases = showAllAliases 
-    ? command.aliases 
-    : command.aliases.slice(0, MAX_VISIBLE_ALIASES);
-  const hiddenCount = command.aliases.length - MAX_VISIBLE_ALIASES;
+    ? aliases 
+    : aliases.slice(0, MAX_VISIBLE_ALIASES);
+  const hiddenCount = aliases.length - MAX_VISIBLE_ALIASES;
 
   return (
     <div className="glass-card rounded-lg overflow-hidden hover-lift animate-fade-in">
@@ -80,18 +81,20 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
             
             <div className="flex items-center gap-3 mb-3">
               <PermissionBadge permission={command.permission} />
-              <code className="text-muted-foreground text-sm font-mono">
-                {command.usage.split("(").map((part, i) => {
-                  if (i === 0) return part;
-                  const [param, rest] = part.split(")");
-                  return (
-                    <span key={i}>
-                      <span className="text-muted-foreground/60">({param})</span>
-                      {rest}
-                    </span>
-                  );
-                })}
-              </code>
+              {command.usage && (
+                <code className="text-muted-foreground text-sm font-mono">
+                  {command.usage.split("[").map((part, i) => {
+                    if (i === 0) return part;
+                    const [param, rest] = part.split("]");
+                    return (
+                      <span key={i}>
+                        <span className="text-muted-foreground/60">[{param}]</span>
+                        {rest}
+                      </span>
+                    );
+                  })}
+                </code>
+              )}
             </div>
             
             <p className="text-secondary-foreground text-sm">
@@ -105,9 +108,9 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                   <span className="font-mono font-medium text-primary">!mass</span>
                 </div>
               )}
-              {command.tags?.map((tag) => (
-                <span key={tag} className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary/10 text-primary/80">
-                  {tag}
+              {command.commandGroups?.map((group) => (
+                <span key={group} className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary/10 text-primary/80">
+                  {group}
                 </span>
               ))}
             </div>
@@ -156,11 +159,18 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                 {command.parameterGroups?.map((group, index) => (
                   <div key={index} className="bg-card/50 rounded-lg p-3">
                     <div className="font-medium text-foreground mb-2">{group.name}</div>
-                    <div className="flex flex-wrap gap-2 mb-2">
-                      {group.aliases.map((alias, aliasIndex) => (
-                        <ParameterBubble key={aliasIndex} value={alias} />
-                      ))}
-                    </div>
+                    {group.usage && (
+                      <code className="block text-muted-foreground text-sm font-mono mb-2">
+                        {group.usage}
+                      </code>
+                    )}
+                    {group.aliases && group.aliases.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        {group.aliases.map((alias, aliasIndex) => (
+                          <ParameterBubble key={aliasIndex} value={alias} />
+                        ))}
+                      </div>
+                    )}
                     <p className="text-muted-foreground text-sm">{group.description}</p>
                   </div>
                 ))}
