@@ -1,7 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { Search, Gamepad2 } from "lucide-react";
-import Navigation from "@/components/Navigation";
 import QuoteCard from "@/components/QuoteCard";
 import GameBadge from "@/components/GameBadge";
 import { Input } from "@/components/ui/input";
@@ -56,8 +55,6 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      <Navigation />
-      
       <main className="container mx-auto px-4 py-8">
         <motion.header 
           className="mb-8"
