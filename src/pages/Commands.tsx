@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import Navigation from "@/components/Navigation";
 import CommandCard from "@/components/CommandCard";
-import CommandFilters, { SortOption } from "@/components/CommandFilters";
+import CommandFilters, { AlphabeticalOrder, RoleSort } from "@/components/CommandFilters";
 import { Permission } from "@/components/PermissionBadge";
 import { commands } from "@/data/commands";
 import { normalizeForSearch } from "@/lib/tagColors";
@@ -14,10 +14,9 @@ const permissionOrder: Record<Permission, number> = {
   streamer: 4,
 };
 
-const allPermissions: Permission[] = ["follower", "subscriber", "moderator", "streamer"];
-
 const Commands = () => {
-  const [sortBy, setSortBy] = useState<SortOption>("name-asc");
+  const [alphabeticalOrder, setAlphabeticalOrder] = useState<AlphabeticalOrder>("asc");
+  const [roleSort, setRoleSort] = useState<RoleSort>("off");
   const [selectedPermissions, setSelectedPermissions] = useState<Permission[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -30,6 +29,18 @@ const Commands = () => {
     });
     return Array.from(groups).sort();
   }, []);
+
+  const handleAlphabeticalToggle = () => {
+    setAlphabeticalOrder(prev => prev === "asc" ? "desc" : "asc");
+  };
+
+  const handleRoleSortCycle = () => {
+    setRoleSort(prev => {
+      if (prev === "off") return "asc";
+      if (prev === "asc") return "desc";
+      return "off";
+    });
+  };
 
   const handlePermissionToggle = (permission: Permission) => {
     setSelectedPermissions((prev) =>
@@ -79,23 +90,22 @@ const Commands = () => {
       );
     }
 
+    // Sort: Role is primary when active, alphabetical is always secondary
     result.sort((a, b) => {
-      switch (sortBy) {
-        case "name-asc":
-          return a.name.localeCompare(b.name);
-        case "name-desc":
-          return b.name.localeCompare(a.name);
-        case "perm-asc":
-          return permissionOrder[a.permission] - permissionOrder[b.permission];
-        case "perm-desc":
-          return permissionOrder[b.permission] - permissionOrder[a.permission];
-        default:
-          return 0;
+      if (roleSort !== "off") {
+        const roleCompare = roleSort === "asc"
+          ? permissionOrder[a.permission] - permissionOrder[b.permission]
+          : permissionOrder[b.permission] - permissionOrder[a.permission];
+        if (roleCompare !== 0) return roleCompare;
       }
+      // Alphabetical sort (primary if role off, secondary if role active)
+      return alphabeticalOrder === "asc"
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name);
     });
 
     return result;
-  }, [sortBy, selectedPermissions, searchQuery, selectedTags]);
+  }, [alphabeticalOrder, roleSort, selectedPermissions, searchQuery, selectedTags]);
 
   return (
     <div className="min-h-screen">
@@ -112,8 +122,10 @@ const Commands = () => {
         </header>
         
         <CommandFilters
-          sortBy={sortBy}
-          onSortChange={setSortBy}
+          alphabeticalOrder={alphabeticalOrder}
+          onAlphabeticalToggle={handleAlphabeticalToggle}
+          roleSort={roleSort}
+          onRoleSortCycle={handleRoleSortCycle}
           selectedPermissions={selectedPermissions}
           onPermissionToggle={handlePermissionToggle}
           searchQuery={searchQuery}
