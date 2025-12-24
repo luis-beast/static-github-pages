@@ -9,7 +9,7 @@ interface GameBadgeProps {
 
 const GameBadge = ({ game, size = "sm", isActive = true, onClick }: GameBadgeProps) => {
   const gameColor = getGameColor(game);
-  const gameBgColor = getGameColorWithOpacity(game, isActive ? 0.15 : 0.05);
+  const gameBgColor = getGameColorWithOpacity(game, isActive ? 0.20 : 0.03);
   
   const sizeClasses = {
     sm: "px-2 py-0.5 text-xs",
@@ -24,9 +24,9 @@ const GameBadge = ({ game, size = "sm", isActive = true, onClick }: GameBadgePro
       className={`inline-flex items-center rounded-md font-medium border transition-all duration-200 ${sizeClasses[size]} ${onClick ? "cursor-pointer hover:scale-105" : ""}`}
       style={{
         backgroundColor: gameBgColor,
-        color: isActive ? gameColor : `${gameColor}66`,
-        borderColor: isActive ? gameColor : `${gameColor}33`,
-        opacity: isActive ? 1 : 0.6,
+        color: isActive ? gameColor : `${gameColor}40`,
+        borderColor: isActive ? gameColor : `${gameColor}20`,
+        opacity: isActive ? 1 : 0.4,
       }}
     >
       {game}
