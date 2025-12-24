@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import Navigation from "@/components/Navigation";
 import CommandCard from "@/components/CommandCard";
 import CommandFilters, { AlphabeticalOrder, RoleSort } from "@/components/CommandFilters";
 import { Permission } from "@/components/PermissionBadge";
@@ -110,8 +109,6 @@ const Commands = () => {
 
   return (
     <div className="min-h-screen">
-      <Navigation />
-      
       <main className="container mx-auto px-4 py-8">
         <motion.header 
           className="mb-8"
