@@ -123,8 +123,15 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
               {visibleAliases.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1.5">
                   <span className="text-muted-foreground text-sm">also:</span>
-                  {visibleAliases.map((alias) => (
-                    <span key={alias} className="text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded">
+                  {visibleAliases.map((alias, index) => (
+                    <span 
+                      key={alias} 
+                      className={cn(
+                        "text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded",
+                        showAllAliases && index >= MAX_VISIBLE_ALIASES && "animate-badge-pop"
+                      )}
+                      style={showAllAliases && index >= MAX_VISIBLE_ALIASES ? { animationDelay: `${(index - MAX_VISIBLE_ALIASES) * 50}ms` } : undefined}
+                    >
                       {alias}
                     </span>
                   ))}
@@ -145,7 +152,7 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                         e.stopPropagation();
                         setShowAllAliases(false);
                       }}
-                      className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
+                      className="text-primary text-sm font-medium hover:text-primary/80 transition-colors animate-badge-pop"
                     >
                       show less
                     </button>
@@ -212,7 +219,6 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
               <div className="space-y-4">
                 {command.parameterGroups?.map((group, index) => (
                   <div key={index} className="bg-card/50 rounded-lg p-3">
-                    <div className="font-medium text-foreground mb-2">{group.title}</div>
                     <div className="flex items-center gap-2 mb-2">
                       <span className="font-mono font-semibold text-primary text-base">{group.name}</span>
                       {group.usage && (

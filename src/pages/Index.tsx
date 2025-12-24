@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { Search, Gamepad2 } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import QuoteCard from "@/components/QuoteCard";
@@ -121,26 +122,47 @@ const Index = () => {
           </div>
         </div>
         
-        <div className="space-y-4">
-          {filteredQuotes.length > 0 ? (
-            filteredQuotes.map((quote, index) => (
-              <div key={quote.number} style={{ animationDelay: `${index * 30}ms` }}>
-                <QuoteCard
-                  number={quote.number}
-                  quote={quote.quote}
-                  game={quote.game}
-                  timestamp={quote.timestamp}
-                />
-              </div>
-            ))
-          ) : (
-            <div className="glass-card rounded-lg p-8 text-center">
-              <p className="text-muted-foreground">
-                No quotes match your filters.
-              </p>
-            </div>
-          )}
-        </div>
+        <LayoutGroup>
+          <div className="space-y-4">
+            <AnimatePresence mode="popLayout">
+              {filteredQuotes.length > 0 ? (
+                filteredQuotes.map((quote) => (
+                  <motion.div
+                    key={quote.number}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ 
+                      layout: { duration: 0.3, ease: "easeOut" },
+                      opacity: { duration: 0.2 },
+                      y: { duration: 0.2 },
+                    }}
+                  >
+                    <QuoteCard
+                      number={quote.number}
+                      quote={quote.quote}
+                      game={quote.game}
+                      timestamp={quote.timestamp}
+                    />
+                  </motion.div>
+                ))
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="glass-card rounded-lg p-8 text-center"
+                >
+                  <p className="text-muted-foreground">
+                    No quotes match your filters.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </LayoutGroup>
       </main>
       
       <ScrollToTopButton />
