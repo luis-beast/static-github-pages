@@ -9,6 +9,7 @@ import Quotes from "./pages/Index";
 import Commands from "./pages/Commands";
 import NotFound from "./pages/NotFound";
 import AnimatedPageWrapper from "./components/AnimatedPageWrapper";
+import Navigation from "./components/Navigation";
 
 const queryClient = new QueryClient();
 
@@ -16,16 +17,19 @@ const AnimatedRoutes = () => {
   const location = useLocation();
   
   return (
-    <AnimatePresence mode="wait">
-      <AnimatedPageWrapper key={location.pathname}>
-        <Routes location={location}>
-          <Route path="/" element={<Home />} />
-          <Route path="/quotes" element={<Quotes />} />
-          <Route path="/commands" element={<Commands />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </AnimatedPageWrapper>
-    </AnimatePresence>
+    <>
+      <Navigation />
+      <AnimatePresence mode="wait">
+        <AnimatedPageWrapper key={location.pathname}>
+          <Routes location={location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/quotes" element={<Quotes />} />
+            <Route path="/commands" element={<Commands />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AnimatedPageWrapper>
+      </AnimatePresence>
+    </>
   );
 };
 
