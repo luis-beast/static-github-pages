@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { getTagColor } from "@/lib/tagColors";
+import { getTagColor, USE_RANDOMIZED_COLORS } from "@/lib/tagColors";
 
 interface TagBadgeProps {
   tag: string;
@@ -21,7 +21,16 @@ const TagBadge = ({
   className 
 }: TagBadgeProps) => {
   const tagColor = getTagColor(tag);
-  const tagBgColor = getColorWithOpacity(tagColor, isActive ? 0.20 : 0.03);
+  const isLayman = tag.toLowerCase() === "layman";
+  
+  // Layman tag uses darker color, so needs higher opacity when inactive
+  // When not using randomized colors, all tags get slightly brighter inactive state
+  const inactiveOpacity = isLayman ? 0.6 : (!USE_RANDOMIZED_COLORS ? 0.55 : 0.4);
+  const inactiveBgOpacity = isLayman ? 0.08 : (!USE_RANDOMIZED_COLORS ? 0.06 : 0.03);
+  const inactiveColorOpacity = isLayman ? 0.6 : (!USE_RANDOMIZED_COLORS ? 0.55 : 0.4);
+  const inactiveBorderOpacity = isLayman ? 0.4 : (!USE_RANDOMIZED_COLORS ? 0.35 : 0.2);
+  
+  const tagBgColor = getColorWithOpacity(tagColor, isActive ? 0.20 : inactiveBgOpacity);
   
   const sizeClasses = {
     sm: "px-2.5 py-1 text-xs",
@@ -41,9 +50,9 @@ const TagBadge = ({
       )}
       style={{
         backgroundColor: tagBgColor,
-        color: isActive ? tagColor : getColorWithOpacity(tagColor, 0.4),
-        borderColor: isActive ? tagColor : getColorWithOpacity(tagColor, 0.2),
-        opacity: isActive ? 1 : 0.4,
+        color: isActive ? tagColor : getColorWithOpacity(tagColor, inactiveColorOpacity),
+        borderColor: isActive ? tagColor : getColorWithOpacity(tagColor, inactiveBorderOpacity),
+        opacity: isActive ? 1 : inactiveOpacity,
       }}
     >
       {tag}
