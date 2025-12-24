@@ -159,13 +159,13 @@ function PopoverPicker<T extends string>({
             {/* +X more button */}
             <AnimatePresence mode="wait">
               {hiddenCount > 0 && !isExpanded && (
-                <motion.button
+              <motion.button
                   key="more-button"
                   onClick={handleExpand}
                   className="text-xs text-muted-foreground px-2 py-1 hover:text-foreground transition-colors"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, scale: 0.7 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.7 }}
                   transition={{ duration: 0.2 }}
                 >
                   +<AnimatedCount value={hiddenCount} /> more
