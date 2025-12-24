@@ -57,10 +57,14 @@ function PopoverPicker<T extends string>({
             <span 
               className={cn(
                 "px-1.5 py-0.5 text-xs bg-primary/20 text-primary rounded overflow-hidden transition-all duration-200",
-                selectedItems.length > 0 ? "ml-2 w-auto opacity-100" : "ml-0 w-0 opacity-0"
+                selectedItems.length > 0 ? "ml-2 min-w-[1.5rem] opacity-100" : "ml-0 w-0 opacity-0 px-0"
               )}
             >
-              {selectedItems.length}
+              {selectedItems.length > 0 && (
+                <span key={selectedItems.length} className="animate-count-change inline-block">
+                  {selectedItems.length}
+                </span>
+              )}
             </span>
           </Button>
         </PopoverTrigger>
@@ -92,8 +96,12 @@ function PopoverPicker<T extends string>({
       {/* Selected items display with +X more */}
       {selectedItems.length > 0 && (
         <div className="flex flex-wrap items-center gap-1.5 p-0.5">
-          {visibleSelected.map((item) => (
-            <div key={item} className="p-0.5 animate-scale-in">
+          {visibleSelected.map((item, index) => (
+            <div 
+              key={item} 
+              className="p-0.5 animate-badge-pop"
+              style={{ animationDelay: `${index * 50}ms` }}
+            >
               {renderBadge(item, true, () => onToggle(item))}
             </div>
           ))}
@@ -108,8 +116,10 @@ function PopoverPicker<T extends string>({
           <button
             onClick={onClearAll}
             className={cn(
-              "text-muted-foreground hover:text-foreground hover:bg-accent py-1 text-xs rounded transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5 overflow-hidden",
-              hiddenCount > 0 ? "px-2.5 w-auto opacity-100" : "px-0 w-0 opacity-0"
+              "text-muted-foreground hover:text-foreground hover:bg-accent py-1 text-xs rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-200",
+              hiddenCount > 0 
+                ? "px-2.5 opacity-100 scale-100 animate-badge-pop" 
+                : "px-0 w-0 opacity-0 scale-0"
             )}
           >
             <X className="w-3 h-3" />

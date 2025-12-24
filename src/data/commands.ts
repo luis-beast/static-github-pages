@@ -11,42 +11,36 @@ export const commands: Command[] = [
     description: "This command changes the scene currently showing on stream.",
     parameterGroups: [
       {
-        title: "Starting Scene",
         name: "!setscene",
         usage: "starting",
         aliases: ["start", "begin", "beginning", "intro", "introduction"],
         description: "These options switch to the \"Stream is Starting\" scene shown before the stream begins.",
       },
       {
-        title: "BRB Scene",
         name: "!setscene",
         usage: "brb",
         aliases: ["be right back", "break", "break time", "intermission"],
         description: "These options switch to the \"Be Right Back\" scene for short breaks.",
       },
       {
-        title: "Ending Scene",
         name: "!setscene",
         usage: "ending",
         aliases: ["end", "ending soon", "outro"],
         description: "These options switch to the \"Stream is Ending\" scene when wrapping up the stream.",
       },
       {
-        title: "Game Scene",
         name: "!setscene",
         usage: "game",
         aliases: ["gaming", "gameplay", "playing games", "layman gaming"],
         description: "These options switch to the main gameplay scene.",
       },
       {
-        title: "Chrome Scene",
         name: "!setscene",
         usage: "chrome",
         aliases: ["browser", "web"],
         description: "These options switch to the Chrome scene for browsing content.",
       },
       {
-        title: "AFK Scene",
         name: "!setscene",
         usage: "afk",
         aliases: ["away", "gone", "sleep", "sleeping"],
@@ -87,7 +81,6 @@ export const commands: Command[] = [
     description: "This command adds The Layman's currency to a viewer.",
     parameterGroups: [
       {
-        title: "Chips for All",
         name: "!addchips",
         usage: "all [amount]",
         description: "These options add The Layman's currency to all viewers present in the chat.",
@@ -156,7 +149,6 @@ export const commands: Command[] = [
     description: "This command starts a game of basketball with the viewers that join.",
     parameterGroups: [
       {
-        title: "Free-for-All Basketball",
         name: "!basketball",
         usage: "ffa",
         description: "These options create a free-for-all basketball game with your avatars.",
@@ -179,7 +171,6 @@ export const commands: Command[] = [
     description: "This command starts a fighting competition with every present avatar.",
     parameterGroups: [
       {
-        title: "Cancel Battle Royale",
         name: "!battleroyale",
         usage: "cancel",
         description: "These options cancel the ongoing battle royale.",
@@ -195,7 +186,6 @@ export const commands: Command[] = [
     description: "This command drops a bomb where your avatar is.",
     parameterGroups: [
       {
-        title: "Bomb Another Viewer",
         name: "!bomb",
         usage: "[username]",
         description: "These options allow you to drop a bomb on another viewer.",
@@ -210,25 +200,21 @@ export const commands: Command[] = [
     description: "This command starts a boss fight with everyone that joins.",
     parameterGroups: [
       {
-        title: "Cancel Boss Battle",
         name: "!boss",
         usage: "cancel",
         description: "These options cancel the ongoing boss battle.",
       },
       {
-        title: "Easy Difficulty",
         name: "!boss",
         usage: "easy",
         description: "These options start an easy boss fight with everyone that joins.",
       },
       {
-        title: "Normal Difficulty",
         name: "!boss",
         usage: "normal",
         description: "These options start a normal boss fight with everyone that joins.",
       },
       {
-        title: "Hard Difficulty",
         name: "!boss",
         usage: "hard",
         description: "These options start a hard boss fight with everyone that joins.",
@@ -245,28 +231,24 @@ export const commands: Command[] = [
     description: "This command changes the position of the Spotify overlay.",
     parameterGroups: [
       {
-        title: "Top Left Spotify Overlay",
         name: "!setspotify",
         usage: "tl",
         aliases: ["top left", "lt", "left top", "ul", "up left", "lu", "left up"],
         description: "These options put the Spotify overlay on the top left.",
       },
       {
-        title: "Top Right Spotify Overlay",
         name: "!setspotify",
         usage: "tr",
         aliases: ["top right", "rt", "right top", "ur", "up right", "ru", "right up"],
         description: "These options put the Spotify overlay on the top right.",
       },
       {
-        title: "Bottom Left Spotify Overlay",
         name: "!setspotify",
         usage: "bl",
         aliases: ["bottom left", "lb", "left bottom", "dl", "down left", "ld", "left down"],
         description: "These options put the Spotify overlay on the bottom left.",
       },
       {
-        title: "Bottom Right Spotify Overlay",
         name: "!setspotify",
         usage: "br",
         aliases: ["bottom right", "rb", "right bottom", "dr", "down right", "rd", "right down"],
@@ -290,7 +272,6 @@ export const commands: Command[] = [
     description: "This command checks how much you have of The Layman's currency.",
     parameterGroups: [
       {
-        title: "Pocket Peeker",
         name: "!chips",
         usage: "[username]",
         description: "These options lets YOU pocket peek and see how much someone else has of The Layman's currency.",
@@ -347,7 +328,6 @@ export const commands: Command[] = [
     description: "This command lets you roll 2 virtual dice and Francis does the same. Who comes out on top? They'll be the winner.",
     parameterGroups: [
       {
-        title: "Gamble All",
         name: "!dice",
         usage: "max",
         aliases: ["all"],
@@ -371,7 +351,6 @@ export const commands: Command[] = [
     description: "This command allows you to 1v1 someone to the death.",
     parameterGroups: [
       {
-        title: "Duel for Currency",
         name: "!duel",
         usage: "[username] [amount]",
         description: "These options allow you to 1v1 someone and gives the winner some of The Layman's currency.",
@@ -401,7 +380,6 @@ export const commands: Command[] = [
     description: "This command shakes your avatar until it disappears.",
     parameterGroups: [
       {
-        title: "Explode Someone Else",
         name: "!explode",
         usage: "[username]",
         description: "These options lets you shake someone else's avatar until they disappear.",
@@ -416,13 +394,11 @@ export const commands: Command[] = [
     description: "This command tells you a random fun fact.",
     parameterGroups: [
       {
-        title: "Cat Fact",
         name: "!fact",
         usage: "cat",
         description: "These options tell you a random cat fact.",
       },
       {
-        title: "Chuck Norris Fact",
         name: "!fact",
         usage: "chuck",
         description: "These options tell you a random fact of Chuck Norris.",
@@ -453,7 +429,6 @@ export const commands: Command[] = [
     description: "This command throws your avatar up in the air and explodes.",
     parameterGroups: [
       {
-        title: "Firework Someone Else",
         name: "!firework",
         usage: "[username]",
         description: "These options lets you throw someone else's avatar up in the air and explodes them.",
@@ -469,7 +444,6 @@ export const commands: Command[] = [
     description: "This command puts your avatar in a icicle.",
     parameterGroups: [
       {
-        title: "Freeze Someone Else",
         name: "!freeze",
         usage: "[username]",
         description: "These options lets you put someone else's avatar in a icicle.",
@@ -557,7 +531,6 @@ export const commands: Command[] = [
     description: "This command gives you a HILARIOUS joke to laugh at.",
     parameterGroups: [
       {
-        title: "Chuck Norris Joke",
         name: "!joke",
         usage: "chuck",
         description: "These options give you a joke about Chuck Norris.",
@@ -635,37 +608,31 @@ export const commands: Command[] = [
     description: "This command allows you to make every present avatar do the command you'd like to do also.",
     parameterGroups: [
       {
-        title: "Everyone Charge!",
         name: "!mass",
         usage: "attack [username]",
         description: "These options make everyone's avatar charge at someone's avatar.",
       },
       {
-        title: "It's Raining Cats and Dogs... and Bombs",
         name: "!mass",
         usage: "bomb",
         description: "These options rain bombs all over the stream.",
       },
       {
-        title: "Smells Funny. Doesn't It?",
         name: "!mass",
         usage: "fart",
         description: "These options make everyone's avatar release some air...",
       },
       {
-        title: "Looks Like New Years...",
         name: "!mass",
         usage: "firework",
         description: "These options throw everyone's avatar up in the air and explodes them.",
       },
       {
-        title: "Please Turn The Heater On!",
         name: "!mass",
         usage: "freeze",
         description: "These options put everyone's avatar into an icicle.",
       },
       {
-        title: "Spread Love! Not Hate.",
         name: "!mass",
         usage: "hug [username]",
         description: "These options make everyone's avatar hug someone's avatar.",
@@ -732,19 +699,16 @@ export const commands: Command[] = [
     description: "This command pins your avatar in place.",
     parameterGroups: [
       {
-        title: "Pin at Coordinates",
         name: "!pin",
         usage: "[x] [y]",
         description: "These options pin your avatar at specific coordinates.",
       },
       {
-        title: "Pin Someone Else",
         name: "!pin",
         usage: "[username]",
         description: "These options pin someone else's avatar.",
       },
       {
-        title: "Pin Someone at Coordinates",
         name: "!pin",
         usage: "[username] [x] [y]",
         description: "These options pin someone else's avatar at specific coordinates.",
@@ -816,7 +780,6 @@ export const commands: Command[] = [
     description: "This command removes The Layman's currency from a viewer.",
     parameterGroups: [
       {
-        title: "Remove from All",
         name: "!removechips",
         usage: "all [amount]",
         description: "These options remove The Layman's currency from all viewers present in the chat.",
@@ -846,7 +809,6 @@ export const commands: Command[] = [
     description: "This command checks your rizz level.",
     parameterGroups: [
       {
-        title: "Rizz Check Someone Else",
         name: "!rizz",
         usage: "[username]",
         description: "These options check someone else's rizz level.",

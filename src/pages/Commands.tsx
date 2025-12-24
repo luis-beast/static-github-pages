@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import Navigation from "@/components/Navigation";
 import CommandCard from "@/components/CommandCard";
 import CommandFilters, { AlphabeticalOrder, RoleSort } from "@/components/CommandFilters";
@@ -138,21 +139,42 @@ const Commands = () => {
           resultCount={filteredAndSortedCommands.length}
         />
         
-        <div className="space-y-4">
-          {filteredAndSortedCommands.length > 0 ? (
-            filteredAndSortedCommands.map((command, index) => (
-              <div key={command.id} style={{ animationDelay: `${index * 30}ms` }}>
-                <CommandCard command={command} orderNumber={index + 1} />
-              </div>
-            ))
-          ) : (
-            <div className="glass-card rounded-lg p-8 text-center">
-              <p className="text-muted-foreground">
-                No commands match your current filters.
-              </p>
-            </div>
-          )}
-        </div>
+        <LayoutGroup>
+          <div className="space-y-4">
+            <AnimatePresence mode="popLayout">
+              {filteredAndSortedCommands.length > 0 ? (
+                filteredAndSortedCommands.map((command, index) => (
+                  <motion.div
+                    key={command.id}
+                    layout
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ 
+                      layout: { duration: 0.3, ease: "easeOut" },
+                      opacity: { duration: 0.2 },
+                      y: { duration: 0.2 },
+                    }}
+                  >
+                    <CommandCard command={command} orderNumber={index + 1} />
+                  </motion.div>
+                ))
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="glass-card rounded-lg p-8 text-center"
+                >
+                  <p className="text-muted-foreground">
+                    No commands match your current filters.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </LayoutGroup>
       </main>
       
       <ScrollToTopButton />
