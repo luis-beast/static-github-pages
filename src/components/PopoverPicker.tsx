@@ -29,7 +29,7 @@ function PopoverPicker<T extends string>({
   renderBadge,
   label,
   icon = <Tags className="w-4 h-4" />,
-  maxVisibleSelected = 5,
+  maxVisibleSelected = 2,
   clearThreshold = 3,
   size = "md",
 }: PopoverPickerProps<T>) {
@@ -65,33 +65,32 @@ function PopoverPicker<T extends string>({
           className={cn("p-3 bg-card border-border", popoverWidth)} 
           align="start"
         >
-          <div className="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto">
+          <div className="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto p-0.5">
             {items.map((item) => (
-              <div key={item}>
+              <div key={item} className="p-0.5">
                 {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
               </div>
             ))}
           </div>
           {selectedItems.length >= clearThreshold && (
-            <Button
-              variant="ghost"
-              size="sm"
-              className="mt-2 w-full text-muted-foreground hover:text-foreground"
+            <button
+              className="mt-2 w-full text-muted-foreground hover:text-foreground hover:bg-accent px-2.5 py-1.5 text-xs rounded transition-colors cursor-pointer inline-flex items-center justify-center gap-1.5"
               onClick={() => {
                 onClearAll();
               }}
             >
+              <X className="w-3 h-3" />
               Clear
-            </Button>
+            </button>
           )}
         </PopoverContent>
       </Popover>
       
       {/* Selected items display with +X more */}
       {selectedItems.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5">
+        <div className="flex flex-wrap items-center gap-1.5 p-0.5">
           {visibleSelected.map((item) => (
-            <div key={item}>
+            <div key={item} className="p-0.5">
               {renderBadge(item, true, () => onToggle(item))}
             </div>
           ))}

@@ -1,4 +1,6 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { Plus, X } from "lucide-react";
 
 export type Permission = "follower" | "subscriber" | "moderator" | "streamer";
 
@@ -40,6 +42,7 @@ const PermissionBadge = ({
   onClick, 
   className 
 }: PermissionBadgeProps) => {
+  const [isHovered, setIsHovered] = useState(false);
   const config = permissionConfig[permission];
   const permColor = config.color;
   const isStreamer = permission === "streamer";
@@ -56,12 +59,16 @@ const PermissionBadge = ({
     sm: "px-2 py-0.5 text-sm",
     md: "px-3 py-1 text-sm",
   };
+
+  const iconSize = size === "sm" ? "w-3 h-3" : "w-3.5 h-3.5";
   
   const Component = onClick ? "button" : "span";
   
   return (
     <Component
       onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={cn(
         "inline-flex items-center rounded-md font-medium border transition-all duration-200",
         sizeClasses[size],
@@ -75,6 +82,15 @@ const PermissionBadge = ({
         opacity: isActive ? 1 : inactiveOpacity,
       }}
     >
+      {onClick && isHovered && (
+        <span className="mr-1 transition-all duration-200 animate-fade-in">
+          {isActive ? (
+            <X className={iconSize} />
+          ) : (
+            <Plus className={iconSize} />
+          )}
+        </span>
+      )}
       {config.label}
     </Component>
   );
