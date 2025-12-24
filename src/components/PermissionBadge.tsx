@@ -39,8 +39,8 @@ const PermissionBadge = ({
   const config = permissionConfig[permission];
   
   const sizeClasses = {
-    sm: "px-2.5 py-1 text-sm",
-    md: "px-4 py-2 text-sm",
+    sm: "px-2 py-0.5 text-sm",
+    md: "px-3 py-1 text-sm",
   };
   
   const Component = onClick ? "button" : "span";

@@ -15,7 +15,6 @@ const TAG_HUES = [
   160,  // Teal
   30,   // Gold
   0,    // Red
-  140,  // Mint
 ];
 
 // Map to store consistent color assignments

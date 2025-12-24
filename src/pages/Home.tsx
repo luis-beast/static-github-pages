@@ -89,7 +89,7 @@ const Home = () => {
               LIVE
             </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mb-3" style={{ background: 'linear-gradient(to bottom, #8800FF, #bb66ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+          <h1 className="text-4xl md:text-5xl font-bold mb-3 pb-1" style={{ background: 'linear-gradient(to bottom, #8800FF, #bb66ff)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
             LaymanLouie
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
