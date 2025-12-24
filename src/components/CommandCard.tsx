@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Command } from "@/types/command";
-import PermissionBadge from "./PermissionBadge";
 import ParameterBubble from "./ParameterBubble";
 import { cn } from "@/lib/utils";
 import { getTagColor, getTagColorWithOpacity, toProperCase } from "@/lib/tagColors";
@@ -81,7 +80,16 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
             )}
             
             <div className="flex items-center gap-3 mb-3">
-              <PermissionBadge permission={command.permission} />
+              <span className={`inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border ${
+                {
+                  follower: "bg-perm-follower/20 text-perm-follower border-perm-follower/30",
+                  subscriber: "bg-perm-subscriber/20 text-perm-subscriber border-perm-subscriber/30",
+                  moderator: "bg-perm-moderator/20 text-perm-moderator border-perm-moderator/30",
+                  streamer: "bg-perm-streamer/20 text-perm-streamer border-perm-streamer/30",
+                }[command.permission]
+              }`}>
+                {command.permission.charAt(0).toUpperCase() + command.permission.slice(1)}
+              </span>
               {command.usage && (
                 <code className="text-muted-foreground text-sm font-mono">
                   {command.usage.split("[").map((part, i) => {

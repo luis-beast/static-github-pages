@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import Navigation from "@/components/Navigation";
 import CommandCard from "@/components/CommandCard";
 import CommandFilters, { SortOption } from "@/components/CommandFilters";
@@ -16,7 +16,7 @@ const allPermissions: Permission[] = ["follower", "subscriber", "moderator", "st
 
 const Commands = () => {
   const [sortBy, setSortBy] = useState<SortOption>("name-asc");
-  const [selectedPermissions, setSelectedPermissions] = useState<Permission[]>(allPermissions);
+  const [selectedPermissions, setSelectedPermissions] = useState<Permission[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
@@ -28,13 +28,6 @@ const Commands = () => {
     });
     return Array.from(groups).sort();
   }, []);
-
-  // Auto-select all permissions when user deselects all
-  useEffect(() => {
-    if (selectedPermissions.length === 0) {
-      setSelectedPermissions(allPermissions);
-    }
-  }, [selectedPermissions]);
 
   const handlePermissionToggle = (permission: Permission) => {
     setSelectedPermissions((prev) =>
@@ -53,9 +46,10 @@ const Commands = () => {
   };
 
   const filteredAndSortedCommands = useMemo(() => {
-    let result = commands.filter((cmd) =>
-      selectedPermissions.includes(cmd.permission)
-    );
+    // If no permissions selected, show all commands; otherwise filter by selected
+    let result = selectedPermissions.length === 0
+      ? [...commands]
+      : commands.filter((cmd) => selectedPermissions.includes(cmd.permission));
 
     // Filter by command groups (if any selected)
     if (selectedTags.length > 0) {
