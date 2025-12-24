@@ -4,6 +4,7 @@ import CommandCard from "@/components/CommandCard";
 import CommandFilters, { SortOption } from "@/components/CommandFilters";
 import { Permission } from "@/components/PermissionBadge";
 import { commands } from "@/data/commands";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 const permissionOrder: Record<Permission, number> = {
   follower: 1,
@@ -128,6 +129,8 @@ const Commands = () => {
           )}
         </div>
       </main>
+      
+      <ScrollToTopButton />
     </div>
   );
 };
