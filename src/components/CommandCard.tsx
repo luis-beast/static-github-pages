@@ -4,6 +4,7 @@ import { Command } from "@/types/command";
 import PermissionBadge from "./PermissionBadge";
 import ParameterBubble from "./ParameterBubble";
 import { cn } from "@/lib/utils";
+import { getTagColor, toProperCase } from "@/lib/tagColors";
 
 interface CommandCardProps {
   command: Command;
@@ -101,19 +102,33 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
               {command.description}
             </p>
             
-            <div className="flex flex-wrap items-center gap-2 mt-2">
-              {command.massCompatible && (
-                <div className="inline-flex items-center gap-1.5 text-xs text-muted-foreground bg-accent/30 px-2 py-1 rounded">
-                  <span>Works with</span>
-                  <span className="font-mono font-medium text-primary">!mass</span>
-                </div>
-              )}
-              {command.commandGroups?.map((group) => (
-                <span key={group} className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-primary/10 text-primary/80">
-                  {group}
-                </span>
-              ))}
-            </div>
+            {(command.massCompatible || (command.commandGroups && command.commandGroups.filter(g => g).length > 0)) && (
+              <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-border/30">
+                {command.massCompatible && (
+                  <span 
+                    className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                    style={{ 
+                      backgroundColor: "hsla(280, 70%, 55%, 0.15)",
+                      color: "hsl(280, 70%, 65%)"
+                    }}
+                  >
+                    !mass
+                  </span>
+                )}
+                {command.commandGroups?.filter(group => group).map((group) => (
+                  <span 
+                    key={group} 
+                    className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                    style={{ 
+                      backgroundColor: `${getTagColor(group)}20`,
+                      color: getTagColor(group)
+                    }}
+                  >
+                    {toProperCase(group)}
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
           
           {hasDetails && (
