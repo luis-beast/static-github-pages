@@ -85,23 +85,32 @@ function PopoverPicker<T extends string>({
           >
             {icon}
             <span className="ml-2">{label}</span>
-            <span 
+            <motion.span 
+              layout
               className={cn(
-                "px-1.5 py-0.5 text-xs bg-primary/20 text-primary rounded overflow-hidden transition-all duration-200",
+                "px-1.5 py-0.5 text-xs bg-primary/20 text-primary rounded overflow-hidden",
                 selectedItems.length > 0 ? "ml-2 min-w-[1.5rem] opacity-100" : "ml-0 w-0 opacity-0 px-0"
               )}
+              animate={{
+                width: selectedItems.length > 0 ? "auto" : 0,
+                marginLeft: selectedItems.length > 0 ? 8 : 0,
+                paddingLeft: selectedItems.length > 0 ? 6 : 0,
+                paddingRight: selectedItems.length > 0 ? 6 : 0,
+                opacity: selectedItems.length > 0 ? 1 : 0,
+              }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             >
               <AnimatedCount value={selectedItems.length} />
-            </span>
+            </motion.span>
           </Button>
         </PopoverTrigger>
         <PopoverContent 
           className={cn("p-3 bg-card border-border", popoverWidth)} 
           align="start"
         >
-          <div className="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto p-1">
+          <div className="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto p-1 pr-3">
             {items.map((item) => (
-              <div key={item} className="p-0.5 max-w-[60%]">
+              <div key={item} className="p-0.5 max-w-[55%]">
                 {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
               </div>
             ))}
@@ -132,7 +141,8 @@ function PopoverPicker<T extends string>({
               {visibleSelected.map((item, index) => (
                 <motion.div 
                   key={item} 
-                  className="p-0.5"
+                  layout
+                  className="p-0.5 whitespace-nowrap"
                   initial={{ opacity: 0, scale: 0.7 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.7 }}
@@ -164,24 +174,22 @@ function PopoverPicker<T extends string>({
             </AnimatePresence>
 
             {/* Clear button - shows when expanded or when clearThreshold met */}
-            <motion.button
-              onClick={handleClear}
-              className={cn(
-                "text-muted-foreground hover:text-foreground hover:bg-accent py-1 text-xs rounded cursor-pointer inline-flex items-center gap-1.5 transition-all duration-200 overflow-hidden",
-                (isExpanded && hiddenCount > 0) || selectedItems.length >= clearThreshold
-                  ? "px-2.5 opacity-100 scale-100" 
-                  : "px-0 w-0 opacity-0 scale-0"
+            <AnimatePresence mode="wait">
+              {((isExpanded && hiddenCount > 0) || selectedItems.length >= clearThreshold) && (
+                <motion.button
+                  key="clear-button"
+                  onClick={handleClear}
+                  className="text-muted-foreground hover:text-foreground hover:bg-accent px-2.5 py-1 text-xs rounded cursor-pointer inline-flex items-center gap-1.5"
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  <X className="w-3 h-3" />
+                  Clear
+                </motion.button>
               )}
-              initial={false}
-              animate={{
-                width: (isExpanded && hiddenCount > 0) || selectedItems.length >= clearThreshold ? "auto" : 0,
-                opacity: (isExpanded && hiddenCount > 0) || selectedItems.length >= clearThreshold ? 1 : 0,
-              }}
-              transition={{ duration: 0.2 }}
-            >
-              <X className="w-3 h-3" />
-              Clear
-            </motion.button>
+            </AnimatePresence>
           </motion.div>
         )}
       </AnimatePresence>

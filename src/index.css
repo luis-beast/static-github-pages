@@ -80,6 +80,49 @@
 @layer base {
   * {
     @apply border-border;
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+
+  /* Themed scrollbars */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      to bottom,
+      hsl(270, 100%, 71%),
+      hsl(270, 100%, 50%)
+    );
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    box-shadow: 0 0 10px hsl(270, 100%, 60%), 
+                0 0 20px hsl(270, 100%, 50%);
+  }
+
+  /* Auto-hide scrollbar styles */
+  .scrollbar-hidden::-webkit-scrollbar-thumb {
+    opacity: 0;
+    background: transparent;
+  }
+
+  .scrollbar-visible::-webkit-scrollbar-thumb {
+    opacity: 1;
+    background: linear-gradient(
+      to bottom,
+      hsl(270, 100%, 71%),
+      hsl(270, 100%, 50%)
+    );
   }
 
   body {
