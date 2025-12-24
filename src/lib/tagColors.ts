@@ -22,18 +22,17 @@ const TAG_HUES = [
 const colorAssignments = new Map<string, number>();
 let nextColorIndex = 0;
 
-export function getTagColor(tag: string): string {
+function getHueForTag(tag: string): number {
   const normalizedTag = tag.toLowerCase();
   
-  // "layman" uses streamer color (270)
+  // "layman" uses streamer hue (270)
   if (normalizedTag === "layman") {
-    return "hsl(270, 80%, 65%)";
+    return 270;
   }
   
   // Check if already assigned
   if (colorAssignments.has(normalizedTag)) {
-    const hue = colorAssignments.get(normalizedTag)!;
-    return `hsl(${hue}, 70%, 55%)`;
+    return colorAssignments.get(normalizedTag)!;
   }
   
   // Assign next available color
@@ -41,7 +40,17 @@ export function getTagColor(tag: string): string {
   colorAssignments.set(normalizedTag, hue);
   nextColorIndex++;
   
+  return hue;
+}
+
+export function getTagColor(tag: string): string {
+  const hue = getHueForTag(tag);
   return `hsl(${hue}, 70%, 55%)`;
+}
+
+export function getTagColorWithOpacity(tag: string, opacity: number): string {
+  const hue = getHueForTag(tag);
+  return `hsla(${hue}, 70%, 55%, ${opacity})`;
 }
 
 export function toProperCase(str: string): string {
