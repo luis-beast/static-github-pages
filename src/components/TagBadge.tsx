@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { getTagColor, USE_RANDOMIZED_COLORS } from "@/lib/tagColors";
+import { Plus, X } from "lucide-react";
 
 interface TagBadgeProps {
   tag: string;
@@ -20,6 +22,7 @@ const TagBadge = ({
   onClick, 
   className 
 }: TagBadgeProps) => {
+  const [isHovered, setIsHovered] = useState(false);
   const tagColor = getTagColor(tag);
   const isLayman = tag.toLowerCase() === "layman";
   
@@ -36,12 +39,16 @@ const TagBadge = ({
     sm: "px-2.5 py-1 text-xs",
     md: "px-3 py-1.5 text-sm",
   };
+
+  const iconSize = size === "sm" ? "w-3 h-3" : "w-3.5 h-3.5";
   
   const Component = onClick ? "button" : "span";
   
   return (
     <Component
       onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={cn(
         "inline-flex items-center rounded-full font-medium border transition-all duration-200",
         sizeClasses[size],
@@ -55,6 +62,15 @@ const TagBadge = ({
         opacity: isActive ? 1 : inactiveOpacity,
       }}
     >
+      {onClick && isHovered && (
+        <span className="mr-1 transition-all duration-200 animate-fade-in">
+          {isActive ? (
+            <X className={iconSize} />
+          ) : (
+            <Plus className={iconSize} />
+          )}
+        </span>
+      )}
       {tag}
     </Component>
   );

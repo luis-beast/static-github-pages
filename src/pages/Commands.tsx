@@ -6,7 +6,6 @@ import { Permission } from "@/components/PermissionBadge";
 import { commands } from "@/data/commands";
 import { normalizeForSearch } from "@/lib/tagColors";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
-import TagFilterDemo from "@/components/TagFilterDemo";
 
 const permissionOrder: Record<Permission, number> = {
   follower: 1,
@@ -111,8 +110,6 @@ const Commands = () => {
             All available chat commands and how to use them
           </p>
         </header>
-        
-        <TagFilterDemo availableTags={availableTags} />
         
         <CommandFilters
           sortBy={sortBy}

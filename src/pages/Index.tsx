@@ -99,7 +99,7 @@ const Index = () => {
                 )}
                 label="Pick Games"
                 icon={<Gamepad2 className="w-4 h-4" />}
-                maxVisibleSelected={5}
+                maxVisibleSelected={2}
                 clearThreshold={3}
                 size="sm"
               />

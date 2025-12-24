@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { getGameColor, USE_RANDOMIZED_COLORS } from "@/lib/tagColors";
+import { Plus, X } from "lucide-react";
 
 interface GameBadgeProps {
   game: string;
@@ -14,6 +16,7 @@ const getColorWithOpacity = (color: string, opacity: number): string => {
 };
 
 const GameBadge = ({ game, size = "sm", isActive = true, onClick, className }: GameBadgeProps) => {
+  const [isHovered, setIsHovered] = useState(false);
   const gameColor = getGameColor(game);
   
   // When not using randomized colors, games get slightly brighter inactive state
@@ -28,12 +31,16 @@ const GameBadge = ({ game, size = "sm", isActive = true, onClick, className }: G
     sm: "px-2 py-0.5 text-xs",
     md: "px-3 py-1 text-sm",
   };
+
+  const iconSize = size === "sm" ? "w-3 h-3" : "w-3.5 h-3.5";
   
   const Component = onClick ? "button" : "span";
   
   return (
     <Component
       onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
       className={cn(
         "inline-flex items-center rounded-md font-medium border transition-all duration-200",
         sizeClasses[size],
@@ -47,6 +54,15 @@ const GameBadge = ({ game, size = "sm", isActive = true, onClick, className }: G
         opacity: isActive ? 1 : inactiveOpacity,
       }}
     >
+      {onClick && isHovered && (
+        <span className="mr-1 transition-all duration-200 animate-fade-in">
+          {isActive ? (
+            <X className={iconSize} />
+          ) : (
+            <Plus className={iconSize} />
+          )}
+        </span>
+      )}
       {game}
     </Component>
   );

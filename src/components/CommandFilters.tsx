@@ -95,20 +95,21 @@ const CommandFilters = ({
           <label className="text-sm font-medium text-foreground mb-2 block">
             Role Filter
           </label>
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2 p-0.5">
             {permissions.map((perm) => (
-              <PermissionBadge
-                key={perm}
-                permission={perm}
-                size="md"
-                isActive={selectedPermissions.includes(perm)}
-                onClick={() => onPermissionToggle(perm)}
-              />
+              <div key={perm} className="p-0.5">
+                <PermissionBadge
+                  permission={perm}
+                  size="md"
+                  isActive={selectedPermissions.includes(perm)}
+                  onClick={() => onPermissionToggle(perm)}
+                />
+              </div>
             ))}
             {selectedPermissions.length >= 3 && (
               <button
                 onClick={onClearPermissions}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs rounded-full bg-destructive/20 text-destructive border border-destructive/50 hover:bg-destructive/30 transition-colors cursor-pointer"
+                className="text-muted-foreground hover:text-foreground hover:bg-accent px-2.5 py-1 text-xs rounded transition-colors cursor-pointer inline-flex items-center gap-1.5"
               >
                 <X className="w-3 h-3" />
                 Clear
@@ -137,7 +138,7 @@ const CommandFilters = ({
               )}
               label="Pick Tags"
               icon={<Tags className="w-4 h-4" />}
-              maxVisibleSelected={5}
+              maxVisibleSelected={2}
               clearThreshold={3}
             />
           </div>
