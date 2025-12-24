@@ -68,7 +68,7 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
             
             {/* Line 2: Permission + Aliases */}
             <div className="flex flex-wrap items-center gap-3 mb-3">
-              <span className={`inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border ${
+              <span className={`inline-flex items-center px-2.5 py-1 rounded-md text-sm font-medium border ${
                 {
                   follower: "bg-perm-follower/20 text-perm-follower border-perm-follower/30",
                   subscriber: "bg-perm-subscriber/20 text-perm-subscriber border-perm-subscriber/30",
@@ -195,12 +195,12 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                 {command.parameterGroups?.map((group, index) => (
                   <div key={index} className="bg-card/50 rounded-lg p-3">
                     <div className="font-medium text-foreground mb-2">{group.title}</div>
-                    <div className="flex items-baseline gap-3 mb-2">
-                      <span className="font-mono font-semibold text-primary">{group.name}</span>
+                    <div className="flex items-baseline gap-1 mb-2">
+                      <span className="font-mono font-semibold text-primary text-lg">{group.name}</span>
                       {group.usage && (
-                        <span className="text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded">
+                        <code className="text-muted-foreground text-base font-mono">
                           {group.usage}
-                        </span>
+                        </code>
                       )}
                     </div>
                     {group.aliases && group.aliases.length > 0 && (
