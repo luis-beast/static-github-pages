@@ -1,22 +1,20 @@
 import { Permission } from "@/components/PermissionBadge";
-import { Search, Tags, X } from "lucide-react";
+import { Search, Tags, X, ArrowDownAZ, ArrowUpZA, ArrowDown01, ArrowUp10, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import PermissionBadge from "@/components/PermissionBadge";
 import TagBadge from "@/components/TagBadge";
 import PopoverPicker from "@/components/PopoverPicker";
+import { cn } from "@/lib/utils";
 
-export type SortOption = "name-asc" | "name-desc" | "perm-asc" | "perm-desc";
+export type AlphabeticalOrder = "asc" | "desc";
+export type RoleSort = "off" | "asc" | "desc";
 
 interface CommandFiltersProps {
-  sortBy: SortOption;
-  onSortChange: (sort: SortOption) => void;
+  alphabeticalOrder: AlphabeticalOrder;
+  onAlphabeticalToggle: () => void;
+  roleSort: RoleSort;
+  onRoleSortCycle: () => void;
   selectedPermissions: Permission[];
   onPermissionToggle: (permission: Permission) => void;
   searchQuery: string;
@@ -31,16 +29,11 @@ interface CommandFiltersProps {
 
 const permissions: Permission[] = ["follower", "subscriber", "moderator", "streamer"];
 
-const sortOptions: { value: SortOption; label: string }[] = [
-  { value: "name-asc", label: "Name (A-Z)" },
-  { value: "name-desc", label: "Name (Z-A)" },
-  { value: "perm-asc", label: "Permission (Low → High)" },
-  { value: "perm-desc", label: "Permission (High → Low)" },
-];
-
 const CommandFilters = ({
-  sortBy,
-  onSortChange,
+  alphabeticalOrder,
+  onAlphabeticalToggle,
+  roleSort,
+  onRoleSortCycle,
   selectedPermissions,
   onPermissionToggle,
   searchQuery,
@@ -54,43 +47,8 @@ const CommandFilters = ({
 }: CommandFiltersProps) => {
   return (
     <div className="glass-card rounded-lg p-4 mb-6 space-y-4">
-      <div className="flex flex-col md:flex-row md:items-center gap-4">
-        <div className="flex-1">
-          <label className="text-sm font-medium text-foreground mb-2 block">
-            Search
-          </label>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search commands..."
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              className="pl-10 bg-secondary border-border"
-            />
-          </div>
-        </div>
-        
-        <div className="flex-shrink-0">
-          <label className="text-sm font-medium text-foreground mb-2 block">
-            Sort by
-          </label>
-          <Select value={sortBy} onValueChange={(v) => onSortChange(v as SortOption)}>
-            <SelectTrigger className="w-full md:w-[220px] bg-secondary border-border">
-              <SelectValue placeholder="Select sort option" />
-            </SelectTrigger>
-            <SelectContent className="bg-card border-border">
-              {sortOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </div>
-      
-      <div className="flex flex-col md:flex-row md:items-start gap-4">
+      {/* Row 1: Role Filter (Left) + Sort Buttons (Right) */}
+      <div className="flex flex-col md:flex-row md:items-end gap-4">
         <div className="flex-1">
           <label className="text-sm font-medium text-foreground mb-2 block">
             Role Filter
@@ -118,6 +76,59 @@ const CommandFilters = ({
           </div>
         </div>
         
+        <div className="flex-shrink-0">
+          <label className="text-sm font-medium text-foreground mb-2 block">
+            Sort
+          </label>
+          <div className="flex gap-2">
+            {/* Alphabetical Toggle - Always active */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onAlphabeticalToggle}
+              className={cn(
+                "bg-primary/20 border-primary text-foreground hover:bg-primary/30"
+              )}
+            >
+              {alphabeticalOrder === "asc" ? (
+                <ArrowDownAZ className="w-4 h-4 mr-1.5" />
+              ) : (
+                <ArrowUpZA className="w-4 h-4 mr-1.5" />
+              )}
+              {alphabeticalOrder === "asc" ? "A-Z" : "Z-A"}
+            </Button>
+            
+            {/* Role Sort - 3-state cycle */}
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onRoleSortCycle}
+              className={cn(
+                roleSort === "off"
+                  ? "bg-secondary border-border text-muted-foreground hover:bg-secondary/80"
+                  : "bg-primary/20 border-primary text-foreground hover:bg-primary/30"
+              )}
+            >
+              {roleSort === "off" ? (
+                <ShieldCheck className="w-4 h-4 mr-1.5" />
+              ) : roleSort === "asc" ? (
+                <ArrowDown01 className="w-4 h-4 mr-1.5" />
+              ) : (
+                <ArrowUp10 className="w-4 h-4 mr-1.5" />
+              )}
+              Role
+              {roleSort !== "off" && (
+                <span className="ml-1 text-xs opacity-75">
+                  {roleSort === "asc" ? "↑" : "↓"}
+                </span>
+              )}
+            </Button>
+          </div>
+        </div>
+      </div>
+      
+      {/* Row 2: Tag Filter (Left) + Search (Right) */}
+      <div className="flex flex-col md:flex-row md:items-end gap-4">
         {availableTags.length > 0 && (
           <div className="flex-1">
             <label className="text-sm font-medium text-foreground mb-2 block">
@@ -143,6 +154,23 @@ const CommandFilters = ({
             />
           </div>
         )}
+        
+        <div className="w-full md:w-[280px] flex-shrink-0">
+          <label className="text-sm font-medium text-foreground mb-2 block">
+            Search
+          </label>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search commands..."
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              maxLength={50}
+              className="pl-10 bg-secondary border-border"
+            />
+          </div>
+        </div>
       </div>
       
       <div className="text-sm text-muted-foreground">

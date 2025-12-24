@@ -68,43 +68,53 @@ const Index = () => {
         </header>
         
         <div className="glass-card rounded-lg p-4 mb-6 space-y-4">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search quotes..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-secondary border-border"
-            />
-          </div>
-          
-          {availableGames.length > 0 && (
-            <div>
+          <div className="flex flex-col md:flex-row md:items-end gap-4">
+            {/* Game Filter - Left */}
+            {availableGames.length > 0 && (
+              <div className="flex-1">
+                <label className="text-sm font-medium text-foreground mb-2 block">
+                  Game Filter
+                </label>
+                <PopoverPicker
+                  items={availableGames}
+                  selectedItems={selectedGames}
+                  onToggle={handleGameToggle}
+                  onClearAll={handleClearGames}
+                  renderBadge={(game, isActive, onClick) => (
+                    <GameBadge
+                      game={game}
+                      size="sm"
+                      isActive={isActive}
+                      onClick={onClick}
+                    />
+                  )}
+                  label="Pick Games"
+                  icon={<Gamepad2 className="w-4 h-4" />}
+                  maxVisibleSelected={2}
+                  clearThreshold={3}
+                  size="sm"
+                />
+              </div>
+            )}
+            
+            {/* Search Bar - Right */}
+            <div className="w-full md:w-[280px] flex-shrink-0">
               <label className="text-sm font-medium text-foreground mb-2 block">
-                Game Filter
+                Search
               </label>
-              <PopoverPicker
-                items={availableGames}
-                selectedItems={selectedGames}
-                onToggle={handleGameToggle}
-                onClearAll={handleClearGames}
-                renderBadge={(game, isActive, onClick) => (
-                  <GameBadge
-                    game={game}
-                    size="sm"
-                    isActive={isActive}
-                    onClick={onClick}
-                  />
-                )}
-                label="Pick Games"
-                icon={<Gamepad2 className="w-4 h-4" />}
-                maxVisibleSelected={2}
-                clearThreshold={3}
-                size="sm"
-              />
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search quotes..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  maxLength={50}
+                  className="pl-10 bg-secondary border-border"
+                />
+              </div>
             </div>
-          )}
+          </div>
           
           <div className="text-sm text-muted-foreground">
             Showing {filteredQuotes.length} quote{filteredQuotes.length !== 1 ? 's' : ''}

@@ -67,7 +67,7 @@ function PopoverPicker<T extends string>({
         >
           <div className="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto p-1">
             {items.map((item) => (
-              <div key={item} className="p-0.5 max-w-[80%]">
+              <div key={item} className="p-0.5 max-w-[60%]">
                 {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
               </div>
             ))}
