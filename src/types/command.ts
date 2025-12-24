@@ -1,6 +1,7 @@
 import { Permission } from "@/components/PermissionBadge";
 
 export interface ParameterGroup {
+  title: string;
   name: string;
   usage?: string;
   aliases?: string[];

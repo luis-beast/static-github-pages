@@ -194,12 +194,15 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
               <div className="space-y-4">
                 {command.parameterGroups?.map((group, index) => (
                   <div key={index} className="bg-card/50 rounded-lg p-3">
-                    <div className="font-medium text-foreground mb-2">{group.name}</div>
-                    {group.usage && (
-                      <code className="block text-muted-foreground text-sm font-mono mb-2">
-                        {group.usage}
-                      </code>
-                    )}
+                    <div className="font-medium text-foreground mb-2">{group.title}</div>
+                    <div className="flex items-baseline gap-3 mb-2">
+                      <span className="font-mono font-semibold text-primary">{group.name}</span>
+                      {group.usage && (
+                        <span className="text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded">
+                          {group.usage}
+                        </span>
+                      )}
+                    </div>
                     {group.aliases && group.aliases.length > 0 && (
                       <div className="flex flex-wrap gap-2 mb-2">
                         {group.aliases.map((alias, aliasIndex) => (
