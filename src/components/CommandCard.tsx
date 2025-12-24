@@ -106,27 +106,32 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
               <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-border/30">
                 {command.massCompatible && (
                   <span 
-                    className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
+                    className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border"
                     style={{ 
-                      backgroundColor: "hsla(280, 70%, 55%, 0.15)",
-                      color: "hsl(280, 70%, 65%)"
+                      backgroundColor: "hsla(280, 70%, 55%, 0.12)",
+                      color: "hsl(280, 70%, 65%)",
+                      borderColor: "hsla(280, 70%, 55%, 0.3)"
                     }}
                   >
                     !mass
                   </span>
                 )}
-                {command.commandGroups?.filter(group => group).map((group) => (
-                  <span 
-                    key={group} 
-                    className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium"
-                    style={{ 
-                      backgroundColor: `${getTagColor(group)}20`,
-                      color: getTagColor(group)
-                    }}
-                  >
-                    {toProperCase(group)}
-                  </span>
-                ))}
+                {command.commandGroups?.filter(group => group).map((group) => {
+                  const tagColor = getTagColor(group);
+                  return (
+                    <span 
+                      key={group} 
+                      className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border"
+                      style={{ 
+                        backgroundColor: `${tagColor}20`,
+                        color: tagColor,
+                        borderColor: `${tagColor}50`
+                      }}
+                    >
+                      {toProperCase(group)}
+                    </span>
+                  );
+                })}
               </div>
             )}
           </div>

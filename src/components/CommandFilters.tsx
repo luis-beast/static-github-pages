@@ -1,5 +1,6 @@
 import { Permission } from "@/components/PermissionBadge";
 import { Search } from "lucide-react";
+import { getTagColor, toProperCase } from "@/lib/tagColors";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -128,17 +129,24 @@ const CommandFilters = ({
             <div className="flex flex-wrap gap-2">
               {availableTags.map((tag) => {
                 const isActive = selectedTags.includes(tag);
+                const tagColor = getTagColor(tag);
                 return (
                   <button
                     key={tag}
                     onClick={() => onTagToggle(tag)}
-                    className={`inline-flex items-center px-4 py-2 rounded-md text-sm font-medium border transition-all cursor-pointer ${
-                      isActive 
-                        ? "bg-primary/20 text-primary border-primary/30"
-                        : "bg-secondary/50 text-muted-foreground border-border/50 opacity-50 hover:opacity-75"
-                    }`}
+                    className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium border transition-all cursor-pointer"
+                    style={isActive ? { 
+                      backgroundColor: `${tagColor}20`,
+                      color: tagColor,
+                      borderColor: `${tagColor}50`
+                    } : {
+                      backgroundColor: "hsla(270, 30%, 20%, 0.5)",
+                      color: "hsl(270, 15%, 60%)",
+                      borderColor: "hsla(270, 30%, 25%, 0.5)",
+                      opacity: 0.5
+                    }}
                   >
-                    {tag}
+                    {toProperCase(tag)}
                   </button>
                 );
               })}
