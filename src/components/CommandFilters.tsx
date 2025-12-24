@@ -104,6 +104,7 @@ const CommandFilters = ({
               size="sm"
               onClick={onRoleSortCycle}
               className={cn(
+                "transition-all duration-200",
                 roleSort === "off"
                   ? "bg-secondary border-border text-muted-foreground hover:bg-secondary/80"
                   : "bg-primary/20 border-primary text-foreground hover:bg-primary/30"
@@ -117,11 +118,14 @@ const CommandFilters = ({
                 <ArrowUp10 className="w-4 h-4 mr-1.5" />
               )}
               Role
-              {roleSort !== "off" && (
-                <span className="ml-1 text-xs opacity-75">
-                  {roleSort === "asc" ? "↑" : "↓"}
-                </span>
-              )}
+              <span 
+                className={cn(
+                  "text-xs overflow-hidden transition-all duration-200",
+                  roleSort !== "off" ? "ml-1 w-3 opacity-75" : "w-0 opacity-0"
+                )}
+              >
+                {roleSort === "asc" ? "↑" : "↓"}
+              </span>
             </Button>
           </div>
         </div>

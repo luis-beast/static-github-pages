@@ -95,9 +95,18 @@ function PopoverPicker<T extends string>({
             </div>
           ))}
           {hiddenCount > 0 && (
-            <span className="text-xs text-muted-foreground px-2 py-1">
-              +{hiddenCount} more
-            </span>
+            <>
+              <span className="text-xs text-muted-foreground px-2 py-1">
+                +{hiddenCount} more
+              </span>
+              <button
+                onClick={onClearAll}
+                className="text-muted-foreground hover:text-foreground hover:bg-accent px-2.5 py-1 text-xs rounded transition-colors cursor-pointer inline-flex items-center gap-1.5"
+              >
+                <X className="w-3 h-3" />
+                Clear
+              </button>
+            </>
           )}
         </div>
       )}
