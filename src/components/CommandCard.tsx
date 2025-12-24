@@ -80,7 +80,7 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
   const usageParams = command.usage ? command.usage.replace(command.name, '').trim() : null;
 
   return (
-    <div className="glass-card rounded-lg overflow-hidden hover-lift animate-fade-in">
+    <div className="glass-card rounded-lg overflow-hidden hover-lift animate-fade-in" style={{ animationFillMode: 'both' }}>
       <button
         onClick={() => hasDetails && setIsExpanded(!isExpanded)}
         className={cn(

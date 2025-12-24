@@ -47,7 +47,7 @@ const CommandFilters = ({
 }: CommandFiltersProps) => {
   return (
     <div className="glass-card rounded-lg p-4 mb-6 space-y-4">
-      {/* Row 1: Role Filter (Left) + Sort Buttons (Right) */}
+      {/* Row 1: Role Filter (Left) + Search (Right) */}
       <div className="flex flex-col md:flex-row md:items-end gap-4">
         <div className="flex-1">
           <label className="text-sm font-medium text-foreground mb-2 block">
@@ -75,6 +75,52 @@ const CommandFilters = ({
             )}
           </div>
         </div>
+        
+        <div className="w-full md:w-[280px] flex-shrink-0">
+          <label className="text-sm font-medium text-foreground mb-2 block">
+            Search
+          </label>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search commands..."
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              maxLength={50}
+              className="pl-10 bg-secondary border-border"
+            />
+          </div>
+        </div>
+      </div>
+      
+      {/* Row 2: Tag Filter (Left) + Sort Buttons (Right) */}
+      <div className="flex flex-col md:flex-row md:items-end gap-4">
+        {availableTags.length > 0 && (
+          <div className="flex-1">
+            <label className="text-sm font-medium text-foreground mb-2 block">
+              Tag Filter
+            </label>
+            <PopoverPicker
+              items={availableTags}
+              selectedItems={selectedTags}
+              onToggle={onTagToggle}
+              onClearAll={onClearTags}
+              renderBadge={(tag, isActive, onClick) => (
+                <TagBadge
+                  tag={tag}
+                  size="sm"
+                  isActive={isActive}
+                  onClick={onClick}
+                />
+              )}
+              label="Pick Tags"
+              icon={<Tags className="w-4 h-4" />}
+              maxVisibleSelected={2}
+              clearThreshold={3}
+            />
+          </div>
+        )}
         
         <div className="flex-shrink-0">
           <label className="text-sm font-medium text-foreground mb-2 block">
@@ -127,52 +173,6 @@ const CommandFilters = ({
                 {roleSort === "asc" ? "↑" : "↓"}
               </span>
             </Button>
-          </div>
-        </div>
-      </div>
-      
-      {/* Row 2: Tag Filter (Left) + Search (Right) */}
-      <div className="flex flex-col md:flex-row md:items-end gap-4">
-        {availableTags.length > 0 && (
-          <div className="flex-1">
-            <label className="text-sm font-medium text-foreground mb-2 block">
-              Tag Filter
-            </label>
-            <PopoverPicker
-              items={availableTags}
-              selectedItems={selectedTags}
-              onToggle={onTagToggle}
-              onClearAll={onClearTags}
-              renderBadge={(tag, isActive, onClick) => (
-                <TagBadge
-                  tag={tag}
-                  size="sm"
-                  isActive={isActive}
-                  onClick={onClick}
-                />
-              )}
-              label="Pick Tags"
-              icon={<Tags className="w-4 h-4" />}
-              maxVisibleSelected={2}
-              clearThreshold={3}
-            />
-          </div>
-        )}
-        
-        <div className="w-full md:w-[280px] flex-shrink-0">
-          <label className="text-sm font-medium text-foreground mb-2 block">
-            Search
-          </label>
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Search commands..."
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              maxLength={50}
-              className="pl-10 bg-secondary border-border"
-            />
           </div>
         </div>
       </div>

@@ -54,11 +54,14 @@ function PopoverPicker<T extends string>({
           >
             {icon}
             <span className="ml-2">{label}</span>
-            {selectedItems.length > 0 && (
-              <span className="ml-2 px-1.5 py-0.5 text-xs bg-primary/20 text-primary rounded">
-                {selectedItems.length}
-              </span>
-            )}
+            <span 
+              className={cn(
+                "px-1.5 py-0.5 text-xs bg-primary/20 text-primary rounded overflow-hidden transition-all duration-200",
+                selectedItems.length > 0 ? "ml-2 w-auto opacity-100" : "ml-0 w-0 opacity-0"
+              )}
+            >
+              {selectedItems.length}
+            </span>
           </Button>
         </PopoverTrigger>
         <PopoverContent 
@@ -90,24 +93,28 @@ function PopoverPicker<T extends string>({
       {selectedItems.length > 0 && (
         <div className="flex flex-wrap items-center gap-1.5 p-0.5">
           {visibleSelected.map((item) => (
-            <div key={item} className="p-0.5">
+            <div key={item} className="p-0.5 animate-scale-in">
               {renderBadge(item, true, () => onToggle(item))}
             </div>
           ))}
-          {hiddenCount > 0 && (
-            <>
-              <span className="text-xs text-muted-foreground px-2 py-1">
-                +{hiddenCount} more
-              </span>
-              <button
-                onClick={onClearAll}
-                className="text-muted-foreground hover:text-foreground hover:bg-accent px-2.5 py-1 text-xs rounded transition-colors cursor-pointer inline-flex items-center gap-1.5"
-              >
-                <X className="w-3 h-3" />
-                Clear
-              </button>
-            </>
-          )}
+          <span 
+            className={cn(
+              "text-xs text-muted-foreground px-2 py-1 overflow-hidden transition-all duration-200",
+              hiddenCount > 0 ? "w-auto opacity-100" : "w-0 px-0 opacity-0"
+            )}
+          >
+            +{hiddenCount} more
+          </span>
+          <button
+            onClick={onClearAll}
+            className={cn(
+              "text-muted-foreground hover:text-foreground hover:bg-accent py-1 text-xs rounded transition-all duration-200 cursor-pointer inline-flex items-center gap-1.5 overflow-hidden",
+              hiddenCount > 0 ? "px-2.5 w-auto opacity-100" : "px-0 w-0 opacity-0"
+            )}
+          >
+            <X className="w-3 h-3" />
+            Clear
+          </button>
         </div>
       )}
     </div>
