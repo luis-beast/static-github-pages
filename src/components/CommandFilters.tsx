@@ -136,13 +136,13 @@ const CommandFilters = ({
                     onClick={() => onTagToggle(tag)}
                     className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium border transition-all cursor-pointer"
                     style={isActive ? { 
-                      backgroundColor: `${tagColor}20`,
+                      backgroundColor: `${tagColor}18`,
                       color: tagColor,
-                      borderColor: `${tagColor}50`
+                      borderColor: tagColor
                     } : {
                       backgroundColor: "hsla(270, 30%, 20%, 0.5)",
                       color: "hsl(270, 15%, 60%)",
-                      borderColor: "hsla(270, 30%, 25%, 0.5)",
+                      borderColor: "hsl(270, 15%, 60%)",
                       opacity: 0.5
                     }}
                   >
