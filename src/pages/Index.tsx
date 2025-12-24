@@ -85,7 +85,7 @@ const Index = () => {
                     key={game}
                     game={game}
                     size="md"
-                    isActive={selectedGames.length === 0 || selectedGames.includes(game)}
+                    isActive={selectedGames.includes(game)}
                     onClick={() => handleGameToggle(game)}
                   />
                 ))}
