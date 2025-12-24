@@ -52,7 +52,10 @@
     --perm-follower: 200 80% 55%;
     --perm-subscriber: 45 90% 55%;
     --perm-moderator: 150 70% 45%;
-    --perm-streamer: 270 80% 65%;
+    --perm-streamer: 270 100% 50%;
+    
+    /* The Layman brand color */
+    --layman-brand: 270 100% 50%;
 
     /* Game badge */
     --game-badge: 270 50% 25%;
