@@ -80,11 +80,12 @@
 @layer base {
   * {
     @apply border-border;
+    /* Mac-style scrollbars: thin and auto-hiding */
     scrollbar-width: thin;
-    scrollbar-color: transparent transparent;
+    scrollbar-color: hsl(270, 100%, 60%) transparent;
   }
 
-  /* Themed scrollbars */
+  /* Themed scrollbars - Mac style */
   ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -100,29 +101,19 @@
       hsl(270, 100%, 71%),
       hsl(270, 100%, 50%)
     );
-    border-radius: 4px;
-    opacity: 0;
-    transition: opacity 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    background-clip: content-box;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    box-shadow: 0 0 10px hsl(270, 100%, 60%), 
-                0 0 20px hsl(270, 100%, 50%);
-  }
-
-  /* Auto-hide scrollbar styles */
-  .scrollbar-hidden::-webkit-scrollbar-thumb {
-    opacity: 0;
-    background: transparent;
-  }
-
-  .scrollbar-visible::-webkit-scrollbar-thumb {
-    opacity: 1;
     background: linear-gradient(
       to bottom,
-      hsl(270, 100%, 71%),
-      hsl(270, 100%, 50%)
+      hsl(270, 100%, 75%),
+      hsl(270, 100%, 55%)
     );
+    background-clip: content-box;
+    box-shadow: 0 0 8px hsl(270, 100%, 60%);
   }
 
   body {
