@@ -105,12 +105,17 @@ function PopoverPicker<T extends string>({
           className={cn("p-3 bg-card border-border", popoverWidth)} 
           align="start"
         >
-          <div className="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto p-1 pr-3">
-            {items.map((item) => (
-              <div key={item} className="p-0.5 max-w-[55%]">
-                {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
-              </div>
-            ))}
+          {/* Outer container with flex layout to separate content from scrollbar */}
+          <div className="flex max-h-[180px] overflow-y-auto">
+            {/* Content area - constrained width to prevent overlap with scrollbar */}
+            <div className="flex flex-wrap gap-1.5 p-1 pr-4" style={{ width: 'calc(100% - 10px)' }}>
+              {items.map((item) => (
+                <div key={item} className="p-0.5 max-w-[60%]">
+                  {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
+                </div>
+              ))}
+            </div>
+            {/* Scrollbar space - dedicated 10px that content can't enter */}
           </div>
           {selectedItems.length >= clearThreshold && (
             <button
