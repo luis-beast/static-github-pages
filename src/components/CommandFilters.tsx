@@ -179,7 +179,7 @@ const CommandFilters = ({
                   roleSort !== "off" ? "ml-1 w-3 opacity-75" : "w-0 opacity-0"
                 )}
               >
-                {roleSort === "asc" ? "↑" : "↓"}
+                {roleSort === "asc" ? "↓" : "↑"}
               </span>
             </Button>
           </div>

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -37,24 +37,19 @@ function PopoverPicker<T extends string>({
 }: PopoverPickerProps<T>) {
   const [open, setOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const prevHiddenCountRef = useRef(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const visibleSelected = isExpanded 
     ? selectedItems 
     : selectedItems.slice(0, maxVisibleSelected);
   const hiddenCount = selectedItems.length - maxVisibleSelected;
 
-  // Track expansion state changes
+  // Reset expansion when items drop below threshold
   useEffect(() => {
-    prevHiddenCountRef.current = hiddenCount;
-  }, [hiddenCount]);
-
-  // Reset expansion when cleared
-  useEffect(() => {
-    if (selectedItems.length === 0) {
+    if (selectedItems.length <= maxVisibleSelected) {
       setIsExpanded(false);
     }
-  }, [selectedItems.length]);
+  }, [selectedItems.length, maxVisibleSelected]);
 
   const buttonSizeClasses = size === "sm" 
     ? "text-xs px-2.5 py-1.5" 
@@ -63,16 +58,18 @@ function PopoverPicker<T extends string>({
   const popoverWidth = size === "sm" ? "w-[260px]" : "w-[280px]";
 
   const handleExpand = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
     setIsExpanded(true);
-  };
-
-  const handleCollapse = () => {
-    setIsExpanded(false);
+    setTimeout(() => setIsAnimating(false), 300);
   };
 
   const handleClear = () => {
+    if (isAnimating) return;
+    setIsAnimating(true);
     setIsExpanded(false);
     onClearAll();
+    setTimeout(() => setIsAnimating(false), 300);
   };
 
   return (
