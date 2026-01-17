@@ -1,5 +1,5 @@
 import { Permission } from "@/components/PermissionBadge";
-import { Search, Tags, X, ArrowDownAZ, ArrowUpZA, ArrowDown01, ArrowUp10, ShieldCheck } from "lucide-react";
+import { Search, X, ArrowDownAZ, ArrowUpZA, ArrowDown01, ArrowUp10, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import PermissionBadge from "@/components/PermissionBadge";
@@ -124,9 +124,6 @@ const CommandFilters = ({
                   showIcon={showIcon}
                 />
               )}
-              label="Pick Tags"
-              icon={<Tags className="w-4 h-4" />}
-              maxVisibleSelected={2}
               clearThreshold={3}
             />
           </div>

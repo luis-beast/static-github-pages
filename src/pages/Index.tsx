@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
-import { Search, Gamepad2 } from "lucide-react";
+import { Search } from "lucide-react";
 import QuoteCard from "@/components/QuoteCard";
 import GameBadge from "@/components/GameBadge";
 import { Input } from "@/components/ui/input";
@@ -97,11 +97,7 @@ const Index = () => {
                       showIcon={showIcon}
                     />
                   )}
-                  label="Pick Games"
-                  icon={<Gamepad2 className="w-4 h-4" />}
-                  maxVisibleSelected={2}
                   clearThreshold={3}
-                  size="sm"
                 />
               </div>
             )}
