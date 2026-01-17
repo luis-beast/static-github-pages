@@ -105,12 +105,12 @@ function PopoverPicker<T extends string>({
           className={cn("p-3 bg-card border-border", popoverWidth)} 
           align="start"
         >
-          {/* Scrollable container */}
-          <div className="max-h-[180px] overflow-y-auto pr-3">
-            {/* Content area - constrained so rows never reach scrollbar */}
-            <div className="flex flex-wrap gap-1.5 p-1" style={{ maxWidth: 'calc(100% - 8px)' }}>
+          {/* Scrollable container with dedicated scrollbar gutter */}
+          <div className="max-h-[180px] overflow-y-auto overflow-x-hidden" style={{ paddingRight: '12px' }}>
+            {/* Content area - flex wrap with hard right margin to prevent hover overflow */}
+            <div className="flex flex-wrap gap-1.5 p-1" style={{ marginRight: '16px' }}>
               {items.map((item) => (
-                <div key={item} className="p-0.5">
+                <div key={item} className="p-0.5 shrink-0">
                   {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
                 </div>
               ))}
