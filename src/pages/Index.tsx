@@ -88,13 +88,12 @@ const Index = () => {
                   selectedItems={selectedGames}
                   onToggle={handleGameToggle}
                   onClearAll={handleClearGames}
-                  renderBadge={(game, isActive, onClick, showIcon) => (
+                  renderBadge={(game, isActive, onClick) => (
                     <GameBadge
                       game={game}
                       size="sm"
                       isActive={isActive}
                       onClick={onClick}
-                      showIcon={showIcon}
                     />
                   )}
                   clearThreshold={3}

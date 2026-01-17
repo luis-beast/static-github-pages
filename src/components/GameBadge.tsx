@@ -8,7 +8,6 @@ interface GameBadgeProps {
   size?: "sm" | "md";
   isActive?: boolean;
   onClick?: () => void;
-  showIcon?: boolean;
   className?: string;
 }
 
@@ -16,7 +15,7 @@ const getColorWithOpacity = (color: string, opacity: number): string => {
   return color.replace("hsl(", "hsla(").replace(")", `, ${opacity})`);
 };
 
-const GameBadge = ({ game, size = "sm", isActive = true, onClick, showIcon = true, className }: GameBadgeProps) => {
+const GameBadge = ({ game, size = "sm", isActive = true, onClick, className }: GameBadgeProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const gameColor = getGameColor(game);
   
@@ -56,7 +55,7 @@ const GameBadge = ({ game, size = "sm", isActive = true, onClick, showIcon = tru
         opacity: isActive ? 1 : inactiveOpacity,
       }}
     >
-      {onClick && showIcon && (
+      {onClick && (
         <span 
           className={cn(
             "transition-opacity duration-200 w-3 mr-1 flex items-center justify-center",
