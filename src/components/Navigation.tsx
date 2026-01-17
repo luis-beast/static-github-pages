@@ -21,7 +21,7 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           <Link
             to="/"
-            className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+            className="flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-colors hover:bg-secondary"
           >
             <img
               src={avatar}
