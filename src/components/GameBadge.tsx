@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { getGameColor, USE_RANDOMIZED_COLORS } from "@/lib/tagColors";
-import { withOpacity, DEFAULT_INACTIVE_OPACITY, UNIFIED_INACTIVE_OPACITY, ACTIVE_BACKGROUND_OPACITY } from "@/lib/colorUtils";
+import { withOpacity, DEFAULT_INACTIVE_OPACITY, UNIFIED_INACTIVE_OPACITY, ACTIVE_BACKGROUND_OPACITY, BADGE_INNER_GLOW_OPACITY } from "@/lib/colorUtils";
 import { Plus, X } from "lucide-react";
 
 interface GameBadgeProps {
@@ -46,6 +46,8 @@ const GameBadge = ({
     ? gameColor
     : withOpacity(gameColor, inactiveConfig.border);
 
+  const innerGlow = `inset 0 0 8px ${withOpacity(gameColor, BADGE_INNER_GLOW_OPACITY)}`;
+
   const iconSize = size === "sm" ? "w-3 h-3" : "w-3.5 h-3.5";
   const Component = onClick ? "button" : "span";
 
@@ -64,7 +66,7 @@ const GameBadge = ({
         backgroundColor,
         color: textColor,
         borderColor,
-        opacity: isActive ? 1 : inactiveConfig.overall,
+        boxShadow: innerGlow,
       }}
     >
       {onClick && (
