@@ -6,7 +6,7 @@ import GameBadge from "@/components/GameBadge";
 import { Input } from "@/components/ui/input";
 import { quotes } from "@/data/quotes";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
-import PopoverPicker from "@/components/PopoverPicker";
+import FilterPopover from "@/components/FilterPopover";
 
 const Quotes = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -76,20 +76,26 @@ const Quotes = () => {
                 <label className="text-sm font-medium text-foreground mb-2 block">
                   Game Filter
                 </label>
-                <PopoverPicker
-                  items={availableGames}
-                  selectedItems={selectedGames}
-                  onToggle={toggleGame}
-                  onClearAll={clearGames}
-                  renderBadge={(game, isActive, onClick) => (
-                    <GameBadge
-                      game={game}
-                      size="sm"
-                      isActive={isActive}
-                      onClick={onClick}
-                    />
-                  )}
-                  clearThreshold={3}
+                <FilterPopover
+                  triggerLabel="Games"
+                  sections={[
+                    {
+                      label: "Filter by Game",
+                      items: availableGames,
+                      selectedItems: selectedGames,
+                      onToggle: toggleGame,
+                      onClearAll: clearGames,
+                      renderBadge: (game, isActive, onClick) => (
+                        <GameBadge
+                          game={game}
+                          size="sm"
+                          isActive={isActive}
+                          onClick={onClick}
+                        />
+                      ),
+                      clearThreshold: 3,
+                    },
+                  ]}
                 />
               </div>
             )}

@@ -4,9 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import PermissionBadge from "@/components/PermissionBadge";
 import TagBadge from "@/components/TagBadge";
-import PopoverPicker from "@/components/PopoverPicker";
+import FilterPopover from "@/components/FilterPopover";
 import { cn } from "@/lib/utils";
-import { motion, AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 export type AlphabeticalOrder = "asc" | "desc";
 export type RoleSort = "off" | "asc" | "desc";
@@ -110,20 +110,26 @@ const CommandFilters = ({
             <label className="text-sm font-medium text-foreground mb-2 block">
               Tag Filter
             </label>
-            <PopoverPicker
-              items={availableTags}
-              selectedItems={selectedTags}
-              onToggle={onTagToggle}
-              onClearAll={onClearTags}
-              renderBadge={(tag, isActive, onClick) => (
-                <TagBadge
-                  tag={tag}
-                  size="sm"
-                  isActive={isActive}
-                  onClick={onClick}
-                />
-              )}
-              clearThreshold={3}
+            <FilterPopover
+              triggerLabel="Tags"
+              sections={[
+                {
+                  label: "Filter by Tag",
+                  items: availableTags,
+                  selectedItems: selectedTags,
+                  onToggle: onTagToggle,
+                  onClearAll: onClearTags,
+                  renderBadge: (tag, isActive, onClick) => (
+                    <TagBadge
+                      tag={tag}
+                      size="sm"
+                      isActive={isActive}
+                      onClick={onClick}
+                    />
+                  ),
+                  clearThreshold: 3,
+                },
+              ]}
             />
           </div>
         )}
