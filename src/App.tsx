@@ -8,6 +8,7 @@ import Quotes from "./pages/Index";
 import Commands from "./pages/Commands";
 import NotFound from "./pages/NotFound";
 import Navigation from "./components/Navigation";
+import GlobalScrollbar from "./components/GlobalScrollbar";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +34,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <GlobalScrollbar />
         <AnimatedRoutes />
       </BrowserRouter>
     </TooltipProvider>
