@@ -65,8 +65,8 @@ const TagBadge = ({
       {onClick && (
         <span 
           className={cn(
-            "transition-all duration-200 overflow-hidden",
-            isHovered ? "opacity-100 w-3 mr-1" : "opacity-0 w-0 mr-0"
+            "transition-opacity duration-200 w-3 mr-1 flex items-center justify-center",
+            isHovered ? "opacity-100" : "opacity-0"
           )}
         >
           {isActive ? (
