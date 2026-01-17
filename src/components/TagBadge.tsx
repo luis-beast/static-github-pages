@@ -8,6 +8,7 @@ interface TagBadgeProps {
   size?: "sm" | "md";
   isActive?: boolean;
   onClick?: () => void;
+  showIcon?: boolean;
   className?: string;
 }
 
@@ -19,7 +20,8 @@ const TagBadge = ({
   tag, 
   size = "sm", 
   isActive = true, 
-  onClick, 
+  onClick,
+  showIcon = true,
   className 
 }: TagBadgeProps) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -62,7 +64,7 @@ const TagBadge = ({
         opacity: isActive ? 1 : inactiveOpacity,
       }}
     >
-      {onClick && (
+      {onClick && showIcon && (
         <span 
           className={cn(
             "transition-opacity duration-200 w-3 mr-1 flex items-center justify-center",

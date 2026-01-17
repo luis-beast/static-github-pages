@@ -115,12 +115,13 @@ const CommandFilters = ({
               selectedItems={selectedTags}
               onToggle={onTagToggle}
               onClearAll={onClearTags}
-              renderBadge={(tag, isActive, onClick) => (
+              renderBadge={(tag, isActive, onClick, showIcon) => (
                 <TagBadge
                   tag={tag}
                   size="sm"
                   isActive={isActive}
                   onClick={onClick}
+                  showIcon={showIcon}
                 />
               )}
               label="Pick Tags"
