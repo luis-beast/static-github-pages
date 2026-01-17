@@ -104,8 +104,9 @@
     border-radius: 9999px;
     border: 3px solid transparent;
     background-clip: content-box;
-    /* Use min-height to give the thumb a base size that can smoothly change */
     min-height: 40px;
+    /* Smooth transitions for scrollbar thumb - limited browser support but graceful fallback */
+    transition: background 0.2s ease, box-shadow 0.2s ease;
   }
 
   ::-webkit-scrollbar-thumb:hover {
