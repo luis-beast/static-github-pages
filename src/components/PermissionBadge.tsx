@@ -13,7 +13,6 @@ interface PermissionBadgeProps {
   className?: string;
 }
 
-/** Permission display configuration with HSL colors */
 const PERMISSION_CONFIG: Record<Permission, { label: string; color: string }> = {
   follower: { label: "Follower", color: "hsl(200, 80%, 55%)" },
   subscriber: { label: "Subscriber", color: "hsl(45, 90%, 55%)" },

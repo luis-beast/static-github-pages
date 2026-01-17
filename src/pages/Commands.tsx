@@ -7,7 +7,6 @@ import { commands } from "@/data/commands";
 import { normalizeForSearch } from "@/lib/searchUtils";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 
-/** Maps permission levels to numerical priority for sorting */
 const PERMISSION_PRIORITY: Record<Permission, number> = {
   follower: 1,
   subscriber: 2,
@@ -65,14 +64,12 @@ const Commands = () => {
         ? [...commands]
         : commands.filter((cmd) => selectedPermissions.includes(cmd.permission));
 
-    // Filter by command groups
     if (selectedTags.length > 0) {
       result = result.filter((cmd) =>
         cmd.commandGroups?.some((group) => selectedTags.includes(group))
       );
     }
 
-    // Filter by search query (accent-insensitive)
     if (searchQuery.trim()) {
       const query = normalizeForSearch(searchQuery);
       result = result.filter(
@@ -84,7 +81,6 @@ const Commands = () => {
       );
     }
 
-    // Sort: Role is primary when active, alphabetical is secondary
     result.sort((a, b) => {
       if (roleSort !== "off") {
         const roleDiff =
