@@ -21,11 +21,11 @@ const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           <Link
             to="/"
-            className="flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-colors hover:bg-secondary"
+            className="flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-all duration-200 hover:shadow-[0_0_20px_hsla(270,100%,60%,0.4)]"
           >
             <img
               src={avatar}
-              alt="Streamer avatar"
+              alt="LaymanLouie"
               className="w-10 h-10 rounded-lg object-cover"
             />
             <span

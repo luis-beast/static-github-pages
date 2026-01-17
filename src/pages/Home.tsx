@@ -90,7 +90,6 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       <main className="container mx-auto px-4 py-8">
-        {/* Hero Section */}
         <motion.header
           className="text-center mb-12"
           initial={{ opacity: 0, y: -20 }}
@@ -134,9 +133,7 @@ const Home = () => {
           </motion.p>
         </motion.header>
 
-        {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {/* About Me */}
           <SectionCard icon={Info} title="About Me" iconColor="text-blue-400" index={0}>
             <p className="text-muted-foreground mb-4">
               I'm <span className="text-foreground font-semibold">The Layman</span>, and I'm here to create a space full
@@ -151,7 +148,6 @@ const Home = () => {
             <p className="mt-4 text-muted-foreground">Settle in and enjoy!</p>
           </SectionCard>
 
-          {/* Rules */}
           <SectionCard icon={ScrollText} title="Rules" iconColor="text-amber-400" index={1}>
             <p className="text-muted-foreground mb-4">
               We keep things <span className="text-foreground font-semibold">friendly</span>,{" "}
@@ -172,7 +168,6 @@ const Home = () => {
             </p>
           </SectionCard>
 
-          {/* Socials */}
           <SectionCard icon={Globe} title="Socials" iconColor="text-green-400" index={2}>
             <p className="text-muted-foreground mb-4">Stay connected with all things Layman!</p>
             <div className="space-y-2">
@@ -219,7 +214,6 @@ const Home = () => {
             </div>
           </SectionCard>
 
-          {/* Discord */}
           <SectionCard icon={MessageCircle} title="Discord" iconColor="text-indigo-400" index={3}>
             <p className="text-muted-foreground mb-4">
               Join <span className="text-foreground font-semibold">The Layman's World</span> on Discord!
@@ -242,7 +236,6 @@ const Home = () => {
             </a>
           </SectionCard>
 
-          {/* Stream Schedule */}
           <SectionCard icon={Calendar} title="Stream Schedule" iconColor="text-cyan-400" index={4}>
             <p className="text-muted-foreground mb-4">
               Streams happen <span className="text-foreground font-semibold">OFTEN</span>, and the best way to catch
@@ -262,7 +255,6 @@ const Home = () => {
             </div>
           </SectionCard>
 
-          {/* Setup */}
           <SectionCard icon={Monitor} title="Setup" iconColor="text-emerald-400" index={5}>
             <p className="text-muted-foreground mb-4">
               Curious about the tech that makes the stream run? Here's my current setup:
@@ -277,7 +269,6 @@ const Home = () => {
             </div>
           </SectionCard>
 
-          {/* Merch */}
           <SectionCard icon={ShoppingBag} title="Merch" iconColor="text-rose-400" index={6}>
             <div className="text-center py-8">
               <p className="text-2xl font-bold text-muted-foreground mb-2">NOT IMPLEMENTED YET!</p>
@@ -286,7 +277,6 @@ const Home = () => {
           </SectionCard>
         </div>
 
-        {/* Footer */}
         <motion.footer
           className="text-center py-8 border-t border-border/50"
           initial={{ opacity: 0 }}

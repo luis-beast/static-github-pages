@@ -13,54 +13,36 @@
   :root {
     --background: 270 60% 8%;
     --foreground: 270 20% 95%;
-
     --card: 270 40% 12%;
     --card-foreground: 270 20% 95%;
-
     --popover: 270 40% 12%;
     --popover-foreground: 270 20% 95%;
-
     --primary: 270 80% 65%;
     --primary-foreground: 270 60% 8%;
-
     --secondary: 270 30% 20%;
     --secondary-foreground: 270 20% 90%;
-
     --muted: 270 25% 18%;
     --muted-foreground: 270 15% 60%;
-
     --accent: 280 70% 55%;
     --accent-foreground: 270 20% 95%;
-
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
     --border: 270 30% 25%;
     --input: 270 30% 20%;
     --ring: 270 80% 65%;
-
     --radius: 0.75rem;
-
-    /* Custom tokens */
     --gradient-bg: linear-gradient(135deg, hsl(270, 60%, 8%) 0%, hsl(280, 70%, 12%) 50%, hsl(260, 50%, 6%) 100%);
     --gradient-primary: linear-gradient(135deg, hsl(270, 80%, 65%) 0%, hsl(290, 70%, 55%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(270, 40%, 14%) 0%, hsl(270, 35%, 10%) 100%);
     --glass-bg: hsla(270, 40%, 15%, 0.6);
     --glass-border: hsla(270, 50%, 40%, 0.3);
-    
-    /* Permission colors */
     --perm-follower: 200 80% 55%;
     --perm-subscriber: 45 90% 55%;
     --perm-moderator: 150 70% 45%;
     --perm-streamer: 270 100% 50%;
-    
-    /* The Layman brand color */
     --layman-brand: 270 100% 50%;
-
-    /* Game badge */
     --game-badge: 270 50% 25%;
     --game-badge-foreground: 270 20% 90%;
-
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -80,12 +62,10 @@
 @layer base {
   * {
     @apply border-border;
-    /* Mac-style scrollbars: thin and auto-hiding */
     scrollbar-width: thin;
     scrollbar-color: hsl(270, 100%, 60%) transparent;
   }
 
-  /* Themed scrollbars - Mac style */
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -96,29 +76,19 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: linear-gradient(
-      to bottom,
-      hsl(270, 100%, 71%),
-      hsl(270, 100%, 50%)
-    );
+    background: linear-gradient(to bottom, hsl(270, 100%, 71%), hsl(270, 100%, 50%));
     border-radius: 9999px;
     border: 3px solid transparent;
     background-clip: content-box;
     min-height: 40px;
-    /* Smooth transitions for scrollbar thumb - limited browser support but graceful fallback */
     transition: background 0.2s ease, box-shadow 0.2s ease;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-      to bottom,
-      hsl(270, 100%, 75%),
-      hsl(270, 100%, 55%)
-    );
+    background: linear-gradient(to bottom, hsl(270, 100%, 75%), hsl(270, 100%, 55%));
     background-clip: content-box;
     box-shadow: 0 0 8px hsl(270, 100%, 60%);
   }
-
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
@@ -150,35 +120,26 @@
     box-shadow: 0 0 30px hsla(270, 80%, 65%, 0.3);
   }
 
-  /* Styled scrollbar for smaller containers like popovers */
   .scrollbar-styled {
     scrollbar-width: thin;
     scrollbar-color: hsl(270, 100%, 60%) transparent;
   }
-  
+
   .scrollbar-styled::-webkit-scrollbar {
     width: 6px;
   }
-  
+
   .scrollbar-styled::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+
   .scrollbar-styled::-webkit-scrollbar-thumb {
-    background: linear-gradient(
-      to bottom,
-      hsl(270, 100%, 71%),
-      hsl(270, 100%, 50%)
-    );
+    background: linear-gradient(to bottom, hsl(270, 100%, 71%), hsl(270, 100%, 50%));
     border-radius: 9999px;
   }
-  
+
   .scrollbar-styled::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(
-      to bottom,
-      hsl(270, 100%, 75%),
-      hsl(270, 100%, 55%)
-    );
+    background: linear-gradient(to bottom, hsl(270, 100%, 75%), hsl(270, 100%, 55%));
   }
 
   .hover-lift {
@@ -222,21 +183,6 @@
     }
   }
 
-  .animate-count-change {
-    animation: countChange 0.15s ease-out;
-  }
-
-  @keyframes countChange {
-    0% {
-      transform: translateY(8px);
-      opacity: 0;
-    }
-    100% {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
   .animate-badge-pop {
     animation: badgePop 0.25s ease-out both;
   }
@@ -255,99 +201,10 @@
     }
   }
 
-  /* Odometer count animations */
-  @keyframes countUp {
-    from {
-      transform: translateY(100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
+  .animate-badge-shrink {
+    animation: badgeShrink 0.2s ease-out forwards;
   }
 
-  @keyframes countDown {
-    from {
-      transform: translateY(-100%);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-
-  .animate-count-up {
-    animation: countUp 0.2s ease-out;
-  }
-
-  .animate-count-down {
-    animation: countDown 0.2s ease-out;
-  }
-
-  /* Slide animations for +X more and badges */
-  @keyframes slideOutRight {
-    from {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateX(20px);
-      opacity: 0;
-    }
-  }
-
-  @keyframes slideInLeft {
-    from {
-      transform: translateX(-20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes slideOutLeft {
-    from {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateX(-20px);
-      opacity: 0;
-    }
-  }
-
-  @keyframes slideInRight {
-    from {
-      transform: translateX(20px);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-  .animate-slide-out-right {
-    animation: slideOutRight 0.2s ease-out forwards;
-  }
-
-  .animate-slide-in-left {
-    animation: slideInLeft 0.2s ease-out;
-  }
-
-  .animate-slide-out-left {
-    animation: slideOutLeft 0.2s ease-out forwards;
-  }
-
-  .animate-slide-in-right {
-    animation: slideInRight 0.2s ease-out;
-  }
-
-  /* Badge shrink animation */
   @keyframes badgeShrink {
     from {
       transform: scale(1);
@@ -357,9 +214,5 @@
       transform: scale(0.7);
       opacity: 0;
     }
-  }
-
-  .animate-badge-shrink {
-    animation: badgeShrink 0.2s ease-out forwards;
   }
 }
