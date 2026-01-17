@@ -148,7 +148,11 @@ const Commands = () => {
         </motion.div>
         
         <LayoutGroup>
-          <div className="space-y-4">
+          <motion.div 
+            className="space-y-4"
+            layout
+            transition={{ layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }}
+          >
             <AnimatePresence mode="popLayout">
               {filteredAndSortedCommands.length > 0 ? (
                 filteredAndSortedCommands.map((command, index) => (
@@ -159,7 +163,7 @@ const Commands = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ 
-                      layout: { duration: 0.3, ease: "easeOut" },
+                      layout: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
                       opacity: { duration: 0.2 },
                       y: { duration: 0.2 },
                     }}
@@ -181,7 +185,7 @@ const Commands = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
         </LayoutGroup>
       </main>
       

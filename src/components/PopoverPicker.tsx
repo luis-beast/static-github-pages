@@ -16,7 +16,7 @@ interface PopoverPickerProps<T extends string> {
   selectedItems: T[];
   onToggle: (item: T) => void;
   onClearAll: () => void;
-  renderBadge: (item: T, isActive: boolean, onClick: () => void) => React.ReactNode;
+  renderBadge: (item: T, isActive: boolean, onClick: () => void, showIcon: boolean) => React.ReactNode;
   label: string;
   icon?: React.ReactNode;
   maxVisibleSelected?: number;
@@ -112,7 +112,7 @@ function PopoverPicker<T extends string>({
               <div className="flex flex-wrap gap-1.5 p-1 pr-3">
                 {items.map((item) => (
                   <div key={item} className="p-0.5">
-                    {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
+                    {renderBadge(item, selectedItems.includes(item), () => onToggle(item), false)}
                   </div>
                 ))}
               </div>
@@ -156,7 +156,7 @@ function PopoverPicker<T extends string>({
                     delay: isExpanded && index >= maxVisibleSelected ? (index - maxVisibleSelected) * 0.05 : 0 
                   }}
                 >
-                  {renderBadge(item, true, () => onToggle(item))}
+                  {renderBadge(item, true, () => onToggle(item), true)}
                 </motion.div>
               ))}
             </AnimatePresence>

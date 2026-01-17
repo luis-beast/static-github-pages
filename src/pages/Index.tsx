@@ -88,12 +88,13 @@ const Index = () => {
                   selectedItems={selectedGames}
                   onToggle={handleGameToggle}
                   onClearAll={handleClearGames}
-                  renderBadge={(game, isActive, onClick) => (
+                  renderBadge={(game, isActive, onClick, showIcon) => (
                     <GameBadge
                       game={game}
                       size="sm"
                       isActive={isActive}
                       onClick={onClick}
+                      showIcon={showIcon}
                     />
                   )}
                   label="Pick Games"
@@ -130,7 +131,11 @@ const Index = () => {
         </motion.div>
         
         <LayoutGroup>
-          <div className="space-y-4">
+          <motion.div 
+            className="space-y-4"
+            layout
+            transition={{ layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }}
+          >
             <AnimatePresence mode="popLayout">
               {filteredQuotes.length > 0 ? (
                 filteredQuotes.map((quote) => (
@@ -141,7 +146,7 @@ const Index = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
                     transition={{ 
-                      layout: { duration: 0.3, ease: "easeOut" },
+                      layout: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
                       opacity: { duration: 0.2 },
                       y: { duration: 0.2 },
                     }}
@@ -168,7 +173,7 @@ const Index = () => {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+          </motion.div>
         </LayoutGroup>
       </main>
       
