@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Quotes from "./pages/Index";
 import Commands from "./pages/Commands";
+import BadgeTest from "./pages/BadgeTest";
 import NotFound from "./pages/NotFound";
 import Navigation from "./components/Navigation";
 import GlobalScrollbar from "./components/GlobalScrollbar";
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/quotes" element={<Quotes />} />
         <Route path="/commands" element={<Commands />} />
+        <Route path="/badge-test" element={<BadgeTest />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>
