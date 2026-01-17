@@ -105,16 +105,25 @@ function PopoverPicker<T extends string>({
           className={cn("p-3 bg-card border-border", popoverWidth)} 
           align="start"
         >
-          {/* Scrollable container with dedicated scrollbar gutter */}
-          <div className="max-h-[180px] overflow-y-auto overflow-x-hidden" style={{ paddingRight: '12px' }}>
-            {/* Content area - flex wrap with hard right margin to prevent hover overflow */}
-            <div className="flex flex-wrap gap-1.5 p-1" style={{ marginRight: '16px' }}>
-              {items.map((item) => (
-                <div key={item} className="p-0.5 shrink-0">
-                  {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
-                </div>
-              ))}
+          {/* Scrollable container with fade indicator */}
+          <div className="relative">
+            <div className="max-h-[180px] overflow-y-auto overflow-x-hidden popover-scroll-area">
+              {/* Grid layout - fixed columns prevent hover width changes from causing reflow */}
+              <div 
+                className="grid gap-1.5 p-1 pr-4"
+                style={{ 
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(70px, 1fr))',
+                }}
+              >
+                {items.map((item) => (
+                  <div key={item} className="p-0.5 overflow-hidden">
+                    {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
+                  </div>
+                ))}
+              </div>
             </div>
+            {/* Bottom fade indicator */}
+            <div className="absolute bottom-0 left-0 right-3 h-6 bg-gradient-to-t from-card to-transparent pointer-events-none" />
           </div>
           {selectedItems.length >= clearThreshold && (
             <button
