@@ -6,6 +6,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tags, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedCount from "@/components/AnimatedCount";
@@ -107,21 +108,15 @@ function PopoverPicker<T extends string>({
         >
           {/* Scrollable container with fade indicator */}
           <div className="relative">
-            <div className="max-h-[180px] overflow-y-auto overflow-x-hidden popover-scroll-area">
-              {/* Grid layout - fixed columns prevent hover width changes from causing reflow */}
-              <div 
-                className="grid gap-1.5 p-1 pr-4"
-                style={{ 
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(70px, 1fr))',
-                }}
-              >
+            <ScrollArea className="max-h-[180px]">
+              <div className="flex flex-wrap gap-1.5 p-1 pr-3">
                 {items.map((item) => (
-                  <div key={item} className="p-0.5 overflow-hidden">
+                  <div key={item} className="p-0.5">
                     {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
                   </div>
                 ))}
               </div>
-            </div>
+            </ScrollArea>
             {/* Bottom fade indicator */}
             <div className="absolute bottom-0 left-0 right-3 h-6 bg-gradient-to-t from-card to-transparent pointer-events-none" />
           </div>
