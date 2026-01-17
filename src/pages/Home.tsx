@@ -9,7 +9,7 @@ import {
   ExternalLink,
   Heart,
 } from "lucide-react";
-import avatar from "@/assets/avatar.jpeg";
+import avatar from "@/assets/avatar.png";
 import { motion } from "framer-motion";
 
 const SocialLink = ({
