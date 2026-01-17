@@ -1,56 +1,56 @@
 /**
- * Shared color utility functions for badges and themed components.
+ * Shared color utilities for badge components.
  * All colors use HSL format for consistency with the design system.
  */
 
 /**
  * Converts an HSL color string to HSLA with specified opacity.
- * @param hslColor - HSL color string like "hsl(270, 100%, 50%)"
- * @param opacity - Opacity value from 0 to 1
- * @returns HSLA color string
  */
 export function withOpacity(hslColor: string, opacity: number): string {
   return hslColor.replace("hsl(", "hsla(").replace(")", `, ${opacity})`);
 }
 
-/**
- * Configuration for badge inactive states.
- * Some colors (like Layman brand purple) need higher opacity when inactive
- * to maintain visibility against dark backgrounds.
- */
+/** Opacity values for inactive badge states */
 export interface BadgeOpacityConfig {
-  overall: number;
   background: number;
   text: number;
   border: number;
 }
 
-/** Default opacity values for inactive badges - no overall opacity, uses HSLA values only */
-export const DEFAULT_INACTIVE_OPACITY: BadgeOpacityConfig = {
-  overall: 1,
+/** Standard opacity for inactive badges */
+export const INACTIVE_OPACITY: BadgeOpacityConfig = {
   background: 0.06,
   text: 0.55,
   border: 0.35,
 };
 
-/** Higher opacity values for darker/brand colors that need more visibility */
+/** Enhanced opacity for darker/brand colors (Layman, Streamer) */
 export const ENHANCED_INACTIVE_OPACITY: BadgeOpacityConfig = {
-  overall: 1,
   background: 0.08,
   text: 0.6,
   border: 0.4,
 };
 
-/** Unified opacity for non-randomized colors - no overall opacity */
-export const UNIFIED_INACTIVE_OPACITY: BadgeOpacityConfig = {
-  overall: 1,
-  background: 0.06,
-  text: 0.55,
-  border: 0.35,
-};
+/** Background opacity for active badges */
+export const ACTIVE_BG_OPACITY = 0.2;
 
-/** Active state opacity (used for background) */
-export const ACTIVE_BACKGROUND_OPACITY = 0.2;
+/** Inner glow opacity for all badges */
+export const INNER_GLOW_OPACITY = 0.3;
 
-/** Inner glow box-shadow for all badges */
-export const BADGE_INNER_GLOW_OPACITY = 0.3;
+/**
+ * Computes all badge style properties based on color and state.
+ */
+export function getBadgeStyles(
+  color: string,
+  isActive: boolean,
+  useEnhanced = false
+) {
+  const config = useEnhanced ? ENHANCED_INACTIVE_OPACITY : INACTIVE_OPACITY;
+
+  return {
+    backgroundColor: withOpacity(color, isActive ? ACTIVE_BG_OPACITY : config.background),
+    color: isActive ? color : withOpacity(color, config.text),
+    borderColor: isActive ? color : withOpacity(color, config.border),
+    boxShadow: `inset 0 0 8px ${withOpacity(color, INNER_GLOW_OPACITY)}`,
+  };
+}

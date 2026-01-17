@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { getTagColor, USE_RANDOMIZED_COLORS } from "@/lib/tagColors";
-import { withOpacity, DEFAULT_INACTIVE_OPACITY, ENHANCED_INACTIVE_OPACITY, UNIFIED_INACTIVE_OPACITY, ACTIVE_BACKGROUND_OPACITY, BADGE_INNER_GLOW_OPACITY } from "@/lib/colorUtils";
+import { getTagColor } from "@/lib/tagColors";
+import { getBadgeStyles } from "@/lib/colorUtils";
 import { Plus, X } from "lucide-react";
 
 interface TagBadgeProps {
@@ -25,31 +25,10 @@ const TagBadge = ({
   className,
 }: TagBadgeProps) => {
   const [isHovered, setIsHovered] = useState(false);
-  
-  const tagColor = getTagColor(tag);
-  const isLayman = tag.toLowerCase() === "layman";
 
-  // Select appropriate opacity config based on tag type and color mode
-  const inactiveConfig = isLayman
-    ? ENHANCED_INACTIVE_OPACITY
-    : USE_RANDOMIZED_COLORS
-      ? DEFAULT_INACTIVE_OPACITY
-      : UNIFIED_INACTIVE_OPACITY;
-
-  const backgroundColor = withOpacity(
-    tagColor,
-    isActive ? ACTIVE_BACKGROUND_OPACITY : inactiveConfig.background
-  );
-
-  const textColor = isActive
-    ? tagColor
-    : withOpacity(tagColor, inactiveConfig.text);
-
-  const borderColor = isActive
-    ? tagColor
-    : withOpacity(tagColor, inactiveConfig.border);
-
-  const innerGlow = `inset 0 0 8px ${withOpacity(tagColor, BADGE_INNER_GLOW_OPACITY)}`;
+  const color = getTagColor(tag);
+  const useEnhanced = tag.toLowerCase() === "layman";
+  const styles = getBadgeStyles(color, isActive, useEnhanced);
 
   const iconSize = size === "sm" ? "w-3 h-3" : "w-3.5 h-3.5";
   const Component = onClick ? "button" : "span";
@@ -65,12 +44,7 @@ const TagBadge = ({
         onClick && "cursor-pointer hover:scale-105",
         className
       )}
-      style={{
-        backgroundColor,
-        color: textColor,
-        borderColor,
-        boxShadow: innerGlow,
-      }}
+      style={styles}
     >
       {onClick && (
         <span
