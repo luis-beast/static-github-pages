@@ -6,7 +6,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tags, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedCount from "@/components/AnimatedCount";
@@ -106,19 +105,15 @@ function PopoverPicker<T extends string>({
           className={cn("p-3 bg-card border-border", popoverWidth)} 
           align="start"
         >
-          {/* Scrollable container with fade indicator */}
-          <div className="relative">
-            <ScrollArea className="max-h-[180px]">
-              <div className="flex flex-wrap gap-1.5 p-1 pr-3">
-                {items.map((item) => (
-                  <div key={item} className="p-0.5">
-                    {renderBadge(item, selectedItems.includes(item), () => onToggle(item), false)}
-                  </div>
-                ))}
-              </div>
-            </ScrollArea>
-            {/* Bottom fade indicator */}
-            <div className="absolute bottom-0 left-0 right-3 h-6 bg-gradient-to-t from-card to-transparent pointer-events-none" />
+          {/* Scrollable container using native scrollbar */}
+          <div className="max-h-[180px] overflow-y-auto pr-1 scrollbar-styled">
+            <div className="flex flex-wrap gap-1.5 p-1">
+              {items.map((item) => (
+                <div key={item} className="p-0.5">
+                  {renderBadge(item, selectedItems.includes(item), () => onToggle(item), false)}
+                </div>
+              ))}
+            </div>
           </div>
           {selectedItems.length >= clearThreshold && (
             <button
