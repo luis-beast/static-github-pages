@@ -16,14 +16,11 @@ interface CommandCardProps {
 
 const MAX_VISIBLE_ALIASES = 2;
 
-// Extracts copyable text: name + usage before first bracket
 const getCopyableCommand = (name: string, usage?: string): string => {
   if (!usage) return name;
-  // Get everything after the command name
   const usageParams = usage.replace(name, '').trim();
   if (!usageParams) return name;
   
-  // Find first bracket and take everything before it
   const bracketIndex = usageParams.indexOf('[');
   if (bracketIndex !== -1) {
     const beforeBracket = usageParams.substring(0, bracketIndex).trim();
@@ -78,7 +75,6 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
     : aliases.slice(0, MAX_VISIBLE_ALIASES);
   const hiddenCount = aliases.length - MAX_VISIBLE_ALIASES;
 
-  // Get usage params for display
   const usageParams = command.usage ? command.usage.replace(command.name, '').trim() : null;
 
   return (
@@ -96,7 +92,6 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
             <span className="text-primary font-mono font-semibold">{orderNumber}</span>
           </div>
           <div className="flex-1 min-w-0">
-            {/* Line 1: Command name + usage parameters + copy button */}
             <div className="mb-2 flex items-center gap-2">
               <span className="font-mono font-semibold text-primary text-lg">
                 {command.name}
@@ -118,7 +113,6 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
               <CopyButton text={getCopyableCommand(command.name, command.usage)} />
             </div>
             
-            {/* Line 2: Permission + Aliases */}
             <div className="flex flex-wrap items-center gap-3 mb-3">
               <PermissionBadge permission={command.permission} size="md" />
               
@@ -143,7 +137,6 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                     ))}
                   </AnimatePresence>
                   
-                  {/* +X more button */}
                   <AnimatePresence mode="wait">
                     {hiddenCount > 0 && !showAllAliases && (
                       <motion.button

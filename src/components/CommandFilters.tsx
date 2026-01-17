@@ -48,7 +48,6 @@ const CommandFilters = ({
 }: CommandFiltersProps) => {
   return (
     <div className="glass-card rounded-lg p-4 mb-6 space-y-4">
-      {/* Row 1: Role Filter (Left) + Search (Right) */}
       <div className="flex flex-col md:flex-row md:items-end gap-4">
         <div className="flex-1">
           <label className="text-sm font-medium text-foreground mb-2 block">
@@ -65,7 +64,6 @@ const CommandFilters = ({
                 />
               </div>
             ))}
-            {/* Animated Clear button - same style as PopoverPicker */}
             <AnimatePresence mode="wait">
               {selectedPermissions.length >= 3 && (
                 <motion.button
@@ -103,7 +101,6 @@ const CommandFilters = ({
         </div>
       </div>
       
-      {/* Row 2: Tag Filter (Left) + Sort Buttons (Right) */}
       <div className="flex flex-col md:flex-row md:items-end gap-4">
         {availableTags.length > 0 && (
           <div className="flex-1">
@@ -139,7 +136,6 @@ const CommandFilters = ({
             Sort
           </label>
           <div className="flex gap-2">
-            {/* Alphabetical Toggle - Always active */}
             <Button
               variant="outline"
               size="sm"
@@ -156,7 +152,6 @@ const CommandFilters = ({
               {alphabeticalOrder === "asc" ? "A-Z" : "Z-A"}
             </Button>
             
-            {/* Role Sort - 3-state cycle */}
             <Button
               variant="outline"
               size="sm"
