@@ -36,8 +36,8 @@ const TagBadge = ({
   const tagBgColor = getColorWithOpacity(tagColor, isActive ? 0.20 : inactiveBgOpacity);
   
   const sizeClasses = {
-    sm: "px-2.5 py-1 text-xs",
-    md: "px-3 py-1.5 text-sm",
+    sm: "px-2 py-0.5 text-sm",
+    md: "px-3 py-1 text-sm",
   };
 
   const iconSize = size === "sm" ? "w-3 h-3" : "w-3.5 h-3.5";
@@ -50,7 +50,7 @@ const TagBadge = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
-        "inline-flex items-center rounded-full font-medium border transition-all duration-200",
+        "inline-flex items-center rounded-md font-medium border transition-all duration-200",
         sizeClasses[size],
         onClick && "cursor-pointer hover:scale-105",
         className
@@ -65,8 +65,8 @@ const TagBadge = ({
       {onClick && (
         <span 
           className={cn(
-            "transition-opacity duration-200 w-3 mr-1 flex items-center justify-center",
-            isHovered ? "opacity-100" : "opacity-0"
+            "transition-all duration-200 overflow-hidden",
+            isHovered ? "opacity-100 w-3 mr-1" : "opacity-0 w-0 mr-0"
           )}
         >
           {isActive ? (
