@@ -4,10 +4,11 @@ import CommandCard from "@/components/CommandCard";
 import CommandFilters, { AlphabeticalOrder, RoleSort } from "@/components/CommandFilters";
 import { Permission } from "@/components/PermissionBadge";
 import { commands } from "@/data/commands";
-import { normalizeForSearch } from "@/lib/tagColors";
+import { normalizeForSearch } from "@/lib/searchUtils";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 
-const permissionOrder: Record<Permission, number> = {
+/** Maps permission levels to numerical priority for sorting */
+const PERMISSION_PRIORITY: Record<Permission, number> = {
   follower: 1,
   subscriber: 2,
   moderator: 3,
@@ -21,28 +22,27 @@ const Commands = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  // Get all unique command groups from commands
   const availableTags = useMemo(() => {
     const groups = new Set<string>();
-    commands.forEach(cmd => {
-      cmd.commandGroups?.forEach(group => groups.add(group));
+    commands.forEach((cmd) => {
+      cmd.commandGroups?.forEach((group) => groups.add(group));
     });
     return Array.from(groups).sort();
   }, []);
 
-  const handleAlphabeticalToggle = () => {
-    setAlphabeticalOrder(prev => prev === "asc" ? "desc" : "asc");
+  const toggleAlphabeticalOrder = () => {
+    setAlphabeticalOrder((prev) => (prev === "asc" ? "desc" : "asc"));
   };
 
-  const handleRoleSortCycle = () => {
-    setRoleSort(prev => {
+  const cycleRoleSort = () => {
+    setRoleSort((prev) => {
       if (prev === "off") return "asc";
       if (prev === "asc") return "desc";
       return "off";
     });
   };
 
-  const handlePermissionToggle = (permission: Permission) => {
+  const togglePermission = (permission: Permission) => {
     setSelectedPermissions((prev) =>
       prev.includes(permission)
         ? prev.filter((p) => p !== permission)
@@ -50,55 +50,49 @@ const Commands = () => {
     );
   };
 
-  const handleTagToggle = (tag: string) => {
+  const toggleTag = (tag: string) => {
     setSelectedTags((prev) =>
-      prev.includes(tag)
-        ? prev.filter((t) => t !== tag)
-        : [...prev, tag]
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
     );
   };
 
-  const handleClearTags = () => {
-    setSelectedTags([]);
-  };
+  const clearTags = () => setSelectedTags([]);
+  const clearPermissions = () => setSelectedPermissions([]);
 
-  const handleClearPermissions = () => {
-    setSelectedPermissions([]);
-  };
+  const filteredCommands = useMemo(() => {
+    let result =
+      selectedPermissions.length === 0
+        ? [...commands]
+        : commands.filter((cmd) => selectedPermissions.includes(cmd.permission));
 
-  const filteredAndSortedCommands = useMemo(() => {
-    // If no permissions selected, show all commands; otherwise filter by selected
-    let result = selectedPermissions.length === 0
-      ? [...commands]
-      : commands.filter((cmd) => selectedPermissions.includes(cmd.permission));
-
-    // Filter by command groups (if any selected)
+    // Filter by command groups
     if (selectedTags.length > 0) {
       result = result.filter((cmd) =>
-        cmd.commandGroups?.some(group => selectedTags.includes(group))
+        cmd.commandGroups?.some((group) => selectedTags.includes(group))
       );
     }
 
     // Filter by search query (accent-insensitive)
     if (searchQuery.trim()) {
-      const normalizedQuery = normalizeForSearch(searchQuery);
-      result = result.filter((cmd) =>
-        normalizeForSearch(cmd.name).includes(normalizedQuery) ||
-        (cmd.aliases?.some(alias => normalizeForSearch(alias).includes(normalizedQuery)) ?? false) ||
-        normalizeForSearch(cmd.description).includes(normalizedQuery) ||
-        (cmd.commandGroups?.some(group => normalizeForSearch(group).includes(normalizedQuery)) ?? false)
+      const query = normalizeForSearch(searchQuery);
+      result = result.filter(
+        (cmd) =>
+          normalizeForSearch(cmd.name).includes(query) ||
+          cmd.aliases?.some((alias) => normalizeForSearch(alias).includes(query)) ||
+          normalizeForSearch(cmd.description).includes(query) ||
+          cmd.commandGroups?.some((group) => normalizeForSearch(group).includes(query))
       );
     }
 
-    // Sort: Role is primary when active, alphabetical is always secondary
+    // Sort: Role is primary when active, alphabetical is secondary
     result.sort((a, b) => {
       if (roleSort !== "off") {
-        const roleCompare = roleSort === "asc"
-          ? permissionOrder[a.permission] - permissionOrder[b.permission]
-          : permissionOrder[b.permission] - permissionOrder[a.permission];
-        if (roleCompare !== 0) return roleCompare;
+        const roleDiff =
+          roleSort === "asc"
+            ? PERMISSION_PRIORITY[a.permission] - PERMISSION_PRIORITY[b.permission]
+            : PERMISSION_PRIORITY[b.permission] - PERMISSION_PRIORITY[a.permission];
+        if (roleDiff !== 0) return roleDiff;
       }
-      // Alphabetical sort (primary if role off, secondary if role active)
       return alphabeticalOrder === "asc"
         ? a.name.localeCompare(b.name)
         : b.name.localeCompare(a.name);
@@ -110,7 +104,7 @@ const Commands = () => {
   return (
     <div className="min-h-screen">
       <main className="container mx-auto px-4 py-8">
-        <motion.header 
+        <motion.header
           className="mb-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -123,7 +117,7 @@ const Commands = () => {
             All available chat commands and how to use them
           </p>
         </motion.header>
-        
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -131,38 +125,38 @@ const Commands = () => {
         >
           <CommandFilters
             alphabeticalOrder={alphabeticalOrder}
-            onAlphabeticalToggle={handleAlphabeticalToggle}
+            onAlphabeticalToggle={toggleAlphabeticalOrder}
             roleSort={roleSort}
-            onRoleSortCycle={handleRoleSortCycle}
+            onRoleSortCycle={cycleRoleSort}
             selectedPermissions={selectedPermissions}
-            onPermissionToggle={handlePermissionToggle}
+            onPermissionToggle={togglePermission}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
             availableTags={availableTags}
             selectedTags={selectedTags}
-            onTagToggle={handleTagToggle}
-            onClearTags={handleClearTags}
-            onClearPermissions={handleClearPermissions}
-            resultCount={filteredAndSortedCommands.length}
+            onTagToggle={toggleTag}
+            onClearTags={clearTags}
+            onClearPermissions={clearPermissions}
+            resultCount={filteredCommands.length}
           />
         </motion.div>
-        
+
         <LayoutGroup>
-          <motion.div 
+          <motion.div
             className="space-y-4"
             layout
             transition={{ layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }}
           >
             <AnimatePresence mode="popLayout">
-              {filteredAndSortedCommands.length > 0 ? (
-                filteredAndSortedCommands.map((command, index) => (
+              {filteredCommands.length > 0 ? (
+                filteredCommands.map((command, index) => (
                   <motion.div
                     key={command.id}
                     layout
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ 
+                    transition={{
                       layout: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
                       opacity: { duration: 0.2 },
                       y: { duration: 0.2 },
@@ -188,7 +182,7 @@ const Commands = () => {
           </motion.div>
         </LayoutGroup>
       </main>
-      
+
       <ScrollToTopButton />
     </div>
   );
