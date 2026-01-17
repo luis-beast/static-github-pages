@@ -41,40 +41,45 @@ const Navigation = () => {
           </Link>
 
           <div className="relative flex items-center gap-1">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className="relative px-4 py-2 rounded-lg text-sm font-medium transition-colors z-10"
-              >
-                <AnimatePresence mode="wait">
-                  {location.pathname === item.path && (
-                    <motion.div
-                      layoutId="navbar-pill"
-                      className="absolute inset-0 bg-secondary rounded-lg"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 30,
-                        opacity: { duration: 0.2 },
-                      }}
-                    />
-                  )}
-                </AnimatePresence>
-                <span
-                  className={`relative z-10 transition-colors duration-200 ${
-                    location.pathname === item.path
-                      ? "text-foreground"
-                      : "text-muted-foreground hover:text-foreground"
+            {NAV_ITEMS.map((item) => {
+              const isActive = location.pathname === item.path;
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  className={`relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 z-10 ${
+                    !isActive ? "hover:bg-white/10" : ""
                   }`}
                 >
-                  {item.label}
-                </span>
-              </Link>
-            ))}
+                  <AnimatePresence mode="wait">
+                    {isActive && (
+                      <motion.div
+                        layoutId="navbar-pill"
+                        className="absolute inset-0 bg-gradient-to-br from-[hsl(270,80%,40%)] to-[hsl(280,90%,25%)] rounded-lg"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 380,
+                          damping: 30,
+                          opacity: { duration: 0.2 },
+                        }}
+                      />
+                    )}
+                  </AnimatePresence>
+                  <span
+                    className={`relative z-10 transition-colors duration-200 ${
+                      isActive
+                        ? "text-white"
+                        : "text-muted-foreground hover:text-white"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>
