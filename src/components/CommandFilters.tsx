@@ -115,13 +115,12 @@ const CommandFilters = ({
               selectedItems={selectedTags}
               onToggle={onTagToggle}
               onClearAll={onClearTags}
-              renderBadge={(tag, isActive, onClick, showIcon) => (
+              renderBadge={(tag, isActive, onClick) => (
                 <TagBadge
                   tag={tag}
                   size="sm"
                   isActive={isActive}
                   onClick={onClick}
-                  showIcon={showIcon}
                 />
               )}
               clearThreshold={3}

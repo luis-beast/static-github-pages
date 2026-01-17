@@ -7,7 +7,7 @@ interface PopoverPickerProps<T extends string> {
   selectedItems: T[];
   onToggle: (item: T) => void;
   onClearAll: () => void;
-  renderBadge: (item: T, isActive: boolean, onClick: () => void, showIcon: boolean) => React.ReactNode;
+  renderBadge: (item: T, isActive: boolean, onClick: () => void) => React.ReactNode;
   clearThreshold?: number;
 }
 
@@ -33,7 +33,7 @@ function PopoverPicker<T extends string>({
       {/* All items displayed inline, just like Role filters */}
       {items.map((item) => (
         <div key={item} className="p-0.5">
-          {renderBadge(item, selectedItems.includes(item), () => onToggle(item), true)}
+          {renderBadge(item, selectedItems.includes(item), () => onToggle(item))}
         </div>
       ))}
       
