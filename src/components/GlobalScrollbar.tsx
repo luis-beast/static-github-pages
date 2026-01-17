@@ -164,7 +164,7 @@ const GlobalScrollbar = () => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Scrollbar thumb */}
+      {/* Scrollbar thumb - always visible with varying opacity */}
       <motion.div
         data-thumb="true"
         className={cn(
@@ -175,9 +175,8 @@ const GlobalScrollbar = () => {
           height: springThumbHeight,
           top: springThumbTop,
         }}
-        initial={{ opacity: 0 }}
         animate={{ 
-          opacity: shouldShowThumb ? 1 : 0,
+          opacity: shouldShowThumb ? 1 : 0.3,
           scale: isDragging ? 1.15 : isHovering ? 1.05 : 1,
           width: isDragging ? 10 : 8,
         }}
