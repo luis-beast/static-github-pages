@@ -2,10 +2,7 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-/** Minimum thumb height in pixels */
 const MIN_THUMB_HEIGHT = 40;
-
-/** Delay before hiding scrollbar after scrolling stops (ms) */
 const SCROLL_HIDE_DELAY = 1000;
 
 const GlobalScrollbar = () => {
@@ -17,11 +14,9 @@ const GlobalScrollbar = () => {
   const scrollTimeoutRef = useRef<number>();
   const trackRef = useRef<HTMLDivElement>(null);
 
-  // Motion values for smooth animations
   const thumbHeight = useMotionValue(100);
   const thumbTop = useMotionValue(0);
 
-  // Spring animations for smooth transitions
   const animatedThumbHeight = useSpring(thumbHeight, { stiffness: 300, damping: 30 });
   const animatedThumbTop = useSpring(thumbTop, { stiffness: 300, damping: 30 });
 
@@ -30,14 +25,11 @@ const GlobalScrollbar = () => {
     const contentHeight = document.documentElement.scrollHeight;
     const scrollPosition = window.scrollY;
 
-    // Only show scrollbar if content exceeds viewport
     setShowScrollbar(contentHeight > viewportHeight);
 
-    // Calculate thumb size proportional to visible area
     const visibleRatio = viewportHeight / contentHeight;
     const newThumbHeight = Math.max(MIN_THUMB_HEIGHT, viewportHeight * visibleRatio);
 
-    // Calculate thumb position
     const scrollableDistance = contentHeight - viewportHeight;
     const thumbTrackSpace = viewportHeight - newThumbHeight;
     const scrollProgress = scrollableDistance > 0 ? scrollPosition / scrollableDistance : 0;
@@ -94,7 +86,6 @@ const GlobalScrollbar = () => {
   );
 
   const handleTrackClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    // Ignore clicks on the thumb itself
     if ((e.target as HTMLElement).dataset.thumb) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
@@ -117,7 +108,6 @@ const GlobalScrollbar = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", updateScrollbarDimensions);
 
-    // Watch for content changes
     const mutationObserver = new MutationObserver(updateScrollbarDimensions);
     mutationObserver.observe(document.body, {
       childList: true,
@@ -126,7 +116,6 @@ const GlobalScrollbar = () => {
       characterData: true,
     });
 
-    // Hide native scrollbar
     document.documentElement.style.scrollbarWidth = "none";
     document.documentElement.style.overflow = "auto";
     document.body.style.overflow = "auto";
