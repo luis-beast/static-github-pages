@@ -8,45 +8,39 @@ import { quotes } from "@/data/quotes";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import PopoverPicker from "@/components/PopoverPicker";
 
-const Index = () => {
+const Quotes = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGames, setSelectedGames] = useState<string[]>([]);
 
-  // Get all unique games from quotes
   const availableGames = useMemo(() => {
     const games = new Set<string>();
-    quotes.forEach(quote => games.add(quote.game));
+    quotes.forEach((quote) => games.add(quote.game));
     return Array.from(games).sort();
   }, []);
 
-  const handleGameToggle = (game: string) => {
+  const toggleGame = (game: string) => {
     setSelectedGames((prev) =>
-      prev.includes(game)
-        ? prev.filter((g) => g !== game)
-        : [...prev, game]
+      prev.includes(game) ? prev.filter((g) => g !== game) : [...prev, game]
     );
   };
 
-  const handleClearGames = () => {
-    setSelectedGames([]);
-  };
+  const clearGames = () => setSelectedGames([]);
 
   const filteredQuotes = useMemo(() => {
     let result = [...quotes];
 
-    // Filter by selected games
     if (selectedGames.length > 0) {
       result = result.filter((quote) => selectedGames.includes(quote.game));
     }
 
-    // Filter by search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      result = result.filter((quote) =>
-        quote.quote.toLowerCase().includes(query) ||
-        quote.game.toLowerCase().includes(query) ||
-        quote.timestamp.toLowerCase().includes(query) ||
-        quote.number.toString().includes(query)
+      result = result.filter(
+        (quote) =>
+          quote.quote.toLowerCase().includes(query) ||
+          quote.game.toLowerCase().includes(query) ||
+          quote.timestamp.toLowerCase().includes(query) ||
+          quote.number.toString().includes(query)
       );
     }
 
@@ -56,7 +50,7 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <main className="container mx-auto px-4 py-8">
-        <motion.header 
+        <motion.header
           className="mb-8"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,15 +63,14 @@ const Index = () => {
             Memorable moments captured by the community
           </p>
         </motion.header>
-        
-        <motion.div 
+
+        <motion.div
           className="glass-card rounded-lg p-4 mb-6 space-y-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.1 }}
         >
           <div className="flex flex-col md:flex-row md:items-end gap-4">
-            {/* Game Filter - Left */}
             {availableGames.length > 0 && (
               <div className="flex-1">
                 <label className="text-sm font-medium text-foreground mb-2 block">
@@ -86,8 +79,8 @@ const Index = () => {
                 <PopoverPicker
                   items={availableGames}
                   selectedItems={selectedGames}
-                  onToggle={handleGameToggle}
-                  onClearAll={handleClearGames}
+                  onToggle={toggleGame}
+                  onClearAll={clearGames}
                   renderBadge={(game, isActive, onClick) => (
                     <GameBadge
                       game={game}
@@ -100,8 +93,7 @@ const Index = () => {
                 />
               </div>
             )}
-            
-            {/* Search Bar - Right */}
+
             <div className="w-full md:w-[280px] flex-shrink-0">
               <label className="text-sm font-medium text-foreground mb-2 block">
                 Search
@@ -119,14 +111,15 @@ const Index = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="text-sm text-muted-foreground">
-            Showing {filteredQuotes.length} quote{filteredQuotes.length !== 1 ? 's' : ''}
+            Showing {filteredQuotes.length} quote
+            {filteredQuotes.length !== 1 ? "s" : ""}
           </div>
         </motion.div>
-        
+
         <LayoutGroup>
-          <motion.div 
+          <motion.div
             className="space-y-4"
             layout
             transition={{ layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }}
@@ -140,7 +133,7 @@ const Index = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ 
+                    transition={{
                       layout: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
                       opacity: { duration: 0.2 },
                       y: { duration: 0.2 },
@@ -171,10 +164,10 @@ const Index = () => {
           </motion.div>
         </LayoutGroup>
       </main>
-      
+
       <ScrollToTopButton />
     </div>
   );
 };
 
-export default Index;
+export default Quotes;

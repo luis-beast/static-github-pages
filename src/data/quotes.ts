@@ -1,9 +1,4 @@
-export interface Quote {
-  number: number;
-  quote: string;
-  game: string;
-  timestamp: string;
-}
+import { Quote } from "@/types/quote";
 
 export const quotes: Quote[] = [
   {

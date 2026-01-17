@@ -12,9 +12,9 @@ import GlobalScrollbar from "./components/GlobalScrollbar";
 
 const queryClient = new QueryClient();
 
-const AnimatedRoutes = () => {
+const AppRoutes = () => {
   const location = useLocation();
-  
+
   return (
     <>
       <Navigation />
@@ -35,7 +35,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <GlobalScrollbar />
-        <AnimatedRoutes />
+        <AppRoutes />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

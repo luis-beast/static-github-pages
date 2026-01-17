@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { getTagColor, USE_RANDOMIZED_COLORS } from "@/lib/tagColors";
+import { withOpacity, DEFAULT_INACTIVE_OPACITY, ENHANCED_INACTIVE_OPACITY, UNIFIED_INACTIVE_OPACITY, ACTIVE_BACKGROUND_OPACITY } from "@/lib/colorUtils";
 import { Plus, X } from "lucide-react";
 
 interface TagBadgeProps {
@@ -11,39 +12,46 @@ interface TagBadgeProps {
   className?: string;
 }
 
-const getColorWithOpacity = (color: string, opacity: number): string => {
-  return color.replace("hsl(", "hsla(").replace(")", `, ${opacity})`);
-};
+const SIZE_CLASSES = {
+  sm: "px-2 py-0.5 text-sm",
+  md: "px-3 py-1 text-sm",
+} as const;
 
-const TagBadge = ({ 
-  tag, 
-  size = "sm", 
-  isActive = true, 
+const TagBadge = ({
+  tag,
+  size = "sm",
+  isActive = true,
   onClick,
-  className 
+  className,
 }: TagBadgeProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  
   const tagColor = getTagColor(tag);
   const isLayman = tag.toLowerCase() === "layman";
-  
-  // Layman tag uses darker color, so needs higher opacity when inactive
-  // When not using randomized colors, all tags get slightly brighter inactive state
-  const inactiveOpacity = isLayman ? 0.6 : (!USE_RANDOMIZED_COLORS ? 0.55 : 0.4);
-  const inactiveBgOpacity = isLayman ? 0.08 : (!USE_RANDOMIZED_COLORS ? 0.06 : 0.03);
-  const inactiveColorOpacity = isLayman ? 0.6 : (!USE_RANDOMIZED_COLORS ? 0.55 : 0.4);
-  const inactiveBorderOpacity = isLayman ? 0.4 : (!USE_RANDOMIZED_COLORS ? 0.35 : 0.2);
-  
-  const tagBgColor = getColorWithOpacity(tagColor, isActive ? 0.20 : inactiveBgOpacity);
-  
-  const sizeClasses = {
-    sm: "px-2 py-0.5 text-sm",
-    md: "px-3 py-1 text-sm",
-  };
+
+  // Select appropriate opacity config based on tag type and color mode
+  const inactiveConfig = isLayman
+    ? ENHANCED_INACTIVE_OPACITY
+    : USE_RANDOMIZED_COLORS
+      ? DEFAULT_INACTIVE_OPACITY
+      : UNIFIED_INACTIVE_OPACITY;
+
+  const backgroundColor = withOpacity(
+    tagColor,
+    isActive ? ACTIVE_BACKGROUND_OPACITY : inactiveConfig.background
+  );
+
+  const textColor = isActive
+    ? tagColor
+    : withOpacity(tagColor, inactiveConfig.text);
+
+  const borderColor = isActive
+    ? tagColor
+    : withOpacity(tagColor, inactiveConfig.border);
 
   const iconSize = size === "sm" ? "w-3 h-3" : "w-3.5 h-3.5";
-  
   const Component = onClick ? "button" : "span";
-  
+
   return (
     <Component
       onClick={onClick}
@@ -51,29 +59,25 @@ const TagBadge = ({
       onMouseLeave={() => setIsHovered(false)}
       className={cn(
         "inline-flex items-center rounded-md font-medium border transition-all duration-200",
-        sizeClasses[size],
+        SIZE_CLASSES[size],
         onClick && "cursor-pointer hover:scale-105",
         className
       )}
       style={{
-        backgroundColor: tagBgColor,
-        color: isActive ? tagColor : getColorWithOpacity(tagColor, inactiveColorOpacity),
-        borderColor: isActive ? tagColor : getColorWithOpacity(tagColor, inactiveBorderOpacity),
-        opacity: isActive ? 1 : inactiveOpacity,
+        backgroundColor,
+        color: textColor,
+        borderColor,
+        opacity: isActive ? 1 : inactiveConfig.overall,
       }}
     >
       {onClick && (
-        <span 
+        <span
           className={cn(
             "transition-all duration-200 overflow-hidden",
             isHovered ? "opacity-100 w-3 mr-1" : "opacity-0 w-0 mr-0"
           )}
         >
-          {isActive ? (
-            <X className={iconSize} />
-          ) : (
-            <Plus className={iconSize} />
-          )}
+          {isActive ? <X className={iconSize} /> : <Plus className={iconSize} />}
         </span>
       )}
       {tag}

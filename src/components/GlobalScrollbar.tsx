@@ -2,157 +2,157 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+/** Minimum thumb height in pixels */
+const MIN_THUMB_HEIGHT = 40;
+
+/** Delay before hiding scrollbar after scrolling stops (ms) */
+const SCROLL_HIDE_DELAY = 1000;
+
 const GlobalScrollbar = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const [showScrollbar, setShowScrollbar] = useState(false);
-  const scrollTimeout = useRef<NodeJS.Timeout>();
+  
+  const scrollTimeoutRef = useRef<number>();
   const trackRef = useRef<HTMLDivElement>(null);
 
   // Motion values for smooth animations
   const thumbHeight = useMotionValue(100);
   const thumbTop = useMotionValue(0);
-  
+
   // Spring animations for smooth transitions
-  const springThumbHeight = useSpring(thumbHeight, { stiffness: 300, damping: 30 });
-  const springThumbTop = useSpring(thumbTop, { stiffness: 300, damping: 30 });
+  const animatedThumbHeight = useSpring(thumbHeight, { stiffness: 300, damping: 30 });
+  const animatedThumbTop = useSpring(thumbTop, { stiffness: 300, damping: 30 });
 
-  const calculateScrollbar = useCallback(() => {
-    const containerHeight = window.innerHeight;
+  const updateScrollbarDimensions = useCallback(() => {
+    const viewportHeight = window.innerHeight;
     const contentHeight = document.documentElement.scrollHeight;
-    const scrollTop = window.scrollY;
+    const scrollPosition = window.scrollY;
 
-    // Check if scrollbar is needed
-    setShowScrollbar(contentHeight > containerHeight);
+    // Only show scrollbar if content exceeds viewport
+    setShowScrollbar(contentHeight > viewportHeight);
 
-    // Calculate thumb size (minimum 40px)
-    const ratio = containerHeight / contentHeight;
-    const newThumbHeight = Math.max(40, containerHeight * ratio);
-    
+    // Calculate thumb size proportional to visible area
+    const visibleRatio = viewportHeight / contentHeight;
+    const newThumbHeight = Math.max(MIN_THUMB_HEIGHT, viewportHeight * visibleRatio);
+
     // Calculate thumb position
-    const scrollableHeight = contentHeight - containerHeight;
-    const thumbTrackHeight = containerHeight - newThumbHeight;
-    const scrollRatio = scrollableHeight > 0 ? scrollTop / scrollableHeight : 0;
-    const newThumbTop = scrollRatio * thumbTrackHeight;
+    const scrollableDistance = contentHeight - viewportHeight;
+    const thumbTrackSpace = viewportHeight - newThumbHeight;
+    const scrollProgress = scrollableDistance > 0 ? scrollPosition / scrollableDistance : 0;
+    const newThumbTop = scrollProgress * thumbTrackSpace;
 
     thumbHeight.set(newThumbHeight);
     thumbTop.set(newThumbTop);
   }, [thumbHeight, thumbTop]);
 
-  // Update scrollbar on scroll
   const handleScroll = useCallback(() => {
-    calculateScrollbar();
+    updateScrollbarDimensions();
     setIsScrolling(true);
-    
-    if (scrollTimeout.current) {
-      clearTimeout(scrollTimeout.current);
+
+    if (scrollTimeoutRef.current) {
+      window.clearTimeout(scrollTimeoutRef.current);
     }
-    scrollTimeout.current = setTimeout(() => {
+    
+    scrollTimeoutRef.current = window.setTimeout(() => {
       setIsScrolling(false);
-    }, 1000);
-  }, [calculateScrollbar]);
+    }, SCROLL_HIDE_DELAY);
+  }, [updateScrollbarDimensions]);
 
-  // Handle thumb drag
-  const handleThumbDrag = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    
-    setIsDragging(true);
-    const startY = e.clientY;
-    const startScrollTop = window.scrollY;
-    const containerHeight = window.innerHeight;
-    const contentHeight = document.documentElement.scrollHeight;
-    const currentThumbHeight = thumbHeight.get();
+  const handleThumbDrag = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
 
-    const handleMouseMove = (moveEvent: MouseEvent) => {
-      const deltaY = moveEvent.clientY - startY;
-      const thumbTrackHeight = containerHeight - currentThumbHeight;
-      const scrollableHeight = contentHeight - containerHeight;
-      const scrollDelta = (deltaY / thumbTrackHeight) * scrollableHeight;
-      window.scrollTo(0, startScrollTop + scrollDelta);
-    };
+      setIsDragging(true);
+      
+      const startY = e.clientY;
+      const startScrollTop = window.scrollY;
+      const viewportHeight = window.innerHeight;
+      const contentHeight = document.documentElement.scrollHeight;
+      const currentThumbHeight = thumbHeight.get();
 
-    const handleMouseUp = () => {
-      setIsDragging(false);
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-    };
+      const onMouseMove = (moveEvent: MouseEvent) => {
+        const deltaY = moveEvent.clientY - startY;
+        const thumbTrackSpace = viewportHeight - currentThumbHeight;
+        const scrollableDistance = contentHeight - viewportHeight;
+        const scrollDelta = (deltaY / thumbTrackSpace) * scrollableDistance;
+        window.scrollTo(0, startScrollTop + scrollDelta);
+      };
 
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  }, [thumbHeight]);
+      const onMouseUp = () => {
+        setIsDragging(false);
+        document.removeEventListener("mousemove", onMouseMove);
+        document.removeEventListener("mouseup", onMouseUp);
+      };
 
-  // Handle track click
+      document.addEventListener("mousemove", onMouseMove);
+      document.addEventListener("mouseup", onMouseUp);
+    },
+    [thumbHeight]
+  );
+
   const handleTrackClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    // Ignore if clicking on the thumb
+    // Ignore clicks on the thumb itself
     if ((e.target as HTMLElement).dataset.thumb) return;
-    
+
     const rect = e.currentTarget.getBoundingClientRect();
     const clickY = e.clientY - rect.top;
-    const containerHeight = window.innerHeight;
+    const viewportHeight = window.innerHeight;
     const contentHeight = document.documentElement.scrollHeight;
-    
-    const scrollableHeight = contentHeight - containerHeight;
-    const targetScrollRatio = clickY / containerHeight;
-    
+
+    const scrollableDistance = contentHeight - viewportHeight;
+    const targetScrollRatio = clickY / viewportHeight;
+
     window.scrollTo({
-      top: targetScrollRatio * scrollableHeight,
-      behavior: "smooth"
+      top: targetScrollRatio * scrollableDistance,
+      behavior: "smooth",
     });
   }, []);
 
-  // Set up event listeners
   useEffect(() => {
-    // Initial calculation
-    calculateScrollbar();
+    updateScrollbarDimensions();
 
-    // Listen to scroll events
     window.addEventListener("scroll", handleScroll, { passive: true });
-    
-    // Listen to resize events
-    window.addEventListener("resize", calculateScrollbar);
+    window.addEventListener("resize", updateScrollbarDimensions);
 
-    // MutationObserver to watch for content changes
-    const observer = new MutationObserver(() => {
-      calculateScrollbar();
-    });
-
-    observer.observe(document.body, {
+    // Watch for content changes
+    const mutationObserver = new MutationObserver(updateScrollbarDimensions);
+    mutationObserver.observe(document.body, {
       childList: true,
       subtree: true,
       attributes: true,
-      characterData: true
+      characterData: true,
     });
 
     // Hide native scrollbar
     document.documentElement.style.scrollbarWidth = "none";
     document.documentElement.style.overflow = "auto";
     document.body.style.overflow = "auto";
-    
-    // Add style to hide webkit scrollbar
-    const style = document.createElement("style");
-    style.id = "hide-native-scrollbar";
-    style.textContent = `
+
+    const styleElement = document.createElement("style");
+    styleElement.id = "hide-native-scrollbar";
+    styleElement.textContent = `
       ::-webkit-scrollbar { display: none !important; }
       html, body { scrollbar-width: none !important; }
     `;
-    document.head.appendChild(style);
+    document.head.appendChild(styleElement);
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", calculateScrollbar);
-      observer.disconnect();
-      if (scrollTimeout.current) {
-        clearTimeout(scrollTimeout.current);
+      window.removeEventListener("resize", updateScrollbarDimensions);
+      mutationObserver.disconnect();
+      
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
       }
-      // Remove the style element
-      const styleEl = document.getElementById("hide-native-scrollbar");
-      if (styleEl) styleEl.remove();
+      
+      document.getElementById("hide-native-scrollbar")?.remove();
     };
-  }, [calculateScrollbar, handleScroll]);
+  }, [updateScrollbarDimensions, handleScroll]);
 
-  const shouldShowThumb = showScrollbar && (isHovering || isDragging || isScrolling);
+  const isThumbVisible = showScrollbar && (isHovering || isDragging || isScrolling);
 
   if (!showScrollbar) return null;
 
@@ -164,7 +164,6 @@ const GlobalScrollbar = () => {
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Scrollbar thumb - always visible with varying opacity */}
       <motion.div
         data-thumb="true"
         className={cn(
@@ -172,21 +171,21 @@ const GlobalScrollbar = () => {
           "bg-gradient-to-b from-purple-400 to-purple-600"
         )}
         style={{
-          height: springThumbHeight,
-          top: springThumbTop,
+          height: animatedThumbHeight,
+          top: animatedThumbTop,
         }}
-        animate={{ 
-          opacity: shouldShowThumb ? 1 : 0.3,
+        animate={{
+          opacity: isThumbVisible ? 1 : 0.3,
           scale: isDragging ? 1.15 : isHovering ? 1.05 : 1,
           width: isDragging ? 10 : 8,
         }}
-        transition={{ 
-          opacity: { duration: 0.2 }, 
+        transition={{
+          opacity: { duration: 0.2 },
           scale: { duration: 0.15 },
-          width: { duration: 0.15 }
+          width: { duration: 0.15 },
         }}
         onMouseDown={handleThumbDrag}
-        whileHover={{ 
+        whileHover={{
           boxShadow: "0 0 12px hsl(270, 100%, 60%)",
         }}
       />
