@@ -25,25 +25,25 @@ export interface BadgeOpacityConfig {
   border: number;
 }
 
-/** Default opacity values for inactive badges */
+/** Default opacity values for inactive badges - no overall opacity, uses HSLA values only */
 export const DEFAULT_INACTIVE_OPACITY: BadgeOpacityConfig = {
-  overall: 0.4,
-  background: 0.03,
-  text: 0.4,
-  border: 0.2,
+  overall: 1,
+  background: 0.06,
+  text: 0.55,
+  border: 0.35,
 };
 
 /** Higher opacity values for darker/brand colors that need more visibility */
 export const ENHANCED_INACTIVE_OPACITY: BadgeOpacityConfig = {
-  overall: 0.6,
+  overall: 1,
   background: 0.08,
   text: 0.6,
   border: 0.4,
 };
 
-/** Slightly brighter opacity for non-randomized colors */
+/** Unified opacity for non-randomized colors - no overall opacity */
 export const UNIFIED_INACTIVE_OPACITY: BadgeOpacityConfig = {
-  overall: 0.55,
+  overall: 1,
   background: 0.06,
   text: 0.55,
   border: 0.35,
@@ -51,3 +51,6 @@ export const UNIFIED_INACTIVE_OPACITY: BadgeOpacityConfig = {
 
 /** Active state opacity (used for background) */
 export const ACTIVE_BACKGROUND_OPACITY = 0.2;
+
+/** Inner glow box-shadow for all badges */
+export const BADGE_INNER_GLOW_OPACITY = 0.3;
