@@ -85,10 +85,10 @@
     scrollbar-color: hsl(270, 100%, 60%) transparent;
   }
 
-  /* Themed scrollbars - Mac style with transitions */
+  /* Themed scrollbars - Mac style */
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
 
   ::-webkit-scrollbar-track {
@@ -102,9 +102,10 @@
       hsl(270, 100%, 50%)
     );
     border-radius: 9999px;
-    border: 2px solid transparent;
+    border: 3px solid transparent;
     background-clip: content-box;
-    transition: background 0.3s ease, box-shadow 0.3s ease, width 0.3s ease;
+    /* Use min-height to give the thumb a base size that can smoothly change */
+    min-height: 40px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
@@ -117,19 +118,6 @@
     box-shadow: 0 0 8px hsl(270, 100%, 60%);
   }
 
-  /* Popover scroll area - smooth scrollbar behavior */
-  .popover-scroll-area {
-    scroll-behavior: smooth;
-  }
-  
-  .popover-scroll-area::-webkit-scrollbar {
-    width: 6px;
-    transition: width 0.3s ease;
-  }
-  
-  .popover-scroll-area:hover::-webkit-scrollbar {
-    width: 8px;
-  }
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
