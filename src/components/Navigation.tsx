@@ -12,15 +12,12 @@ const Navigation = memo(function Navigation() {
   const isScrolled = useScrollState();
 
   return (
-    <motion.nav
+    <nav
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-background/80 backdrop-blur-md border-b border-border/30"
           : "bg-transparent"
       }`}
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: DURATION.normal }}
     >
       <div className="container mx-auto px-4">
         <motion.div
@@ -100,7 +97,7 @@ const Navigation = memo(function Navigation() {
           </nav>
         </motion.div>
       </div>
-    </motion.nav>
+    </nav>
   );
 });
 
