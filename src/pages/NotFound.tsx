@@ -4,9 +4,22 @@ import { motion } from "framer-motion";
 import { Home, ArrowLeft, Compass } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+// Pre-generate stable particle data
+const particleData = [...Array(75)].map((_, i) => {
+  const angle = (i / 75) * Math.PI * 2 + Math.random() * 0.5;
+  const distance = 0.6 + Math.random() * 0.5; // Distance from center (0.6-1.1)
+  return {
+    angle,
+    distance,
+    size: Math.random() * 8 + 6,
+    scale: Math.random() * 0.5 + 0.5,
+    speed: Math.random() * 0.3 + 0.2, // Individual speed variation
+  };
+});
+
 const NotFound = () => {
   const location = useLocation();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [pullStrength, setPullStrength] = useState(0); // 0 = outer, 1 = center
 
   useEffect(() => {
     console.error("404 Error:", location.pathname);
@@ -14,57 +27,55 @@ const NotFound = () => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({
-        x: (e.clientX / window.innerWidth - 0.5) * 20,
-        y: (e.clientY / window.innerHeight - 0.5) * 20,
-      });
+      // Calculate how close mouse is to center (0 = edge, 1 = center)
+      const mouseX = e.clientX / window.innerWidth;
+      const mouseY = e.clientY / window.innerHeight;
+      const distFromCenter = Math.sqrt(
+        Math.pow(mouseX - 0.5, 2) + Math.pow(mouseY - 0.5, 2)
+      );
+      // Invert: closer to center = higher pull strength
+      const strength = Math.max(0, 1 - distFromCenter * 2);
+      setPullStrength(strength);
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  const centerX = typeof window !== 'undefined' ? window.innerWidth / 2 : 500;
+  const centerY = typeof window !== 'undefined' ? window.innerHeight / 2 : 400;
+
   return (
     <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(75)].map((_, i) => {
-          const size = Math.random() * 8 + 6;
-          const startX = Math.random() * window.innerWidth;
-          const startY = Math.random() * window.innerHeight;
-          const centerX = window.innerWidth / 2;
-          const centerY = window.innerHeight / 2;
+        {particleData.map((particle, i) => {
+          // Calculate outer position (far from center)
+          const outerX = centerX + Math.cos(particle.angle) * centerX * particle.distance;
+          const outerY = centerY + Math.sin(particle.angle) * centerY * particle.distance;
           
-          // Calculate distance from center (0-1 range)
-          const distanceFromCenter = Math.sqrt(
-            Math.pow((startX - centerX) / centerX, 2) + 
-            Math.pow((startY - centerY) / centerY, 2)
-          );
-          // More transparent closer to center (0.1 at center, 0.5 at edges)
-          const opacity = Math.min(0.5, 0.1 + distanceFromCenter * 0.4);
+          // Interpolate between outer and center based on pull strength
+          const currentX = outerX + (centerX - outerX) * pullStrength;
+          const currentY = outerY + (centerY - outerY) * pullStrength;
+          
+          // Opacity: more transparent when closer to center
+          const opacity = 0.5 - pullStrength * 0.4;
           
           return (
             <motion.div
               key={i}
               className="absolute rounded-full bg-primary"
               style={{
-                width: size,
-                height: size,
-                opacity: opacity,
-              }}
-              initial={{
-                x: startX,
-                y: startY,
-                scale: Math.random() * 0.5 + 0.5,
+                width: particle.size,
+                height: particle.size,
               }}
               animate={{
-                x: [startX, centerX + (startX - centerX) * 0.3],
-                y: [startY, centerY + (startY - centerY) * 0.3],
-                opacity: [opacity, opacity * 0.5, opacity],
+                x: currentX,
+                y: currentY,
+                opacity: opacity,
+                scale: particle.scale,
               }}
               transition={{
-                duration: Math.random() * 15 + 15,
-                repeat: Infinity,
-                ease: "easeInOut",
-                repeatType: "reverse",
+                duration: 0.4 + particle.speed,
+                ease: "easeOut",
               }}
             />
           );
@@ -74,16 +85,16 @@ const NotFound = () => {
       <motion.div
         className="absolute w-96 h-96 rounded-full bg-primary/10 blur-3xl"
         animate={{
-          x: mousePosition.x * 2,
-          y: mousePosition.y * 2,
+          scale: 1 + pullStrength * 0.5,
+          opacity: 0.1 + pullStrength * 0.2,
         }}
         transition={{ type: "spring", stiffness: 50, damping: 30 }}
       />
       <motion.div
         className="absolute w-64 h-64 rounded-full bg-accent/20 blur-3xl"
         animate={{
-          x: -mousePosition.x * 1.5,
-          y: -mousePosition.y * 1.5,
+          scale: 1 + pullStrength * 0.3,
+          opacity: 0.2 + pullStrength * 0.15,
         }}
         transition={{ type: "spring", stiffness: 50, damping: 30 }}
       />
