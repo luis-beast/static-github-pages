@@ -11,7 +11,6 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
   const [isScrolling, setIsScrolling] = useState(false);
   const [canScroll, setCanScroll] = useState(false);
   const scrollTimeoutRef = useRef<number>();
-  const trackRef = useRef<HTMLDivElement>(null);
 
   const thumbHeight = useMotionValue(0);
   const thumbTop = useMotionValue(0);
@@ -86,25 +85,18 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
     [thumbHeight]
   );
 
-  const handleTrackClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).dataset.thumb) return;
-
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickY = e.clientY - rect.top;
-    const viewportHeight = window.innerHeight;
-    const contentHeight = document.documentElement.scrollHeight;
-    const scrollableDistance = contentHeight - viewportHeight;
-    const targetScrollRatio = clickY / viewportHeight;
-
-    window.scrollTo({ top: targetScrollRatio * scrollableDistance, behavior: "smooth" });
-  }, []);
-
   useEffect(() => {
-    updateScrollbarDimensions();
+    // Use requestAnimationFrame to ensure DOM is fully rendered before measuring
+    const frameId = requestAnimationFrame(() => {
+      updateScrollbarDimensions();
+    });
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", updateScrollbarDimensions);
 
-    const mutationObserver = new MutationObserver(updateScrollbarDimensions);
+    const mutationObserver = new MutationObserver(() => {
+      requestAnimationFrame(updateScrollbarDimensions);
+    });
     mutationObserver.observe(document.body, {
       childList: true,
       subtree: true,
@@ -112,6 +104,7 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
       characterData: true,
     });
 
+    // Hide native scrollbar
     document.documentElement.style.scrollbarWidth = "none";
     document.documentElement.style.overflow = "auto";
     document.body.style.overflow = "auto";
@@ -120,11 +113,12 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
     styleElement.id = "hide-native-scrollbar";
     styleElement.textContent = `
       ::-webkit-scrollbar { display: none !important; }
-      html, body { scrollbar-width: none !important; }
+      html, body { scrollbar-width: none !important; -ms-overflow-style: none !important; }
     `;
     document.head.appendChild(styleElement);
 
     return () => {
+      cancelAnimationFrame(frameId);
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateScrollbarDimensions);
       mutationObserver.disconnect();
@@ -139,10 +133,7 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
   const isThumbVisible = isHovering || isDragging || isScrolling;
 
   return (
-    <div
-      ref={trackRef}
-      className="fixed right-0 top-0 bottom-0 w-4 z-[9999] pointer-events-none"
-    >
+    <div className="fixed right-0 top-0 bottom-0 w-4 z-[9999] pointer-events-none">
       <motion.div
         data-thumb="true"
         className={cn(
@@ -161,13 +152,6 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
         onMouseLeave={() => setIsHovering(false)}
         onClick={(e) => e.stopPropagation()}
         whileHover={{ boxShadow: "0 0 12px hsl(270, 100%, 60%)" }}
-      />
-      {/* Invisible clickable track area */}
-      <div
-        className="absolute right-0 top-0 bottom-0 w-4 pointer-events-auto opacity-0"
-        onClick={handleTrackClick}
-        onMouseEnter={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
       />
     </div>
   );
