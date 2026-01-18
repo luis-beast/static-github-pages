@@ -4,24 +4,23 @@ import { motion } from "framer-motion";
 import { Home, ArrowLeft, Compass } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// Pre-generate stable particle data
 const particleData = [...Array(75)].map((_, i) => {
   const angle = (i / 75) * Math.PI * 2 + Math.random() * 0.5;
   const distance = 0.6 + Math.random() * 0.5;
-  const phase = Math.random(); // 0-1 representing where in the animation cycle to start
+  const phase = Math.random();
   return {
     angle,
     distance,
     size: Math.random() * 8 + 6,
     scale: Math.random() * 0.5 + 0.5,
     duration: Math.random() * 6 + 8,
-    phase, // Starting phase of animation
+    phase,
   };
 });
 
 const NotFound = () => {
   const location = useLocation();
-  const [mouseState, setMouseState] = useState<'idle' | 'active' | 'returning'>('idle');
+  const [mouseState, setMouseState] = useState<"idle" | "active" | "returning">("idle");
 
   useEffect(() => {
     console.error("404 Error:", location.pathname);
@@ -30,20 +29,20 @@ const NotFound = () => {
   useEffect(() => {
     let activeTimeout: NodeJS.Timeout;
     let returnTimeout: NodeJS.Timeout;
-    
+
     const handleMouseMove = () => {
-      setMouseState('active');
+      setMouseState("active");
       clearTimeout(activeTimeout);
       clearTimeout(returnTimeout);
-      
+
       activeTimeout = setTimeout(() => {
-        setMouseState('returning');
+        setMouseState("returning");
         returnTimeout = setTimeout(() => {
-          setMouseState('idle');
-        }, 1200); // Time to animate back out
+          setMouseState("idle");
+        }, 1200);
       }, 200);
     };
-    
+
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
@@ -52,8 +51,8 @@ const NotFound = () => {
     };
   }, []);
 
-  const centerX = typeof window !== 'undefined' ? window.innerWidth / 2 : 500;
-  const centerY = typeof window !== 'undefined' ? window.innerHeight / 2 : 400;
+  const centerX = typeof window !== "undefined" ? window.innerWidth / 2 : 500;
+  const centerY = typeof window !== "undefined" ? window.innerHeight / 2 : 400;
 
   return (
     <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
@@ -65,8 +64,7 @@ const NotFound = () => {
           const innerY = centerY + Math.sin(particle.angle) * centerY * 0.2;
           const midX = (outerX + innerX) / 2;
           const midY = (outerY + innerY) / 2;
-          
-          // Calculate starting position based on phase
+
           const p = particle.phase;
           let startX: number, startY: number, startOpacity: number, startScale: number;
           if (p < 0.33) {
@@ -85,17 +83,16 @@ const NotFound = () => {
             startOpacity = 0.3;
             startScale = particle.scale * 0.85;
           }
-          
+
           const getAnimation = () => {
-            if (mouseState === 'active') {
+            if (mouseState === "active") {
               return {
                 x: centerX,
                 y: centerY,
                 opacity: 0,
                 scale: particle.scale * 0.3,
               };
-            } else if (mouseState === 'returning') {
-              // Return to the starting position based on phase
+            } else if (mouseState === "returning") {
               return {
                 x: startX,
                 y: startY,
@@ -103,7 +100,6 @@ const NotFound = () => {
                 scale: startScale,
               };
             } else {
-              // Animation loop based on phase
               if (p < 0.33) {
                 return {
                   x: [outerX, innerX, outerX],
@@ -128,14 +124,14 @@ const NotFound = () => {
               }
             }
           };
-          
+
           const getTransition = () => {
-            if (mouseState === 'active') {
+            if (mouseState === "active") {
               return {
                 duration: 4 + Math.random() * 2,
                 ease: "easeInOut" as const,
               };
-            } else if (mouseState === 'returning') {
+            } else if (mouseState === "returning") {
               return {
                 duration: 1 + Math.random() * 0.3,
                 ease: "easeOut" as const,
@@ -149,7 +145,7 @@ const NotFound = () => {
               };
             }
           };
-          
+
           return (
             <motion.div
               key={i}
@@ -168,25 +164,22 @@ const NotFound = () => {
       <motion.div
         className="absolute w-96 h-96 rounded-full bg-primary/10 blur-3xl"
         animate={{
-          scale: mouseState === 'active' ? 1.5 : 1,
-          opacity: mouseState === 'active' ? 0.3 : 0.1,
+          scale: mouseState === "active" ? 1.5 : 1,
+          opacity: mouseState === "active" ? 0.3 : 0.1,
         }}
         transition={{ type: "spring", stiffness: 50, damping: 30 }}
       />
       <motion.div
         className="absolute w-64 h-64 rounded-full bg-accent/20 blur-3xl"
         animate={{
-          scale: mouseState === 'active' ? 1.3 : 1,
-          opacity: mouseState === 'active' ? 0.35 : 0.2,
+          scale: mouseState === "active" ? 1.3 : 1,
+          opacity: mouseState === "active" ? 0.35 : 0.2,
         }}
         transition={{ type: "spring", stiffness: 50, damping: 30 }}
       />
 
       <div className="relative z-10 text-center px-6">
-        <motion.div
-          className="relative mb-8"
-          style={{ perspective: 1000 }}
-        >
+        <motion.div className="relative mb-8" style={{ perspective: 1000 }}>
           <motion.h1
             className="text-[12rem] md:text-[16rem] font-black leading-none gradient-text select-none"
             initial={{ opacity: 0, scale: 0.5, rotateX: -30 }}
@@ -205,12 +198,8 @@ const NotFound = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
-            Lost in the void
-          </h2>
-          <p className="text-muted-foreground text-lg mb-2">
-            The page you're looking for has wandered off into the digital abyss.
-          </p>
+          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Lost in Layman's Mind</h2>
+          <p className="text-muted-foreground text-lg mb-2">This is not the page you're looking for.</p>
           <p className="text-muted-foreground/60 text-sm mb-8 font-mono">
             Attempted path: <span className="text-primary">{location.pathname}</span>
           </p>
@@ -222,25 +211,16 @@ const NotFound = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.5 }}
         >
-          <Button
-            asChild
-            size="lg"
-            className="group relative overflow-hidden"
-          >
+          <Button asChild size="lg" className="group relative overflow-hidden">
             <Link to="/">
               <span className="relative z-10 flex items-center gap-2">
                 <Home className="w-4 h-4" />
-                Return Home
+                Go Home
               </span>
             </Link>
           </Button>
 
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={() => window.history.back()}
-            className="group"
-          >
+          <Button variant="outline" size="lg" onClick={() => window.history.back()} className="group">
             <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
             Go Back
           </Button>
