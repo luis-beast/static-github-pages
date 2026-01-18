@@ -53,7 +53,7 @@ const Quotes = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-2">Layman's Quotes</h1>
+          <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-2">Quotes</h1>
           <p className="text-muted-foreground">Memorable moments captured by Laypeople</p>
         </motion.header>
 
