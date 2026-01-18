@@ -12,10 +12,7 @@ const Navigation = memo(function Navigation() {
   const isScrolled = useScrollState();
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    <nav
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-background/80 backdrop-blur-md border-b border-border/30"
@@ -94,7 +91,7 @@ const Navigation = memo(function Navigation() {
           </nav>
         </motion.div>
       </div>
-    </motion.nav>
+    </nav>
   );
 });
 
