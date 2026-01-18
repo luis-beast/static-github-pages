@@ -63,6 +63,28 @@ const NotFound = () => {
           const outerY = centerY + Math.sin(particle.angle) * centerY * particle.distance;
           const innerX = centerX + Math.cos(particle.angle) * centerX * 0.2;
           const innerY = centerY + Math.sin(particle.angle) * centerY * 0.2;
+          const midX = (outerX + innerX) / 2;
+          const midY = (outerY + innerY) / 2;
+          
+          // Calculate starting position based on phase
+          const p = particle.phase;
+          let startX: number, startY: number, startOpacity: number, startScale: number;
+          if (p < 0.33) {
+            startX = outerX;
+            startY = outerY;
+            startOpacity = 0.5;
+            startScale = particle.scale;
+          } else if (p < 0.66) {
+            startX = innerX;
+            startY = innerY;
+            startOpacity = 0.15;
+            startScale = particle.scale * 0.7;
+          } else {
+            startX = midX;
+            startY = midY;
+            startOpacity = 0.3;
+            startScale = particle.scale * 0.85;
+          }
           
           const getAnimation = () => {
             if (mouseState === 'active') {
@@ -73,18 +95,16 @@ const NotFound = () => {
                 scale: particle.scale * 0.3,
               };
             } else if (mouseState === 'returning') {
+              // Return to the starting position based on phase
               return {
-                x: outerX,
-                y: outerY,
-                opacity: 0.5,
-                scale: particle.scale,
+                x: startX,
+                y: startY,
+                opacity: startOpacity,
+                scale: startScale,
               };
             } else {
-              // Use phase to create different starting points in the animation
-              // Reorder the keyframes based on phase
-              const p = particle.phase;
+              // Animation loop based on phase
               if (p < 0.33) {
-                // Start from outer, go in, come back
                 return {
                   x: [outerX, innerX, outerX],
                   y: [outerY, innerY, outerY],
@@ -92,7 +112,6 @@ const NotFound = () => {
                   scale: [particle.scale, particle.scale * 0.7, particle.scale],
                 };
               } else if (p < 0.66) {
-                // Start from inner, go out, come back
                 return {
                   x: [innerX, outerX, innerX],
                   y: [innerY, outerY, innerY],
@@ -100,9 +119,6 @@ const NotFound = () => {
                   scale: [particle.scale * 0.7, particle.scale, particle.scale * 0.7],
                 };
               } else {
-                // Start from middle-ish point
-                const midX = (outerX + innerX) / 2;
-                const midY = (outerY + innerY) / 2;
                 return {
                   x: [midX, outerX, innerX, midX],
                   y: [midY, outerY, innerY, midY],
