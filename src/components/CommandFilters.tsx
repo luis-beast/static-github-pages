@@ -47,7 +47,7 @@ const CommandFilters = memo(function CommandFilters({
   resultCount,
 }: CommandFiltersProps) {
   return (
-    <div className="max-w-4xl mx-auto mb-12">
+    <div className="max-w-5xl mx-auto mb-12">
       <div className="relative group">
         <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
         
