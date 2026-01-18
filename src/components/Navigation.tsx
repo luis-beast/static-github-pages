@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { NAV_ITEMS, DURATION } from "@/lib/constants";
 import { useScrollState } from "@/hooks/useScrollState";
 import { BrandName } from "@/components/ui/GradientText";
@@ -12,7 +12,10 @@ const Navigation = memo(function Navigation() {
   const isScrolled = useScrollState();
 
   return (
-    <nav
+    <motion.nav
+      initial={{ y: "-100%" }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-background/80 backdrop-blur-md border-b border-border/30"
@@ -38,19 +41,16 @@ const Navigation = memo(function Navigation() {
               animate={{ width: isScrolled ? 32 : 40, height: isScrolled ? 32 : 40 }}
               transition={{ duration: DURATION.normal, ease: "easeInOut" }}
             />
-            <AnimatePresence mode="wait">
-              {!isHomePage && (
-                <motion.span
-                  className="relative z-10 font-semibold text-lg flex pointer-events-none"
-                  initial={{ opacity: 0, x: -10, width: 0 }}
-                  animate={{ opacity: 1, x: 0, width: "auto" }}
-                  exit={{ opacity: 0, x: -10, width: 0 }}
-                  transition={{ duration: DURATION.fast, ease: "easeInOut" }}
-                >
-                  <BrandName />
-                </motion.span>
-              )}
-            </AnimatePresence>
+            {!isHomePage && (
+              <motion.span
+                className="relative z-10 font-semibold text-lg flex pointer-events-none"
+                initial={{ opacity: 0, x: -10, width: 0 }}
+                animate={{ opacity: 1, x: 0, width: "auto" }}
+                transition={{ duration: DURATION.fast, ease: "easeInOut" }}
+              >
+                <BrandName />
+              </motion.span>
+            )}
           </Link>
 
           <nav className="relative flex items-center gap-1">
@@ -62,24 +62,18 @@ const Navigation = memo(function Navigation() {
                   to={item.path}
                   className="group relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 z-10"
                 >
-                  {/* Active state pill */}
-                  <AnimatePresence mode="wait">
-                    {isActive && (
-                      <motion.div
-                        layoutId="navbar-pill"
-                        className="absolute inset-0 bg-gradient-to-b from-[#8800FF] to-[#220033] rounded-lg"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 380,
-                          damping: 30,
-                          opacity: { duration: DURATION.fast },
-                        }}
-                      />
-                    )}
-                  </AnimatePresence>
+                  {/* Active state pill - uses layoutId for smooth sliding */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="navbar-pill"
+                      className="absolute inset-0 bg-gradient-to-b from-[#8800FF] to-[#220033] rounded-lg"
+                      transition={{
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 30,
+                      }}
+                    />
+                  )}
                   {/* Hover state background */}
                   {!isActive && (
                     <div className="absolute inset-0 rounded-lg bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -97,7 +91,7 @@ const Navigation = memo(function Navigation() {
           </nav>
         </motion.div>
       </div>
-    </nav>
+    </motion.nav>
   );
 });
 
