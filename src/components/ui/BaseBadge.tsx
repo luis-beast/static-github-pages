@@ -1,9 +1,8 @@
-import { useState, memo, useCallback, type CSSProperties, type ReactNode } from "react";
+import { useState, memo, useCallback, type CSSProperties } from "react";
 import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getBadgeStyles } from "@/lib/colorUtils";
 
-// Size configuration
 const SIZE_CLASSES = {
   sm: "px-2 py-0.5 text-sm",
   md: "px-3 py-1 text-sm",
@@ -24,13 +23,6 @@ export interface BaseBadgeProps {
   useEnhanced?: boolean;
 }
 
-/**
- * Base badge component that handles all common badge behavior:
- * - Hover state with +/x icon animation
- * - Active/inactive styling
- * - Click handling
- * - Consistent sizing
- */
 const BaseBadge = memo(function BaseBadge({
   label,
   color,

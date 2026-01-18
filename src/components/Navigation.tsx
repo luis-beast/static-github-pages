@@ -1,7 +1,7 @@
 import { memo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { NAV_ITEMS, EASING, DURATION } from "@/lib/constants";
+import { NAV_ITEMS, DURATION } from "@/lib/constants";
 import { useScrollState } from "@/hooks/useScrollState";
 import { BrandName } from "@/components/ui/GradientText";
 import avatarClear from "@/assets/avatar-clear.png";
@@ -28,7 +28,6 @@ const Navigation = memo(function Navigation() {
           animate={{ height: isScrolled ? 48 : 64 }}
           transition={{ duration: DURATION.normal, ease: "easeInOut" }}
         >
-          {/* Logo & Brand */}
           <Link
             to="/"
             className="group flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-all duration-300 hover:bg-gradient-to-b hover:from-[#8800FF] hover:to-[#220033]"
@@ -37,10 +36,7 @@ const Navigation = memo(function Navigation() {
               src={avatarClear}
               alt="LaymanLouie"
               className="rounded-lg object-cover"
-              animate={{
-                width: isScrolled ? 32 : 40,
-                height: isScrolled ? 32 : 40,
-              }}
+              animate={{ width: isScrolled ? 32 : 40, height: isScrolled ? 32 : 40 }}
               transition={{ duration: DURATION.normal, ease: "easeInOut" }}
             />
             <AnimatePresence mode="wait">
@@ -58,7 +54,6 @@ const Navigation = memo(function Navigation() {
             </AnimatePresence>
           </Link>
 
-          {/* Navigation Links */}
           <nav className="relative flex items-center gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = location.pathname === item.path;
@@ -89,9 +84,7 @@ const Navigation = memo(function Navigation() {
                   </AnimatePresence>
                   <span
                     className={`relative z-10 transition-colors duration-200 ${
-                      isActive
-                        ? "text-white"
-                        : "text-muted-foreground group-hover:text-white"
+                      isActive ? "text-white" : "text-muted-foreground group-hover:text-white"
                     }`}
                   >
                     {item.label}

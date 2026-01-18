@@ -3,7 +3,6 @@ import BaseBadge from "@/components/ui/BaseBadge";
 
 export type Permission = "follower" | "subscriber" | "moderator" | "streamer";
 
-// Permission configuration with semantic colors
 const PERMISSION_CONFIG = {
   follower: { label: "Follower", color: "hsl(200, 80%, 55%)" },
   subscriber: { label: "Subscriber", color: "hsl(45, 90%, 55%)" },
@@ -27,7 +26,6 @@ const PermissionBadge = memo(function PermissionBadge({
   className,
 }: PermissionBadgeProps) {
   const { label, color } = PERMISSION_CONFIG[permission];
-  const useEnhanced = permission === "streamer";
 
   return (
     <BaseBadge
@@ -37,7 +35,7 @@ const PermissionBadge = memo(function PermissionBadge({
       isActive={isActive}
       onClick={onClick}
       className={className}
-      useEnhanced={useEnhanced}
+      useEnhanced={permission === "streamer"}
     />
   );
 });

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Permission } from "@/components/PermissionBadge";
 import { Search, X, ArrowDownAZ, ArrowUpZA, ArrowDown01, ArrowUp10, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -28,9 +29,9 @@ interface CommandFiltersProps {
   resultCount: number;
 }
 
-const permissions: Permission[] = ["follower", "subscriber", "moderator", "streamer"];
+const PERMISSIONS: Permission[] = ["follower", "subscriber", "moderator", "streamer"];
 
-const CommandFilters = ({
+const CommandFilters = memo(function CommandFilters({
   alphabeticalOrder,
   onAlphabeticalToggle,
   roleSort,
@@ -45,16 +46,14 @@ const CommandFilters = ({
   onClearTags,
   onClearPermissions,
   resultCount,
-}: CommandFiltersProps) => {
+}: CommandFiltersProps) {
   return (
     <div className="glass-card rounded-lg p-4 mb-6 space-y-4">
       <div className="flex flex-col md:flex-row md:items-end gap-4">
         <div className="flex-1">
-          <label className="text-sm font-medium text-foreground mb-2 block">
-            Role Filter
-          </label>
+          <label className="text-sm font-medium text-foreground mb-2 block">Role Filter</label>
           <div className="flex flex-wrap items-center gap-2 p-0.5">
-            {permissions.map((perm) => (
+            {PERMISSIONS.map((perm) => (
               <div key={perm} className="p-0.5">
                 <PermissionBadge
                   permission={perm}
@@ -82,11 +81,9 @@ const CommandFilters = ({
             </AnimatePresence>
           </div>
         </div>
-        
+
         <div className="w-full md:w-[280px] flex-shrink-0">
-          <label className="text-sm font-medium text-foreground mb-2 block">
-            Search
-          </label>
+          <label className="text-sm font-medium text-foreground mb-2 block">Search</label>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
@@ -100,13 +97,11 @@ const CommandFilters = ({
           </div>
         </div>
       </div>
-      
+
       <div className="flex flex-col md:flex-row md:items-end gap-4">
         {availableTags.length > 0 && (
           <div className="flex-1">
-            <label className="text-sm font-medium text-foreground mb-2 block">
-              Tag Filter
-            </label>
+            <label className="text-sm font-medium text-foreground mb-2 block">Tag Filter</label>
             <FilterPopover
               triggerLabel="Tags"
               sections={[
@@ -117,12 +112,7 @@ const CommandFilters = ({
                   onToggle: onTagToggle,
                   onClearAll: onClearTags,
                   renderBadge: (tag, isActive, onClick) => (
-                    <TagBadge
-                      tag={tag}
-                      size="sm"
-                      isActive={isActive}
-                      onClick={onClick}
-                    />
+                    <TagBadge tag={tag} size="sm" isActive={isActive} onClick={onClick} />
                   ),
                   clearThreshold: 3,
                 },
@@ -130,19 +120,15 @@ const CommandFilters = ({
             />
           </div>
         )}
-        
+
         <div className="flex-shrink-0">
-          <label className="text-sm font-medium text-foreground mb-2 block">
-            Sort
-          </label>
+          <label className="text-sm font-medium text-foreground mb-2 block">Sort</label>
           <div className="flex gap-2">
             <Button
               variant="outline"
               size="sm"
               onClick={onAlphabeticalToggle}
-              className={cn(
-                "bg-primary/20 border-primary text-foreground hover:bg-primary/30"
-              )}
+              className="bg-primary/20 border-primary text-foreground hover:bg-primary/30"
             >
               {alphabeticalOrder === "asc" ? (
                 <ArrowDownAZ className="w-4 h-4 mr-1.5" />
@@ -151,7 +137,7 @@ const CommandFilters = ({
               )}
               {alphabeticalOrder === "asc" ? "A-Z" : "Z-A"}
             </Button>
-            
+
             <Button
               variant="outline"
               size="sm"
@@ -171,7 +157,7 @@ const CommandFilters = ({
                 <ArrowUp10 className="w-4 h-4 mr-1.5" />
               )}
               Role
-              <span 
+              <span
                 className={cn(
                   "text-xs overflow-hidden transition-all duration-200",
                   roleSort !== "off" ? "ml-1 w-3 opacity-75" : "w-0 opacity-0"
@@ -183,12 +169,12 @@ const CommandFilters = ({
           </div>
         </div>
       </div>
-      
+
       <div className="text-sm text-muted-foreground">
-        Showing {resultCount} command{resultCount !== 1 ? 's' : ''}
+        Showing {resultCount} command{resultCount !== 1 ? "s" : ""}
       </div>
     </div>
   );
-};
+});
 
 export default CommandFilters;

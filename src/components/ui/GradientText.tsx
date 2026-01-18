@@ -8,10 +8,6 @@ interface GradientTextProps {
   as?: "span" | "h1" | "h2" | "h3" | "p";
 }
 
-/**
- * Reusable gradient text component
- * Supports predefined brand gradients or custom gradient strings
- */
 const GradientText = memo(function GradientText({
   children,
   gradient = "layman",
@@ -40,14 +36,7 @@ const GradientText = memo(function GradientText({
 
 export default GradientText;
 
-/**
- * Convenience component for the LaymanLouie brand name
- */
-export const BrandName = memo(function BrandName({ 
-  className = "" 
-}: { 
-  className?: string 
-}) {
+export const BrandName = memo(function BrandName({ className = "" }: { className?: string }) {
   return (
     <span className={className}>
       <GradientText gradient="layman">Layman</GradientText>

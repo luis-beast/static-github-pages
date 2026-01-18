@@ -5,11 +5,7 @@ interface UseScrollStateOptions {
   threshold?: number;
 }
 
-/**
- * Custom hook for tracking scroll position state
- * Optimized with passive event listener and cleanup
- */
-export function useScrollState(options: UseScrollStateOptions = {}) {
+export const useScrollState = (options: UseScrollStateOptions = {}) => {
   const { threshold = SCROLL_THRESHOLD } = options;
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -18,12 +14,10 @@ export function useScrollState(options: UseScrollStateOptions = {}) {
   }, [threshold]);
 
   useEffect(() => {
-    // Check initial state
     handleScroll();
-    
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
   return isScrolled;
-}
+};

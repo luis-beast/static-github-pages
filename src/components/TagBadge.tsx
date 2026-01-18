@@ -17,18 +17,15 @@ const TagBadge = memo(function TagBadge({
   onClick,
   className,
 }: TagBadgeProps) {
-  const color = getTagColor(tag);
-  const useEnhanced = tag.toLowerCase() === "layman";
-
   return (
     <BaseBadge
       label={tag}
-      color={color}
+      color={getTagColor(tag)}
       size={size}
       isActive={isActive}
       onClick={onClick}
       className={className}
-      useEnhanced={useEnhanced}
+      useEnhanced={tag.toLowerCase() === "layman"}
     />
   );
 });

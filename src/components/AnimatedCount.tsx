@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface AnimatedCountProps {
@@ -6,16 +6,13 @@ interface AnimatedCountProps {
   className?: string;
 }
 
-const AnimatedCount = ({ value, className = "" }: AnimatedCountProps) => {
+const AnimatedCount = memo(function AnimatedCount({ value, className = "" }: AnimatedCountProps) {
   const prevValueRef = useRef(value);
   const [direction, setDirection] = useState<"up" | "down">("up");
 
   useEffect(() => {
-    if (value > prevValueRef.current) {
-      setDirection("up");
-    } else if (value < prevValueRef.current) {
-      setDirection("down");
-    }
+    if (value > prevValueRef.current) setDirection("up");
+    else if (value < prevValueRef.current) setDirection("down");
     prevValueRef.current = value;
   }, [value]);
 
@@ -25,18 +22,9 @@ const AnimatedCount = ({ value, className = "" }: AnimatedCountProps) => {
         {value > 0 && (
           <motion.span
             key={value}
-            initial={{ 
-              y: direction === "up" ? 10 : -10, 
-              opacity: 0 
-            }}
-            animate={{ 
-              y: 0, 
-              opacity: 1 
-            }}
-            exit={{ 
-              y: direction === "up" ? -10 : 10, 
-              opacity: 0 
-            }}
+            initial={{ y: direction === "up" ? 10 : -10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: direction === "up" ? -10 : 10, opacity: 0 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="inline-block"
           >
@@ -46,6 +34,6 @@ const AnimatedCount = ({ value, className = "" }: AnimatedCountProps) => {
       </AnimatePresence>
     </span>
   );
-};
+});
 
 export default AnimatedCount;

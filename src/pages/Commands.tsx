@@ -1,19 +1,13 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback, memo } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import CommandCard from "@/components/CommandCard";
 import CommandFilters, { AlphabeticalOrder, RoleSort } from "@/components/CommandFilters";
 import { Permission } from "@/components/PermissionBadge";
 import { commands } from "@/data/commands";
 import { normalizeForSearch } from "@/lib/searchUtils";
+import { PERMISSION_PRIORITY, layoutTransition } from "@/lib/constants";
 
-const PERMISSION_PRIORITY: Record<Permission, number> = {
-  follower: 1,
-  subscriber: 2,
-  moderator: 3,
-  streamer: 4,
-};
-
-const Commands = () => {
+const Commands = memo(function Commands() {
   const [alphabeticalOrder, setAlphabeticalOrder] = useState<AlphabeticalOrder>("asc");
   const [roleSort, setRoleSort] = useState<RoleSort>("off");
   const [selectedPermissions, setSelectedPermissions] = useState<Permission[]>([]);
@@ -22,36 +16,36 @@ const Commands = () => {
 
   const availableTags = useMemo(() => {
     const groups = new Set<string>();
-    commands.forEach((cmd) => {
-      cmd.commandGroups?.forEach((group) => groups.add(group));
-    });
+    commands.forEach((cmd) => cmd.commandGroups?.forEach((group) => groups.add(group)));
     return Array.from(groups).sort();
   }, []);
 
-  const toggleAlphabeticalOrder = () => {
-    setAlphabeticalOrder((prev) => (prev === "asc" ? "desc" : "asc"));
-  };
+  const toggleAlphabeticalOrder = useCallback(
+    () => setAlphabeticalOrder((prev) => (prev === "asc" ? "desc" : "asc")),
+    []
+  );
 
-  const cycleRoleSort = () => {
-    setRoleSort((prev) => {
-      if (prev === "off") return "asc";
-      if (prev === "asc") return "desc";
-      return "off";
-    });
-  };
+  const cycleRoleSort = useCallback(
+    () => setRoleSort((prev) => (prev === "off" ? "asc" : prev === "asc" ? "desc" : "off")),
+    []
+  );
 
-  const togglePermission = (permission: Permission) => {
-    setSelectedPermissions((prev) =>
-      prev.includes(permission) ? prev.filter((p) => p !== permission) : [...prev, permission],
-    );
-  };
+  const togglePermission = useCallback(
+    (permission: Permission) =>
+      setSelectedPermissions((prev) =>
+        prev.includes(permission) ? prev.filter((p) => p !== permission) : [...prev, permission]
+      ),
+    []
+  );
 
-  const toggleTag = (tag: string) => {
-    setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
-  };
+  const toggleTag = useCallback(
+    (tag: string) =>
+      setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag])),
+    []
+  );
 
-  const clearTags = () => setSelectedTags([]);
-  const clearPermissions = () => setSelectedPermissions([]);
+  const clearTags = useCallback(() => setSelectedTags([]), []);
+  const clearPermissions = useCallback(() => setSelectedPermissions([]), []);
 
   const filteredCommands = useMemo(() => {
     let result =
@@ -70,7 +64,7 @@ const Commands = () => {
           normalizeForSearch(cmd.name).includes(query) ||
           cmd.aliases?.some((alias) => normalizeForSearch(alias).includes(query)) ||
           normalizeForSearch(cmd.description).includes(query) ||
-          cmd.commandGroups?.some((group) => normalizeForSearch(group).includes(query)),
+          cmd.commandGroups?.some((group) => normalizeForSearch(group).includes(query))
       );
     }
 
@@ -125,7 +119,7 @@ const Commands = () => {
         </motion.div>
 
         <LayoutGroup>
-          <motion.div className="space-y-4" layout transition={{ layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }}>
+          <motion.div className="space-y-4" layout transition={layoutTransition}>
             <AnimatePresence mode="popLayout">
               {filteredCommands.length > 0 ? (
                 filteredCommands.map((command, index) => (
@@ -135,11 +129,7 @@ const Commands = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{
-                      layout: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
-                      opacity: { duration: 0.2 },
-                      y: { duration: 0.2 },
-                    }}
+                    transition={layoutTransition}
                   >
                     <CommandCard command={command} orderNumber={index + 1} />
                   </motion.div>
@@ -161,6 +151,6 @@ const Commands = () => {
       </main>
     </div>
   );
-};
+});
 
 export default Commands;

@@ -8,10 +8,6 @@ interface ScrollRevealSectionProps {
   delay?: number;
 }
 
-/**
- * Scroll-triggered reveal animation component
- * Animates in/out as elements enter/exit the viewport
- */
 const ScrollRevealSection = memo(function ScrollRevealSection({
   children,
   className = "",
@@ -25,11 +21,7 @@ const ScrollRevealSection = memo(function ScrollRevealSection({
       ref={ref}
       initial={{ opacity: 0, y: 60 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
-      transition={{
-        duration: DURATION.reveal,
-        delay: isInView ? delay : 0,
-        ease: EASING.smooth,
-      }}
+      transition={{ duration: DURATION.reveal, delay: isInView ? delay : 0, ease: EASING.smooth }}
       className={className}
     >
       {children}

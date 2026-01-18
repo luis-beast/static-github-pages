@@ -1,22 +1,19 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, memo, useCallback, useEffect, useRef } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const MIN_THUMB_HEIGHT = 40;
 const SCROLL_HIDE_DELAY = 1000;
 
-const GlobalScrollbar = () => {
+const GlobalScrollbar = memo(function GlobalScrollbar() {
   const [isHovering, setIsHovering] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const [hasScrollableContent, setHasScrollableContent] = useState(false);
-  
   const scrollTimeoutRef = useRef<number>();
   const trackRef = useRef<HTMLDivElement>(null);
 
   const thumbHeight = useMotionValue(0);
   const thumbTop = useMotionValue(0);
-
   const animatedThumbHeight = useSpring(thumbHeight, { stiffness: 300, damping: 30 });
   const animatedThumbTop = useSpring(thumbTop, { stiffness: 300, damping: 30 });
 
@@ -24,23 +21,18 @@ const GlobalScrollbar = () => {
     const viewportHeight = window.innerHeight;
     const contentHeight = document.documentElement.scrollHeight;
     const scrollPosition = window.scrollY;
-
-    const canScroll = contentHeight > viewportHeight + 1; // +1 for rounding errors
-    setHasScrollableContent(canScroll);
+    const canScroll = contentHeight > viewportHeight + 1;
 
     if (canScroll) {
       const visibleRatio = viewportHeight / contentHeight;
       const newThumbHeight = Math.max(MIN_THUMB_HEIGHT, viewportHeight * visibleRatio);
-
       const scrollableDistance = contentHeight - viewportHeight;
       const thumbTrackSpace = viewportHeight - newThumbHeight;
       const scrollProgress = scrollableDistance > 0 ? scrollPosition / scrollableDistance : 0;
-      const newThumbTop = scrollProgress * thumbTrackSpace;
 
       thumbHeight.set(newThumbHeight);
-      thumbTop.set(newThumbTop);
+      thumbTop.set(scrollProgress * thumbTrackSpace);
     } else {
-      // No scrollable content - shrink thumb to 0 at top
       thumbHeight.set(0);
       thumbTop.set(0);
     }
@@ -50,22 +42,16 @@ const GlobalScrollbar = () => {
     updateScrollbarDimensions();
     setIsScrolling(true);
 
-    if (scrollTimeoutRef.current) {
-      window.clearTimeout(scrollTimeoutRef.current);
-    }
-    
-    scrollTimeoutRef.current = window.setTimeout(() => {
-      setIsScrolling(false);
-    }, SCROLL_HIDE_DELAY);
+    if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
+    scrollTimeoutRef.current = window.setTimeout(() => setIsScrolling(false), SCROLL_HIDE_DELAY);
   }, [updateScrollbarDimensions]);
 
   const handleThumbDrag = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault();
       e.stopPropagation();
-
       setIsDragging(true);
-      
+
       const startY = e.clientY;
       const startScrollTop = window.scrollY;
       const viewportHeight = window.innerHeight;
@@ -99,19 +85,14 @@ const GlobalScrollbar = () => {
     const clickY = e.clientY - rect.top;
     const viewportHeight = window.innerHeight;
     const contentHeight = document.documentElement.scrollHeight;
-
     const scrollableDistance = contentHeight - viewportHeight;
     const targetScrollRatio = clickY / viewportHeight;
 
-    window.scrollTo({
-      top: targetScrollRatio * scrollableDistance,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: targetScrollRatio * scrollableDistance, behavior: "smooth" });
   }, []);
 
   useEffect(() => {
     updateScrollbarDimensions();
-
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", updateScrollbarDimensions);
 
@@ -139,16 +120,11 @@ const GlobalScrollbar = () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateScrollbarDimensions);
       mutationObserver.disconnect();
-      
-      if (scrollTimeoutRef.current) {
-        window.clearTimeout(scrollTimeoutRef.current);
-      }
-      
+      if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
       document.getElementById("hide-native-scrollbar")?.remove();
     };
   }, [updateScrollbarDimensions, handleScroll]);
 
-  // Show thumb when there's scrollable content, hide when there isn't (thumb shrinks to 0)
   const isThumbVisible = isHovering || isDragging || isScrolling;
 
   return (
@@ -165,27 +141,18 @@ const GlobalScrollbar = () => {
           "absolute right-1 w-2 rounded-full cursor-pointer",
           "bg-gradient-to-b from-purple-400 to-purple-600"
         )}
-        style={{
-          height: animatedThumbHeight,
-          top: animatedThumbTop,
-        }}
+        style={{ height: animatedThumbHeight, top: animatedThumbTop }}
         animate={{
           opacity: isThumbVisible ? 1 : 0.3,
           scale: isDragging ? 1.15 : isHovering ? 1.05 : 1,
           width: isDragging ? 10 : 8,
         }}
-        transition={{
-          opacity: { duration: 0.2 },
-          scale: { duration: 0.15 },
-          width: { duration: 0.15 },
-        }}
+        transition={{ opacity: { duration: 0.2 }, scale: { duration: 0.15 }, width: { duration: 0.15 } }}
         onMouseDown={handleThumbDrag}
-        whileHover={{
-          boxShadow: "0 0 12px hsl(270, 100%, 60%)",
-        }}
+        whileHover={{ boxShadow: "0 0 12px hsl(270, 100%, 60%)" }}
       />
     </div>
   );
-};
+});
 
 export default GlobalScrollbar;

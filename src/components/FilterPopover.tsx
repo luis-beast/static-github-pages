@@ -1,12 +1,8 @@
-import { useState } from "react";
+import { useState, memo } from "react";
 import { Filter, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 
 interface FilterSection<T extends string> {
@@ -24,13 +20,12 @@ interface FilterPopoverProps {
   triggerLabel?: string;
 }
 
-const FilterPopover = ({ sections, triggerLabel = "Filters" }: FilterPopoverProps) => {
+const FilterPopover = memo(function FilterPopover({
+  sections,
+  triggerLabel = "Filters",
+}: FilterPopoverProps) {
   const [open, setOpen] = useState(false);
-  
-  const totalSelected = sections.reduce(
-    (acc, section) => acc + section.selectedItems.length,
-    0
-  );
+  const totalSelected = sections.reduce((acc, section) => acc + section.selectedItems.length, 0);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -63,17 +58,12 @@ const FilterPopover = ({ sections, triggerLabel = "Filters" }: FilterPopoverProp
           </AnimatePresence>
         </Button>
       </PopoverTrigger>
-      <PopoverContent
-        align="start"
-        className="w-auto max-w-[400px] p-4 bg-popover border-border"
-      >
+      <PopoverContent align="start" className="w-auto max-w-[400px] p-4 bg-popover border-border">
         <div className="space-y-4">
           {sections.map((section, sectionIndex) => (
             <div key={section.label}>
               <div className="flex items-center justify-between mb-2">
-                <label className="text-sm font-medium text-foreground">
-                  {section.label}
-                </label>
+                <label className="text-sm font-medium text-foreground">{section.label}</label>
                 <AnimatePresence mode="wait">
                   {section.selectedItems.length >= (section.clearThreshold ?? 3) && (
                     <motion.button
@@ -94,10 +84,8 @@ const FilterPopover = ({ sections, triggerLabel = "Filters" }: FilterPopoverProp
               <div className="flex flex-wrap gap-1.5">
                 {section.items.map((item) => (
                   <div key={item} className="p-0.5">
-                    {section.renderBadge(
-                      item,
-                      section.selectedItems.includes(item),
-                      () => section.onToggle(item)
+                    {section.renderBadge(item, section.selectedItems.includes(item), () =>
+                      section.onToggle(item)
                     )}
                   </div>
                 ))}
@@ -111,6 +99,6 @@ const FilterPopover = ({ sections, triggerLabel = "Filters" }: FilterPopoverProp
       </PopoverContent>
     </Popover>
   );
-};
+});
 
 export default FilterPopover;
