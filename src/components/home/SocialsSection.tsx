@@ -103,7 +103,7 @@ const SocialsSection = () => {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="group relative flex items-center justify-center rounded-3xl border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden h-[120px] w-[120px] hover:w-[240px] transition-[width] duration-500 ease-out"
+                className="group relative flex items-center rounded-3xl border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden h-[120px] pl-[36px] pr-[36px] group-hover:pr-6 transition-all duration-500 ease-out"
               >
                 {/* Background glow on hover */}
                 <div 
@@ -113,23 +113,23 @@ const SocialsSection = () => {
                   }}
                 />
 
-                {/* Content container */}
-                <div className="relative flex items-center px-6">
-                  {/* Icon - centered initially, moves left on hover */}
+                {/* Content container - flex with items centered */}
+                <div className="relative flex items-center">
+                  {/* Icon - stays in place, color animates */}
                   <div 
-                    className="w-12 h-12 shrink-0 [&>svg]:w-full [&>svg]:h-full transition-all duration-500 ease-out group-hover:-translate-x-1"
+                    className="w-12 h-12 shrink-0 [&>svg]:w-full [&>svg]:h-full"
                   >
                     {social.name === "TikTok" ? (
-                      <div className="w-full h-full [&>svg]:w-full [&>svg]:h-full group-hover:[&>svg]:fill-[url(#tiktok-gradient)]">
+                      <div className="w-full h-full [&>svg]:w-full [&>svg]:h-full [&>svg]:transition-all [&>svg]:duration-300 group-hover:[&>svg]:fill-[url(#tiktok-gradient)]">
                         {social.icon}
                       </div>
                     ) : social.name === "Instagram" ? (
-                      <div className="w-full h-full [&>svg]:w-full [&>svg]:h-full group-hover:[&>svg]:fill-[url(#instagram-gradient)]">
+                      <div className="w-full h-full [&>svg]:w-full [&>svg]:h-full [&>svg]:transition-all [&>svg]:duration-300 group-hover:[&>svg]:fill-[url(#instagram-gradient)]">
                         {social.icon}
                       </div>
                     ) : (
                       <div 
-                        className="w-full h-full [&>svg]:w-full [&>svg]:h-full transition-colors duration-300"
+                        className="w-full h-full [&>svg]:w-full [&>svg]:h-full [&>svg]:transition-colors [&>svg]:duration-300"
                         style={{ 
                           '--brand-color': social.brandColor 
                         } as React.CSSProperties}
@@ -141,17 +141,13 @@ const SocialsSection = () => {
                     )}
                   </div>
                   
-                  {/* Text - animates in after icon moves */}
-                  <span 
-                    className="font-semibold text-lg whitespace-nowrap overflow-hidden transition-all duration-300 delay-100 ease-out max-w-0 opacity-0 group-hover:max-w-[100px] group-hover:opacity-100 group-hover:ml-3"
-                  >
-                    {social.name}
-                  </span>
-                  
-                  {/* External link icon - animates in last */}
-                  <ExternalLink 
-                    className="w-4 h-4 text-muted-foreground shrink-0 transition-all duration-300 delay-200 ease-out opacity-0 ml-0 group-hover:opacity-100 group-hover:ml-2" 
-                  />
+                  {/* Text and external link - both animate from width 0 */}
+                  <div className="flex items-center overflow-hidden transition-all duration-500 ease-out w-0 opacity-0 group-hover:w-[120px] group-hover:opacity-100">
+                    <span className="font-semibold text-lg whitespace-nowrap ml-3">
+                      {social.name}
+                    </span>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground shrink-0 ml-2" />
+                  </div>
                 </div>
               </motion.a>
             </ScrollRevealSection>
