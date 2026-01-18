@@ -1,6 +1,8 @@
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import avatarClear from "@/assets/avatar-clear.png";
+
 const NAV_ITEMS = [
   { path: "/quotes", label: "Quotes" },
   { path: "/commands", label: "Commands" },
@@ -8,36 +10,81 @@ const NAV_ITEMS = [
 
 const Navigation = () => {
   const location = useLocation();
+  const isHomePage = location.pathname === "/";
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <motion.nav
-      className="glass-card sticky top-0 z-50 border-b border-border/50"
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        isScrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border/30"
+          : "bg-transparent"
+      }`}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <motion.div
+          className="flex items-center justify-between"
+          animate={{ height: isScrolled ? 48 : 64 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
           <Link
             to="/"
             className="group flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-all duration-300 hover:bg-gradient-to-br hover:from-[hsl(270,80%,40%)] hover:to-[hsl(280,90%,25%)]"
           >
-            <img
+            <motion.img
               src={avatarClear}
               alt="LaymanLouie"
-              className="w-10 h-10 rounded-lg object-cover"
-            />
-            <span
-              className="font-semibold text-lg"
-              style={{
-                background: "linear-gradient(to bottom, #bb66ff, #8800FF)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
+              className="rounded-lg object-cover"
+              animate={{
+                width: isScrolled ? 32 : 40,
+                height: isScrolled ? 32 : 40,
               }}
-            >
-              LaymanLouie
-            </span>
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            />
+            <AnimatePresence mode="wait">
+              {!isHomePage && (
+                <motion.span
+                  className="font-semibold text-lg flex"
+                  initial={{ opacity: 0, x: -10, width: 0 }}
+                  animate={{ opacity: 1, x: 0, width: "auto" }}
+                  exit={{ opacity: 0, x: -10, width: 0 }}
+                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                >
+                  <span
+                    style={{
+                      background: "linear-gradient(to bottom, #ffffff, #a0a0a0)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    Layman
+                  </span>
+                  <span
+                    style={{
+                      background: "linear-gradient(to bottom, #bb66ff, #8800FF)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    Louie
+                  </span>
+                </motion.span>
+              )}
+            </AnimatePresence>
           </Link>
 
           <div className="relative flex items-center gap-1">
@@ -81,7 +128,7 @@ const Navigation = () => {
               );
             })}
           </div>
-        </div>
+        </motion.div>
       </div>
     </motion.nav>
   );

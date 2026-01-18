@@ -8,6 +8,8 @@ import Quotes from "./pages/Index";
 import Commands from "./pages/Commands";
 import NotFound from "./pages/NotFound";
 import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
+import ScrollToTopButton from "./components/ScrollToTopButton";
 import GlobalScrollbar from "./components/GlobalScrollbar";
 
 const queryClient = new QueryClient();
@@ -16,15 +18,19 @@ const AppRoutes = () => {
   const location = useLocation();
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navigation />
-      <Routes location={location} key={location.pathname}>
-        <Route path="/" element={<Home />} />
-        <Route path="/quotes" element={<Quotes />} />
-        <Route path="/commands" element={<Commands />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </>
+      <div className="flex-1">
+        <Routes location={location} key={location.pathname}>
+          <Route path="/" element={<Home />} />
+          <Route path="/quotes" element={<Quotes />} />
+          <Route path="/commands" element={<Commands />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </div>
+      <Footer />
+      <ScrollToTopButton />
+    </div>
   );
 };
 

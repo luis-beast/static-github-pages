@@ -6,7 +6,6 @@ import DiscordSection from "@/components/home/DiscordSection";
 import ScheduleSection from "@/components/home/ScheduleSection";
 import SetupSection from "@/components/home/SetupSection";
 import MerchSection from "@/components/home/MerchSection";
-import FooterSection from "@/components/home/FooterSection";
 
 const Home = () => {
   return (
@@ -19,7 +18,6 @@ const Home = () => {
       <ScheduleSection />
       <SetupSection />
       <MerchSection />
-      <FooterSection />
     </div>
   );
 };
