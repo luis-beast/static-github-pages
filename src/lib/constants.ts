@@ -25,14 +25,13 @@ export const NAV_ITEMS = [
 
 export const FOOTER_NAV_LINKS = [
   { label: "Home", path: "/" },
-  { label: "Quotes", path: "/quotes" },
-  { label: "Commands", path: "/commands" },
+  { label: "About Us", path: "/#" },
 ] as const;
 
 export const FOOTER_LEGAL_LINKS = [
   { label: "Privacy Policy", path: "#" },
   { label: "Terms of Use", path: "#" },
-  { label: "Community Guidelines", path: "#" },
+  { label: "Sales and Refunds", path: "#" },
 ] as const;
 
 export const KNOWN_ROUTES = ["/", "/quotes", "/commands"] as const;
