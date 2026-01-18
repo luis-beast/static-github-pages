@@ -1,5 +1,5 @@
 import { useLocation, Link } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,12 +13,21 @@ interface ParticleState {
   scale: number;
 }
 
+interface ParticleConfig {
+  angle: number;
+  distance: number;
+  size: number;
+  baseScale: number;
+  duration: number;
+  phaseOffset: number;
+}
+
 const NotFound = () => {
   const location = useLocation();
-  const [mouseState, setMouseState] = useState<"idle" | "active" | "returning">("idle");
-  const [particles, setParticles] = useState<ParticleState[]>([]);
+  const mouseStateRef = useRef<"idle" | "active" | "returning">("idle");
+  const [, forceRender] = useState(0);
   
-  const configsRef = useRef(
+  const configsRef = useRef<ParticleConfig[]>(
     [...Array(PARTICLE_COUNT)].map((_, i) => ({
       angle: (i / PARTICLE_COUNT) * Math.PI * 2 + Math.random() * 0.5,
       distance: 0.6 + Math.random() * 0.5,
@@ -29,18 +38,21 @@ const NotFound = () => {
     }))
   );
   
+  const particlesRef = useRef<ParticleState[]>([]);
   const startTimeRef = useRef(Date.now());
   const capturedRef = useRef<ParticleState[]>([]);
   const capturedProgressRef = useRef<number[]>([]);
   const rafRef = useRef<number>();
   const transitionStartRef = useRef(0);
   const transitionFromRef = useRef<ParticleState[]>([]);
+  const activeTimeoutRef = useRef<NodeJS.Timeout>();
+  const returnTimeoutRef = useRef<NodeJS.Timeout>();
 
   const centerX = typeof window !== "undefined" ? window.innerWidth / 2 : 500;
   const centerY = typeof window !== "undefined" ? window.innerHeight / 2 : 400;
 
   // Calculate position for a particle at a given progress (0-1)
-  const getPosition = (configIndex: number, progress: number): ParticleState => {
+  const getPosition = useCallback((configIndex: number, progress: number): ParticleState => {
     const config = configsRef.current[configIndex];
     const outerX = centerX + Math.cos(config.angle) * centerX * config.distance;
     const outerY = centerY + Math.sin(config.angle) * centerY * config.distance;
@@ -56,14 +68,14 @@ const NotFound = () => {
       opacity: 0.5 - t * 0.35,
       scale: config.baseScale * (1 - t * 0.3),
     };
-  };
+  }, [centerX, centerY]);
 
   // Get current progress for a particle
-  const getProgress = (configIndex: number): number => {
+  const getProgress = useCallback((configIndex: number): number => {
     const config = configsRef.current[configIndex];
     const elapsed = (Date.now() - startTimeRef.current) / 1000;
     return (elapsed / config.duration + config.phaseOffset) % 1;
-  };
+  }, []);
 
   // Easing functions
   const easeInOutQuad = (t: number) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
@@ -81,43 +93,53 @@ const NotFound = () => {
     console.error("404 Error:", location.pathname);
   }, [location.pathname]);
 
+  // Initialize particles
+  useEffect(() => {
+    particlesRef.current = configsRef.current.map((_, i) => 
+      getPosition(i, configsRef.current[i].phaseOffset)
+    );
+    forceRender(n => n + 1);
+  }, [getPosition]);
+
   // Main animation loop
   useEffect(() => {
     const animate = () => {
       const configs = configsRef.current;
+      const mouseState = mouseStateRef.current;
       
       if (mouseState === "idle") {
         // Animate based on phase
-        const newParticles = configs.map((_, i) => getPosition(i, getProgress(i)));
-        setParticles(newParticles);
+        particlesRef.current = configs.map((_, i) => getPosition(i, getProgress(i)));
       } else if (mouseState === "active") {
         // Animate toward center
         const elapsed = Date.now() - transitionStartRef.current;
-        const newParticles = configs.map((config, i) => {
+        particlesRef.current = configs.map((config, i) => {
           const duration = 3000 + config.phaseOffset * 2000;
           const t = Math.min(elapsed / duration, 1);
           const eased = easeInOutQuad(t);
+          const from = transitionFromRef.current[i] || getPosition(i, config.phaseOffset);
           const target: ParticleState = {
             x: centerX,
             y: centerY,
             opacity: 0,
             scale: config.baseScale * 0.3,
           };
-          return lerp(transitionFromRef.current[i], target, eased);
+          return lerp(from, target, eased);
         });
-        setParticles(newParticles);
       } else if (mouseState === "returning") {
         // Animate back to captured position
         const elapsed = Date.now() - transitionStartRef.current;
-        const newParticles = configs.map((config, i) => {
+        particlesRef.current = configs.map((config, i) => {
           const duration = 800 + config.phaseOffset * 400;
           const t = Math.min(elapsed / duration, 1);
           const eased = easeOutCubic(t);
-          return lerp(transitionFromRef.current[i], capturedRef.current[i], eased);
+          const from = transitionFromRef.current[i] || { x: centerX, y: centerY, opacity: 0, scale: config.baseScale * 0.3 };
+          const target = capturedRef.current[i] || getPosition(i, config.phaseOffset);
+          return lerp(from, target, eased);
         });
-        setParticles(newParticles);
       }
 
+      forceRender(n => n + 1);
       rafRef.current = requestAnimationFrame(animate);
     };
 
@@ -125,42 +147,40 @@ const NotFound = () => {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [mouseState, centerX, centerY]);
+  }, [centerX, centerY, getPosition, getProgress]);
 
-  // Mouse movement handler
+  // Mouse movement handler - separate effect with no changing dependencies
   useEffect(() => {
-    let activeTimeout: NodeJS.Timeout;
-    let returnTimeout: NodeJS.Timeout;
-
     const handleMouseMove = () => {
       // Clear any existing timeouts
-      clearTimeout(activeTimeout);
-      clearTimeout(returnTimeout);
+      if (activeTimeoutRef.current) clearTimeout(activeTimeoutRef.current);
+      if (returnTimeoutRef.current) clearTimeout(returnTimeoutRef.current);
 
-      if (mouseState === "idle") {
+      if (mouseStateRef.current === "idle") {
         // Capture current positions and progress when first becoming active
         capturedRef.current = configsRef.current.map((_, i) => getPosition(i, getProgress(i)));
         capturedProgressRef.current = configsRef.current.map((_, i) => getProgress(i));
         transitionFromRef.current = [...capturedRef.current];
         transitionStartRef.current = Date.now();
-        setMouseState("active");
+        mouseStateRef.current = "active";
       }
 
-      // Always set the timeout to transition to returning after mouse stops
-      activeTimeout = setTimeout(() => {
-        // Start returning - capture current particle positions as starting point
-        transitionFromRef.current = particles.length ? [...particles] : capturedRef.current;
+      // Set timeout to transition to returning after mouse stops
+      activeTimeoutRef.current = setTimeout(() => {
+        // Start returning - use current particle positions as starting point
+        transitionFromRef.current = [...particlesRef.current];
         transitionStartRef.current = Date.now();
-        setMouseState("returning");
+        mouseStateRef.current = "returning";
 
-        returnTimeout = setTimeout(() => {
-          // Resume idle - adjust start time so each particle continues from its captured progress
+        returnTimeoutRef.current = setTimeout(() => {
+          // Resume idle - adjust start time so particles continue from captured progress
           const now = Date.now();
-          // Use average adjustment for simplicity
-          const avgProgress = capturedProgressRef.current.reduce((a, b) => a + b, 0) / capturedProgressRef.current.length;
+          const avgProgress = capturedProgressRef.current.length > 0 
+            ? capturedProgressRef.current.reduce((a, b) => a + b, 0) / capturedProgressRef.current.length
+            : 0;
           const avgDuration = configsRef.current.reduce((a, c) => a + c.duration, 0) / configsRef.current.length;
           startTimeRef.current = now - avgProgress * avgDuration * 1000;
-          setMouseState("idle");
+          mouseStateRef.current = "idle";
         }, 1000);
       }, 200);
     };
@@ -168,16 +188,16 @@ const NotFound = () => {
     window.addEventListener("mousemove", handleMouseMove);
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
-      clearTimeout(activeTimeout);
-      clearTimeout(returnTimeout);
+      if (activeTimeoutRef.current) clearTimeout(activeTimeoutRef.current);
+      if (returnTimeoutRef.current) clearTimeout(returnTimeoutRef.current);
     };
-  }, [mouseState, particles]);
+  }, [getPosition, getProgress]);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
         {configsRef.current.map((config, i) => {
-          const pos = particles[i] || getPosition(i, config.phaseOffset);
+          const pos = particlesRef.current[i] || getPosition(i, config.phaseOffset);
           return (
             <div
               key={i}
@@ -196,16 +216,16 @@ const NotFound = () => {
       <motion.div
         className="absolute w-96 h-96 rounded-full bg-primary/10 blur-3xl"
         animate={{
-          scale: mouseState === "active" ? 1.5 : 1,
-          opacity: mouseState === "active" ? 0.3 : 0.1,
+          scale: mouseStateRef.current === "active" ? 1.5 : 1,
+          opacity: mouseStateRef.current === "active" ? 0.3 : 0.1,
         }}
         transition={{ type: "spring", stiffness: 50, damping: 30 }}
       />
       <motion.div
         className="absolute w-64 h-64 rounded-full bg-accent/20 blur-3xl"
         animate={{
-          scale: mouseState === "active" ? 1.3 : 1,
-          opacity: mouseState === "active" ? 0.35 : 0.2,
+          scale: mouseStateRef.current === "active" ? 1.3 : 1,
+          opacity: mouseStateRef.current === "active" ? 0.35 : 0.2,
         }}
         transition={{ type: "spring", stiffness: 50, damping: 30 }}
       />
