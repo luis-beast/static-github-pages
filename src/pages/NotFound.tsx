@@ -8,13 +8,14 @@ import { Button } from "@/components/ui/button";
 const particleData = [...Array(75)].map((_, i) => {
   const angle = (i / 75) * Math.PI * 2 + Math.random() * 0.5;
   const distance = 0.6 + Math.random() * 0.5;
+  const phase = Math.random(); // 0-1 representing where in the animation cycle to start
   return {
     angle,
     distance,
     size: Math.random() * 8 + 6,
     scale: Math.random() * 0.5 + 0.5,
     duration: Math.random() * 6 + 8,
-    delay: Math.random() * 3,
+    phase, // Starting phase of animation
   };
 });
 
@@ -79,12 +80,36 @@ const NotFound = () => {
                 scale: particle.scale,
               };
             } else {
-              return {
-                x: [outerX, innerX, outerX],
-                y: [outerY, innerY, outerY],
-                opacity: [0.5, 0.15, 0.5],
-                scale: [particle.scale, particle.scale * 0.7, particle.scale],
-              };
+              // Use phase to create different starting points in the animation
+              // Reorder the keyframes based on phase
+              const p = particle.phase;
+              if (p < 0.33) {
+                // Start from outer, go in, come back
+                return {
+                  x: [outerX, innerX, outerX],
+                  y: [outerY, innerY, outerY],
+                  opacity: [0.5, 0.15, 0.5],
+                  scale: [particle.scale, particle.scale * 0.7, particle.scale],
+                };
+              } else if (p < 0.66) {
+                // Start from inner, go out, come back
+                return {
+                  x: [innerX, outerX, innerX],
+                  y: [innerY, outerY, innerY],
+                  opacity: [0.15, 0.5, 0.15],
+                  scale: [particle.scale * 0.7, particle.scale, particle.scale * 0.7],
+                };
+              } else {
+                // Start from middle-ish point
+                const midX = (outerX + innerX) / 2;
+                const midY = (outerY + innerY) / 2;
+                return {
+                  x: [midX, outerX, innerX, midX],
+                  y: [midY, outerY, innerY, midY],
+                  opacity: [0.3, 0.5, 0.15, 0.3],
+                  scale: [particle.scale * 0.85, particle.scale, particle.scale * 0.7, particle.scale * 0.85],
+                };
+              }
             }
           };
           
@@ -104,7 +129,7 @@ const NotFound = () => {
                 duration: particle.duration,
                 ease: "easeInOut" as const,
                 repeat: Infinity,
-                delay: particle.delay,
+                delay: 0,
               };
             }
           };
