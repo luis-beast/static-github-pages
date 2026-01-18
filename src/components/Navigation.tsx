@@ -30,19 +30,21 @@ const Navigation = memo(function Navigation() {
         >
           <Link
             to="/"
-            className="group flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-all duration-300 hover:bg-gradient-to-b hover:from-[#8800FF] hover:to-[#220033]"
+            className="group relative flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-all duration-300"
           >
+            {/* Hover gradient background */}
+            <div className="absolute inset-0 rounded-lg bg-gradient-to-b from-[#8800FF] to-[#220033] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             <motion.img
               src={avatarClear}
               alt="LaymanLouie"
-              className="rounded-lg object-cover"
+              className="relative z-10 rounded-lg object-cover"
               animate={{ width: isScrolled ? 32 : 40, height: isScrolled ? 32 : 40 }}
               transition={{ duration: DURATION.normal, ease: "easeInOut" }}
             />
             <AnimatePresence mode="wait">
               {!isHomePage && (
                 <motion.span
-                  className="font-semibold text-lg flex"
+                  className="relative z-10 font-semibold text-lg flex pointer-events-none"
                   initial={{ opacity: 0, x: -10, width: 0 }}
                   animate={{ opacity: 1, x: 0, width: "auto" }}
                   exit={{ opacity: 0, x: -10, width: 0 }}
