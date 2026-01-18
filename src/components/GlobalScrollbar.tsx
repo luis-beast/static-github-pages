@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, useSpring, useMotionValue } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -102,6 +103,18 @@ const GlobalScrollbar = () => {
     });
   }, []);
 
+  // Detect 404 page
+  const location = useLocation();
+  const knownRoutes = ["/", "/quotes", "/commands"];
+  const isNotFoundPage = !knownRoutes.includes(location.pathname);
+
+  useEffect(() => {
+    // Reset and recalculate on route change
+    requestAnimationFrame(() => {
+      updateScrollbarDimensions();
+    });
+  }, [location.pathname, updateScrollbarDimensions]);
+
   useEffect(() => {
     updateScrollbarDimensions();
 
@@ -140,6 +153,9 @@ const GlobalScrollbar = () => {
       document.getElementById("hide-native-scrollbar")?.remove();
     };
   }, [updateScrollbarDimensions, handleScroll]);
+
+  // Hide on 404 page entirely
+  if (isNotFoundPage) return null;
 
   const isThumbVisible = showScrollbar && (isHovering || isDragging || isScrolling);
 
