@@ -5,12 +5,6 @@ const MerchSection = () => {
   return (
     <section className="py-32 px-6">
       <div className="max-w-4xl mx-auto text-center">
-        <ScrollRevealSection>
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-3xl bg-rose-500/10 mb-8">
-            <ShoppingBag className="w-10 h-10 text-rose-400" />
-          </div>
-        </ScrollRevealSection>
-
         <ScrollRevealSection delay={0.1}>
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">The Merch</h2>
         </ScrollRevealSection>
