@@ -9,6 +9,7 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
   const [isHovering, setIsHovering] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [canScroll, setCanScroll] = useState(false);
   const scrollTimeoutRef = useRef<number>();
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -21,9 +22,11 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
     const viewportHeight = window.innerHeight;
     const contentHeight = document.documentElement.scrollHeight;
     const scrollPosition = window.scrollY;
-    const canScroll = contentHeight > viewportHeight + 1;
+    const hasOverflow = contentHeight > viewportHeight + 1;
 
-    if (canScroll) {
+    setCanScroll(hasOverflow);
+
+    if (hasOverflow) {
       const visibleRatio = viewportHeight / contentHeight;
       const newThumbHeight = Math.max(MIN_THUMB_HEIGHT, viewportHeight * visibleRatio);
       const scrollableDistance = contentHeight - viewportHeight;
@@ -124,6 +127,8 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
       document.getElementById("hide-native-scrollbar")?.remove();
     };
   }, [updateScrollbarDimensions, handleScroll]);
+
+  if (!canScroll) return null;
 
   const isThumbVisible = isHovering || isDragging || isScrolling;
 
