@@ -7,38 +7,39 @@ import { Button } from "@/components/ui/button";
 // Pre-generate stable particle data
 const particleData = [...Array(75)].map((_, i) => {
   const angle = (i / 75) * Math.PI * 2 + Math.random() * 0.5;
-  const distance = 0.6 + Math.random() * 0.5; // Distance from center (0.6-1.1)
+  const distance = 0.6 + Math.random() * 0.5;
   return {
     angle,
     distance,
     size: Math.random() * 8 + 6,
     scale: Math.random() * 0.5 + 0.5,
-    speed: Math.random() * 0.3 + 0.2, // Individual speed variation
+    duration: Math.random() * 4 + 3, // 3-7 seconds for the animation cycle
+    delay: Math.random() * 2, // Stagger the animations
   };
 });
 
 const NotFound = () => {
   const location = useLocation();
-  const [pullStrength, setPullStrength] = useState(0); // 0 = outer, 1 = center
+  const [isMouseActive, setIsMouseActive] = useState(false);
 
   useEffect(() => {
     console.error("404 Error:", location.pathname);
   }, [location.pathname]);
 
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      // Calculate how close mouse is to center (0 = edge, 1 = center)
-      const mouseX = e.clientX / window.innerWidth;
-      const mouseY = e.clientY / window.innerHeight;
-      const distFromCenter = Math.sqrt(
-        Math.pow(mouseX - 0.5, 2) + Math.pow(mouseY - 0.5, 2)
-      );
-      // Invert: closer to center = higher pull strength
-      const strength = Math.max(0, 1 - distFromCenter * 2);
-      setPullStrength(strength);
+    let timeout: NodeJS.Timeout;
+    
+    const handleMouseMove = () => {
+      setIsMouseActive(true);
+      clearTimeout(timeout);
+      timeout = setTimeout(() => setIsMouseActive(false), 150);
     };
+    
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      clearTimeout(timeout);
+    };
   }, []);
 
   const centerX = typeof window !== 'undefined' ? window.innerWidth / 2 : 500;
@@ -52,12 +53,9 @@ const NotFound = () => {
           const outerX = centerX + Math.cos(particle.angle) * centerX * particle.distance;
           const outerY = centerY + Math.sin(particle.angle) * centerY * particle.distance;
           
-          // Interpolate between outer and center based on pull strength
-          const currentX = outerX + (centerX - outerX) * pullStrength;
-          const currentY = outerY + (centerY - outerY) * pullStrength;
-          
-          // Opacity: more transparent when closer to center
-          const opacity = 0.5 - pullStrength * 0.4;
+          // Inner position (closer to center, but not all the way for normal animation)
+          const innerX = centerX + Math.cos(particle.angle) * centerX * 0.2;
+          const innerY = centerY + Math.sin(particle.angle) * centerY * 0.2;
           
           return (
             <motion.div
@@ -67,15 +65,27 @@ const NotFound = () => {
                 width: particle.size,
                 height: particle.size,
               }}
-              animate={{
-                x: currentX,
-                y: currentY,
-                opacity: opacity,
-                scale: particle.scale,
+              animate={isMouseActive ? {
+                // Mouse active: go ALL the way to center, fully invisible
+                x: centerX,
+                y: centerY,
+                opacity: 0,
+                scale: particle.scale * 0.3,
+              } : {
+                // Normal: animate between outer and inner positions
+                x: [outerX, innerX, outerX],
+                y: [outerY, innerY, outerY],
+                opacity: [0.5, 0.15, 0.5], // Fade as they get closer to center
+                scale: [particle.scale, particle.scale * 0.7, particle.scale],
               }}
-              transition={{
-                duration: 0.4 + particle.speed,
+              transition={isMouseActive ? {
+                duration: 0.5,
                 ease: "easeOut",
+              } : {
+                duration: particle.duration,
+                repeat: Infinity,
+                ease: "easeInOut",
+                delay: particle.delay,
               }}
             />
           );
@@ -85,16 +95,16 @@ const NotFound = () => {
       <motion.div
         className="absolute w-96 h-96 rounded-full bg-primary/10 blur-3xl"
         animate={{
-          scale: 1 + pullStrength * 0.5,
-          opacity: 0.1 + pullStrength * 0.2,
+          scale: isMouseActive ? 1.5 : 1,
+          opacity: isMouseActive ? 0.3 : 0.1,
         }}
         transition={{ type: "spring", stiffness: 50, damping: 30 }}
       />
       <motion.div
         className="absolute w-64 h-64 rounded-full bg-accent/20 blur-3xl"
         animate={{
-          scale: 1 + pullStrength * 0.3,
-          opacity: 0.2 + pullStrength * 0.15,
+          scale: isMouseActive ? 1.3 : 1,
+          opacity: isMouseActive ? 0.35 : 0.2,
         }}
         transition={{ type: "spring", stiffness: 50, damping: 30 }}
       />
