@@ -25,7 +25,6 @@ const NotFound = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
-      {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
           <motion.div
@@ -49,7 +48,6 @@ const NotFound = () => {
         ))}
       </div>
 
-      {/* Glowing orbs */}
       <motion.div
         className="absolute w-96 h-96 rounded-full bg-primary/10 blur-3xl"
         animate={{
@@ -68,7 +66,6 @@ const NotFound = () => {
       />
 
       <div className="relative z-10 text-center px-6">
-        {/* Animated 404 */}
         <motion.div
           className="relative mb-8"
           style={{ perspective: 1000 }}
@@ -85,23 +82,6 @@ const NotFound = () => {
             404
           </motion.h1>
 
-          {/* Floating compass */}
-          <motion.div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
-          >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            >
-              <Compass className="w-16 h-16 text-primary/30" />
-            </motion.div>
-          </motion.div>
-        </motion.div>
-
-        {/* Message */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -118,7 +98,6 @@ const NotFound = () => {
           </p>
         </motion.div>
 
-        {/* Action buttons */}
         <motion.div
           className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           initial={{ opacity: 0, y: 20 }}
@@ -148,16 +127,6 @@ const NotFound = () => {
             Go Back
           </Button>
         </motion.div>
-
-        {/* Fun Easter egg hint */}
-        <motion.p
-          className="mt-12 text-xs text-muted-foreground/40 italic"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-        >
-          Try moving your mouse around... ✨
-        </motion.p>
       </div>
     </div>
   );
