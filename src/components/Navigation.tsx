@@ -28,7 +28,9 @@ const Navigation = memo(function Navigation() {
             to="/"
             className="group relative flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-all duration-300"
           >
-            <div className="absolute inset-0 rounded-lg bg-gradient-to-b from-[#8800FF] to-[#220033] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <div className={`absolute inset-0 rounded-lg bg-gradient-to-b from-[#8800FF] to-[#220033] transition-opacity duration-300 ${
+              isHomePage ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+            }`} />
             <img
               src={avatarClear}
               alt="LaymanLouie"
