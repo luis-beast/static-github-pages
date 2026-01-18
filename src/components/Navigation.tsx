@@ -94,7 +94,7 @@ const Navigation = () => {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 z-10 ${
+                  className={`group relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 z-10 ${
                     !isActive ? "hover:bg-white/10" : ""
                   }`}
                 >
@@ -119,7 +119,7 @@ const Navigation = () => {
                     className={`relative z-10 transition-colors duration-200 ${
                       isActive
                         ? "text-white"
-                        : "text-muted-foreground hover:text-white"
+                        : "text-muted-foreground group-hover:text-white"
                     }`}
                   >
                     {item.label}
