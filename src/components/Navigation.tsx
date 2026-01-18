@@ -61,15 +61,10 @@ const Navigation = memo(function Navigation() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="group relative px-5 py-2.5 rounded-lg text-sm font-medium z-10"
+                  className={`group relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 z-10 ${
+                    !isActive ? "hover:bg-white/10" : ""
+                  }`}
                 >
-                  {/* Hover background - always present, animated opacity */}
-                  <motion.div
-                    className="absolute inset-0 bg-white/10 rounded-lg"
-                    initial={{ opacity: 0 }}
-                    whileHover={{ opacity: isActive ? 0 : 1 }}
-                    transition={{ duration: 0.2 }}
-                  />
                   <AnimatePresence mode="wait">
                     {isActive && (
                       <motion.div
