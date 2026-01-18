@@ -29,6 +29,7 @@ interface CapturedPosition {
 const NotFound = () => {
   const location = useLocation();
   const [mouseState, setMouseState] = useState<"idle" | "active" | "returning">("idle");
+  const [idleKey, setIdleKey] = useState(0);
   const capturedPositions = useRef<CapturedPosition[]>([]);
   const animationStartTime = useRef<number>(Date.now());
 
@@ -84,6 +85,7 @@ const NotFound = () => {
         returnTimeout = setTimeout(() => {
           // Update animation start time so phase continues from captured position
           animationStartTime.current = Date.now();
+          setIdleKey(k => k + 1); // Force animation restart
           setMouseState("idle");
         }, 1200);
       }, 200);
@@ -196,7 +198,7 @@ const NotFound = () => {
 
           return (
             <motion.div
-              key={i}
+              key={`${i}-${idleKey}`}
               className="absolute rounded-full bg-primary"
               style={{
                 width: particle.size,
