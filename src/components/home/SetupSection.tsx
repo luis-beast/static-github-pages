@@ -18,9 +18,6 @@ const SetupSection = () => {
       <div className="max-w-4xl mx-auto relative">
         <ScrollRevealSection>
           <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center">
-              <Monitor className="w-6 h-6 text-emerald-400" />
-            </div>
             <h2 className="text-4xl md:text-6xl font-bold tracking-tight">The Setup</h2>
           </div>
         </ScrollRevealSection>
