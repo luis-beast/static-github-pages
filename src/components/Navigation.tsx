@@ -24,7 +24,7 @@ const Navigation = () => {
 
   return (
     <motion.nav
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-background/80 backdrop-blur-md border-b border-border/30"
           : "bg-transparent"
@@ -41,7 +41,7 @@ const Navigation = () => {
         >
           <Link
             to="/"
-            className="group flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-all duration-300 hover:bg-gradient-to-br hover:from-[hsl(270,80%,40%)] hover:to-[hsl(280,90%,25%)]"
+            className="group flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-all duration-300 hover:bg-gradient-to-b hover:from-[#8800FF] hover:to-[#220033]"
           >
             <motion.img
               src={avatarClear}
@@ -102,7 +102,7 @@ const Navigation = () => {
                     {isActive && (
                       <motion.div
                         layoutId="navbar-pill"
-                        className="absolute inset-0 bg-gradient-to-br from-[hsl(270,80%,40%)] to-[hsl(280,90%,25%)] rounded-lg"
+                        className="absolute inset-0 bg-gradient-to-b from-[#8800FF] to-[#220033] rounded-lg"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}

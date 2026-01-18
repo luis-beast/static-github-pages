@@ -52,10 +52,24 @@ const HeroSection = () => {
           transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
         >
-          <span className="bg-gradient-to-b from-foreground via-foreground/90 to-foreground/60 bg-clip-text text-transparent">
+          <span
+            style={{
+              background: "linear-gradient(to bottom, #ffffff, #a0a0a0)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
             Layman
           </span>
-          <span className="bg-gradient-to-b from-primary via-primary to-accent bg-clip-text text-transparent">
+          <span
+            style={{
+              background: "linear-gradient(to bottom, #bb66FF, #8800FF)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+            }}
+          >
             Louie
           </span>
         </motion.h1>

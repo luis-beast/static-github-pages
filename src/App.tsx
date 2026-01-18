@@ -18,7 +18,7 @@ const AppRoutes = () => {
   const location = useLocation();
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col pt-16">
       <Navigation />
       <div className="flex-1">
         <Routes location={location} key={location.pathname}>

@@ -59,7 +59,28 @@ const Footer = () => {
         {/* Bottom section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 pt-6">
           <p className="text-xs text-muted-foreground/60">
-            Copyright © {currentYear} LaymanLouie. All rights reserved.
+            Copyright © {currentYear}{" "}
+            <span
+              style={{
+                background: "linear-gradient(to bottom, #ffffff, #a0a0a0)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Layman
+            </span>
+            <span
+              style={{
+                background: "linear-gradient(to bottom, #bb66FF, #8800FF)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Louie
+            </span>
+            . All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground/60 flex items-center">
             Made with
