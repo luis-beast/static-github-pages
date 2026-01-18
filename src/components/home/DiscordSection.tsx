@@ -22,13 +22,13 @@ const DiscordSection = () => {
 
         <ScrollRevealSection delay={0.2}>
           <p className="text-xl text-muted-foreground mb-4 font-light">
-            Our Discord server is where we share conversations, laughs, memes, games, and genuinely good vibes.
+            Our server on Discord is where we share games, laughs, memes, conversations, and genuinely good vibes.
           </p>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.3}>
           <p className="text-lg text-muted-foreground/80 mb-10">
-            If you want to be part of the Laypeople outside of streams, this is the best place to be!
+            If you want to be part of the Laypeople outside of the stream, this is the best place to be!
           </p>
         </ScrollRevealSection>
 
