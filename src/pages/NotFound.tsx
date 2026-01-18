@@ -1,6 +1,6 @@
 import { useLocation, Link } from "react-router-dom";
 import { useEffect, useState, useRef, useCallback } from "react";
-import { motion, useAnimationControls } from "framer-motion";
+import { motion } from "framer-motion";
 import { Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -49,9 +49,7 @@ const getPositionAtProgress = (
 
 const Particle = ({
   config,
-  index,
   mouseState,
-  captureTime,
   centerX,
   centerY,
 }: {
@@ -62,7 +60,6 @@ const Particle = ({
   centerX: number;
   centerY: number;
 }) => {
-  const controls = useAnimationControls();
   const startTimeRef = useRef(Date.now());
   const capturedProgressRef = useRef(0);
   const rafRef = useRef<number>();
@@ -76,7 +73,7 @@ const Particle = ({
     return (elapsed / config.duration + config.phaseOffset) % 1;
   }, [config.duration, config.phaseOffset]);
 
-  // Idle animation loop
+  // Idle animation loop using RAF
   useEffect(() => {
     if (mouseState !== "idle") {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -96,61 +93,80 @@ const Particle = ({
     };
   }, [mouseState, config, centerX, centerY, getCurrentProgress]);
 
-  // Handle state transitions
+  // Handle mouse state transitions
   useEffect(() => {
     if (mouseState === "active") {
       // Capture current progress when becoming active
       capturedProgressRef.current = getCurrentProgress();
       
       // Animate to center
-      controls.start({
-        x: centerX,
-        y: centerY,
-        opacity: 0,
-        scale: config.baseScale * 0.3,
-        transition: {
-          duration: 3 + Math.random() * 2,
-          ease: "easeInOut",
-        },
-      });
+      const duration = 3000 + Math.random() * 2000;
+      const startPos = { ...position };
+      const targetPos = { x: centerX, y: centerY, opacity: 0, scale: config.baseScale * 0.3 };
+      const startTime = Date.now();
+
+      const animateToCenter = () => {
+        const elapsed = Date.now() - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // easeInOutQuad
+
+        setPosition({
+          x: startPos.x + (targetPos.x - startPos.x) * eased,
+          y: startPos.y + (targetPos.y - startPos.y) * eased,
+          opacity: startPos.opacity + (targetPos.opacity - startPos.opacity) * eased,
+          scale: startPos.scale + (targetPos.scale - startPos.scale) * eased,
+        });
+
+        if (t < 1 && mouseState === "active") {
+          rafRef.current = requestAnimationFrame(animateToCenter);
+        }
+      };
+
+      rafRef.current = requestAnimationFrame(animateToCenter);
     } else if (mouseState === "returning") {
       // Return to captured position
-      const capturedPos = getPositionAtProgress(
-        capturedProgressRef.current,
-        config,
-        centerX,
-        centerY
-      );
+      const capturedPos = getPositionAtProgress(capturedProgressRef.current, config, centerX, centerY);
+      const duration = 800 + Math.random() * 400;
+      const startPos = { ...position };
+      const startTime = Date.now();
 
-      controls.start({
-        x: capturedPos.x,
-        y: capturedPos.y,
-        opacity: capturedPos.opacity,
-        scale: capturedPos.scale,
-        transition: {
-          duration: 0.8 + Math.random() * 0.4,
-          ease: "easeOut",
-        },
-      });
+      const animateBack = () => {
+        const elapsed = Date.now() - startTime;
+        const t = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
+
+        setPosition({
+          x: startPos.x + (capturedPos.x - startPos.x) * eased,
+          y: startPos.y + (capturedPos.y - startPos.y) * eased,
+          opacity: startPos.opacity + (capturedPos.opacity - startPos.opacity) * eased,
+          scale: startPos.scale + (capturedPos.scale - startPos.scale) * eased,
+        });
+
+        if (t < 1 && mouseState === "returning") {
+          rafRef.current = requestAnimationFrame(animateBack);
+        }
+      };
 
       // Update start time so idle animation continues from captured progress
       startTimeRef.current = Date.now() - capturedProgressRef.current * config.duration * 1000;
+      
+      rafRef.current = requestAnimationFrame(animateBack);
     }
-  }, [mouseState, controls, config, centerX, centerY, getCurrentProgress]);
 
-  // Use controls for active/returning, direct state for idle
-  const animateProps = mouseState === "idle" ? position : undefined;
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [mouseState]);
 
   return (
-    <motion.div
+    <div
       className="absolute rounded-full bg-primary"
       style={{
         width: config.size,
         height: config.size,
+        transform: `translate(${position.x - config.size / 2}px, ${position.y - config.size / 2}px) scale(${position.scale})`,
+        opacity: position.opacity,
       }}
-      initial={position}
-      animate={mouseState === "idle" ? position : undefined}
-      {...(mouseState !== "idle" && { animate: controls })}
     />
   );
 };
