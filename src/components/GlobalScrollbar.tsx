@@ -9,12 +9,12 @@ const GlobalScrollbar = () => {
   const [isHovering, setIsHovering] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
-  const [showScrollbar, setShowScrollbar] = useState(false);
+  const [hasScrollableContent, setHasScrollableContent] = useState(false);
   
   const scrollTimeoutRef = useRef<number>();
   const trackRef = useRef<HTMLDivElement>(null);
 
-  const thumbHeight = useMotionValue(100);
+  const thumbHeight = useMotionValue(0);
   const thumbTop = useMotionValue(0);
 
   const animatedThumbHeight = useSpring(thumbHeight, { stiffness: 300, damping: 30 });
@@ -25,18 +25,25 @@ const GlobalScrollbar = () => {
     const contentHeight = document.documentElement.scrollHeight;
     const scrollPosition = window.scrollY;
 
-    setShowScrollbar(contentHeight > viewportHeight);
+    const canScroll = contentHeight > viewportHeight + 1; // +1 for rounding errors
+    setHasScrollableContent(canScroll);
 
-    const visibleRatio = viewportHeight / contentHeight;
-    const newThumbHeight = Math.max(MIN_THUMB_HEIGHT, viewportHeight * visibleRatio);
+    if (canScroll) {
+      const visibleRatio = viewportHeight / contentHeight;
+      const newThumbHeight = Math.max(MIN_THUMB_HEIGHT, viewportHeight * visibleRatio);
 
-    const scrollableDistance = contentHeight - viewportHeight;
-    const thumbTrackSpace = viewportHeight - newThumbHeight;
-    const scrollProgress = scrollableDistance > 0 ? scrollPosition / scrollableDistance : 0;
-    const newThumbTop = scrollProgress * thumbTrackSpace;
+      const scrollableDistance = contentHeight - viewportHeight;
+      const thumbTrackSpace = viewportHeight - newThumbHeight;
+      const scrollProgress = scrollableDistance > 0 ? scrollPosition / scrollableDistance : 0;
+      const newThumbTop = scrollProgress * thumbTrackSpace;
 
-    thumbHeight.set(newThumbHeight);
-    thumbTop.set(newThumbTop);
+      thumbHeight.set(newThumbHeight);
+      thumbTop.set(newThumbTop);
+    } else {
+      // No scrollable content - shrink thumb to 0 at top
+      thumbHeight.set(0);
+      thumbTop.set(0);
+    }
   }, [thumbHeight, thumbTop]);
 
   const handleScroll = useCallback(() => {
@@ -141,9 +148,7 @@ const GlobalScrollbar = () => {
     };
   }, [updateScrollbarDimensions, handleScroll]);
 
-  const isThumbVisible = showScrollbar && (isHovering || isDragging || isScrolling);
-
-  if (!showScrollbar) return null;
+  const isThumbVisible = hasScrollableContent && (isHovering || isDragging || isScrolling);
 
   return (
     <div
