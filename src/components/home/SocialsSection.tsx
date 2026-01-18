@@ -50,9 +50,7 @@ const SocialsSection = () => {
     <section className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
-            Stay Connected
-          </h2>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">Stay Connected</h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
@@ -72,18 +70,13 @@ const SocialsSection = () => {
                 whileTap={{ scale: 0.98 }}
                 className="group relative flex flex-col items-center justify-center p-8 rounded-3xl border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden"
               >
-                {/* Gradient overlay on hover */}
                 <div
                   className={`absolute inset-0 bg-gradient-to-br ${social.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
                 />
 
                 <div className="relative z-10 flex flex-col items-center">
-                  <div className="mb-4 text-foreground group-hover:text-primary transition-colors">
-                    {social.icon}
-                  </div>
-                  <span className="font-semibold text-lg mb-2">
-                    {social.name}
-                  </span>
+                  <div className="mb-4 text-foreground group-hover:text-primary transition-colors">{social.icon}</div>
+                  <span className="font-semibold text-lg mb-2">{social.name}</span>
                   <ExternalLink className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
                 </div>
               </motion.a>
