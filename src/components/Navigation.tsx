@@ -45,7 +45,7 @@ const Navigation = memo(function Navigation() {
         >
           <Link
             to="/"
-            className="group relative flex items-center justify-center rounded-xl border border-border/30 bg-card/20 backdrop-blur-sm overflow-hidden transition-all duration-500 ease-out -ml-3"
+            className="group relative flex items-center justify-center rounded-xl bg-card/20 backdrop-blur-sm overflow-hidden transition-all duration-500 ease-out -ml-3"
           >
             {/* Background glow on hover */}
             <div 
