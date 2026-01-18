@@ -1,24 +1,48 @@
-import { Monitor } from "lucide-react";
+import { memo } from "react";
 import ScrollRevealSection from "./ScrollRevealSection";
 
-const setupSpecs = [
+// Setup specifications
+interface SetupSpec {
+  label: string;
+  value: string;
+}
+
+const SETUP_SPECS: SetupSpec[] = [
   { label: "CPU", value: "Intel Pentium G6400" },
   { label: "GPU", value: "NVIDIA GeForce GT 710" },
   { label: "Memory", value: "Crucial 4GB DDR4 2133MHz" },
   { label: "Storage", value: "Kingston A400 120GB SATA SSD" },
   { label: "Headset", value: "Logitech H111 Stereo Headset" },
   { label: "Microphone", value: "Logitech H111 Stereo Headset" },
-];
+] as const;
 
-const SetupSection = () => {
+// Spec card component
+interface SpecCardProps {
+  spec: SetupSpec;
+  index: number;
+}
+
+const SpecCard = memo(function SpecCard({ spec, index }: SpecCardProps) {
+  return (
+    <ScrollRevealSection delay={0.15 + index * 0.05}>
+      <div className="p-6 rounded-2xl border border-border/50 bg-card/30 backdrop-blur-sm">
+        <dt className="text-sm text-muted-foreground uppercase tracking-wider">
+          {spec.label}
+        </dt>
+        <dd className="text-lg font-medium mt-1">{spec.value}</dd>
+      </div>
+    </ScrollRevealSection>
+  );
+});
+
+const SetupSection = memo(function SetupSection() {
   return (
     <section className="py-32 px-6 relative">
-
       <div className="max-w-4xl mx-auto relative">
         <ScrollRevealSection>
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight">The Setup</h2>
-          </div>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
+            The Setup
+          </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
@@ -27,19 +51,14 @@ const SetupSection = () => {
           </p>
         </ScrollRevealSection>
 
-        <div className="grid md:grid-cols-2 gap-4">
-          {setupSpecs.map((spec, index) => (
-            <ScrollRevealSection key={index} delay={0.15 + index * 0.05}>
-              <div className="p-6 rounded-2xl border border-border/50 bg-card/30 backdrop-blur-sm">
-                <span className="text-sm text-muted-foreground uppercase tracking-wider">{spec.label}</span>
-                <p className="text-lg font-medium mt-1">{spec.value}</p>
-              </div>
-            </ScrollRevealSection>
+        <dl className="grid md:grid-cols-2 gap-4">
+          {SETUP_SPECS.map((spec, index) => (
+            <SpecCard key={spec.label} spec={spec} index={index} />
           ))}
-        </div>
+        </dl>
       </div>
     </section>
   );
-};
+});
 
 export default SetupSection;

@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { cn } from "@/lib/utils";
+import { memo } from "react";
+import BaseBadge from "@/components/ui/BaseBadge";
 import { getGameColor } from "@/lib/tagColors";
-import { getBadgeStyles } from "@/lib/colorUtils";
-import { Plus, X } from "lucide-react";
 
 interface GameBadgeProps {
   game: string;
@@ -12,52 +10,25 @@ interface GameBadgeProps {
   className?: string;
 }
 
-const SIZE_CLASSES = {
-  sm: "px-2 py-0.5 text-sm",
-  md: "px-3 py-1 text-sm",
-} as const;
-
-const GameBadge = ({
+const GameBadge = memo(function GameBadge({
   game,
   size = "sm",
   isActive = true,
   onClick,
   className,
-}: GameBadgeProps) => {
-  const [isHovered, setIsHovered] = useState(false);
-
+}: GameBadgeProps) {
   const color = getGameColor(game);
-  const styles = getBadgeStyles(color, isActive);
-
-  const iconSize = size === "sm" ? "w-3 h-3" : "w-3.5 h-3.5";
-  const Component = onClick ? "button" : "span";
 
   return (
-    <Component
+    <BaseBadge
+      label={game}
+      color={color}
+      size={size}
+      isActive={isActive}
       onClick={onClick}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className={cn(
-        "inline-flex items-center rounded-md font-medium border transition-all duration-200",
-        SIZE_CLASSES[size],
-        onClick && "cursor-pointer hover:scale-105",
-        className
-      )}
-      style={styles}
-    >
-      {onClick && (
-        <span
-          className={cn(
-            "transition-all duration-200 overflow-hidden",
-            isHovered ? "opacity-100 w-3 mr-1" : "opacity-0 w-0 mr-0"
-          )}
-        >
-          {isActive ? <X className={iconSize} /> : <Plus className={iconSize} />}
-        </span>
-      )}
-      {game}
-    </Component>
+      className={className}
+    />
   );
-};
+});
 
 export default GameBadge;

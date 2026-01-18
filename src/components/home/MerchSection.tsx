@@ -1,12 +1,14 @@
-import { ShoppingBag } from "lucide-react";
+import { memo } from "react";
 import ScrollRevealSection from "./ScrollRevealSection";
 
-const MerchSection = () => {
+const MerchSection = memo(function MerchSection() {
   return (
     <section className="py-32 px-6">
       <div className="max-w-4xl mx-auto text-center">
         <ScrollRevealSection delay={0.1}>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">The Merch</h2>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
+            The Merch
+          </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.2}>
@@ -18,6 +20,6 @@ const MerchSection = () => {
       </div>
     </section>
   );
-};
+});
 
 export default MerchSection;

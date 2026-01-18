@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
-import { useRef, ReactNode } from "react";
+import { useRef, memo, type ReactNode } from "react";
+import { DURATION, EASING } from "@/lib/constants";
 
 interface ScrollRevealSectionProps {
   children: ReactNode;
@@ -7,11 +8,15 @@ interface ScrollRevealSectionProps {
   delay?: number;
 }
 
-const ScrollRevealSection = ({
+/**
+ * Scroll-triggered reveal animation component
+ * Animates in/out as elements enter/exit the viewport
+ */
+const ScrollRevealSection = memo(function ScrollRevealSection({
   children,
   className = "",
   delay = 0,
-}: ScrollRevealSectionProps) => {
+}: ScrollRevealSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: false, margin: "-100px" });
 
@@ -21,15 +26,15 @@ const ScrollRevealSection = ({
       initial={{ opacity: 0, y: 60 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
       transition={{
-        duration: 0.8,
+        duration: DURATION.reveal,
         delay: isInView ? delay : 0,
-        ease: [0.16, 1, 0.3, 1],
+        ease: EASING.smooth,
       }}
       className={className}
     >
       {children}
     </motion.div>
   );
-};
+});
 
 export default ScrollRevealSection;

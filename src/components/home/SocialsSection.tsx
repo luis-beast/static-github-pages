@@ -1,8 +1,19 @@
+import { memo, type ReactNode } from "react";
 import { ExternalLink } from "lucide-react";
-import ScrollRevealSection from "./ScrollRevealSection";
 import { motion } from "framer-motion";
+import ScrollRevealSection from "./ScrollRevealSection";
 
-const socials = [
+// Social platform configuration
+interface SocialPlatform {
+  name: string;
+  href: string;
+  brandColor: string;
+  hoverBg: string;
+  isGradient: boolean;
+  icon: ReactNode;
+}
+
+const SOCIALS: SocialPlatform[] = [
   {
     name: "Twitch",
     href: "https://www.twitch.tv/laymanlouie",
@@ -10,7 +21,7 @@ const socials = [
     hoverBg: "rgba(145, 70, 255, 0.3)",
     isGradient: false,
     icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" />
       </svg>
     ),
@@ -22,7 +33,7 @@ const socials = [
     hoverBg: "rgba(255, 0, 0, 0.3)",
     isGradient: false,
     icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
       </svg>
     ),
@@ -34,7 +45,7 @@ const socials = [
     hoverBg: "linear-gradient(135deg, #00F2EA 0%, #FF0050 100%)",
     isGradient: true,
     icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <defs>
           <linearGradient id="tiktok-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#00F2EA" />
@@ -52,7 +63,7 @@ const socials = [
     hoverBg: "linear-gradient(45deg, #F58529, #FEDA77, #DD2A7B, #8134AF, #515BD4)",
     isGradient: true,
     icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <defs>
           <linearGradient id="instagram-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#F58529" />
@@ -73,19 +84,104 @@ const socials = [
     hoverBg: "rgba(88, 101, 242, 0.3)",
     isGradient: false,
     icon: (
-      <svg viewBox="0 0 24 24" fill="currentColor">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418Z" />
       </svg>
     ),
   },
 ];
 
-const SocialsSection = () => {
+// Icon component with gradient support
+interface SocialIconProps {
+  social: SocialPlatform;
+}
+
+const SocialIcon = memo(function SocialIcon({ social }: SocialIconProps) {
+  const isGradientIcon = social.name === "TikTok" || social.name === "Instagram";
+  const gradientId = social.name === "TikTok" ? "tiktok-gradient" : "instagram-gradient";
+
+  if (isGradientIcon) {
+    return (
+      <>
+        {/* White icon - fades out on hover */}
+        <div className="absolute inset-0 [&>svg]:w-full [&>svg]:h-full text-white transition-opacity duration-500 ease-out group-hover:opacity-0">
+          {social.icon}
+        </div>
+        {/* Gradient icon - fades in on hover */}
+        <div className={`absolute inset-0 [&>svg]:w-full [&>svg]:h-full opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 [&>svg]:fill-[url(#${gradientId})]`}>
+          {social.icon}
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <div
+      className="w-full h-full [&>svg]:w-full [&>svg]:h-full text-white transition-colors duration-500 ease-out group-hover:text-[var(--brand-color)]"
+    >
+      {social.icon}
+    </div>
+  );
+});
+
+// Social link button component
+interface SocialButtonProps {
+  social: SocialPlatform;
+  index: number;
+}
+
+const SocialButton = memo(function SocialButton({ social, index }: SocialButtonProps) {
+  return (
+    <ScrollRevealSection delay={0.15 + index * 0.05}>
+      <motion.a
+        href={social.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="group relative flex items-center justify-center rounded-3xl border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden h-[120px] px-9 transition-all duration-500 ease-out"
+        aria-label={`Visit ${social.name}`}
+      >
+        {/* Background glow on hover */}
+        <div
+          className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300"
+          style={{ background: social.hoverBg }}
+          aria-hidden="true"
+        />
+
+        {/* Content container */}
+        <div className="relative flex items-center justify-center">
+          {/* Icon */}
+          <div
+            className="w-12 h-12 shrink-0 relative"
+            style={{ "--brand-color": social.brandColor } as React.CSSProperties}
+          >
+            <SocialIcon social={social} />
+          </div>
+
+          {/* Text and external link - grid for smooth width animation */}
+          <div className="grid grid-cols-[0fr] group-hover:grid-cols-[1fr] transition-all duration-500 ease-out">
+            <div className="overflow-hidden flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out">
+              <span className="font-semibold text-lg whitespace-nowrap ml-3">
+                {social.name}
+              </span>
+              <ExternalLink className="w-4 h-4 text-muted-foreground shrink-0 ml-2" aria-hidden="true" />
+            </div>
+          </div>
+        </div>
+      </motion.a>
+    </ScrollRevealSection>
+  );
+});
+
+const SocialsSection = memo(function SocialsSection() {
   return (
     <section className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">The Socials</h2>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
+            The Socials
+          </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
@@ -95,68 +191,13 @@ const SocialsSection = () => {
         </ScrollRevealSection>
 
         <div className="flex flex-wrap justify-center gap-4">
-          {socials.map((social, index) => (
-            <ScrollRevealSection key={social.name} delay={0.15 + index * 0.05}>
-              <motion.a
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="group relative flex items-center justify-center rounded-3xl border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden h-[120px] px-9 transition-all duration-500 ease-out"
-              >
-                {/* Background glow on hover */}
-                <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300"
-                  style={{ 
-                    background: social.hoverBg
-                  }}
-                />
-
-                {/* Content container - flex with items centered */}
-                <div className="relative flex items-center justify-center">
-                  {/* Icon - stays in place, color animates over 500ms */}
-                  <div 
-                    className="w-12 h-12 shrink-0 relative"
-                    style={{ 
-                      '--brand-color': social.brandColor 
-                    } as React.CSSProperties}
-                  >
-                    {social.name === "TikTok" || social.name === "Instagram" ? (
-                      <>
-                        {/* White icon - fades out on hover */}
-                        <div className="absolute inset-0 [&>svg]:w-full [&>svg]:h-full text-white transition-opacity duration-500 ease-out group-hover:opacity-0">
-                          {social.icon}
-                        </div>
-                        {/* Gradient icon - fades in on hover */}
-                        <div className={`absolute inset-0 [&>svg]:w-full [&>svg]:h-full opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 ${social.name === "TikTok" ? "[&>svg]:fill-[url(#tiktok-gradient)]" : "[&>svg]:fill-[url(#instagram-gradient)]"}`}>
-                          {social.icon}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="w-full h-full [&>svg]:w-full [&>svg]:h-full text-white transition-colors duration-500 ease-out group-hover:text-[var(--brand-color)]">
-                        {social.icon}
-                      </div>
-                    )}
-                  </div>
-                  
-                  {/* Text and external link - grid for smooth width animation */}
-                  <div className="grid grid-cols-[0fr] group-hover:grid-cols-[1fr] transition-all duration-500 ease-out">
-                    <div className="overflow-hidden flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out">
-                      <span className="font-semibold text-lg whitespace-nowrap ml-3">
-                        {social.name}
-                      </span>
-                      <ExternalLink className="w-4 h-4 text-muted-foreground shrink-0 ml-2" />
-                    </div>
-                  </div>
-                </div>
-              </motion.a>
-            </ScrollRevealSection>
+          {SOCIALS.map((social, index) => (
+            <SocialButton key={social.name} social={social} index={index} />
           ))}
         </div>
       </div>
     </section>
   );
-};
+});
 
 export default SocialsSection;
