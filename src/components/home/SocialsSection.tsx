@@ -115,28 +115,24 @@ const SocialsSection = () => {
 
                 {/* Content container - flex with items centered */}
                 <div className="relative flex items-center">
-                  {/* Icon - stays in place, color animates */}
+                  {/* Icon - stays in place, color animates over 500ms */}
                   <div 
-                    className="w-12 h-12 shrink-0 [&>svg]:w-full [&>svg]:h-full"
+                    className="w-12 h-12 shrink-0 [&>svg]:w-full [&>svg]:h-full transition-colors duration-500 ease-out"
+                    style={{ 
+                      '--brand-color': social.brandColor 
+                    } as React.CSSProperties}
                   >
                     {social.name === "TikTok" ? (
-                      <div className="w-full h-full [&>svg]:w-full [&>svg]:h-full [&>svg]:transition-all [&>svg]:duration-300 group-hover:[&>svg]:fill-[url(#tiktok-gradient)]">
+                      <div className="w-full h-full [&>svg]:w-full [&>svg]:h-full [&>svg]:transition-all [&>svg]:duration-500 [&>svg]:ease-out group-hover:[&>svg]:fill-[url(#tiktok-gradient)]">
                         {social.icon}
                       </div>
                     ) : social.name === "Instagram" ? (
-                      <div className="w-full h-full [&>svg]:w-full [&>svg]:h-full [&>svg]:transition-all [&>svg]:duration-300 group-hover:[&>svg]:fill-[url(#instagram-gradient)]">
+                      <div className="w-full h-full [&>svg]:w-full [&>svg]:h-full [&>svg]:transition-all [&>svg]:duration-500 [&>svg]:ease-out group-hover:[&>svg]:fill-[url(#instagram-gradient)]">
                         {social.icon}
                       </div>
                     ) : (
-                      <div 
-                        className="w-full h-full [&>svg]:w-full [&>svg]:h-full [&>svg]:transition-colors [&>svg]:duration-300"
-                        style={{ 
-                          '--brand-color': social.brandColor 
-                        } as React.CSSProperties}
-                      >
-                        <div className="w-full h-full group-hover:text-[var(--brand-color)]">
-                          {social.icon}
-                        </div>
+                      <div className="w-full h-full text-white transition-colors duration-500 ease-out group-hover:text-[var(--brand-color)]">
+                        {social.icon}
                       </div>
                     )}
                   </div>
