@@ -13,7 +13,6 @@ const rules = [
 const RulesSection = () => {
   return (
     <section className="py-32 px-6 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative">
         <ScrollRevealSection>
@@ -32,7 +31,7 @@ const RulesSection = () => {
           {rules.map((rule, index) => (
             <ScrollRevealSection key={index} delay={0.15 + index * 0.05}>
               <motion.div
-                whileHover={{ x: 8, backgroundColor: "hsla(270, 40%, 15%, 0.6)" }}
+                whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.2 }}
                 className="flex items-center gap-4 p-5 rounded-2xl border border-border/50 bg-card/30 backdrop-blur-sm"
               >
