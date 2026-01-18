@@ -133,33 +133,33 @@ const NotFound = () => {
     let returnTimeout: NodeJS.Timeout;
 
     const handleMouseMove = () => {
+      // Clear any existing timeouts
+      clearTimeout(activeTimeout);
+      clearTimeout(returnTimeout);
+
       if (mouseState === "idle") {
-        // Capture current positions and progress
+        // Capture current positions and progress when first becoming active
         capturedRef.current = configsRef.current.map((_, i) => getPosition(i, getProgress(i)));
         capturedProgressRef.current = configsRef.current.map((_, i) => getProgress(i));
         transitionFromRef.current = [...capturedRef.current];
         transitionStartRef.current = Date.now();
         setMouseState("active");
-      } else if (mouseState === "active") {
-        // Reset timeout
-        clearTimeout(activeTimeout);
-        clearTimeout(returnTimeout);
       }
 
+      // Always set the timeout to transition to returning after mouse stops
       activeTimeout = setTimeout(() => {
-        // Start returning
+        // Start returning - capture current particle positions as starting point
         transitionFromRef.current = particles.length ? [...particles] : capturedRef.current;
         transitionStartRef.current = Date.now();
         setMouseState("returning");
 
         returnTimeout = setTimeout(() => {
-          // Resume idle from captured progress
+          // Resume idle - adjust start time so each particle continues from its captured progress
           const now = Date.now();
-          configsRef.current.forEach((config, i) => {
-            const capturedProgress = capturedProgressRef.current[i] || config.phaseOffset;
-            // Adjust start time so animation continues from captured progress
-          });
-          startTimeRef.current = now - capturedProgressRef.current[0] * configsRef.current[0].duration * 1000;
+          // Use average adjustment for simplicity
+          const avgProgress = capturedProgressRef.current.reduce((a, b) => a + b, 0) / capturedProgressRef.current.length;
+          const avgDuration = configsRef.current.reduce((a, c) => a + c.duration, 0) / configsRef.current.length;
+          startTimeRef.current = now - avgProgress * avgDuration * 1000;
           setMouseState("idle");
         }, 1000);
       }, 200);
