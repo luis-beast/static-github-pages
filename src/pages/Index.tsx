@@ -5,7 +5,6 @@ import QuoteCard from "@/components/QuoteCard";
 import GameBadge from "@/components/GameBadge";
 import { Input } from "@/components/ui/input";
 import { quotes } from "@/data/quotes";
-import ScrollToTopButton from "@/components/ScrollToTopButton";
 import FilterPopover from "@/components/FilterPopover";
 
 const Quotes = () => {
@@ -170,8 +169,6 @@ const Quotes = () => {
           </motion.div>
         </LayoutGroup>
       </main>
-
-      <ScrollToTopButton />
     </div>
   );
 };
