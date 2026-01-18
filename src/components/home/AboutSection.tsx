@@ -17,18 +17,20 @@ const AboutSection = () => {
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.2}>
-          <p className="text-lg md:text-xl text-muted-foreground/80 leading-relaxed mb-12">
+          <p className="text-lg md:text-xl text-muted-foreground leading-relaxed mb-12">
             Whether we're gaming, talking, or just hanging out, the goal is always the same:
           </p>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.3}>
           <blockquote className="relative flex items-center justify-center gap-2">
-            <span className="text-5xl md:text-6xl text-primary/30 font-serif leading-none self-start">"</span>
+            <span className="text-5xl md:text-6xl text-primary/30 font-serif leading-none self-start">
+              " Good Vibes
+            </span>
             <p className="text-2xl md:text-3xl font-medium text-foreground italic">
               Good vibes, good people, and a good time together.
             </p>
-            <span className="text-5xl md:text-6xl text-primary/30 font-serif leading-none self-end">"</span>
+            <span className="text-5xl md:text-6xl text-primary font-serif leading-none self-end">" Good Vibes</span>
           </blockquote>
         </ScrollRevealSection>
       </div>
