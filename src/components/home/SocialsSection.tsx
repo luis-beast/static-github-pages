@@ -97,38 +97,10 @@ interface SocialIconProps {
 }
 
 const SocialIcon = memo(function SocialIcon({ social }: SocialIconProps) {
-  const isGradientIcon = social.name === "TikTok" || social.name === "Instagram";
-  const gradientId = social.name === "TikTok" ? "tiktok-gradient" : "instagram-gradient";
-
-  if (isGradientIcon) {
-    return (
-      <>
-        {/* White outlined icon - fades out on hover */}
-        <div className="absolute inset-0 [&>svg]:w-full [&>svg]:h-full text-white [&>svg]:fill-none [&>svg]:stroke-current [&>svg]:stroke-[1.5] transition-opacity duration-500 ease-out group-hover:opacity-0">
-          {social.icon}
-        </div>
-        {/* Gradient filled icon - fades in on hover */}
-        <div className={`absolute inset-0 [&>svg]:w-full [&>svg]:h-full opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 [&>svg]:fill-[url(#${gradientId})]`}>
-          {social.icon}
-        </div>
-      </>
-    );
-  }
-
   return (
-    <>
-      {/* White outlined icon - fades out on hover */}
-      <div className="absolute inset-0 [&>svg]:w-full [&>svg]:h-full text-white [&>svg]:fill-none [&>svg]:stroke-current [&>svg]:stroke-[1.5] transition-opacity duration-500 ease-out group-hover:opacity-0">
-        {social.icon}
-      </div>
-      {/* Colored filled icon - fades in on hover */}
-      <div
-        className="absolute inset-0 [&>svg]:w-full [&>svg]:h-full opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
-        style={{ color: social.brandColor }}
-      >
-        {social.icon}
-      </div>
-    </>
+    <div className="absolute inset-0 [&>svg]:w-full [&>svg]:h-full text-white">
+      {social.icon}
+    </div>
   );
 });
 
