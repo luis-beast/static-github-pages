@@ -59,7 +59,6 @@ const NotFound = () => {
       const innerX = centerX + Math.cos(config.angle) * centerX * 0.2;
       const innerY = centerY + Math.sin(config.angle) * centerY * 0.2;
 
-      // Sine wave: 0->1->0 for smooth breathing
       const t = (Math.sin(progress * Math.PI * 2 - Math.PI / 2) + 1) / 2;
 
       return {
