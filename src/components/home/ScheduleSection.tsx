@@ -18,16 +18,14 @@ const ScheduleSection = () => {
             <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center">
               <Calendar className="w-6 h-6 text-cyan-400" />
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight">
-              Stream Schedule
-            </h2>
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight">The Schedule</h2>
           </div>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
           <p className="text-xl text-muted-foreground text-center mb-4 font-light">
-            Streams happen <span className="text-foreground font-medium">often</span>. 
-            The best way to catch them is to follow and turn on notifications!
+            Streams happen <span className="text-foreground font-medium">often</span>. The best way to catch them is to
+            follow and turn on notifications!
           </p>
         </ScrollRevealSection>
 
@@ -45,9 +43,7 @@ const ScheduleSection = () => {
                 className="flex items-center justify-between p-6 rounded-2xl border border-border/50 bg-card/30 backdrop-blur-sm"
               >
                 <span className="font-semibold text-lg">{item.day}</span>
-                <span className="text-muted-foreground font-mono text-sm">
-                  {item.time}
-                </span>
+                <span className="text-muted-foreground font-mono text-sm">{item.time}</span>
               </motion.div>
             </ScrollRevealSection>
           ))}
