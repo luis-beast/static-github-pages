@@ -26,10 +26,14 @@ const NotFound = () => {
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
+        {[...Array(50)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 rounded-full bg-primary/20"
+            className="absolute rounded-full bg-primary/30"
+            style={{
+              width: Math.random() * 4 + 2,
+              height: Math.random() * 4 + 2,
+            }}
             initial={{
               x: Math.random() * window.innerWidth,
               y: Math.random() * window.innerHeight,
@@ -37,10 +41,10 @@ const NotFound = () => {
             animate={{
               x: [null, Math.random() * window.innerWidth],
               y: [null, Math.random() * window.innerHeight],
-              opacity: [0.2, 0.5, 0.2],
+              opacity: [0.2, 0.6, 0.2],
             }}
             transition={{
-              duration: Math.random() * 10 + 10,
+              duration: Math.random() * 3 + 2,
               repeat: Infinity,
               repeatType: "reverse",
             }}
