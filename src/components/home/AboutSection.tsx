@@ -23,14 +23,12 @@ const AboutSection = () => {
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.3}>
-          <blockquote className="relative">
-            <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-6xl text-primary/20 font-serif">
-              "
-              <p className="text-2xl md:text-3xl font-medium text-foreground italic">
-                Good vibes, good people, and a good time together.
-              </p>
-              "
-            </div>
+          <blockquote className="relative flex items-center justify-center gap-2">
+            <span className="text-5xl md:text-6xl text-primary/30 font-serif leading-none self-start">"</span>
+            <p className="text-2xl md:text-3xl font-medium text-foreground italic">
+              Good vibes, good people, and a good time together.
+            </p>
+            <span className="text-5xl md:text-6xl text-primary/30 font-serif leading-none self-end">"</span>
           </blockquote>
         </ScrollRevealSection>
       </div>
