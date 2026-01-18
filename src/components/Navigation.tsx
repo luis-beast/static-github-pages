@@ -61,10 +61,9 @@ const Navigation = memo(function Navigation() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`group relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 z-10 ${
-                    !isActive ? "hover:bg-white/10" : ""
-                  }`}
+                  className="group relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 z-10"
                 >
+                  {/* Active state pill */}
                   <AnimatePresence mode="wait">
                     {isActive && (
                       <motion.div
@@ -82,8 +81,12 @@ const Navigation = memo(function Navigation() {
                       />
                     )}
                   </AnimatePresence>
+                  {/* Hover state background */}
+                  {!isActive && (
+                    <div className="absolute inset-0 rounded-lg bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  )}
                   <span
-                    className={`relative z-10 transition-colors duration-200 ${
+                    className={`relative z-10 pointer-events-none transition-colors duration-200 ${
                       isActive ? "text-white" : "text-muted-foreground group-hover:text-white"
                     }`}
                   >
