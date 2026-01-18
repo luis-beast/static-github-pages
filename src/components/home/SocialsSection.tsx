@@ -103,7 +103,7 @@ const SocialsSection = () => {
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="group relative flex items-center rounded-3xl border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden h-[120px] pl-[36px] pr-[36px] group-hover:pr-6 transition-all duration-500 ease-out"
+                className="group relative flex items-center justify-center rounded-3xl border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden h-[120px] w-[120px] hover:w-[240px] transition-all duration-500 ease-out"
               >
                 {/* Background glow on hover */}
                 <div 
@@ -114,7 +114,7 @@ const SocialsSection = () => {
                 />
 
                 {/* Content container - flex with items centered */}
-                <div className="relative flex items-center">
+                <div className="relative flex items-center justify-center">
                   {/* Icon - stays in place, color animates over 500ms */}
                   <div 
                     className="w-12 h-12 shrink-0 relative"
@@ -141,7 +141,7 @@ const SocialsSection = () => {
                   </div>
                   
                   {/* Text and external link - both animate from width 0 */}
-                  <div className="flex items-center overflow-hidden transition-all duration-500 ease-out w-0 opacity-0 group-hover:w-[120px] group-hover:opacity-100">
+                  <div className="flex items-center overflow-hidden transition-all duration-500 ease-out w-0 opacity-0 group-hover:w-[140px] group-hover:opacity-100">
                     <span className="font-semibold text-lg whitespace-nowrap ml-3">
                       {social.name}
                     </span>
