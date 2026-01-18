@@ -1,7 +1,6 @@
 import { memo } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
-import { NAV_ITEMS, DURATION } from "@/lib/constants";
+import { NAV_ITEMS } from "@/lib/constants";
 import { useScrollState } from "@/hooks/useScrollState";
 import { BrandName } from "@/components/ui/GradientText";
 import avatarClear from "@/assets/avatar-clear.png";
@@ -20,33 +19,27 @@ const Navigation = memo(function Navigation() {
       }`}
     >
       <div className="container mx-auto px-4">
-        <motion.div
-          className="flex items-center justify-between"
-          animate={{ height: isScrolled ? 48 : 64 }}
-          transition={{ duration: DURATION.normal, ease: "easeInOut" }}
+        <div
+          className={`flex items-center justify-between transition-all duration-300 ${
+            isScrolled ? "h-12" : "h-16"
+          }`}
         >
           <Link
             to="/"
             className="group relative flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-all duration-300"
           >
-            {/* Hover gradient background */}
             <div className="absolute inset-0 rounded-lg bg-gradient-to-b from-[#8800FF] to-[#220033] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <motion.img
+            <img
               src={avatarClear}
               alt="LaymanLouie"
-              className="relative z-10 rounded-lg object-cover"
-              animate={{ width: isScrolled ? 32 : 40, height: isScrolled ? 32 : 40 }}
-              transition={{ duration: DURATION.normal, ease: "easeInOut" }}
+              className={`relative z-10 rounded-lg object-cover transition-all duration-300 ${
+                isScrolled ? "w-8 h-8" : "w-10 h-10"
+              }`}
             />
             {!isHomePage && (
-              <motion.span
-                className="relative z-10 font-semibold text-lg flex pointer-events-none"
-                initial={{ opacity: 0, x: -10, width: 0 }}
-                animate={{ opacity: 1, x: 0, width: "auto" }}
-                transition={{ duration: DURATION.fast, ease: "easeInOut" }}
-              >
+              <span className="relative z-10 font-semibold text-lg flex pointer-events-none">
                 <BrandName />
-              </motion.span>
+              </span>
             )}
           </Link>
 
@@ -57,39 +50,18 @@ const Navigation = memo(function Navigation() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="group relative px-5 py-2.5 rounded-lg text-sm font-medium z-10"
+                  className={`relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? "bg-gradient-to-b from-[#8800FF] to-[#220033] text-white"
+                      : "text-muted-foreground hover:text-white hover:bg-white/10"
+                  }`}
                 >
-                  {/* Active state pill - uses layoutId for smooth sliding, layout={false} prevents scroll interference */}
-                  {isActive && (
-                    <motion.div
-                      layoutId="navbar-pill"
-                      layout="position"
-                      className="absolute inset-0 bg-gradient-to-b from-[#8800FF] to-[#220033] rounded-lg"
-                      style={{ willChange: "transform" }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 500,
-                        damping: 35,
-                        mass: 1,
-                      }}
-                    />
-                  )}
-                  {/* Hover state background */}
-                  {!isActive && (
-                    <div className="absolute inset-0 rounded-lg bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  )}
-                  <span
-                    className={`relative z-10 pointer-events-none transition-colors duration-200 ${
-                      isActive ? "text-white" : "text-muted-foreground group-hover:text-white"
-                    }`}
-                  >
-                    {item.label}
-                  </span>
+                  {item.label}
                 </Link>
               );
             })}
           </nav>
-        </motion.div>
+        </div>
       </div>
     </nav>
   );

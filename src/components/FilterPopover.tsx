@@ -1,6 +1,5 @@
 import { useState, memo } from "react";
-import { Filter, X, ChevronDown } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -40,28 +39,18 @@ const FilterPopover = memo(function FilterPopover({
               : "bg-secondary/50 border-border/50 text-muted-foreground hover:bg-secondary"
           )}
         >
-          <Filter className="w-4 h-4" />
           {triggerLabel}
-          <AnimatePresence mode="wait">
-            {totalSelected > 0 && (
-              <motion.span
-                key="count"
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0 }}
-                transition={{ duration: 0.15 }}
-                className="px-2 py-0.5 text-xs rounded-full bg-primary text-primary-foreground font-medium"
-              >
-                {totalSelected}
-              </motion.span>
+          {totalSelected > 0 && (
+            <span className="px-2 py-0.5 text-xs rounded-full bg-primary text-primary-foreground font-medium">
+              {totalSelected}
+            </span>
+          )}
+          <ChevronDown
+            className={cn(
+              "w-4 h-4 transition-transform duration-200",
+              open && "rotate-180"
             )}
-          </AnimatePresence>
-          <motion.div
-            animate={{ rotate: open ? 180 : 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
-          >
-            <ChevronDown className="w-4 h-4" />
-          </motion.div>
+          />
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -73,22 +62,14 @@ const FilterPopover = memo(function FilterPopover({
             <div key={section.label}>
               <div className="flex items-center justify-between mb-3">
                 <label className="text-sm font-medium text-foreground">{section.label}</label>
-                <AnimatePresence mode="wait">
-                  {section.selectedItems.length >= (section.clearThreshold ?? 3) && (
-                    <motion.button
-                      key="clear-button"
-                      onClick={section.onClearAll}
-                      className="text-muted-foreground hover:text-foreground hover:bg-destructive/10 px-2.5 py-1 text-xs rounded-lg cursor-pointer inline-flex items-center gap-1.5 transition-colors"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.15 }}
-                    >
-                      <X className="w-3 h-3" />
-                      Clear
-                    </motion.button>
-                  )}
-                </AnimatePresence>
+                {section.selectedItems.length >= (section.clearThreshold ?? 3) && (
+                  <button
+                    onClick={section.onClearAll}
+                    className="text-muted-foreground hover:text-foreground hover:bg-destructive/10 px-2.5 py-1 text-xs rounded-lg cursor-pointer transition-colors"
+                  >
+                    Clear
+                  </button>
+                )}
               </div>
               <div className="flex flex-wrap gap-2">
                 {section.items.map((item) => (
