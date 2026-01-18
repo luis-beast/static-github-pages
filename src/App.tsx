@@ -17,9 +17,11 @@ const queryClient = new QueryClient();
 
 const AppRoutes = () => {
   const location = useLocation();
+  const knownRoutes = ["/", "/quotes", "/commands"];
+  const isNotFoundPage = !knownRoutes.includes(location.pathname);
 
   return (
-    <div className="min-h-screen flex flex-col pt-16">
+    <div className={`min-h-screen flex flex-col ${isNotFoundPage ? '' : 'pt-16'}`}>
       <Navigation />
       <div className="flex-1">
         <Routes location={location} key={location.pathname}>
@@ -30,7 +32,7 @@ const AppRoutes = () => {
         </Routes>
       </div>
       <Footer />
-      <ScrollToTopButton />
+      {!isNotFoundPage && <ScrollToTopButton />}
     </div>
   );
 };
