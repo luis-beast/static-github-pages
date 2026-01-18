@@ -6,7 +6,7 @@ const AboutSection = () => {
       <div className="max-w-4xl mx-auto text-center">
         <ScrollRevealSection>
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-8">
-            <span>YELLOW, LAYPEOPLE</span>
+            <span>YELLOW, LAYPEOPLE!</span>
           </h2>
         </ScrollRevealSection>
 
