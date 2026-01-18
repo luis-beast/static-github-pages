@@ -11,6 +11,7 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import GlobalScrollbar from "./components/GlobalScrollbar";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <GlobalScrollbar />
+        <ScrollToTop />
         <AppRoutes />
       </BrowserRouter>
     </TooltipProvider>
