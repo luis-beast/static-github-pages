@@ -45,29 +45,39 @@ const Navigation = memo(function Navigation() {
         >
           <Link
             to="/"
-            className="group relative flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg"
+            className="group relative flex items-center justify-center rounded-xl border border-border/30 bg-card/20 backdrop-blur-sm overflow-hidden transition-all duration-500 ease-out -ml-3"
           >
+            {/* Background glow on hover */}
             <div 
-              className={`absolute inset-0 rounded-lg bg-gradient-to-b from-[#8800FF] to-[#220033] transition-opacity duration-300 ${
-                bgVisible ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-              }`} 
-            />
-            <img
-              src={avatarClear}
-              alt="LaymanLouie"
-              className={`relative z-10 rounded-lg object-cover transition-all duration-300 ${
-                isScrolled ? "w-8 h-8" : "w-10 h-10"
+              className={`absolute inset-0 bg-gradient-to-b from-[#8800FF] to-[#220033] transition-opacity duration-300 ${
+                bgVisible ? "opacity-100" : "opacity-0 group-hover:opacity-40"
               }`}
+              aria-hidden="true"
             />
-            <span 
-              className={`relative z-10 font-semibold text-lg flex pointer-events-none transition-all duration-300 ${
-                showText 
-                  ? "opacity-100 translate-x-0" 
-                  : "opacity-0 -translate-x-2 w-0 overflow-hidden"
-              }`}
-            >
-              <BrandName />
-            </span>
+            
+            {/* Content container */}
+            <div className="relative flex items-center justify-center px-2 py-1.5">
+              <img
+                src={avatarClear}
+                alt="LaymanLouie"
+                className={`relative z-10 rounded-lg object-cover transition-all duration-300 ${
+                  isScrolled ? "w-8 h-8" : "w-10 h-10"
+                }`}
+              />
+              
+              {/* Text - grid for smooth width animation */}
+              <div className={`grid transition-all duration-500 ease-out ${
+                showText ? "grid-cols-[1fr]" : "grid-cols-[0fr]"
+              }`}>
+                <div className={`overflow-hidden flex items-center transition-opacity duration-500 ease-out ${
+                  showText ? "opacity-100" : "opacity-0"
+                }`}>
+                  <span className="font-semibold text-lg whitespace-nowrap ml-3 mr-1">
+                    <BrandName />
+                  </span>
+                </div>
+              </div>
+            </div>
           </Link>
 
           <nav className="relative flex items-center gap-1">

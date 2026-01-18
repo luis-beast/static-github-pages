@@ -1,5 +1,5 @@
 import { memo, useRef } from "react";
-import { Heart } from "lucide-react";
+import { Heart, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion, useInView } from "framer-motion";
 import { FOOTER_NAV_LINKS, FOOTER_LEGAL_LINKS, DURATION, EASING } from "@/lib/constants";
@@ -25,35 +25,40 @@ const Footer = memo(function Footer() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: DURATION.reveal, delay: 0.1, ease: EASING.smooth }}
         >
-          <nav className="flex flex-wrap items-center gap-4 md:gap-6 text-sm">
-            {FOOTER_NAV_LINKS.map((link, index) => (
-              <span key={link.path} className="flex items-center gap-4 md:gap-6">
-                <Link
-                  to={link.path}
-                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
-                >
+          <nav className="flex flex-wrap items-center gap-2">
+            {FOOTER_NAV_LINKS.map((link) => (
+              <Link
+                key={link.path}
+                to={link.path}
+                className="group relative flex items-center justify-center px-4 py-2 rounded-xl border border-border/30 bg-card/20 backdrop-blur-sm overflow-hidden text-sm font-medium transition-all duration-300 hover:border-border/50"
+              >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-300 bg-primary"
+                  aria-hidden="true"
+                />
+                <span className="relative text-muted-foreground group-hover:text-foreground transition-colors duration-300">
                   {link.label}
-                </Link>
-                {index < FOOTER_NAV_LINKS.length - 1 && (
-                  <span className="hidden md:inline text-border">|</span>
-                )}
-              </span>
+                </span>
+              </Link>
             ))}
           </nav>
 
-          <nav className="flex flex-wrap items-center gap-4 md:gap-6 text-xs">
-            {FOOTER_LEGAL_LINKS.map((link, index) => (
-              <span key={link.label} className="flex items-center gap-4 md:gap-6">
-                <a
-                  href={link.path}
-                  className="text-muted-foreground/70 hover:text-muted-foreground transition-colors duration-200"
-                >
+          <nav className="flex flex-wrap items-center gap-2">
+            {FOOTER_LEGAL_LINKS.map((link) => (
+              <a
+                key={link.label}
+                href={link.path}
+                className="group relative flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg border border-border/20 bg-card/10 backdrop-blur-sm overflow-hidden text-xs transition-all duration-300 hover:border-border/40"
+              >
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-300 bg-muted"
+                  aria-hidden="true"
+                />
+                <span className="relative text-muted-foreground/70 group-hover:text-muted-foreground transition-colors duration-300">
                   {link.label}
-                </a>
-                {index < FOOTER_LEGAL_LINKS.length - 1 && (
-                  <span className="hidden md:inline text-border/50">|</span>
-                )}
-              </span>
+                </span>
+                <ExternalLink className="relative w-3 h-3 text-muted-foreground/50 group-hover:text-muted-foreground/70 transition-colors duration-300" />
+              </a>
             ))}
           </nav>
         </motion.div>
