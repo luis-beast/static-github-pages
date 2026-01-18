@@ -2,13 +2,13 @@ import ScrollRevealSection from "./ScrollRevealSection";
 import { motion } from "framer-motion";
 
 const schedule = [
+  { day: "Sun", fullDay: "Sunday", stream: "10 PM", isRandom: false },
   { day: "Mon", fullDay: "Monday", stream: null, isRandom: true },
   { day: "Tue", fullDay: "Tuesday", stream: null, isRandom: true },
   { day: "Wed", fullDay: "Wednesday", stream: null, isRandom: true },
   { day: "Thu", fullDay: "Thursday", stream: null, isRandom: true },
   { day: "Fri", fullDay: "Friday", stream: "10 PM", isRandom: false },
   { day: "Sat", fullDay: "Saturday", stream: "5 PM", isRandom: false },
-  { day: "Sun", fullDay: "Sunday", stream: "10 PM", isRandom: false },
 ];
 
 const ScheduleSection = () => {
