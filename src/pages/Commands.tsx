@@ -145,36 +145,42 @@ const Commands = memo(function Commands() {
 
         <motion.div
           ref={gridRef}
-          className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.4 }}
         >
           <AnimatePresence mode="popLayout">
             {filteredCommands.length > 0 ? (
-              filteredCommands.map((command, index) => (
-                <motion.div
-                  key={command.id}
-                  layout
-                  layoutId={`command-${command.id}`}
-                  className={focusedId === command.id ? "md:col-span-2" : ""}
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{
-                    layout: { type: "spring", stiffness: 400, damping: 35 },
-                    opacity: { duration: 0.2 },
-                    scale: { duration: 0.2 },
-                  }}
-                >
-                  <CommandCard
-                    command={command}
-                    orderNumber={index + 1}
-                    isFocused={focusedId === command.id}
-                    onFocus={() => handleFocus(command.id)}
-                  />
-                </motion.div>
-              ))
+              filteredCommands.map((command, index) => {
+                const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
+                const canFocus = hasParameterGroups;
+                const isFocused = focusedId === command.id && canFocus;
+                
+                return (
+                  <motion.div
+                    key={command.id}
+                    layout
+                    layoutId={`command-${command.id}`}
+                    className={`${isFocused ? "md:col-span-2" : ""} h-full`}
+                    initial={{ opacity: 0, scale: 0.98 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{
+                      layout: { type: "spring", stiffness: 400, damping: 35 },
+                      opacity: { duration: 0.2 },
+                      scale: { duration: 0.2 },
+                    }}
+                  >
+                    <CommandCard
+                      command={command}
+                      orderNumber={index + 1}
+                      isFocused={isFocused}
+                      onFocus={canFocus ? () => handleFocus(command.id) : undefined}
+                    />
+                  </motion.div>
+                );
+              })
             ) : (
               <motion.div
                 key="empty"

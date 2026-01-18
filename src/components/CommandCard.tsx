@@ -90,6 +90,7 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
   const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
   const hasVariations = command.usageVariations && command.usageVariations.length > 0;
   const hasDetails = hasParameterGroups || hasVariations;
+  const canExpand = hasParameterGroups;
 
   const aliases = command.aliases || [];
   const visibleAliases = showAllAliases ? aliases : aliases.slice(0, MAX_VISIBLE_ALIASES);
@@ -97,8 +98,10 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
   const usageParams = command.usage ? command.usage.replace(command.name, "").trim() : null;
 
   const handleCardClick = useCallback(() => {
-    onFocus?.();
-  }, [onFocus]);
+    if (canExpand) {
+      onFocus?.();
+    }
+  }, [onFocus, canExpand]);
 
   const handleToggleAliases = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -107,19 +110,19 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
 
   return (
     <motion.div
-      className="group relative cursor-pointer"
+      className={`group relative h-full ${canExpand ? "cursor-pointer" : ""}`}
       onClick={handleCardClick}
-      whileHover={{ scale: isFocused ? 1 : 1.02 }}
+      whileHover={{ scale: isFocused ? 1 : canExpand ? 1.02 : 1.01 }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
     >
       <div className={`absolute inset-0 bg-primary/5 rounded-2xl blur-xl transition-opacity duration-500 ${isFocused ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} />
 
-      <div className={`relative bg-card/40 backdrop-blur-xl rounded-2xl border overflow-hidden shadow-lg shadow-primary/5 transition-all duration-300 ${
+      <div className={`relative bg-card/40 backdrop-blur-xl rounded-2xl border overflow-hidden shadow-lg shadow-primary/5 transition-all duration-300 h-full flex flex-col ${
         isFocused 
           ? "border-primary/50 shadow-xl shadow-primary/20" 
           : "border-border/50 group-hover:border-primary/30 group-hover:shadow-xl group-hover:shadow-primary/10"
       }`}>
-        <div className={cn("w-full p-5 text-left")}>
+        <div className={cn("w-full p-5 text-left flex-1")}>
           <div className="flex items-start justify-between gap-4">
             <div className="flex-shrink-0">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/20">
@@ -215,7 +218,7 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
               )}
             </div>
 
-            {hasDetails && (
+            {canExpand && (
               <motion.div
                 className="flex-shrink-0 w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center text-muted-foreground"
                 animate={{ rotate: isFocused ? 180 : 0 }}
