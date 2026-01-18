@@ -9,7 +9,7 @@ import MerchSection from "@/components/home/MerchSection";
 
 const Home = () => {
   return (
-    <div className="min-h-screen overflow-x-hidden">
+    <div className="overflow-x-hidden">
       <HeroSection />
       <AboutSection />
       <RulesSection />
