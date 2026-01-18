@@ -113,8 +113,8 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
     };
   }, [updateScrollbarDimensions, handleScroll]);
 
-  // Only show scrollbar when there's content to scroll
-  if (!canScroll) return null;
+  // Always render but hide visually if no scroll needed
+  const shouldShow = canScroll;
 
   const isThumbVisible = isHovering || isDragging || isScrolling;
 
@@ -126,8 +126,9 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
           "bg-gradient-to-b from-purple-400 to-purple-600"
         )}
         style={{ height: animatedThumbHeight, top: animatedThumbTop }}
+        initial={{ opacity: 0.4 }}
         animate={{
-          opacity: isThumbVisible ? 1 : 0.4,
+          opacity: shouldShow ? (isThumbVisible ? 1 : 0.4) : 0,
           scale: isDragging ? 1.1 : isHovering ? 1.05 : 1,
         }}
         transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.15 } }}
