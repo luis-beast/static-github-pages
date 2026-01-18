@@ -10,7 +10,6 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
   const [isDragging, setIsDragging] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const [canScroll, setCanScroll] = useState(false);
-  const [scrollPosition, setScrollPosition] = useState(0);
   const scrollTimeoutRef = useRef<number>();
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -31,7 +30,6 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
     const hasOverflow = contentHeight > viewportHeight + 5;
 
     setCanScroll(hasOverflow);
-    setScrollPosition(currentScrollPosition);
 
     if (hasOverflow) {
       const visibleRatio = viewportHeight / contentHeight;
@@ -135,37 +133,41 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
     };
   }, [updateScrollbarDimensions, handleScroll]);
 
-  // Always render, but fade out at top of page
-  const isAtTop = scrollPosition === 0;
+  // Only show scrollbar when there's content to scroll
+  if (!canScroll) return null;
+
   const isThumbVisible = isHovering || isDragging || isScrolling;
-  
-  // Calculate base opacity: 0 at top when not interacting, otherwise normal visibility
-  const baseOpacity = canScroll ? (isAtTop && !isThumbVisible ? 0 : 0.3) : 0;
-  const activeOpacity = canScroll ? 1 : 0;
 
   return (
     <div
       ref={trackRef}
-      className="fixed right-0 top-0 bottom-0 w-4 z-[9999]"
-      onClick={canScroll ? handleTrackClick : undefined}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      className="fixed right-0 top-0 bottom-0 w-4 z-[9999] pointer-events-none"
     >
       <motion.div
         data-thumb="true"
         className={cn(
-          "absolute right-1 w-2 rounded-full cursor-pointer",
+          "absolute right-1 w-2 rounded-full cursor-pointer pointer-events-auto",
           "bg-gradient-to-b from-purple-400 to-purple-600"
         )}
         style={{ height: animatedThumbHeight, top: animatedThumbTop }}
         animate={{
-          opacity: isThumbVisible ? activeOpacity : baseOpacity,
+          opacity: isThumbVisible ? 1 : 0.3,
           scale: isDragging ? 1.15 : isHovering ? 1.05 : 1,
           width: isDragging ? 10 : 8,
         }}
         transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.15 }, width: { duration: 0.15 } }}
-        onMouseDown={canScroll ? handleThumbDrag : undefined}
-        whileHover={{ boxShadow: canScroll ? "0 0 12px hsl(270, 100%, 60%)" : undefined }}
+        onMouseDown={handleThumbDrag}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+        onClick={(e) => e.stopPropagation()}
+        whileHover={{ boxShadow: "0 0 12px hsl(270, 100%, 60%)" }}
+      />
+      {/* Invisible clickable track area */}
+      <div
+        className="absolute right-0 top-0 bottom-0 w-4 pointer-events-auto opacity-0"
+        onClick={handleTrackClick}
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
       />
     </div>
   );
