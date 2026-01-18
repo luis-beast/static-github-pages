@@ -7,6 +7,7 @@ import { Permission } from "@/components/PermissionBadge";
 import { commands } from "@/data/commands";
 import { normalizeForSearch } from "@/lib/searchUtils";
 import { PERMISSION_PRIORITY, DURATION, EASING } from "@/lib/constants";
+import GradientText from "@/components/ui/GradientText";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -131,7 +132,7 @@ const Commands = memo(function Commands() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, delay: 0.1, ease: EASING.smooth }}
           >
-            <span className="gradient-text">Commands</span>
+            <GradientText gradient="louie">Commands</GradientText>
           </motion.h1>
           <motion.p
             className="text-lg md:text-xl text-muted-foreground max-w-md mx-auto font-light"

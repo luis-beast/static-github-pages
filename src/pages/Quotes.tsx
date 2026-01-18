@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { quotes } from "@/data/quotes";
 import FilterPopover from "@/components/FilterPopover";
 import { DURATION, EASING } from "@/lib/constants";
+import GradientText from "@/components/ui/GradientText";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -95,7 +96,7 @@ const Quotes = memo(function Quotes() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, delay: 0.1, ease: EASING.smooth }}
           >
-            <span className="gradient-text">Quotes</span>
+            <GradientText gradient="louie">Quotes</GradientText>
           </motion.h1>
           <motion.p
             className="text-lg md:text-xl text-muted-foreground max-w-md mx-auto font-light"

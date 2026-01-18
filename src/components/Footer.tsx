@@ -8,7 +8,7 @@ import { BrandName } from "@/components/ui/GradientText";
 const Footer = memo(function Footer() {
   const currentYear = new Date().getFullYear();
   const footerRef = useRef<HTMLElement>(null);
-  const isInView = useInView(footerRef, { once: true, margin: "-50px" });
+  const isInView = useInView(footerRef, { once: false, margin: "-50px" });
 
   return (
     <motion.footer

@@ -10,6 +10,7 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
   const [isDragging, setIsDragging] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const [canScroll, setCanScroll] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
   const scrollTimeoutRef = useRef<number>();
   const trackRef = useRef<HTMLDivElement>(null);
 
@@ -26,17 +27,18 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
       document.body.offsetHeight,
       document.documentElement.offsetHeight
     );
-    const scrollPosition = window.scrollY;
+    const currentScrollPosition = window.scrollY;
     const hasOverflow = contentHeight > viewportHeight + 5;
 
     setCanScroll(hasOverflow);
+    setScrollPosition(currentScrollPosition);
 
     if (hasOverflow) {
       const visibleRatio = viewportHeight / contentHeight;
       const newThumbHeight = Math.max(MIN_THUMB_HEIGHT, viewportHeight * visibleRatio);
       const scrollableDistance = contentHeight - viewportHeight;
       const thumbTrackSpace = viewportHeight - newThumbHeight;
-      const scrollProgress = scrollableDistance > 0 ? scrollPosition / scrollableDistance : 0;
+      const scrollProgress = scrollableDistance > 0 ? currentScrollPosition / scrollableDistance : 0;
 
       thumbHeight.set(newThumbHeight);
       thumbTop.set(scrollProgress * thumbTrackSpace);
@@ -133,15 +135,19 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
     };
   }, [updateScrollbarDimensions, handleScroll]);
 
-  if (!canScroll) return null;
-
+  // Always render, but fade out at top of page
+  const isAtTop = scrollPosition === 0;
   const isThumbVisible = isHovering || isDragging || isScrolling;
+  
+  // Calculate base opacity: 0 at top when not interacting, otherwise normal visibility
+  const baseOpacity = canScroll ? (isAtTop && !isThumbVisible ? 0 : 0.3) : 0;
+  const activeOpacity = canScroll ? 1 : 0;
 
   return (
     <div
       ref={trackRef}
       className="fixed right-0 top-0 bottom-0 w-4 z-[9999]"
-      onClick={handleTrackClick}
+      onClick={canScroll ? handleTrackClick : undefined}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -153,13 +159,13 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
         )}
         style={{ height: animatedThumbHeight, top: animatedThumbTop }}
         animate={{
-          opacity: isThumbVisible ? 1 : 0.3,
+          opacity: isThumbVisible ? activeOpacity : baseOpacity,
           scale: isDragging ? 1.15 : isHovering ? 1.05 : 1,
           width: isDragging ? 10 : 8,
         }}
-        transition={{ opacity: { duration: 0.2 }, scale: { duration: 0.15 }, width: { duration: 0.15 } }}
-        onMouseDown={handleThumbDrag}
-        whileHover={{ boxShadow: "0 0 12px hsl(270, 100%, 60%)" }}
+        transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.15 }, width: { duration: 0.15 } }}
+        onMouseDown={canScroll ? handleThumbDrag : undefined}
+        whileHover={{ boxShadow: canScroll ? "0 0 12px hsl(270, 100%, 60%)" : undefined }}
       />
     </div>
   );
