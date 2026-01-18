@@ -13,9 +13,9 @@ const Navigation = memo(function Navigation() {
 
   return (
     <motion.nav
-      initial={{ y: "-100%" }}
+      initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-background/80 backdrop-blur-md border-b border-border/30"
