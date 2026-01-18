@@ -60,17 +60,20 @@ const Navigation = memo(function Navigation() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="group relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 z-10"
+                  className="group relative px-5 py-2.5 rounded-lg text-sm font-medium z-10"
                 >
-                  {/* Active state pill - uses layoutId for smooth sliding */}
+                  {/* Active state pill - uses layoutId for smooth sliding, layout={false} prevents scroll interference */}
                   {isActive && (
                     <motion.div
                       layoutId="navbar-pill"
+                      layout="position"
                       className="absolute inset-0 bg-gradient-to-b from-[#8800FF] to-[#220033] rounded-lg"
+                      style={{ willChange: "transform" }}
                       transition={{
                         type: "spring",
-                        stiffness: 400,
-                        damping: 30,
+                        stiffness: 500,
+                        damping: 35,
+                        mass: 1,
                       }}
                     />
                   )}
