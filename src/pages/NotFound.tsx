@@ -1,16 +1,12 @@
 import { useLocation, Link } from "react-router-dom";
-import { useEffect, useState, useMemo } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import { Home, ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Home, ArrowLeft, Compass } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
   const location = useLocation();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  
-  // Track mouse position as motion values for particle opacity
-  const mouseX = useMotionValue(0.5);
-  const mouseY = useMotionValue(0.5);
 
   useEffect(() => {
     console.error("404 Error:", location.pathname);
@@ -18,71 +14,39 @@ const NotFound = () => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      const normalizedX = e.clientX / window.innerWidth;
-      const normalizedY = e.clientY / window.innerHeight;
-      
       setMousePosition({
-        x: (normalizedX - 0.5) * 20,
-        y: (normalizedY - 0.5) * 20,
+        x: (e.clientX / window.innerWidth - 0.5) * 20,
+        y: (e.clientY / window.innerHeight - 0.5) * 20,
       });
-      
-      mouseX.set(normalizedX);
-      mouseY.set(normalizedY);
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
-
-  // Generate stable particle configs with position for distance calculation
-  const particles = useMemo(() => 
-    [...Array(100)].map(() => ({
-      size: Math.random() * 14 + 6, // 6-20px range
-      initialX: Math.random() * window.innerWidth,
-      initialY: Math.random() * window.innerHeight,
-      targetX: Math.random() * window.innerWidth,
-      targetY: Math.random() * window.innerHeight,
-      duration: Math.random() * 3 + 2,
-    })), []
-  );
-
-  // Calculate distance from center (0-1, where 0 = center, 1 = edge)
-  const getDistanceFromCenter = (x: number, y: number) => {
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    const maxDistance = Math.sqrt(centerX * centerX + centerY * centerY);
-    const distance = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
-    return Math.min(distance / maxDistance, 1);
-  };
+  }, []);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        {particles.map((particle, i) => {
-          // Calculate opacity based on distance from center
-          const avgX = (particle.initialX + particle.targetX) / 2;
-          const avgY = (particle.initialY + particle.targetY) / 2;
-          const distanceOpacity = 0.15 + getDistanceFromCenter(avgX, avgY) * 0.55; // 0.15 at center, 0.7 at edges
-          
+        {[...Array(75)].map((_, i) => {
+          const size = Math.random() * 8 + 6;
           return (
             <motion.div
               key={i}
               className="absolute rounded-full bg-primary/30"
               style={{
-                width: particle.size,
-                height: particle.size,
+                width: size,
+                height: size,
               }}
-              initial={{
-                x: particle.initialX,
-                y: particle.initialY,
-                opacity: 0,
-              }}
-              animate={{
-                x: [null, particle.targetX],
-                y: [null, particle.targetY],
-                opacity: [distanceOpacity * 0.5, distanceOpacity, distanceOpacity * 0.5],
-              }}
+            initial={{
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+            }}
+            animate={{
+              x: [null, Math.random() * window.innerWidth],
+              y: [null, Math.random() * window.innerHeight],
+              opacity: [0.2, 0.6, 0.2],
+            }}
               transition={{
-                duration: particle.duration,
+                duration: Math.random() * 3 + 2,
                 repeat: Infinity,
                 repeatType: "reverse",
               }}
@@ -109,11 +73,14 @@ const NotFound = () => {
       />
 
       <div className="relative z-10 text-center px-6">
-        <div className="relative mb-8">
+        <motion.div
+          className="relative mb-8"
+          style={{ perspective: 1000 }}
+        >
           <motion.h1
             className="text-[12rem] md:text-[16rem] font-black leading-none gradient-text select-none"
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, scale: 0.5, rotateX: -30 }}
+            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             style={{
               textShadow: "0 0 100px hsl(var(--primary) / 0.3)",
@@ -121,7 +88,7 @@ const NotFound = () => {
           >
             404
           </motion.h1>
-        </div>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
