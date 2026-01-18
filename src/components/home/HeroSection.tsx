@@ -14,21 +14,16 @@ const HeroSection = () => {
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
 
   return (
-    <section
-      ref={ref}
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
-    >
-      {/* Gradient orbs */}
+    <section ref={ref} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/15 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: "1s" }} />
+        <div
+          className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-accent/15 rounded-full blur-[100px] animate-pulse"
+          style={{ animationDelay: "1s" }}
+        />
       </div>
 
-      <motion.div
-        style={{ opacity, scale, y }}
-        className="relative z-10 text-center px-6"
-      >
-        {/* Avatar with glow */}
+      <motion.div style={{ opacity, scale, y }} className="relative z-10 text-center px-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -37,15 +32,10 @@ const HeroSection = () => {
         >
           <div className="absolute inset-0 bg-primary/40 rounded-full blur-2xl scale-110" />
           <div className="relative w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden ring-2 ring-primary/50">
-            <img
-              src={avatar}
-              alt="LaymanLouie"
-              className="w-full h-full object-cover"
-            />
+            <img src={avatar} alt="LaymanLouie" className="w-full h-full object-cover" />
           </div>
         </motion.div>
 
-        {/* Main headline */}
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -74,7 +64,6 @@ const HeroSection = () => {
           </span>
         </motion.h1>
 
-        {/* Tagline */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -83,7 +72,6 @@ const HeroSection = () => {
         >
           Welcome to The Layman's World
         </motion.p>
-
       </motion.div>
     </section>
   );

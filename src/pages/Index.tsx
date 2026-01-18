@@ -18,9 +18,7 @@ const Quotes = () => {
   }, []);
 
   const toggleGame = (game: string) => {
-    setSelectedGames((prev) =>
-      prev.includes(game) ? prev.filter((g) => g !== game) : [...prev, game]
-    );
+    setSelectedGames((prev) => (prev.includes(game) ? prev.filter((g) => g !== game) : [...prev, game]));
   };
 
   const clearGames = () => setSelectedGames([]);
@@ -39,7 +37,7 @@ const Quotes = () => {
           quote.quote.toLowerCase().includes(query) ||
           quote.game.toLowerCase().includes(query) ||
           quote.timestamp.toLowerCase().includes(query) ||
-          quote.number.toString().includes(query)
+          quote.number.toString().includes(query),
       );
     }
 
@@ -55,12 +53,8 @@ const Quotes = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-2">
-            Stream Quotes
-          </h1>
-          <p className="text-muted-foreground">
-            Memorable moments captured by the community
-          </p>
+          <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-2">Layman's Quotes</h1>
+          <p className="text-muted-foreground">Memorable moments captured by Laypeople</p>
         </motion.header>
 
         <motion.div
@@ -72,9 +66,7 @@ const Quotes = () => {
           <div className="flex flex-col md:flex-row md:items-end gap-4">
             {availableGames.length > 0 && (
               <div className="flex-1">
-                <label className="text-sm font-medium text-foreground mb-2 block">
-                  Game Filter
-                </label>
+                <label className="text-sm font-medium text-foreground mb-2 block">Game Filter</label>
                 <FilterPopover
                   triggerLabel="Games"
                   sections={[
@@ -85,12 +77,7 @@ const Quotes = () => {
                       onToggle: toggleGame,
                       onClearAll: clearGames,
                       renderBadge: (game, isActive, onClick) => (
-                        <GameBadge
-                          game={game}
-                          size="sm"
-                          isActive={isActive}
-                          onClick={onClick}
-                        />
+                        <GameBadge game={game} size="sm" isActive={isActive} onClick={onClick} />
                       ),
                       clearThreshold: 3,
                     },
@@ -100,9 +87,7 @@ const Quotes = () => {
             )}
 
             <div className="w-full md:w-[280px] flex-shrink-0">
-              <label className="text-sm font-medium text-foreground mb-2 block">
-                Search
-              </label>
+              <label className="text-sm font-medium text-foreground mb-2 block">Search</label>
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
@@ -124,11 +109,7 @@ const Quotes = () => {
         </motion.div>
 
         <LayoutGroup>
-          <motion.div
-            className="space-y-4"
-            layout
-            transition={{ layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }}
-          >
+          <motion.div className="space-y-4" layout transition={{ layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }}>
             <AnimatePresence mode="popLayout">
               {filteredQuotes.length > 0 ? (
                 filteredQuotes.map((quote) => (
@@ -160,9 +141,7 @@ const Quotes = () => {
                   exit={{ opacity: 0 }}
                   className="glass-card rounded-lg p-8 text-center"
                 >
-                  <p className="text-muted-foreground">
-                    No quotes match your filters.
-                  </p>
+                  <p className="text-muted-foreground">No quotes match your filters.</p>
                 </motion.div>
               )}
             </AnimatePresence>

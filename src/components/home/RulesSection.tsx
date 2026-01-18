@@ -13,22 +13,18 @@ const rules = [
 const RulesSection = () => {
   return (
     <section className="py-32 px-6 relative">
-      {/* Subtle gradient bg */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/5 to-transparent pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
-            Community Rules
-          </h2>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">Community Rules</h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
           <p className="text-xl text-muted-foreground text-center mb-16 font-light">
-            We keep things{" "}
-            <span className="text-foreground">friendly</span>,{" "}
-            <span className="text-foreground">respectful</span>, and{" "}
-            <span className="text-foreground">cozy</span> for everyone.
+            We keep things <span className="text-foreground">friendly</span>,{" "}
+            <span className="text-foreground">respectful</span>, and <span className="text-foreground">cozy</span> for
+            everyone.
           </p>
         </ScrollRevealSection>
 
@@ -51,8 +47,8 @@ const RulesSection = () => {
 
         <ScrollRevealSection delay={0.5}>
           <p className="text-center text-muted-foreground mt-12">
-            We want this world to feel safe and welcoming for{" "}
-            <span className="text-primary font-semibold">ALL</span> Laypeople.
+            We want this world to feel safe and welcoming for <span className="text-primary font-semibold">ALL</span>{" "}
+            Laypeople.
           </p>
         </ScrollRevealSection>
       </div>

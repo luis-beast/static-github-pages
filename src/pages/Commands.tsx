@@ -42,16 +42,12 @@ const Commands = () => {
 
   const togglePermission = (permission: Permission) => {
     setSelectedPermissions((prev) =>
-      prev.includes(permission)
-        ? prev.filter((p) => p !== permission)
-        : [...prev, permission]
+      prev.includes(permission) ? prev.filter((p) => p !== permission) : [...prev, permission],
     );
   };
 
   const toggleTag = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
+    setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
   };
 
   const clearTags = () => setSelectedTags([]);
@@ -64,9 +60,7 @@ const Commands = () => {
         : commands.filter((cmd) => selectedPermissions.includes(cmd.permission));
 
     if (selectedTags.length > 0) {
-      result = result.filter((cmd) =>
-        cmd.commandGroups?.some((group) => selectedTags.includes(group))
-      );
+      result = result.filter((cmd) => cmd.commandGroups?.some((group) => selectedTags.includes(group)));
     }
 
     if (searchQuery.trim()) {
@@ -76,7 +70,7 @@ const Commands = () => {
           normalizeForSearch(cmd.name).includes(query) ||
           cmd.aliases?.some((alias) => normalizeForSearch(alias).includes(query)) ||
           normalizeForSearch(cmd.description).includes(query) ||
-          cmd.commandGroups?.some((group) => normalizeForSearch(group).includes(query))
+          cmd.commandGroups?.some((group) => normalizeForSearch(group).includes(query)),
       );
     }
 
@@ -88,9 +82,7 @@ const Commands = () => {
             : PERMISSION_PRIORITY[b.permission] - PERMISSION_PRIORITY[a.permission];
         if (roleDiff !== 0) return roleDiff;
       }
-      return alphabeticalOrder === "asc"
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name);
+      return alphabeticalOrder === "asc" ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name);
     });
 
     return result;
@@ -105,12 +97,8 @@ const Commands = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-2">
-            Stream Commands
-          </h1>
-          <p className="text-muted-foreground">
-            All available chat commands and how to use them
-          </p>
+          <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-2">Layman's Commands</h1>
+          <p className="text-muted-foreground">All commands and how to use them</p>
         </motion.header>
 
         <motion.div
@@ -137,11 +125,7 @@ const Commands = () => {
         </motion.div>
 
         <LayoutGroup>
-          <motion.div
-            className="space-y-4"
-            layout
-            transition={{ layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }}
-          >
+          <motion.div className="space-y-4" layout transition={{ layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }}>
             <AnimatePresence mode="popLayout">
               {filteredCommands.length > 0 ? (
                 filteredCommands.map((command, index) => (
@@ -168,9 +152,7 @@ const Commands = () => {
                   exit={{ opacity: 0 }}
                   className="glass-card rounded-lg p-8 text-center"
                 >
-                  <p className="text-muted-foreground">
-                    No commands match your current filters.
-                  </p>
+                  <p className="text-muted-foreground">No commands match your current filters.</p>
                 </motion.div>
               )}
             </AnimatePresence>

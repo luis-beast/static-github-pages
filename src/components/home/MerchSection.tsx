@@ -12,19 +12,13 @@ const MerchSection = () => {
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">
-            Merch
-          </h2>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight mb-6">The Merch</h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.2}>
           <div className="inline-block px-8 py-4 rounded-2xl border border-dashed border-border/50 bg-card/20">
-            <p className="text-2xl font-bold text-muted-foreground mb-2">
-              Coming Soon
-            </p>
-            <p className="text-muted-foreground/70">
-              Stay tuned for Layman merch...
-            </p>
+            <p className="text-2xl font-bold text-muted-foreground mb-2">Coming Soon</p>
+            <p className="text-muted-foreground/70">Stay tuned for Layman merch...</p>
           </div>
         </ScrollRevealSection>
       </div>
