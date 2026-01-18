@@ -127,26 +127,43 @@ const NotFound = () => {
                 scale: captured.scale,
               };
             } else {
-              // Idle animation - use captured phase progress if available
-              const startPhase = captured?.phaseProgress ?? particle.phase;
-              
-              // Build keyframes starting from the captured phase
-              if (startPhase < 0.5) {
-                // Currently moving inward, continue: current -> inner -> outer -> current phase
-                return {
-                  x: [outerX, innerX, outerX],
-                  y: [outerY, innerY, outerY],
-                  opacity: [0.5, 0.15, 0.5],
-                  scale: [particle.scale, particle.scale * 0.7, particle.scale],
-                };
+              // Idle animation - start from captured position and continue the cycle
+              if (captured) {
+                if (captured.phaseProgress < 0.5) {
+                  // Was moving inward: captured -> inner -> outer -> inner...
+                  return {
+                    x: [captured.x, innerX, outerX, innerX],
+                    y: [captured.y, innerY, outerY, innerY],
+                    opacity: [captured.opacity, 0.15, 0.5, 0.15],
+                    scale: [captured.scale, particle.scale * 0.7, particle.scale, particle.scale * 0.7],
+                  };
+                } else {
+                  // Was moving outward: captured -> outer -> inner -> outer...
+                  return {
+                    x: [captured.x, outerX, innerX, outerX],
+                    y: [captured.y, outerY, innerY, outerY],
+                    opacity: [captured.opacity, 0.5, 0.15, 0.5],
+                    scale: [captured.scale, particle.scale, particle.scale * 0.7, particle.scale],
+                  };
+                }
               } else {
-                // Currently moving outward
-                return {
-                  x: [innerX, outerX, innerX],
-                  y: [innerY, outerY, innerY],
-                  opacity: [0.15, 0.5, 0.15],
-                  scale: [particle.scale * 0.7, particle.scale, particle.scale * 0.7],
-                };
+                // Initial animation based on starting phase
+                const p = particle.phase;
+                if (p < 0.5) {
+                  return {
+                    x: [outerX, innerX, outerX],
+                    y: [outerY, innerY, outerY],
+                    opacity: [0.5, 0.15, 0.5],
+                    scale: [particle.scale, particle.scale * 0.7, particle.scale],
+                  };
+                } else {
+                  return {
+                    x: [innerX, outerX, innerX],
+                    y: [innerY, outerY, innerY],
+                    opacity: [0.15, 0.5, 0.15],
+                    scale: [particle.scale * 0.7, particle.scale, particle.scale * 0.7],
+                  };
+                }
               }
             }
           };
