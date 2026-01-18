@@ -1,7 +1,7 @@
 import { useLocation, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
-import { Home, ArrowLeft, Compass } from "lucide-react";
+import { Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const particleData = [...Array(75)].map((_, i) => {
@@ -18,9 +18,19 @@ const particleData = [...Array(75)].map((_, i) => {
   };
 });
 
+interface CapturedPosition {
+  x: number;
+  y: number;
+  opacity: number;
+  scale: number;
+  phaseProgress: number;
+}
+
 const NotFound = () => {
   const location = useLocation();
   const [mouseState, setMouseState] = useState<"idle" | "active" | "returning">("idle");
+  const capturedPositions = useRef<CapturedPosition[]>([]);
+  const animationStartTime = useRef<number>(Date.now());
 
   useEffect(() => {
     console.error("404 Error:", location.pathname);
@@ -31,6 +41,40 @@ const NotFound = () => {
     let returnTimeout: NodeJS.Timeout;
 
     const handleMouseMove = () => {
+      if (mouseState === "idle") {
+        // Capture current positions when transitioning from idle to active
+        const currentTime = (Date.now() - animationStartTime.current) / 1000;
+        capturedPositions.current = particleData.map((particle) => {
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          const outerX = centerX + Math.cos(particle.angle) * centerX * particle.distance;
+          const outerY = centerY + Math.sin(particle.angle) * centerY * particle.distance;
+          const innerX = centerX + Math.cos(particle.angle) * centerX * 0.2;
+          const innerY = centerY + Math.sin(particle.angle) * centerY * 0.2;
+
+          // Calculate where in the animation cycle this particle is
+          const cycleProgress = ((currentTime / particle.duration) + particle.phase) % 1;
+          
+          // Interpolate position based on cycle progress
+          let x: number, y: number, opacity: number, scale: number;
+          if (cycleProgress < 0.5) {
+            const t = cycleProgress / 0.5;
+            x = outerX + (innerX - outerX) * t;
+            y = outerY + (innerY - outerY) * t;
+            opacity = 0.5 + (0.15 - 0.5) * t;
+            scale = particle.scale + (particle.scale * 0.7 - particle.scale) * t;
+          } else {
+            const t = (cycleProgress - 0.5) / 0.5;
+            x = innerX + (outerX - innerX) * t;
+            y = innerY + (outerY - innerY) * t;
+            opacity = 0.15 + (0.5 - 0.15) * t;
+            scale = particle.scale * 0.7 + (particle.scale - particle.scale * 0.7) * t;
+          }
+
+          return { x, y, opacity, scale, phaseProgress: cycleProgress };
+        });
+      }
+
       setMouseState("active");
       clearTimeout(activeTimeout);
       clearTimeout(returnTimeout);
@@ -38,6 +82,8 @@ const NotFound = () => {
       activeTimeout = setTimeout(() => {
         setMouseState("returning");
         returnTimeout = setTimeout(() => {
+          // Update animation start time so phase continues from captured position
+          animationStartTime.current = Date.now();
           setMouseState("idle");
         }, 1200);
       }, 200);
@@ -49,7 +95,7 @@ const NotFound = () => {
       clearTimeout(activeTimeout);
       clearTimeout(returnTimeout);
     };
-  }, []);
+  }, [mouseState]);
 
   const centerX = typeof window !== "undefined" ? window.innerWidth / 2 : 500;
   const centerY = typeof window !== "undefined" ? window.innerHeight / 2 : 400;
@@ -62,27 +108,8 @@ const NotFound = () => {
           const outerY = centerY + Math.sin(particle.angle) * centerY * particle.distance;
           const innerX = centerX + Math.cos(particle.angle) * centerX * 0.2;
           const innerY = centerY + Math.sin(particle.angle) * centerY * 0.2;
-          const midX = (outerX + innerX) / 2;
-          const midY = (outerY + innerY) / 2;
 
-          const p = particle.phase;
-          let startX: number, startY: number, startOpacity: number, startScale: number;
-          if (p < 0.33) {
-            startX = outerX;
-            startY = outerY;
-            startOpacity = 0.5;
-            startScale = particle.scale;
-          } else if (p < 0.66) {
-            startX = innerX;
-            startY = innerY;
-            startOpacity = 0.15;
-            startScale = particle.scale * 0.7;
-          } else {
-            startX = midX;
-            startY = midY;
-            startOpacity = 0.3;
-            startScale = particle.scale * 0.85;
-          }
+          const captured = capturedPositions.current[i];
 
           const getAnimation = () => {
             if (mouseState === "active") {
@@ -92,34 +119,33 @@ const NotFound = () => {
                 opacity: 0,
                 scale: particle.scale * 0.3,
               };
-            } else if (mouseState === "returning") {
+            } else if (mouseState === "returning" && captured) {
               return {
-                x: startX,
-                y: startY,
-                opacity: startOpacity,
-                scale: startScale,
+                x: captured.x,
+                y: captured.y,
+                opacity: captured.opacity,
+                scale: captured.scale,
               };
             } else {
-              if (p < 0.33) {
+              // Idle animation - use captured phase progress if available
+              const startPhase = captured?.phaseProgress ?? particle.phase;
+              
+              // Build keyframes starting from the captured phase
+              if (startPhase < 0.5) {
+                // Currently moving inward, continue: current -> inner -> outer -> current phase
                 return {
                   x: [outerX, innerX, outerX],
                   y: [outerY, innerY, outerY],
                   opacity: [0.5, 0.15, 0.5],
                   scale: [particle.scale, particle.scale * 0.7, particle.scale],
                 };
-              } else if (p < 0.66) {
+              } else {
+                // Currently moving outward
                 return {
                   x: [innerX, outerX, innerX],
                   y: [innerY, outerY, innerY],
                   opacity: [0.15, 0.5, 0.15],
                   scale: [particle.scale * 0.7, particle.scale, particle.scale * 0.7],
-                };
-              } else {
-                return {
-                  x: [midX, outerX, innerX, midX],
-                  y: [midY, outerY, innerY, midY],
-                  opacity: [0.3, 0.5, 0.15, 0.3],
-                  scale: [particle.scale * 0.85, particle.scale, particle.scale * 0.7, particle.scale * 0.85],
                 };
               }
             }
@@ -137,6 +163,11 @@ const NotFound = () => {
                 ease: "easeOut" as const,
               };
             } else {
+              const captured = capturedPositions.current[i];
+              const startPhase = captured?.phaseProgress ?? particle.phase;
+              // Adjust duration based on where we are in the cycle
+              const remainingPhase = startPhase < 0.5 ? (0.5 - startPhase) / 0.5 : (1 - startPhase) / 0.5;
+              
               return {
                 duration: particle.duration,
                 ease: "easeInOut" as const,
@@ -153,6 +184,12 @@ const NotFound = () => {
               style={{
                 width: particle.size,
                 height: particle.size,
+              }}
+              initial={{
+                x: outerX + (innerX - outerX) * particle.phase,
+                y: outerY + (innerY - outerY) * particle.phase,
+                opacity: 0.5 + (0.15 - 0.5) * particle.phase,
+                scale: particle.scale + (particle.scale * 0.7 - particle.scale) * particle.phase,
               }}
               animate={getAnimation()}
               transition={getTransition()}
