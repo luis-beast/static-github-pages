@@ -24,16 +24,18 @@ const NotFound = () => {
   }, []);
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
+    <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(75)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute rounded-full bg-primary/30"
-            style={{
-              width: Math.random() * 8 + 4,
-              height: Math.random() * 8 + 4,
-            }}
+        {[...Array(75)].map((_, i) => {
+          const size = Math.random() * 8 + 6;
+          return (
+            <motion.div
+              key={i}
+              className="absolute rounded-full bg-primary/30"
+              style={{
+                width: size,
+                height: size,
+              }}
             initial={{
               x: Math.random() * window.innerWidth,
               y: Math.random() * window.innerHeight,
@@ -43,13 +45,14 @@ const NotFound = () => {
               y: [null, Math.random() * window.innerHeight],
               opacity: [0.2, 0.6, 0.2],
             }}
-            transition={{
-              duration: Math.random() * 3 + 2,
-              repeat: Infinity,
-              repeatType: "reverse",
-            }}
-          />
-        ))}
+              transition={{
+                duration: Math.random() * 3 + 2,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
+            />
+          );
+        })}
       </div>
 
       <motion.div
