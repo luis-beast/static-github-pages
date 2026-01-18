@@ -28,26 +28,42 @@ const NotFound = () => {
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(75)].map((_, i) => {
           const size = Math.random() * 8 + 6;
+          const startX = Math.random() * window.innerWidth;
+          const startY = Math.random() * window.innerHeight;
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
+          
+          // Calculate distance from center (0-1 range)
+          const distanceFromCenter = Math.sqrt(
+            Math.pow((startX - centerX) / centerX, 2) + 
+            Math.pow((startY - centerY) / centerY, 2)
+          );
+          // More transparent closer to center (0.1 at center, 0.5 at edges)
+          const opacity = Math.min(0.5, 0.1 + distanceFromCenter * 0.4);
+          
           return (
             <motion.div
               key={i}
-              className="absolute rounded-full bg-primary/30"
+              className="absolute rounded-full bg-primary"
               style={{
                 width: size,
                 height: size,
+                opacity: opacity,
               }}
-            initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
-            }}
-            animate={{
-              x: [null, Math.random() * window.innerWidth],
-              y: [null, Math.random() * window.innerHeight],
-              opacity: [0.2, 0.6, 0.2],
-            }}
+              initial={{
+                x: startX,
+                y: startY,
+                scale: Math.random() * 0.5 + 0.5,
+              }}
+              animate={{
+                x: [startX, centerX + (startX - centerX) * 0.3],
+                y: [startY, centerY + (startY - centerY) * 0.3],
+                opacity: [opacity, opacity * 0.5, opacity],
+              }}
               transition={{
-                duration: Math.random() * 3 + 2,
+                duration: Math.random() * 15 + 15,
                 repeat: Infinity,
+                ease: "easeInOut",
                 repeatType: "reverse",
               }}
             />
