@@ -1,12 +1,14 @@
 import { useLocation, Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
-import { Home, ArrowLeft, Compass } from "lucide-react";
+import { Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const NotFound = () => {
   const location = useLocation();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMouseMoving, setIsMouseMoving] = useState(false);
+  const mouseTimeoutRef = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     console.error("404 Error:", location.pathname);
@@ -18,41 +20,64 @@ const NotFound = () => {
         x: (e.clientX / window.innerWidth - 0.5) * 20,
         y: (e.clientY / window.innerHeight - 0.5) * 20,
       });
+      setIsMouseMoving(true);
+      
+      if (mouseTimeoutRef[0]) {
+        clearTimeout(mouseTimeoutRef[0]);
+      }
+      mouseTimeoutRef[1](setTimeout(() => {
+        setIsMouseMoving(false);
+      }, 150));
     };
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      if (mouseTimeoutRef[0]) clearTimeout(mouseTimeoutRef[0]);
+    };
   }, []);
+
+  // Generate stable particle configs
+  const particles = useMemo(() => 
+    [...Array(100)].map(() => ({
+      size: Math.random() * 14 + 6, // 6-20px range
+      initialX: Math.random() * window.innerWidth,
+      initialY: Math.random() * window.innerHeight,
+      targetX: Math.random() * window.innerWidth,
+      targetY: Math.random() * window.innerHeight,
+      duration: Math.random() * 3 + 2,
+    })), []
+  );
 
   return (
     <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(75)].map((_, i) => {
-          const size = Math.random() * 8 + 6;
-          return (
-            <motion.div
-              key={i}
-              className="absolute rounded-full bg-primary/30"
-              style={{
-                width: size,
-                height: size,
-              }}
+        {particles.map((particle, i) => (
+          <motion.div
+            key={i}
+            className="absolute rounded-full bg-primary/30"
+            style={{
+              width: particle.size,
+              height: particle.size,
+            }}
             initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
+              x: particle.initialX,
+              y: particle.initialY,
             }}
             animate={{
-              x: [null, Math.random() * window.innerWidth],
-              y: [null, Math.random() * window.innerHeight],
-              opacity: [0.2, 0.6, 0.2],
+              x: [null, particle.targetX],
+              y: [null, particle.targetY],
+              opacity: isMouseMoving ? [0.6, 0.1] : [0.2, 0.6, 0.2],
+              scale: isMouseMoving ? 0.5 : 1,
             }}
-              transition={{
-                duration: Math.random() * 3 + 2,
-                repeat: Infinity,
-                repeatType: "reverse",
-              }}
-            />
-          );
-        })}
+            transition={{
+              duration: particle.duration,
+              repeat: Infinity,
+              repeatType: "reverse",
+              opacity: { duration: isMouseMoving ? 0.3 : particle.duration },
+              scale: { duration: 0.3 },
+            }}
+          />
+        ))}
       </div>
 
       <motion.div
@@ -73,22 +98,16 @@ const NotFound = () => {
       />
 
       <div className="relative z-10 text-center px-6">
-        <motion.div
-          className="relative mb-8"
-          style={{ perspective: 1000 }}
-        >
-          <motion.h1
+        <div className="relative mb-8" style={{ perspective: 1000 }}>
+          <h1
             className="text-[12rem] md:text-[16rem] font-black leading-none gradient-text select-none"
-            initial={{ opacity: 0, scale: 0.5, rotateX: -30 }}
-            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
             style={{
               textShadow: "0 0 100px hsl(var(--primary) / 0.3)",
             }}
           >
             404
-          </motion.h1>
-        </motion.div>
+          </h1>
+        </div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
