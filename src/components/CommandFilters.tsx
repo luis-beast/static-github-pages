@@ -1,7 +1,7 @@
 import { memo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Permission } from "@/components/PermissionBadge";
-import { Search, X, ArrowDownAZ, ArrowUpZA, ArrowDown01, ArrowUp10, ShieldCheck } from "lucide-react";
+import { Search, ArrowDownAZ, ArrowUpZA, ArrowDown01, ArrowUp10, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import PermissionBadge from "@/components/PermissionBadge";
@@ -51,62 +51,24 @@ const CommandFilters = memo(function CommandFilters({
       <div className="relative group">
         <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
         
-        <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl border border-border/50 p-6 shadow-2xl shadow-primary/5 space-y-6">
-          <div className="flex flex-col lg:flex-row gap-6">
-            <div className="flex-1 space-y-3">
-              <label className="text-sm font-medium text-foreground/80">Filter by Role</label>
-              <div className="flex flex-wrap items-center gap-2">
-                {PERMISSIONS.map((perm) => (
-                  <motion.div
-                    key={perm}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <PermissionBadge
-                      permission={perm}
-                      size="md"
-                      isActive={selectedPermissions.includes(perm)}
-                      onClick={() => onPermissionToggle(perm)}
-                    />
-                  </motion.div>
-                ))}
-                <AnimatePresence mode="wait">
-                  {selectedPermissions.length >= 3 && (
-                    <motion.button
-                      key="clear-permissions"
-                      onClick={onClearPermissions}
-                      className="text-muted-foreground hover:text-foreground hover:bg-destructive/10 px-3 py-1.5 text-xs rounded-lg cursor-pointer inline-flex items-center gap-1.5 transition-colors"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <X className="w-3 h-3" />
-                      Clear
-                    </motion.button>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
-
-            <div className="w-full lg:w-80 space-y-3">
-              <label className="text-sm font-medium text-foreground/80">Search</label>
-              <div className="relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Search commands..."
-                  value={searchQuery}
-                  onChange={(e) => onSearchChange(e.target.value)}
-                  maxLength={20}
-                  className="pl-12 h-12 bg-secondary/50 border-0 rounded-xl text-base placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/30 transition-all"
-                />
-              </div>
-            </div>
+        <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl border border-border/50 p-6 shadow-2xl shadow-primary/5 space-y-4">
+          {/* Row 1: Full-width search bar */}
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Search commands..."
+              value={searchQuery}
+              onChange={(e) => onSearchChange(e.target.value)}
+              maxLength={20}
+              className="pl-12 h-12 w-full bg-secondary/50 border-0 rounded-xl text-base placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/30 transition-all"
+            />
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-border/30">
+          {/* Row 2: Popover buttons + Sort buttons left, count right */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2 border-t border-border/30">
             <div className="flex flex-wrap items-center gap-3">
+              {/* Popover buttons */}
               {availableTags.length > 0 && (
                 <FilterPopover
                   triggerLabel="Tags"
@@ -141,6 +103,37 @@ const CommandFilters = memo(function CommandFilters({
                 />
               )}
 
+              <FilterPopover
+                triggerLabel="Roles"
+                sections={[
+                  {
+                    label: "Filter by Role",
+                    items: PERMISSIONS,
+                    selectedItems: selectedPermissions,
+                    onToggle: onPermissionToggle,
+                    onClearAll: onClearPermissions,
+                    renderBadge: (permission, isActive, onClick) => (
+                      <motion.div
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <PermissionBadge
+                          permission={permission as Permission}
+                          size="md"
+                          isActive={isActive}
+                          onClick={onClick}
+                        />
+                      </motion.div>
+                    ),
+                    clearThreshold: 3,
+                  },
+                ]}
+              />
+
+              {/* Separator between popovers and sort buttons */}
+              <div className="hidden sm:block w-px h-6 bg-border/50" />
+
+              {/* Sort buttons */}
               <div className="flex gap-2">
                 <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                   <Button

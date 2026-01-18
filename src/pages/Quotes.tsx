@@ -109,62 +109,66 @@ const Quotes = memo(function Quotes() {
         </motion.header>
 
         <motion.div
-          className="max-w-2xl mx-auto mb-12"
+          className="max-w-4xl mx-auto mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DURATION.reveal, delay: 0.3, ease: EASING.smooth }}
         >
           <div className="relative group">
             <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
-            <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl border border-border/50 p-6 shadow-2xl shadow-primary/5">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="relative flex-1">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="Search quotes..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    maxLength={50}
-                    className="pl-12 h-12 bg-secondary/50 border-0 rounded-xl text-base placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/30 transition-all"
-                  />
-                </div>
-                
-                {availableGames.length > 0 && (
-                  <FilterPopover
-                    triggerLabel="Games"
-                    sections={[
-                      {
-                        label: "Filter by Game",
-                        items: availableGames,
-                        selectedItems: selectedGames,
-                        onToggle: toggleGame,
-                        onClearAll: clearGames,
-                        renderBadge: (game, isActive, onClick) => (
-                          <GameBadge game={game} size="sm" isActive={isActive} onClick={onClick} />
-                        ),
-                        clearThreshold: 3,
-                      },
-                    ]}
-                  />
-                )}
+            <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl border border-border/50 p-6 shadow-2xl shadow-primary/5 space-y-4">
+              {/* Row 1: Full-width search bar */}
+              <div className="relative">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                <Input
+                  type="text"
+                  placeholder="Search quotes..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  maxLength={50}
+                  className="pl-12 h-12 w-full bg-secondary/50 border-0 rounded-xl text-base placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/30 transition-all"
+                />
               </div>
               
-              <motion.div
-                className="mt-4 text-sm text-muted-foreground text-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                {filteredQuotes.length} quote{filteredQuotes.length !== 1 ? "s" : ""}
-              </motion.div>
+              {/* Row 2: Popover buttons left, count right */}
+              <div className="flex items-center justify-between pt-2 border-t border-border/30">
+                <div className="flex flex-wrap items-center gap-3">
+                  {availableGames.length > 0 && (
+                    <FilterPopover
+                      triggerLabel="Games"
+                      sections={[
+                        {
+                          label: "Filter by Game",
+                          items: availableGames,
+                          selectedItems: selectedGames,
+                          onToggle: toggleGame,
+                          onClearAll: clearGames,
+                          renderBadge: (game, isActive, onClick) => (
+                            <GameBadge game={game} size="sm" isActive={isActive} onClick={onClick} />
+                          ),
+                          clearThreshold: 3,
+                        },
+                      ]}
+                    />
+                  )}
+                </div>
+                
+                <motion.div
+                  className="text-sm text-muted-foreground"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  key={filteredQuotes.length}
+                >
+                  {filteredQuotes.length} quote{filteredQuotes.length !== 1 ? "s" : ""}
+                </motion.div>
+              </div>
             </div>
           </div>
         </motion.div>
 
         <LayoutGroup>
           <motion.div
-            className="max-w-3xl mx-auto space-y-4"
+            className="max-w-4xl mx-auto space-y-4"
             variants={containerVariants}
             initial="hidden"
             animate="visible"

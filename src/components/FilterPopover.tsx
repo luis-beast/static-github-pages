@@ -1,5 +1,5 @@
 import { useState, memo } from "react";
-import { Filter, X } from "lucide-react";
+import { Filter, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -57,6 +57,12 @@ const FilterPopover = memo(function FilterPopover({
                 </motion.span>
               )}
             </AnimatePresence>
+            <motion.div
+              animate={{ rotate: open ? 180 : 0 }}
+              transition={{ duration: 0.2, ease: "easeInOut" }}
+            >
+              <ChevronDown className="w-4 h-4" />
+            </motion.div>
           </Button>
         </motion.div>
       </PopoverTrigger>
