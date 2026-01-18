@@ -124,7 +124,7 @@ const SocialButton = memo(function SocialButton({ social, index }: SocialButtonP
       >
         {/* Background glow on hover */}
         <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-40 transition-opacity duration-300"
+          className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-300"
           style={{ background: social.hoverBg }}
           aria-hidden="true"
         />
