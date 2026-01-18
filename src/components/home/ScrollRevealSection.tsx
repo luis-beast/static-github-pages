@@ -13,7 +13,7 @@ const ScrollRevealSection = ({
   delay = 0,
 }: ScrollRevealSectionProps) => {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: false, margin: "-100px" });
 
   return (
     <motion.div
@@ -22,7 +22,7 @@ const ScrollRevealSection = ({
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
       transition={{
         duration: 0.8,
-        delay,
+        delay: isInView ? delay : 0,
         ease: [0.16, 1, 0.3, 1],
       }}
       className={className}
