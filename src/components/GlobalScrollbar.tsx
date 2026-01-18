@@ -20,9 +20,14 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
 
   const updateScrollbarDimensions = useCallback(() => {
     const viewportHeight = window.innerHeight;
-    const contentHeight = document.documentElement.scrollHeight;
+    const contentHeight = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight
+    );
     const scrollPosition = window.scrollY;
-    const hasOverflow = contentHeight > viewportHeight + 1;
+    const hasOverflow = contentHeight > viewportHeight + 5;
 
     setCanScroll(hasOverflow);
 
