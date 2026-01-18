@@ -13,10 +13,7 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 const Quotes = memo(function Quotes() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGames, setSelectedGames] = useState<string[]>([]);
-  const [focusedId, setFocusedId] = useState<number | null>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-
-  useClickOutside(gridRef, () => setFocusedId(null), focusedId !== null);
 
   const availableGames = useMemo(() => {
     const games = new Set<string>();
@@ -52,10 +49,6 @@ const Quotes = memo(function Quotes() {
 
     return result;
   }, [searchQuery, selectedGames]);
-
-  const handleFocus = useCallback((id: number) => {
-    setFocusedId((prev) => (prev === id ? null : id));
-  }, []);
 
   return (
     <div className="flex-1 flex flex-col">
@@ -139,7 +132,7 @@ const Quotes = memo(function Quotes() {
 
         <motion.div
           ref={gridRef}
-          className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.4 }}
@@ -151,7 +144,7 @@ const Quotes = memo(function Quotes() {
                   key={quote.number}
                   layout
                   layoutId={`quote-${quote.number}`}
-                  className={focusedId === quote.number ? "md:col-span-2" : ""}
+                  className="h-full"
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.98 }}
@@ -163,8 +156,6 @@ const Quotes = memo(function Quotes() {
                 >
                   <QuoteCard
                     {...quote}
-                    isFocused={focusedId === quote.number}
-                    onFocus={() => handleFocus(quote.number)}
                   />
                 </motion.div>
               ))
