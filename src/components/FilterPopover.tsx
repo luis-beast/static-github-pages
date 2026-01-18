@@ -1,5 +1,5 @@
 import { useState, memo } from "react";
-import { ChevronDown } from "lucide-react";
+import { Filter, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
@@ -39,6 +39,7 @@ const FilterPopover = memo(function FilterPopover({
               : "bg-secondary/50 border-border/50 text-muted-foreground hover:bg-secondary"
           )}
         >
+          <Filter className="w-4 h-4" />
           {triggerLabel}
           {totalSelected > 0 && (
             <span className="px-2 py-0.5 text-xs rounded-full bg-primary text-primary-foreground font-medium">
