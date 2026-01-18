@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback, memo } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { Search } from "lucide-react";
 import QuoteCard from "@/components/QuoteCard";
@@ -6,8 +6,9 @@ import GameBadge from "@/components/GameBadge";
 import { Input } from "@/components/ui/input";
 import { quotes } from "@/data/quotes";
 import FilterPopover from "@/components/FilterPopover";
+import { layoutTransition } from "@/lib/constants";
 
-const Quotes = () => {
+const Quotes = memo(function Quotes() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGames, setSelectedGames] = useState<string[]>([]);
 
@@ -17,11 +18,13 @@ const Quotes = () => {
     return Array.from(games).sort();
   }, []);
 
-  const toggleGame = (game: string) => {
-    setSelectedGames((prev) => (prev.includes(game) ? prev.filter((g) => g !== game) : [...prev, game]));
-  };
+  const toggleGame = useCallback(
+    (game: string) =>
+      setSelectedGames((prev) => (prev.includes(game) ? prev.filter((g) => g !== game) : [...prev, game])),
+    []
+  );
 
-  const clearGames = () => setSelectedGames([]);
+  const clearGames = useCallback(() => setSelectedGames([]), []);
 
   const filteredQuotes = useMemo(() => {
     let result = [...quotes];
@@ -37,7 +40,7 @@ const Quotes = () => {
           quote.quote.toLowerCase().includes(query) ||
           quote.game.toLowerCase().includes(query) ||
           quote.timestamp.toLowerCase().includes(query) ||
-          quote.number.toString().includes(query),
+          quote.number.toString().includes(query)
       );
     }
 
@@ -103,13 +106,12 @@ const Quotes = () => {
           </div>
 
           <div className="text-sm text-muted-foreground">
-            Showing {filteredQuotes.length} quote
-            {filteredQuotes.length !== 1 ? "s" : ""}
+            Showing {filteredQuotes.length} quote{filteredQuotes.length !== 1 ? "s" : ""}
           </div>
         </motion.div>
 
         <LayoutGroup>
-          <motion.div className="space-y-4" layout transition={{ layout: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } }}>
+          <motion.div className="space-y-4" layout transition={layoutTransition}>
             <AnimatePresence mode="popLayout">
               {filteredQuotes.length > 0 ? (
                 filteredQuotes.map((quote) => (
@@ -119,18 +121,9 @@ const Quotes = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{
-                      layout: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
-                      opacity: { duration: 0.2 },
-                      y: { duration: 0.2 },
-                    }}
+                    transition={layoutTransition}
                   >
-                    <QuoteCard
-                      number={quote.number}
-                      quote={quote.quote}
-                      game={quote.game}
-                      timestamp={quote.timestamp}
-                    />
+                    <QuoteCard {...quote} />
                   </motion.div>
                 ))
               ) : (
@@ -150,6 +143,6 @@ const Quotes = () => {
       </main>
     </div>
   );
-};
+});
 
 export default Quotes;

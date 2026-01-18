@@ -19,7 +19,7 @@ const queryClient = new QueryClient();
 
 const AppRoutes = memo(function AppRoutes() {
   const { pathname } = useLocation();
-  const isNotFoundPage = !KNOWN_ROUTES.includes(pathname as typeof KNOWN_ROUTES[number]);
+  const isNotFoundPage = !KNOWN_ROUTES.includes(pathname as (typeof KNOWN_ROUTES)[number]);
 
   return (
     <div className={`min-h-screen flex flex-col ${isNotFoundPage ? "" : "pt-16"}`}>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, memo, useCallback } from "react";
 import { ChevronDown, ChevronUp, Copy, Check } from "lucide-react";
 import { Command } from "@/types/command";
 import ParameterBubble from "./ParameterBubble";
@@ -18,10 +18,10 @@ const MAX_VISIBLE_ALIASES = 2;
 
 const getCopyableCommand = (name: string, usage?: string): string => {
   if (!usage) return name;
-  const usageParams = usage.replace(name, '').trim();
+  const usageParams = usage.replace(name, "").trim();
   if (!usageParams) return name;
-  
-  const bracketIndex = usageParams.indexOf('[');
+
+  const bracketIndex = usageParams.indexOf("[");
   if (bracketIndex !== -1) {
     const beforeBracket = usageParams.substring(0, bracketIndex).trim();
     return beforeBracket ? `${name} ${beforeBracket}` : name;
@@ -33,54 +33,60 @@ interface CopyButtonProps {
   text: string;
 }
 
-const CopyButton = ({ text }: CopyButtonProps) => {
+const CopyButton = memo(function CopyButton({ text }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
-  
-  const handleCopy = async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    await navigator.clipboard.writeText(text);
-    setCopied(true);
-    toast({
-      description: `Copied: ${text}`,
-      duration: 2000,
-    });
-    setTimeout(() => setCopied(false), 2000);
-  };
-  
+
+  const handleCopy = useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      toast({ description: `Copied: ${text}`, duration: 2000 });
+      setTimeout(() => setCopied(false), 2000);
+    },
+    [text]
+  );
+
   return (
     <button
       onClick={handleCopy}
       className="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-secondary/50 transition-colors text-muted-foreground hover:text-foreground"
       title="Copy command"
     >
-      {copied ? (
-        <Check className="w-4 h-4 text-green-500" />
-      ) : (
-        <Copy className="w-4 h-4" />
-      )}
+      {copied ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
     </button>
   );
-};
+});
 
-const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
+const CommandCard = memo(function CommandCard({ command, orderNumber }: CommandCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [showAllAliases, setShowAllAliases] = useState(false);
+
   const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
   const hasVariations = command.usageVariations && command.usageVariations.length > 0;
   const hasDetails = hasParameterGroups || hasVariations;
 
   const aliases = command.aliases || [];
-  const visibleAliases = showAllAliases 
-    ? aliases 
-    : aliases.slice(0, MAX_VISIBLE_ALIASES);
+  const visibleAliases = showAllAliases ? aliases : aliases.slice(0, MAX_VISIBLE_ALIASES);
   const hiddenCount = aliases.length - MAX_VISIBLE_ALIASES;
+  const usageParams = command.usage ? command.usage.replace(command.name, "").trim() : null;
 
-  const usageParams = command.usage ? command.usage.replace(command.name, '').trim() : null;
+  const handleToggleExpand = useCallback(() => {
+    if (hasDetails) setIsExpanded((prev) => !prev);
+  }, [hasDetails]);
+
+  const handleToggleAliases = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowAllAliases((prev) => !prev);
+  }, []);
 
   return (
-    <div className="glass-card rounded-lg overflow-hidden hover-lift animate-fade-in" style={{ animationFillMode: 'both' }}>
+    <div
+      className="glass-card rounded-lg overflow-hidden hover-lift animate-fade-in"
+      style={{ animationFillMode: "both" }}
+    >
       <button
-        onClick={() => hasDetails && setIsExpanded(!isExpanded)}
+        onClick={handleToggleExpand}
         className={cn(
           "w-full p-4 text-left transition-colors",
           hasDetails && "hover:bg-secondary/30 cursor-pointer",
@@ -91,11 +97,10 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
           <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
             <span className="text-primary font-mono font-semibold">{orderNumber}</span>
           </div>
+
           <div className="flex-1 min-w-0">
             <div className="mb-2 flex items-center gap-2">
-              <span className="font-mono font-semibold text-primary text-lg">
-                {command.name}
-              </span>
+              <span className="font-mono font-semibold text-primary text-lg">{command.name}</span>
               {usageParams && (
                 <code className="text-muted-foreground text-base font-mono">
                   {usageParams.split("[").map((part, i) => {
@@ -112,39 +117,39 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
               )}
               <CopyButton text={getCopyableCommand(command.name, command.usage)} />
             </div>
-            
+
             <div className="flex flex-wrap items-center gap-3 mb-3">
               <PermissionBadge permission={command.permission} size="md" />
-              
+
               {aliases.length > 0 && (
                 <div className="flex flex-wrap items-center gap-1.5">
                   <span className="text-muted-foreground text-sm">also:</span>
                   <AnimatePresence mode="popLayout">
                     {visibleAliases.map((alias, index) => (
-                      <motion.span 
-                        key={alias} 
+                      <motion.span
+                        key={alias}
                         className="text-muted-foreground text-sm font-mono bg-secondary/50 px-1.5 py-0.5 rounded"
                         initial={{ opacity: 0, scale: 0.7 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.7 }}
-                        transition={{ 
-                          duration: 0.2, 
-                          delay: showAllAliases && index >= MAX_VISIBLE_ALIASES ? (index - MAX_VISIBLE_ALIASES) * 0.05 : 0 
+                        transition={{
+                          duration: 0.2,
+                          delay:
+                            showAllAliases && index >= MAX_VISIBLE_ALIASES
+                              ? (index - MAX_VISIBLE_ALIASES) * 0.05
+                              : 0,
                         }}
                       >
                         {alias}
                       </motion.span>
                     ))}
                   </AnimatePresence>
-                  
+
                   <AnimatePresence mode="wait">
                     {hiddenCount > 0 && !showAllAliases && (
                       <motion.button
                         key="more-button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setShowAllAliases(true);
-                        }}
+                        onClick={handleToggleAliases}
                         className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -157,10 +162,7 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                     {showAllAliases && hiddenCount > 0 && (
                       <motion.button
                         key="less-button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setShowAllAliases(false);
-                        }}
+                        onClick={handleToggleAliases}
                         className="text-primary text-sm font-medium hover:text-primary/80 transition-colors"
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -174,35 +176,28 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                 </div>
               )}
             </div>
-            
-            <p className="text-secondary-foreground text-sm">
-              {command.description}
-            </p>
-            
-            {(command.massCompatible || (command.commandGroups && command.commandGroups.filter(g => g).length > 0)) && (
+
+            <p className="text-secondary-foreground text-sm">{command.description}</p>
+
+            {(command.massCompatible ||
+              (command.commandGroups && command.commandGroups.filter((g) => g).length > 0)) && (
               <div className="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-border/30">
-                {command.massCompatible && (
-                  <TagBadge tag="!mass" size="sm" />
-                )}
-                {command.commandGroups?.filter(group => group).map((group) => (
-                  <TagBadge key={group} tag={group} size="sm" />
-                ))}
+                {command.massCompatible && <TagBadge tag="!mass" size="sm" />}
+                {command.commandGroups
+                  ?.filter((group) => group)
+                  .map((group) => <TagBadge key={group} tag={group} size="sm" />)}
               </div>
             )}
           </div>
-          
+
           {hasDetails && (
             <div className="flex-shrink-0 text-muted-foreground">
-              {isExpanded ? (
-                <ChevronUp className="w-5 h-5" />
-              ) : (
-                <ChevronDown className="w-5 h-5" />
-              )}
+              {isExpanded ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
             </div>
           )}
         </div>
       </button>
-      
+
       {hasDetails && isExpanded && (
         <div className="border-t border-border/50 bg-secondary/20 p-4 animate-slide-down space-y-6">
           {hasVariations && (
@@ -226,7 +221,7 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
               </div>
             </div>
           )}
-          
+
           {hasParameterGroups && (
             <div>
               <h4 className="text-sm font-semibold text-foreground mb-4">Variants</h4>
@@ -234,7 +229,9 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
                 {command.parameterGroups?.map((group, index) => (
                   <div key={index} className="bg-card/50 rounded-lg p-3">
                     <div className="flex items-center gap-2 mb-2">
-                      <span className="font-mono font-semibold text-primary text-base">{group.name}</span>
+                      <span className="font-mono font-semibold text-primary text-base">
+                        {group.name}
+                      </span>
                       {group.usage && (
                         <code className="text-muted-foreground/70 text-sm font-mono">
                           {group.usage}
@@ -259,6 +256,6 @@ const CommandCard = ({ command, orderNumber }: CommandCardProps) => {
       )}
     </div>
   );
-};
+});
 
 export default CommandCard;

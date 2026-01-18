@@ -3,16 +3,14 @@ export const USE_RANDOMIZED_COLORS = false;
 const LAYMAN_LEGION_COLOR = "hsl(270, 100%, 71%)";
 const LAYMAN_COLOR = "hsl(270, 100%, 50%)";
 
-const TAG_HUES = [
-  0, 15, 30, 55, 70, 90, 110, 130, 165, 180, 210, 300, 320, 340, 355, 105, 50, 170,
-];
+const TAG_HUES = [0, 15, 30, 55, 70, 90, 110, 130, 165, 180, 210, 300, 320, 340, 355, 105, 50, 170];
 
 const tagColorMap = new Map<string, number>();
 const gameColorMap = new Map<string, number>();
 let tagColorIndex = 0;
 let gameColorIndex = 0;
 
-function assignTagHue(tag: string): number {
+const assignTagHue = (tag: string): number => {
   const key = tag.toLowerCase();
   if (key === "layman") return 270;
 
@@ -22,9 +20,9 @@ function assignTagHue(tag: string): number {
   }
 
   return tagColorMap.get(key)!;
-}
+};
 
-function assignGameHue(game: string): number {
+const assignGameHue = (game: string): number => {
   const key = game.toLowerCase();
 
   if (!gameColorMap.has(key)) {
@@ -33,20 +31,20 @@ function assignGameHue(game: string): number {
   }
 
   return gameColorMap.get(key)!;
-}
+};
 
-export function getTagColor(tag: string): string {
+export const getTagColor = (tag: string): string => {
   const key = tag.toLowerCase();
   if (key === "layman") return LAYMAN_COLOR;
   if (!USE_RANDOMIZED_COLORS) return LAYMAN_LEGION_COLOR;
 
   const hue = assignTagHue(tag);
   return `hsl(${hue}, 70%, 55%)`;
-}
+};
 
-export function getGameColor(game: string): string {
+export const getGameColor = (game: string): string => {
   if (!USE_RANDOMIZED_COLORS) return LAYMAN_LEGION_COLOR;
 
   const hue = assignGameHue(game);
   return `hsl(${hue}, 70%, 55%)`;
-}
+};

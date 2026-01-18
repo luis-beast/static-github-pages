@@ -1,6 +1,5 @@
-export function withOpacity(hslColor: string, opacity: number): string {
-  return hslColor.replace("hsl(", "hsla(").replace(")", `, ${opacity})`);
-}
+export const withOpacity = (hslColor: string, opacity: number): string =>
+  hslColor.replace("hsl(", "hsla(").replace(")", `, ${opacity})`);
 
 export interface BadgeOpacityConfig {
   background: number;
@@ -23,11 +22,7 @@ export const ENHANCED_INACTIVE_OPACITY: BadgeOpacityConfig = {
 export const ACTIVE_BG_OPACITY = 0.2;
 export const INNER_GLOW_OPACITY = 0.3;
 
-export function getBadgeStyles(
-  color: string,
-  isActive: boolean,
-  useEnhanced = false
-) {
+export const getBadgeStyles = (color: string, isActive: boolean, useEnhanced = false) => {
   const config = useEnhanced ? ENHANCED_INACTIVE_OPACITY : INACTIVE_OPACITY;
 
   return {
@@ -36,4 +31,4 @@ export function getBadgeStyles(
     borderColor: isActive ? color : withOpacity(color, config.border),
     boxShadow: `inset 0 0 8px ${withOpacity(color, INNER_GLOW_OPACITY)}`,
   };
-}
+};

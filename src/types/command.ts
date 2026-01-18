@@ -1,4 +1,4 @@
-import { Permission } from "@/components/PermissionBadge";
+import type { Permission } from "@/components/PermissionBadge";
 
 export interface ParameterGroup {
   name: string;

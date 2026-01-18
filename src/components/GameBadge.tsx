@@ -17,12 +17,10 @@ const GameBadge = memo(function GameBadge({
   onClick,
   className,
 }: GameBadgeProps) {
-  const color = getGameColor(game);
-
   return (
     <BaseBadge
       label={game}
-      color={color}
+      color={getGameColor(game)}
       size={size}
       isActive={isActive}
       onClick={onClick}
