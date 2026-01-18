@@ -104,26 +104,12 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
       characterData: true,
     });
 
-    // Hide native scrollbar
-    document.documentElement.style.scrollbarWidth = "none";
-    document.documentElement.style.overflow = "auto";
-    document.body.style.overflow = "auto";
-
-    const styleElement = document.createElement("style");
-    styleElement.id = "hide-native-scrollbar";
-    styleElement.textContent = `
-      ::-webkit-scrollbar { display: none !important; }
-      html, body { scrollbar-width: none !important; -ms-overflow-style: none !important; }
-    `;
-    document.head.appendChild(styleElement);
-
     return () => {
       cancelAnimationFrame(frameId);
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", updateScrollbarDimensions);
       mutationObserver.disconnect();
       if (scrollTimeoutRef.current) window.clearTimeout(scrollTimeoutRef.current);
-      document.getElementById("hide-native-scrollbar")?.remove();
     };
   }, [updateScrollbarDimensions, handleScroll]);
 
@@ -133,24 +119,21 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
   const isThumbVisible = isHovering || isDragging || isScrolling;
 
   return (
-    <div className="fixed right-0 top-0 bottom-0 w-4 z-[9999] pointer-events-none">
+    <div className="fixed right-0 top-0 bottom-0 w-3 z-[9999] pointer-events-none">
       <motion.div
-        data-thumb="true"
         className={cn(
-          "absolute right-1 w-2 rounded-full cursor-pointer pointer-events-auto",
+          "absolute right-0.5 w-2 rounded-full pointer-events-auto cursor-grab active:cursor-grabbing",
           "bg-gradient-to-b from-purple-400 to-purple-600"
         )}
         style={{ height: animatedThumbHeight, top: animatedThumbTop }}
         animate={{
-          opacity: isThumbVisible ? 1 : 0.3,
-          scale: isDragging ? 1.15 : isHovering ? 1.05 : 1,
-          width: isDragging ? 10 : 8,
+          opacity: isThumbVisible ? 1 : 0.4,
+          scale: isDragging ? 1.1 : isHovering ? 1.05 : 1,
         }}
-        transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.15 }, width: { duration: 0.15 } }}
+        transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.15 } }}
         onMouseDown={handleThumbDrag}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
-        onClick={(e) => e.stopPropagation()}
         whileHover={{ boxShadow: "0 0 12px hsl(270, 100%, 60%)" }}
       />
     </div>
