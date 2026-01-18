@@ -13,8 +13,8 @@ const particleData = [...Array(75)].map((_, i) => {
     distance,
     size: Math.random() * 8 + 6,
     scale: Math.random() * 0.5 + 0.5,
-    duration: Math.random() * 4 + 3, // 3-7 seconds for the animation cycle
-    delay: Math.random() * 2, // Stagger the animations
+    duration: Math.random() * 6 + 8, // 8-14 seconds for slower normal animation
+    delay: Math.random() * 3,
   };
 });
 
@@ -32,7 +32,7 @@ const NotFound = () => {
     const handleMouseMove = () => {
       setIsMouseActive(true);
       clearTimeout(timeout);
-      timeout = setTimeout(() => setIsMouseActive(false), 150);
+      timeout = setTimeout(() => setIsMouseActive(false), 200);
     };
     
     window.addEventListener("mousemove", handleMouseMove);
@@ -66,26 +66,23 @@ const NotFound = () => {
                 height: particle.size,
               }}
               animate={isMouseActive ? {
-                // Mouse active: go ALL the way to center, fully invisible
+                // Mouse active: go ALL the way to center, fully invisible (VERY slow)
                 x: centerX,
                 y: centerY,
                 opacity: 0,
                 scale: particle.scale * 0.3,
               } : {
-                // Normal: animate between outer and inner positions
+                // Normal: animate between outer and inner positions (slow)
                 x: [outerX, innerX, outerX],
                 y: [outerY, innerY, outerY],
-                opacity: [0.5, 0.15, 0.5], // Fade as they get closer to center
+                opacity: [0.5, 0.15, 0.5],
                 scale: [particle.scale, particle.scale * 0.7, particle.scale],
               }}
-              transition={isMouseActive ? {
-                duration: 0.5,
-                ease: "easeOut",
-              } : {
-                duration: particle.duration,
-                repeat: Infinity,
+              transition={{
+                duration: isMouseActive ? 4 + Math.random() * 2 : particle.duration, // 4-6 seconds to center
                 ease: "easeInOut",
-                delay: particle.delay,
+                repeat: isMouseActive ? 0 : Infinity,
+                delay: isMouseActive ? 0 : particle.delay,
               }}
             />
           );
