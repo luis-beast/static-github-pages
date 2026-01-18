@@ -148,7 +148,8 @@ const GlobalScrollbar = () => {
     };
   }, [updateScrollbarDimensions, handleScroll]);
 
-  const isThumbVisible = hasScrollableContent && (isHovering || isDragging || isScrolling);
+  // Show thumb when there's scrollable content, hide when there isn't (thumb shrinks to 0)
+  const isThumbVisible = isHovering || isDragging || isScrolling;
 
   return (
     <div
