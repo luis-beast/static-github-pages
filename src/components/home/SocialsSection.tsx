@@ -50,7 +50,7 @@ const SocialsSection = () => {
     <section className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">Stay Connected</h2>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">The Socials</h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
