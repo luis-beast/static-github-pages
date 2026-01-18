@@ -27,7 +27,7 @@ const SetupSection = () => {
 
         <ScrollRevealSection delay={0.1}>
           <p className="text-xl text-muted-foreground text-center mb-12 font-light">
-            Curious about the tech that makes the stream run?
+            Curious about what I use to make the streams run?
           </p>
         </ScrollRevealSection>
 
