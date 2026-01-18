@@ -1,8 +1,10 @@
+import { memo } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { KNOWN_ROUTES } from "@/lib/constants";
 import Home from "./pages/Home";
 import Quotes from "./pages/Quotes";
 import Commands from "./pages/Commands";
@@ -15,27 +17,26 @@ import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
-const AppRoutes = () => {
-  const location = useLocation();
-  const knownRoutes = ["/", "/quotes", "/commands"];
-  const isNotFoundPage = !knownRoutes.includes(location.pathname);
+const AppRoutes = memo(function AppRoutes() {
+  const { pathname } = useLocation();
+  const isNotFoundPage = !KNOWN_ROUTES.includes(pathname as typeof KNOWN_ROUTES[number]);
 
   return (
-    <div className={`min-h-screen flex flex-col ${isNotFoundPage ? '' : 'pt-16'}`}>
+    <div className={`min-h-screen flex flex-col ${isNotFoundPage ? "" : "pt-16"}`}>
       <Navigation />
-      <div className="flex-1">
-        <Routes location={location} key={location.pathname}>
+      <main className="flex-1">
+        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/quotes" element={<Quotes />} />
           <Route path="/commands" element={<Commands />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
+      </main>
       <Footer />
       {!isNotFoundPage && <ScrollToTopButton />}
     </div>
   );
-};
+});
 
 const App = () => (
   <QueryClientProvider client={queryClient}>

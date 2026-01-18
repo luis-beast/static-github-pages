@@ -1,26 +1,15 @@
-import { useState, useEffect } from "react";
+import { memo } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { NAV_ITEMS, EASING, DURATION } from "@/lib/constants";
+import { useScrollState } from "@/hooks/useScrollState";
+import { BrandName } from "@/components/ui/GradientText";
 import avatarClear from "@/assets/avatar-clear.png";
 
-const NAV_ITEMS = [
-  { path: "/quotes", label: "Quotes" },
-  { path: "/commands", label: "Commands" },
-] as const;
-
-const Navigation = () => {
+const Navigation = memo(function Navigation() {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const isScrolled = useScrollState();
 
   return (
     <motion.nav
@@ -31,14 +20,15 @@ const Navigation = () => {
       }`}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: DURATION.normal }}
     >
       <div className="container mx-auto px-4">
         <motion.div
           className="flex items-center justify-between"
           animate={{ height: isScrolled ? 48 : 64 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          transition={{ duration: DURATION.normal, ease: "easeInOut" }}
         >
+          {/* Logo & Brand */}
           <Link
             to="/"
             className="group flex items-center gap-3 px-3 py-1.5 -ml-3 rounded-lg transition-all duration-300 hover:bg-gradient-to-b hover:from-[#8800FF] hover:to-[#220033]"
@@ -51,7 +41,7 @@ const Navigation = () => {
                 width: isScrolled ? 32 : 40,
                 height: isScrolled ? 32 : 40,
               }}
-              transition={{ duration: 0.3, ease: "easeInOut" }}
+              transition={{ duration: DURATION.normal, ease: "easeInOut" }}
             />
             <AnimatePresence mode="wait">
               {!isHomePage && (
@@ -60,34 +50,16 @@ const Navigation = () => {
                   initial={{ opacity: 0, x: -10, width: 0 }}
                   animate={{ opacity: 1, x: 0, width: "auto" }}
                   exit={{ opacity: 0, x: -10, width: 0 }}
-                  transition={{ duration: 0.2, ease: "easeInOut" }}
+                  transition={{ duration: DURATION.fast, ease: "easeInOut" }}
                 >
-                  <span
-                    style={{
-                      background: "linear-gradient(to bottom, #ffffff, #a0a0a0)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }}
-                  >
-                    Layman
-                  </span>
-                  <span
-                    style={{
-                      background: "linear-gradient(to bottom, #bb66ff, #8800FF)",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                      backgroundClip: "text",
-                    }}
-                  >
-                    Louie
-                  </span>
+                  <BrandName />
                 </motion.span>
               )}
             </AnimatePresence>
           </Link>
 
-          <div className="relative flex items-center gap-1">
+          {/* Navigation Links */}
+          <nav className="relative flex items-center gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -110,7 +82,7 @@ const Navigation = () => {
                           type: "spring",
                           stiffness: 380,
                           damping: 30,
-                          opacity: { duration: 0.2 },
+                          opacity: { duration: DURATION.fast },
                         }}
                       />
                     )}
@@ -127,11 +99,11 @@ const Navigation = () => {
                 </Link>
               );
             })}
-          </div>
+          </nav>
         </motion.div>
       </div>
     </motion.nav>
   );
-};
+});
 
 export default Navigation;

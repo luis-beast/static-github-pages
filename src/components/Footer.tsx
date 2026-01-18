@@ -1,20 +1,11 @@
+import { memo } from "react";
 import { Heart } from "lucide-react";
 import { Link } from "react-router-dom";
+import { FOOTER_NAV_LINKS, FOOTER_LEGAL_LINKS } from "@/lib/constants";
+import { BrandName } from "@/components/ui/GradientText";
 
-const Footer = () => {
+const Footer = memo(function Footer() {
   const currentYear = new Date().getFullYear();
-
-  const footerLinks = [
-    { label: "Home", path: "/" },
-    { label: "Quotes", path: "/quotes" },
-    { label: "Commands", path: "/commands" },
-  ];
-
-  const legalLinks = [
-    { label: "Privacy Policy", path: "#" },
-    { label: "Terms of Use", path: "#" },
-    { label: "Community Guidelines", path: "#" },
-  ];
 
   return (
     <footer className="py-8 px-6 mt-auto">
@@ -23,7 +14,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-6 border-b border-border/20">
           {/* Navigation Links */}
           <nav className="flex flex-wrap items-center gap-4 md:gap-6 text-sm">
-            {footerLinks.map((link, index) => (
+            {FOOTER_NAV_LINKS.map((link, index) => (
               <span key={link.path} className="flex items-center gap-4 md:gap-6">
                 <Link
                   to={link.path}
@@ -31,7 +22,7 @@ const Footer = () => {
                 >
                   {link.label}
                 </Link>
-                {index < footerLinks.length - 1 && (
+                {index < FOOTER_NAV_LINKS.length - 1 && (
                   <span className="hidden md:inline text-border">|</span>
                 )}
               </span>
@@ -40,7 +31,7 @@ const Footer = () => {
 
           {/* Legal Links */}
           <nav className="flex flex-wrap items-center gap-4 md:gap-6 text-xs">
-            {legalLinks.map((link, index) => (
+            {FOOTER_LEGAL_LINKS.map((link, index) => (
               <span key={link.label} className="flex items-center gap-4 md:gap-6">
                 <a
                   href={link.path}
@@ -48,7 +39,7 @@ const Footer = () => {
                 >
                   {link.label}
                 </a>
-                {index < legalLinks.length - 1 && (
+                {index < FOOTER_LEGAL_LINKS.length - 1 && (
                   <span className="hidden md:inline text-border/50">|</span>
                 )}
               </span>
@@ -59,38 +50,17 @@ const Footer = () => {
         {/* Bottom section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 pt-6">
           <p className="text-xs text-muted-foreground/60">
-            Copyright © {currentYear}{" "}
-            <span
-              style={{
-                background: "linear-gradient(to bottom, #ffffff, #a0a0a0)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Layman
-            </span>
-            <span
-              style={{
-                background: "linear-gradient(to bottom, #bb66FF, #8800FF)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              Louie
-            </span>
-            . All rights reserved.
+            Copyright © {currentYear} <BrandName />. All rights reserved.
           </p>
-          <p className="text-xs text-muted-foreground/60 flex items-center">
+          <p className="text-xs text-muted-foreground/60 flex items-center gap-1">
             Made with
-            <Heart className="w-3 h-3 inline text-primary mx-1" />
+            <Heart className="w-3 h-3 text-primary" aria-hidden="true" />
             by The Layman Legion
           </p>
         </div>
       </div>
     </footer>
   );
-};
+});
 
 export default Footer;

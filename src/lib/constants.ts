@@ -1,0 +1,83 @@
+// ============================================
+// Shared Constants & Configuration
+// ============================================
+
+// Brand gradient styles (used for "LaymanLouie" text throughout the app)
+export const BRAND_GRADIENTS = {
+  layman: "linear-gradient(to bottom, #ffffff, #a0a0a0)",
+  louie: "linear-gradient(to bottom, #bb66FF, #8800FF)",
+} as const;
+
+// Animation easing curves
+export const EASING = {
+  smooth: [0.16, 1, 0.3, 1],
+  snappy: [0.4, 0, 0.2, 1],
+  bounce: [0.68, -0.55, 0.265, 1.55],
+} as const;
+
+// Common animation durations (in seconds)
+export const DURATION = {
+  fast: 0.2,
+  normal: 0.3,
+  slow: 0.5,
+  reveal: 0.8,
+} as const;
+
+// Navigation configuration
+export const NAV_ITEMS = [
+  { path: "/quotes", label: "Quotes" },
+  { path: "/commands", label: "Commands" },
+] as const;
+
+// Footer navigation links
+export const FOOTER_NAV_LINKS = [
+  { label: "Home", path: "/" },
+  { label: "Quotes", path: "/quotes" },
+  { label: "Commands", path: "/commands" },
+] as const;
+
+export const FOOTER_LEGAL_LINKS = [
+  { label: "Privacy Policy", path: "#" },
+  { label: "Terms of Use", path: "#" },
+  { label: "Community Guidelines", path: "#" },
+] as const;
+
+// Routes configuration
+export const KNOWN_ROUTES = ["/", "/quotes", "/commands"] as const;
+
+// Layout thresholds
+export const SCROLL_THRESHOLD = 100;
+
+// Permission priority for sorting
+export const PERMISSION_PRIORITY = {
+  follower: 1,
+  subscriber: 2,
+  moderator: 3,
+  streamer: 4,
+} as const;
+
+// Animation variants for common patterns
+export const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -10 },
+};
+
+export const fadeInScale = {
+  initial: { opacity: 0, scale: 0.95 },
+  animate: { opacity: 1, scale: 1 },
+  exit: { opacity: 0, scale: 0.95 },
+};
+
+export const listItemVariants = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, scale: 0.95 },
+};
+
+// Layout transition config
+export const layoutTransition = {
+  layout: { duration: DURATION.normal, ease: EASING.snappy },
+  opacity: { duration: DURATION.fast },
+  y: { duration: DURATION.fast },
+};
