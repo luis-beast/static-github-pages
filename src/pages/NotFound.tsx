@@ -39,7 +39,7 @@ const NotFound = () => {
   );
   
   const particlesRef = useRef<ParticleState[]>([]);
-  const startTimeRef = useRef(Date.now());
+  const timeOffsetsRef = useRef<number[]>(configsRef.current.map(() => 0));
   const capturedRef = useRef<ParticleState[]>([]);
   const capturedProgressRef = useRef<number[]>([]);
   const rafRef = useRef<number>();
@@ -70,11 +70,12 @@ const NotFound = () => {
     };
   }, [centerX, centerY]);
 
-  // Get current progress for a particle
+  // Get current progress for a particle (uses per-particle time offset)
   const getProgress = useCallback((configIndex: number): number => {
     const config = configsRef.current[configIndex];
-    const elapsed = (Date.now() - startTimeRef.current) / 1000;
-    return (elapsed / config.duration + config.phaseOffset) % 1;
+    const offset = timeOffsetsRef.current[configIndex] || 0;
+    const elapsed = Date.now() / 1000;
+    return ((elapsed / config.duration) + config.phaseOffset + offset) % 1;
   }, []);
 
   // Easing functions
@@ -173,13 +174,15 @@ const NotFound = () => {
         mouseStateRef.current = "returning";
 
         returnTimeoutRef.current = setTimeout(() => {
-          // Resume idle - adjust start time so particles continue from captured progress
-          const now = Date.now();
-          const avgProgress = capturedProgressRef.current.length > 0 
-            ? capturedProgressRef.current.reduce((a, b) => a + b, 0) / capturedProgressRef.current.length
-            : 0;
-          const avgDuration = configsRef.current.reduce((a, c) => a + c.duration, 0) / configsRef.current.length;
-          startTimeRef.current = now - avgProgress * avgDuration * 1000;
+          // Resume idle - set per-particle offsets so each continues from captured progress
+          const now = Date.now() / 1000;
+          configsRef.current.forEach((config, i) => {
+            const capturedProgress = capturedProgressRef.current[i] ?? config.phaseOffset;
+            // We want: ((now / duration) + phaseOffset + offset) % 1 = capturedProgress
+            // So: offset = capturedProgress - (now / duration) - phaseOffset
+            const currentBase = (now / config.duration) + config.phaseOffset;
+            timeOffsetsRef.current[i] = capturedProgress - currentBase;
+          });
           mouseStateRef.current = "idle";
         }, 1000);
       }, 200);
