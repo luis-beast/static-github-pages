@@ -1,89 +1,123 @@
 import { useLocation, Link } from "react-router-dom";
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const PARTICLE_COUNT = 75;
 
-interface ParticleConfig {
-  angle: number;
-  distance: number;
-  size: number;
-  baseScale: number;
-  duration: number;
-  phaseOffset: number;
+interface ParticleState {
+  x: number;
+  y: number;
+  opacity: number;
+  scale: number;
 }
 
-const particleConfigs: ParticleConfig[] = [...Array(PARTICLE_COUNT)].map((_, i) => ({
-  angle: (i / PARTICLE_COUNT) * Math.PI * 2 + Math.random() * 0.5,
-  distance: 0.6 + Math.random() * 0.5,
-  size: Math.random() * 8 + 6,
-  baseScale: Math.random() * 0.5 + 0.5,
-  duration: Math.random() * 6 + 8,
-  phaseOffset: Math.random(), // 0-1, where in the cycle this particle starts
-}));
-
-// Calculate particle position based on normalized progress (0-1)
-const getPositionAtProgress = (
-  progress: number,
-  config: ParticleConfig,
-  centerX: number,
-  centerY: number
-) => {
-  const outerX = centerX + Math.cos(config.angle) * centerX * config.distance;
-  const outerY = centerY + Math.sin(config.angle) * centerY * config.distance;
-  const innerX = centerX + Math.cos(config.angle) * centerX * 0.2;
-  const innerY = centerY + Math.sin(config.angle) * centerY * 0.2;
-
-  // Smooth sine wave for position (0 = outer, 0.5 = inner, 1 = outer)
-  const t = Math.sin(progress * Math.PI * 2) * 0.5 + 0.5; // 0 to 1 to 0
-
-  return {
-    x: outerX + (innerX - outerX) * t,
-    y: outerY + (innerY - outerY) * t,
-    opacity: 0.5 - t * 0.35, // 0.5 at outer, 0.15 at inner
-    scale: config.baseScale * (1 - t * 0.3), // full at outer, 0.7x at inner
-  };
-};
-
-const Particle = ({
-  config,
-  mouseState,
-  centerX,
-  centerY,
-}: {
-  config: ParticleConfig;
-  index: number;
-  mouseState: "idle" | "active" | "returning";
-  captureTime: number;
-  centerX: number;
-  centerY: number;
-}) => {
+const NotFound = () => {
+  const location = useLocation();
+  const [mouseState, setMouseState] = useState<"idle" | "active" | "returning">("idle");
+  const [particles, setParticles] = useState<ParticleState[]>([]);
+  
+  const configsRef = useRef(
+    [...Array(PARTICLE_COUNT)].map((_, i) => ({
+      angle: (i / PARTICLE_COUNT) * Math.PI * 2 + Math.random() * 0.5,
+      distance: 0.6 + Math.random() * 0.5,
+      size: Math.random() * 8 + 6,
+      baseScale: Math.random() * 0.5 + 0.5,
+      duration: Math.random() * 6 + 8,
+      phaseOffset: Math.random(),
+    }))
+  );
+  
   const startTimeRef = useRef(Date.now());
-  const capturedProgressRef = useRef(0);
+  const capturedRef = useRef<ParticleState[]>([]);
+  const capturedProgressRef = useRef<number[]>([]);
   const rafRef = useRef<number>();
-  const [position, setPosition] = useState(() => {
-    return getPositionAtProgress(config.phaseOffset, config, centerX, centerY);
-  });
+  const transitionStartRef = useRef(0);
+  const transitionFromRef = useRef<ParticleState[]>([]);
 
-  // Calculate current progress in the animation cycle
-  const getCurrentProgress = useCallback(() => {
+  const centerX = typeof window !== "undefined" ? window.innerWidth / 2 : 500;
+  const centerY = typeof window !== "undefined" ? window.innerHeight / 2 : 400;
+
+  // Calculate position for a particle at a given progress (0-1)
+  const getPosition = (configIndex: number, progress: number): ParticleState => {
+    const config = configsRef.current[configIndex];
+    const outerX = centerX + Math.cos(config.angle) * centerX * config.distance;
+    const outerY = centerY + Math.sin(config.angle) * centerY * config.distance;
+    const innerX = centerX + Math.cos(config.angle) * centerX * 0.2;
+    const innerY = centerY + Math.sin(config.angle) * centerY * 0.2;
+
+    // Sine wave: 0->1->0 for smooth breathing
+    const t = (Math.sin(progress * Math.PI * 2 - Math.PI / 2) + 1) / 2;
+
+    return {
+      x: outerX + (innerX - outerX) * t,
+      y: outerY + (innerY - outerY) * t,
+      opacity: 0.5 - t * 0.35,
+      scale: config.baseScale * (1 - t * 0.3),
+    };
+  };
+
+  // Get current progress for a particle
+  const getProgress = (configIndex: number): number => {
+    const config = configsRef.current[configIndex];
     const elapsed = (Date.now() - startTimeRef.current) / 1000;
     return (elapsed / config.duration + config.phaseOffset) % 1;
-  }, [config.duration, config.phaseOffset]);
+  };
 
-  // Idle animation loop using RAF
+  // Easing functions
+  const easeInOutQuad = (t: number) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+
+  // Interpolate between two states
+  const lerp = (from: ParticleState, to: ParticleState, t: number): ParticleState => ({
+    x: from.x + (to.x - from.x) * t,
+    y: from.y + (to.y - from.y) * t,
+    opacity: from.opacity + (to.opacity - from.opacity) * t,
+    scale: from.scale + (to.scale - from.scale) * t,
+  });
+
   useEffect(() => {
-    if (mouseState !== "idle") {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      return;
-    }
+    console.error("404 Error:", location.pathname);
+  }, [location.pathname]);
 
+  // Main animation loop
+  useEffect(() => {
     const animate = () => {
-      const progress = getCurrentProgress();
-      const pos = getPositionAtProgress(progress, config, centerX, centerY);
-      setPosition(pos);
+      const configs = configsRef.current;
+      
+      if (mouseState === "idle") {
+        // Animate based on phase
+        const newParticles = configs.map((_, i) => getPosition(i, getProgress(i)));
+        setParticles(newParticles);
+      } else if (mouseState === "active") {
+        // Animate toward center
+        const elapsed = Date.now() - transitionStartRef.current;
+        const newParticles = configs.map((config, i) => {
+          const duration = 3000 + config.phaseOffset * 2000;
+          const t = Math.min(elapsed / duration, 1);
+          const eased = easeInOutQuad(t);
+          const target: ParticleState = {
+            x: centerX,
+            y: centerY,
+            opacity: 0,
+            scale: config.baseScale * 0.3,
+          };
+          return lerp(transitionFromRef.current[i], target, eased);
+        });
+        setParticles(newParticles);
+      } else if (mouseState === "returning") {
+        // Animate back to captured position
+        const elapsed = Date.now() - transitionStartRef.current;
+        const newParticles = configs.map((config, i) => {
+          const duration = 800 + config.phaseOffset * 400;
+          const t = Math.min(elapsed / duration, 1);
+          const eased = easeOutCubic(t);
+          return lerp(transitionFromRef.current[i], capturedRef.current[i], eased);
+        });
+        setParticles(newParticles);
+      }
+
       rafRef.current = requestAnimationFrame(animate);
     };
 
@@ -91,111 +125,41 @@ const Particle = ({
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [mouseState, config, centerX, centerY, getCurrentProgress]);
+  }, [mouseState, centerX, centerY]);
 
-  // Handle mouse state transitions
-  useEffect(() => {
-    if (mouseState === "active") {
-      // Capture current progress when becoming active
-      capturedProgressRef.current = getCurrentProgress();
-      
-      // Animate to center
-      const duration = 3000 + Math.random() * 2000;
-      const startPos = { ...position };
-      const targetPos = { x: centerX, y: centerY, opacity: 0, scale: config.baseScale * 0.3 };
-      const startTime = Date.now();
-
-      const animateToCenter = () => {
-        const elapsed = Date.now() - startTime;
-        const t = Math.min(elapsed / duration, 1);
-        const eased = t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2; // easeInOutQuad
-
-        setPosition({
-          x: startPos.x + (targetPos.x - startPos.x) * eased,
-          y: startPos.y + (targetPos.y - startPos.y) * eased,
-          opacity: startPos.opacity + (targetPos.opacity - startPos.opacity) * eased,
-          scale: startPos.scale + (targetPos.scale - startPos.scale) * eased,
-        });
-
-        if (t < 1 && mouseState === "active") {
-          rafRef.current = requestAnimationFrame(animateToCenter);
-        }
-      };
-
-      rafRef.current = requestAnimationFrame(animateToCenter);
-    } else if (mouseState === "returning") {
-      // Return to captured position
-      const capturedPos = getPositionAtProgress(capturedProgressRef.current, config, centerX, centerY);
-      const duration = 800 + Math.random() * 400;
-      const startPos = { ...position };
-      const startTime = Date.now();
-
-      const animateBack = () => {
-        const elapsed = Date.now() - startTime;
-        const t = Math.min(elapsed / duration, 1);
-        const eased = 1 - Math.pow(1 - t, 3); // easeOutCubic
-
-        setPosition({
-          x: startPos.x + (capturedPos.x - startPos.x) * eased,
-          y: startPos.y + (capturedPos.y - startPos.y) * eased,
-          opacity: startPos.opacity + (capturedPos.opacity - startPos.opacity) * eased,
-          scale: startPos.scale + (capturedPos.scale - startPos.scale) * eased,
-        });
-
-        if (t < 1 && mouseState === "returning") {
-          rafRef.current = requestAnimationFrame(animateBack);
-        }
-      };
-
-      // Update start time so idle animation continues from captured progress
-      startTimeRef.current = Date.now() - capturedProgressRef.current * config.duration * 1000;
-      
-      rafRef.current = requestAnimationFrame(animateBack);
-    }
-
-    return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [mouseState]);
-
-  return (
-    <div
-      className="absolute rounded-full bg-primary"
-      style={{
-        width: config.size,
-        height: config.size,
-        transform: `translate(${position.x - config.size / 2}px, ${position.y - config.size / 2}px) scale(${position.scale})`,
-        opacity: position.opacity,
-      }}
-    />
-  );
-};
-
-const NotFound = () => {
-  const location = useLocation();
-  const [mouseState, setMouseState] = useState<"idle" | "active" | "returning">("idle");
-  const [captureTime, setCaptureTime] = useState(0);
-
-  useEffect(() => {
-    console.error("404 Error:", location.pathname);
-  }, [location.pathname]);
-
+  // Mouse movement handler
   useEffect(() => {
     let activeTimeout: NodeJS.Timeout;
     let returnTimeout: NodeJS.Timeout;
 
     const handleMouseMove = () => {
       if (mouseState === "idle") {
-        setCaptureTime(Date.now());
+        // Capture current positions and progress
+        capturedRef.current = configsRef.current.map((_, i) => getPosition(i, getProgress(i)));
+        capturedProgressRef.current = configsRef.current.map((_, i) => getProgress(i));
+        transitionFromRef.current = [...capturedRef.current];
+        transitionStartRef.current = Date.now();
+        setMouseState("active");
+      } else if (mouseState === "active") {
+        // Reset timeout
+        clearTimeout(activeTimeout);
+        clearTimeout(returnTimeout);
       }
 
-      setMouseState("active");
-      clearTimeout(activeTimeout);
-      clearTimeout(returnTimeout);
-
       activeTimeout = setTimeout(() => {
+        // Start returning
+        transitionFromRef.current = particles.length ? [...particles] : capturedRef.current;
+        transitionStartRef.current = Date.now();
         setMouseState("returning");
+
         returnTimeout = setTimeout(() => {
+          // Resume idle from captured progress
+          const now = Date.now();
+          configsRef.current.forEach((config, i) => {
+            const capturedProgress = capturedProgressRef.current[i] || config.phaseOffset;
+            // Adjust start time so animation continues from captured progress
+          });
+          startTimeRef.current = now - capturedProgressRef.current[0] * configsRef.current[0].duration * 1000;
           setMouseState("idle");
         }, 1000);
       }, 200);
@@ -207,25 +171,26 @@ const NotFound = () => {
       clearTimeout(activeTimeout);
       clearTimeout(returnTimeout);
     };
-  }, [mouseState]);
-
-  const centerX = typeof window !== "undefined" ? window.innerWidth / 2 : 500;
-  const centerY = typeof window !== "undefined" ? window.innerHeight / 2 : 400;
+  }, [mouseState, particles]);
 
   return (
     <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
-        {particleConfigs.map((config, i) => (
-          <Particle
-            key={i}
-            config={config}
-            index={i}
-            mouseState={mouseState}
-            captureTime={captureTime}
-            centerX={centerX}
-            centerY={centerY}
-          />
-        ))}
+        {configsRef.current.map((config, i) => {
+          const pos = particles[i] || getPosition(i, config.phaseOffset);
+          return (
+            <div
+              key={i}
+              className="absolute rounded-full bg-primary will-change-transform"
+              style={{
+                width: config.size,
+                height: config.size,
+                transform: `translate(${pos.x - config.size / 2}px, ${pos.y - config.size / 2}px) scale(${pos.scale})`,
+                opacity: pos.opacity,
+              }}
+            />
+          );
+        })}
       </div>
 
       <motion.div
