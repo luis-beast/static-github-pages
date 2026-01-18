@@ -26,13 +26,13 @@ const NotFound = () => {
   return (
     <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-background">
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(50)].map((_, i) => (
+        {[...Array(75)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute rounded-full bg-primary/30"
             style={{
-              width: Math.random() * 4 + 2,
-              height: Math.random() * 4 + 2,
+              width: Math.random() * 8 + 4,
+              height: Math.random() * 8 + 4,
             }}
             initial={{
               x: Math.random() * window.innerWidth,
