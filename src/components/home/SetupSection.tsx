@@ -13,7 +13,6 @@ const setupSpecs = [
 const SetupSection = () => {
   return (
     <section className="py-32 px-6 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-emerald-500/5 to-transparent pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative">
         <ScrollRevealSection>
