@@ -15,9 +15,6 @@ const ScheduleSection = () => {
       <div className="max-w-4xl mx-auto">
         <ScrollRevealSection>
           <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 flex items-center justify-center">
-              <Calendar className="w-6 h-6 text-cyan-400" />
-            </div>
             <h2 className="text-4xl md:text-6xl font-bold tracking-tight">The Schedule</h2>
           </div>
         </ScrollRevealSection>
