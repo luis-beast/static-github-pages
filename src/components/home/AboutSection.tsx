@@ -18,7 +18,7 @@ const AboutSection = () => {
 
         <ScrollRevealSection delay={0.2}>
           <p className="text-lg md:text-xl text-muted-foreground/80 leading-relaxed mb-12">
-            Whether we're gaming, talking, or just hanging out, the goal is always the same.
+            Whether we're gaming, talking, or just hanging out, the goal is always the same:
           </p>
         </ScrollRevealSection>
 
@@ -29,6 +29,7 @@ const AboutSection = () => {
               <p className="text-2xl md:text-3xl font-medium text-foreground italic">
                 Good vibes, good people, and a good time together.
               </p>
+              "
             </div>
           </blockquote>
         </ScrollRevealSection>
