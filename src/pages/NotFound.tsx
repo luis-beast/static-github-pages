@@ -49,22 +49,20 @@ const NotFound = () => {
                 width: size,
                 height: size,
                 opacity: opacity,
+                left: startX,
+                top: startY,
               }}
               initial={{
-                x: startX,
-                y: startY,
                 scale: Math.random() * 0.5 + 0.5,
               }}
               animate={{
-                x: [startX, centerX + (startX - centerX) * 0.3],
-                y: [startY, centerY + (startY - centerY) * 0.3],
-                opacity: [opacity, opacity * 0.5, opacity],
+                y: [0, Math.random() * -100 - 50],
+                opacity: [opacity, opacity * 1.5, opacity],
               }}
               transition={{
-                duration: Math.random() * 15 + 15,
+                duration: Math.random() * 10 + 10,
                 repeat: Infinity,
                 ease: "easeInOut",
-                repeatType: "reverse",
               }}
             />
           );
