@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import { KNOWN_ROUTES } from "@/lib/constants";
 import Home from "./pages/Home";
 import Quotes from "./pages/Quotes";
@@ -14,23 +15,27 @@ import Footer from "./components/Footer";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import GlobalScrollbar from "./components/GlobalScrollbar";
 import ScrollToTop from "./components/ScrollToTop";
+import PageWrapper from "./components/PageWrapper";
 
 const queryClient = new QueryClient();
 
 const AppRoutes = memo(function AppRoutes() {
-  const { pathname } = useLocation();
+  const location = useLocation();
+  const { pathname } = location;
   const isNotFoundPage = !KNOWN_ROUTES.includes(pathname as (typeof KNOWN_ROUTES)[number]);
 
   return (
     <div className={`min-h-screen flex flex-col ${isNotFoundPage ? "" : "pt-16"}`}>
       <Navigation />
       <main className="flex-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/quotes" element={<Quotes />} />
-          <Route path="/commands" element={<Commands />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={pathname}>
+            <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+            <Route path="/quotes" element={<PageWrapper><Quotes /></PageWrapper>} />
+            <Route path="/commands" element={<PageWrapper><Commands /></PageWrapper>} />
+            <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
+          </Routes>
+        </AnimatePresence>
       </main>
       <Footer />
       {!isNotFoundPage && <ScrollToTopButton />}

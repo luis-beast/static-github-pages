@@ -1,5 +1,5 @@
-import { useState, useMemo, useCallback, memo } from "react";
-import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { useState, useMemo, useCallback, useRef, memo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Search } from "lucide-react";
 import QuoteCard from "@/components/QuoteCard";
 import GameBadge from "@/components/GameBadge";
@@ -8,43 +8,15 @@ import { quotes } from "@/data/quotes";
 import FilterPopover from "@/components/FilterPopover";
 import { DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.06,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 20, scale: 0.98 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: DURATION.reveal,
-      ease: EASING.smooth,
-    },
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.96,
-    y: -10,
-    transition: {
-      duration: 0.2,
-      ease: EASING.smooth,
-    },
-  },
-};
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 const Quotes = memo(function Quotes() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGames, setSelectedGames] = useState<string[]>([]);
+  const [focusedId, setFocusedId] = useState<number | null>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside(gridRef, () => setFocusedId(null), focusedId !== null);
 
   const availableGames = useMemo(() => {
     const games = new Set<string>();
@@ -81,6 +53,10 @@ const Quotes = memo(function Quotes() {
     return result;
   }, [searchQuery, selectedGames]);
 
+  const handleFocus = useCallback((id: number) => {
+    setFocusedId((prev) => (prev === id ? null : id));
+  }, []);
+
   return (
     <div className="flex-1 flex flex-col">
       <main className="flex-1 container mx-auto px-4 py-12 md:py-20">
@@ -109,7 +85,7 @@ const Quotes = memo(function Quotes() {
         </motion.header>
 
         <motion.div
-          className="max-w-4xl mx-auto mb-12"
+          className="max-w-5xl mx-auto mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DURATION.reveal, delay: 0.3, ease: EASING.smooth }}
@@ -153,58 +129,61 @@ const Quotes = memo(function Quotes() {
                   )}
                 </div>
                 
-                <motion.div
-                  className="text-sm text-muted-foreground"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  key={filteredQuotes.length}
-                >
+                <div className="text-sm text-muted-foreground">
                   {filteredQuotes.length} quote{filteredQuotes.length !== 1 ? "s" : ""}
-                </motion.div>
+                </div>
               </div>
             </div>
           </div>
         </motion.div>
 
-        <LayoutGroup>
-          <motion.div
-            className="max-w-4xl mx-auto space-y-4"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <AnimatePresence mode="popLayout">
-              {filteredQuotes.length > 0 ? (
-                filteredQuotes.map((quote, index) => (
-                  <motion.div
-                    key={quote.number}
-                    layout
-                    variants={itemVariants}
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                    custom={index}
-                  >
-                    <QuoteCard {...quote} />
-                  </motion.div>
-                ))
-              ) : (
+        <motion.div
+          ref={gridRef}
+          className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.4 }}
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredQuotes.length > 0 ? (
+              filteredQuotes.map((quote) => (
                 <motion.div
-                  key="empty"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  className="text-center py-20"
+                  key={quote.number}
+                  layout
+                  layoutId={`quote-${quote.number}`}
+                  className={focusedId === quote.number ? "md:col-span-2" : ""}
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{
+                    layout: { type: "spring", stiffness: 400, damping: 35 },
+                    opacity: { duration: 0.2 },
+                    scale: { duration: 0.2 },
+                  }}
                 >
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
-                    <Search className="w-8 h-8 text-muted-foreground/50" />
-                  </div>
-                  <p className="text-muted-foreground text-lg">No quotes match your filters.</p>
+                  <QuoteCard
+                    {...quote}
+                    isFocused={focusedId === quote.number}
+                    onFocus={() => handleFocus(quote.number)}
+                  />
                 </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-        </LayoutGroup>
+              ))
+            ) : (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className="md:col-span-2 text-center py-20"
+              >
+                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
+                  <Search className="w-8 h-8 text-muted-foreground/50" />
+                </div>
+                <p className="text-muted-foreground text-lg">No quotes match your filters.</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </motion.div>
       </main>
     </div>
   );

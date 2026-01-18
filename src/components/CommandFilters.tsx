@@ -1,10 +1,10 @@
 import { memo } from "react";
-import { motion } from "framer-motion";
 import { Permission } from "@/components/PermissionBadge";
 import { Search, ArrowDownAZ, ArrowUpZA, ArrowDown01, ArrowUp10, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import PermissionBadge from "@/components/PermissionBadge";
+import TagBadge from "@/components/TagBadge";
 import FilterPopover from "@/components/FilterPopover";
 import { cn } from "@/lib/utils";
 
@@ -80,22 +80,12 @@ const CommandFilters = memo(function CommandFilters({
                       onToggle: onTagToggle,
                       onClearAll: onClearTags,
                       renderBadge: (tag, isActive, onClick) => (
-                        <motion.div
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <button
-                            onClick={onClick}
-                            className={cn(
-                              "px-3 py-1.5 text-sm rounded-lg transition-all duration-200",
-                              isActive
-                                ? "bg-primary/20 text-primary border border-primary/30"
-                                : "bg-secondary/50 text-muted-foreground hover:bg-secondary"
-                            )}
-                          >
-                            {tag}
-                          </button>
-                        </motion.div>
+                        <TagBadge
+                          tag={tag}
+                          size="md"
+                          isActive={isActive}
+                          onClick={onClick}
+                        />
                       ),
                       clearThreshold: 3,
                     },
@@ -113,17 +103,12 @@ const CommandFilters = memo(function CommandFilters({
                     onToggle: onPermissionToggle,
                     onClearAll: onClearPermissions,
                     renderBadge: (permission, isActive, onClick) => (
-                      <motion.div
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <PermissionBadge
-                          permission={permission as Permission}
-                          size="md"
-                          isActive={isActive}
-                          onClick={onClick}
-                        />
-                      </motion.div>
+                      <PermissionBadge
+                        permission={permission as Permission}
+                        size="md"
+                        isActive={isActive}
+                        onClick={onClick}
+                      />
                     ),
                     clearThreshold: 3,
                   },
@@ -135,62 +120,51 @@ const CommandFilters = memo(function CommandFilters({
 
               {/* Sort buttons */}
               <div className="flex gap-2">
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={onAlphabeticalToggle}
-                    className="h-10 px-4 bg-primary/10 border-primary/30 text-foreground hover:bg-primary/20 rounded-xl"
-                  >
-                    {alphabeticalOrder === "asc" ? (
-                      <ArrowDownAZ className="w-4 h-4 mr-2" />
-                    ) : (
-                      <ArrowUpZA className="w-4 h-4 mr-2" />
-                    )}
-                    {alphabeticalOrder === "asc" ? "A-Z" : "Z-A"}
-                  </Button>
-                </motion.div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onAlphabeticalToggle}
+                  className="h-10 px-4 bg-primary/10 border-primary/30 text-foreground hover:bg-primary/20 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  {alphabeticalOrder === "asc" ? (
+                    <ArrowDownAZ className="w-4 h-4 mr-2" />
+                  ) : (
+                    <ArrowUpZA className="w-4 h-4 mr-2" />
+                  )}
+                  {alphabeticalOrder === "asc" ? "A-Z" : "Z-A"}
+                </Button>
 
-                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={onRoleSortCycle}
-                    className={cn(
-                      "h-10 px-4 rounded-xl transition-all duration-200",
-                      roleSort === "off"
-                        ? "bg-secondary/50 border-border/50 text-muted-foreground hover:bg-secondary"
-                        : "bg-primary/10 border-primary/30 text-foreground hover:bg-primary/20"
-                    )}
-                  >
-                    {roleSort === "off" ? (
-                      <ShieldCheck className="w-4 h-4 mr-2" />
-                    ) : roleSort === "asc" ? (
-                      <ArrowDown01 className="w-4 h-4 mr-2" />
-                    ) : (
-                      <ArrowUp10 className="w-4 h-4 mr-2" />
-                    )}
-                    Role
-                    <motion.span
-                      className="ml-1 text-xs opacity-60"
-                      initial={false}
-                      animate={{ opacity: roleSort !== "off" ? 0.6 : 0, width: roleSort !== "off" ? "auto" : 0 }}
-                    >
-                      {roleSort === "asc" ? "↓" : roleSort === "desc" ? "↑" : ""}
-                    </motion.span>
-                  </Button>
-                </motion.div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onRoleSortCycle}
+                  className={cn(
+                    "h-10 px-4 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]",
+                    roleSort === "off"
+                      ? "bg-secondary/50 border-border/50 text-muted-foreground hover:bg-secondary"
+                      : "bg-primary/10 border-primary/30 text-foreground hover:bg-primary/20"
+                  )}
+                >
+                  {roleSort === "off" ? (
+                    <ShieldCheck className="w-4 h-4 mr-2" />
+                  ) : roleSort === "asc" ? (
+                    <ArrowDown01 className="w-4 h-4 mr-2" />
+                  ) : (
+                    <ArrowUp10 className="w-4 h-4 mr-2" />
+                  )}
+                  Role
+                  {roleSort !== "off" && (
+                    <span className="ml-1 text-xs opacity-60">
+                      {roleSort === "asc" ? "↓" : "↑"}
+                    </span>
+                  )}
+                </Button>
               </div>
             </div>
 
-            <motion.div
-              className="text-sm text-muted-foreground"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              key={resultCount}
-            >
+            <div className="text-sm text-muted-foreground">
               {resultCount} command{resultCount !== 1 ? "s" : ""}
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>

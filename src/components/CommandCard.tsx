@@ -12,6 +12,8 @@ import AnimatedCount from "@/components/AnimatedCount";
 interface CommandCardProps {
   command: Command;
   orderNumber: number;
+  isFocused?: boolean;
+  onFocus?: () => void;
 }
 
 const MAX_VISIBLE_ALIASES = 2;
@@ -82,8 +84,7 @@ const CopyButton = memo(function CopyButton({ text }: CopyButtonProps) {
   );
 });
 
-const CommandCard = memo(function CommandCard({ command, orderNumber }: CommandCardProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused = false, onFocus }: CommandCardProps) {
   const [showAllAliases, setShowAllAliases] = useState(false);
 
   const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
@@ -95,9 +96,9 @@ const CommandCard = memo(function CommandCard({ command, orderNumber }: CommandC
   const hiddenCount = aliases.length - MAX_VISIBLE_ALIASES;
   const usageParams = command.usage ? command.usage.replace(command.name, "").trim() : null;
 
-  const handleToggleExpand = useCallback(() => {
-    if (hasDetails) setIsExpanded((prev) => !prev);
-  }, [hasDetails]);
+  const handleCardClick = useCallback(() => {
+    onFocus?.();
+  }, [onFocus]);
 
   const handleToggleAliases = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
@@ -106,21 +107,19 @@ const CommandCard = memo(function CommandCard({ command, orderNumber }: CommandC
 
   return (
     <motion.div
-      className="group relative"
-      whileHover={{ scale: 1.005 }}
-      transition={{ duration: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="group relative cursor-pointer"
+      onClick={handleCardClick}
+      whileHover={{ scale: isFocused ? 1 : 1.02 }}
+      transition={{ type: "spring", stiffness: 400, damping: 30 }}
     >
-      <div className="absolute inset-0 bg-primary/5 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      <div className={`absolute inset-0 bg-primary/5 rounded-2xl blur-xl transition-opacity duration-500 ${isFocused ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} />
 
-      <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl border border-border/50 overflow-hidden shadow-lg shadow-primary/5 transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-xl group-hover:shadow-primary/10">
-        <button
-          onClick={handleToggleExpand}
-          className={cn(
-            "w-full p-5 text-left transition-colors",
-            hasDetails && "hover:bg-secondary/20 cursor-pointer",
-            !hasDetails && "cursor-default"
-          )}
-        >
+      <div className={`relative bg-card/40 backdrop-blur-xl rounded-2xl border overflow-hidden shadow-lg shadow-primary/5 transition-all duration-300 ${
+        isFocused 
+          ? "border-primary/50 shadow-xl shadow-primary/20" 
+          : "border-border/50 group-hover:border-primary/30 group-hover:shadow-xl group-hover:shadow-primary/10"
+      }`}>
+        <div className={cn("w-full p-5 text-left")}>
           <div className="flex items-start justify-between gap-4">
             <div className="flex-shrink-0">
               <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/20">
@@ -219,17 +218,17 @@ const CommandCard = memo(function CommandCard({ command, orderNumber }: CommandC
             {hasDetails && (
               <motion.div
                 className="flex-shrink-0 w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center text-muted-foreground"
-                animate={{ rotate: isExpanded ? 180 : 0 }}
+                animate={{ rotate: isFocused ? 180 : 0 }}
                 transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
                 <ChevronDown className="w-5 h-5" />
               </motion.div>
             )}
           </div>
-        </button>
+        </div>
 
         <AnimatePresence>
-          {hasDetails && isExpanded && (
+          {hasDetails && isFocused && (
             <motion.div
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
