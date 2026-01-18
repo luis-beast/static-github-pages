@@ -42,7 +42,7 @@ const SOCIALS: SocialPlatform[] = [
     name: "TikTok",
     href: "https://www.tiktok.com/@laymanlouie",
     brandColor: "#00F2EA",
-    hoverBg: "linear-gradient(135deg, rgba(0, 242, 234, 0.4) 0%, rgba(255, 0, 80, 0.4) 100%)",
+    hoverBg: "linear-gradient(135deg, rgba(0, 242, 234, 0.6) 0%, rgba(255, 0, 80, 0.6) 100%)",
     isGradient: true,
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -60,7 +60,7 @@ const SOCIALS: SocialPlatform[] = [
     name: "Instagram",
     href: "https://www.instagram.com/laymanlouie/",
     brandColor: "#E4405F",
-    hoverBg: "linear-gradient(45deg, rgba(245, 133, 41, 0.4), rgba(254, 218, 119, 0.4), rgba(221, 42, 123, 0.4), rgba(129, 52, 175, 0.4), rgba(81, 91, 212, 0.4))",
+    hoverBg: "linear-gradient(45deg, rgba(245, 133, 41, 0.6), rgba(254, 218, 119, 0.6), rgba(221, 42, 123, 0.6), rgba(129, 52, 175, 0.6), rgba(81, 91, 212, 0.6))",
     isGradient: true,
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
