@@ -1,11 +1,45 @@
 import { useState, useMemo, useCallback, memo } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
+import { Search } from "lucide-react";
 import CommandCard from "@/components/CommandCard";
 import CommandFilters, { AlphabeticalOrder, RoleSort } from "@/components/CommandFilters";
 import { Permission } from "@/components/PermissionBadge";
 import { commands } from "@/data/commands";
 import { normalizeForSearch } from "@/lib/searchUtils";
-import { PERMISSION_PRIORITY, layoutTransition } from "@/lib/constants";
+import { PERMISSION_PRIORITY, DURATION, EASING } from "@/lib/constants";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.04,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20, scale: 0.98 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: DURATION.reveal,
+      ease: EASING.smooth,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.96,
+    y: -10,
+    transition: {
+      duration: 0.2,
+      ease: EASING.smooth,
+    },
+  },
+};
 
 const Commands = memo(function Commands() {
   const [alphabeticalOrder, setAlphabeticalOrder] = useState<AlphabeticalOrder>("asc");
@@ -83,22 +117,36 @@ const Commands = memo(function Commands() {
   }, [alphabeticalOrder, roleSort, selectedPermissions, searchQuery, selectedTags]);
 
   return (
-    <div>
-      <main className="container mx-auto px-4 py-8">
+    <div className="min-h-screen">
+      <main className="container mx-auto px-4 py-12 md:py-20">
         <motion.header
-          className="mb-8"
-          initial={{ opacity: 0, y: -20 }}
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: DURATION.reveal, ease: EASING.smooth }}
         >
-          <h1 className="text-3xl md:text-4xl font-bold gradient-text mb-2">Commands</h1>
-          <p className="text-muted-foreground">All commands and how to use them</p>
+          <motion.h1
+            className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: DURATION.reveal, delay: 0.1, ease: EASING.smooth }}
+          >
+            <span className="gradient-text">Commands</span>
+          </motion.h1>
+          <motion.p
+            className="text-lg md:text-xl text-muted-foreground max-w-md mx-auto font-light"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: DURATION.reveal, delay: 0.2, ease: EASING.smooth }}
+          >
+            All commands and how to use them
+          </motion.p>
         </motion.header>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
+          transition={{ duration: DURATION.reveal, delay: 0.3, ease: EASING.smooth }}
         >
           <CommandFilters
             alphabeticalOrder={alphabeticalOrder}
@@ -119,17 +167,23 @@ const Commands = memo(function Commands() {
         </motion.div>
 
         <LayoutGroup>
-          <motion.div className="space-y-4" layout transition={layoutTransition}>
+          <motion.div
+            className="max-w-4xl mx-auto space-y-3"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
             <AnimatePresence mode="popLayout">
               {filteredCommands.length > 0 ? (
                 filteredCommands.map((command, index) => (
                   <motion.div
                     key={command.id}
                     layout
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={layoutTransition}
+                    variants={itemVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                    custom={index}
                   >
                     <CommandCard command={command} orderNumber={index + 1} />
                   </motion.div>
@@ -137,12 +191,15 @@ const Commands = memo(function Commands() {
               ) : (
                 <motion.div
                   key="empty"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="glass-card rounded-lg p-8 text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="text-center py-20"
                 >
-                  <p className="text-muted-foreground">No commands match your current filters.</p>
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
+                    <Search className="w-8 h-8 text-muted-foreground/50" />
+                  </div>
+                  <p className="text-muted-foreground text-lg">No commands match your filters.</p>
                 </motion.div>
               )}
             </AnimatePresence>
