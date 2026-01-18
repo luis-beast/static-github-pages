@@ -17,7 +17,7 @@ const RulesSection = () => {
 
       <div className="max-w-4xl mx-auto relative">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">Community Rules</h2>
+          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">Rules for Laypeople</h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
