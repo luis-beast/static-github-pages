@@ -81,6 +81,7 @@ const NotFound = () => {
           >
             404
           </motion.h1>
+        </motion.div>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
