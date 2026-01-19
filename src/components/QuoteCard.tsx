@@ -12,14 +12,8 @@ const QuoteCard = memo(function QuoteCard({
   timestamp
 }: QuoteCardProps) {
   return (
-    <motion.article
-      className="group relative h-full"
-      whileHover={{ scale: 1.01 }}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-    >
-      <div className="absolute inset-0 bg-primary/5 rounded-2xl blur-xl transition-opacity duration-500 opacity-0 group-hover:opacity-100" />
-      
-      <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl border p-6 shadow-lg shadow-primary/5 transition-all duration-300 h-full flex flex-col border-border/50 group-hover:border-primary/30 group-hover:shadow-xl group-hover:shadow-primary/10">
+    <article className="relative h-full">
+      <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl border p-6 shadow-md transition-all duration-300 h-full flex flex-col border-border/30">
         <div className="flex items-start gap-5 flex-1">
           <div className="flex-shrink-0">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/20">
@@ -40,7 +34,7 @@ const QuoteCard = memo(function QuoteCard({
           </div>
         </div>
       </div>
-    </motion.article>
+    </article>
   );
 });
 
