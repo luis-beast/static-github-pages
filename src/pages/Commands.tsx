@@ -29,26 +29,25 @@ const Commands = memo(function Commands() {
 
   const toggleAlphabeticalOrder = useCallback(
     () => setAlphabeticalOrder((prev) => (prev === "asc" ? "desc" : "asc")),
-    []
+    [],
   );
 
   const cycleRoleSort = useCallback(
     () => setRoleSort((prev) => (prev === "off" ? "asc" : prev === "asc" ? "desc" : "off")),
-    []
+    [],
   );
 
   const togglePermission = useCallback(
     (permission: Permission) =>
       setSelectedPermissions((prev) =>
-        prev.includes(permission) ? prev.filter((p) => p !== permission) : [...prev, permission]
+        prev.includes(permission) ? prev.filter((p) => p !== permission) : [...prev, permission],
       ),
-    []
+    [],
   );
 
   const toggleTag = useCallback(
-    (tag: string) =>
-      setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag])),
-    []
+    (tag: string) => setSelectedTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag])),
+    [],
   );
 
   const clearTags = useCallback(() => setSelectedTags([]), []);
@@ -71,7 +70,7 @@ const Commands = memo(function Commands() {
           normalizeForSearch(cmd.name).includes(query) ||
           cmd.aliases?.some((alias) => normalizeForSearch(alias).includes(query)) ||
           normalizeForSearch(cmd.description).includes(query) ||
-          cmd.commandGroups?.some((group) => normalizeForSearch(group).includes(query))
+          cmd.commandGroups?.some((group) => normalizeForSearch(group).includes(query)),
       );
     }
 
@@ -108,7 +107,7 @@ const Commands = memo(function Commands() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, delay: 0.1, ease: EASING.smooth }}
           >
-            <GradientText gradient="louie">Commands</GradientText>
+            <GradientText gradient="louie">The Commands</GradientText>
           </motion.h1>
           <motion.p
             className="text-xl md:text-2xl text-muted-foreground max-w-md mx-auto font-light"
@@ -156,7 +155,7 @@ const Commands = memo(function Commands() {
                 const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
                 const canFocus = hasParameterGroups;
                 const isFocused = focusedId === command.id && canFocus;
-                
+
                 return (
                   <motion.div
                     key={command.id}
