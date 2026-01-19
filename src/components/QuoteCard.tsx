@@ -22,14 +22,14 @@ const QuoteCard = memo(function QuoteCard({
           </div>
 
           <div className="flex-1 min-w-0">
-            <blockquote className="text-secondary-foreground/80 text-sm leading-relaxed mb-4">
+            <blockquote className="text-secondary-foreground/80 text-base leading-relaxed mb-4">
               "{quote}"
             </blockquote>
 
             <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-border/20">
               <GameBadge game={game} size="md" isActive />
               <span className="text-muted-foreground/60">•</span>
-              <time className="text-muted-foreground text-sm">{timestamp}</time>
+              <time className="text-muted-foreground text-base">{timestamp}</time>
             </div>
           </div>
         </div>

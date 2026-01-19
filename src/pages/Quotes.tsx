@@ -68,7 +68,7 @@ const Quotes = memo(function Quotes() {
             <GradientText gradient="louie">Quotes</GradientText>
           </motion.h1>
           <motion.p
-            className="text-lg md:text-xl text-muted-foreground max-w-md mx-auto font-light"
+            className="text-xl md:text-2xl text-muted-foreground max-w-md mx-auto font-light"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, delay: 0.2, ease: EASING.smooth }}

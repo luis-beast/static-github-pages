@@ -92,7 +92,7 @@ const Navigation = memo(function Navigation() {
               <Link
                   key={item.path}
                   to={item.path}
-                  className="group relative px-5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 overflow-hidden"
+                  className="group relative px-5 py-2.5 rounded-lg text-base font-medium transition-colors duration-200 overflow-hidden"
                 >
                   {/* Background layer with smooth opacity transition */}
                   <span 
