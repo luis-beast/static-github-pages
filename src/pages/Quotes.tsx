@@ -8,7 +8,7 @@ import { quotes } from "@/data/quotes";
 import FilterPopover from "@/components/FilterPopover";
 import { DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
-import { useClickOutside } from "@/hooks/useClickOutside";
+import PageWrapper from "@/components/PageWrapper";
 
 const Quotes = memo(function Quotes() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -51,7 +51,7 @@ const Quotes = memo(function Quotes() {
   }, [searchQuery, selectedGames]);
 
   return (
-    <div className="flex-1 flex flex-col">
+    <PageWrapper>
       <main className="flex-1 container mx-auto px-4 py-12 md:py-20">
         <motion.header
           className="text-center mb-16"
@@ -174,7 +174,7 @@ const Quotes = memo(function Quotes() {
           </AnimatePresence>
         </motion.div>
       </main>
-    </div>
+    </PageWrapper>
   );
 });
 
