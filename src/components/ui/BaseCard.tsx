@@ -55,12 +55,12 @@ const BaseCard = memo(forwardRef<HTMLDivElement, BaseCardProps>(function BaseCar
 
       <div 
         className={cn(
-          "relative bg-card/40 backdrop-blur-xl rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col",
+          "relative bg-card/60 backdrop-blur-xl rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col border border-border/30",
           interactive
             ? isActive 
-              ? "border border-primary/50 shadow-xl shadow-primary/20" 
-              : "border border-primary/20 shadow-lg shadow-primary/5 group-hover:border-primary/40 group-hover:shadow-xl group-hover:shadow-primary/10"
-            : "shadow-lg shadow-black/20",
+              ? "border-primary/60 shadow-2xl shadow-primary/25" 
+              : "border-primary/30 shadow-xl shadow-primary/10 group-hover:border-primary/50 group-hover:shadow-2xl group-hover:shadow-primary/20"
+            : "shadow-xl shadow-black/30",
           className
         )}
       >
