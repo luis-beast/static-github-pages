@@ -45,11 +45,13 @@ const Navigation = memo(function Navigation() {
         >
           <Link
             to="/"
-            className="group relative flex items-center justify-center rounded-xl overflow-hidden transition-all duration-500 ease-out -ml-3 hover:bg-gradient-to-b hover:from-[#8800FF]/20 hover:to-[#220033]/20"
+            className={`group relative flex items-center justify-center rounded-xl overflow-hidden transition-all duration-500 ease-out -ml-3 ${
+              !isHomePage ? "hover:bg-gradient-to-b hover:from-[#8800FF]/20 hover:to-[#220033]/20" : ""
+            }`}
           >
-            {/* Background glow - visible on home page */}
+            {/* Background glow - visible on home page at full brightness */}
             <div 
-              className={`absolute inset-0 bg-gradient-to-b from-[#8800FF]/60 to-[#220033]/60 transition-opacity duration-300 ${
+              className={`absolute inset-0 bg-gradient-to-b from-[#8800FF] to-[#220033] transition-opacity duration-300 ${
                 bgVisible ? "opacity-100" : "opacity-0"
               }`}
               aria-hidden="true"
