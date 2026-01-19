@@ -46,7 +46,7 @@ const Navigation = memo(function Navigation() {
           <Link
             to="/"
             className={`group relative flex items-center justify-center rounded-xl overflow-hidden transition-all duration-500 ease-out -ml-3 ${
-              !isHomePage ? "hover:bg-gradient-to-b hover:from-[#8800FF]/20 hover:to-[#220033]/20" : ""
+              !isHomePage ? "hover:bg-gradient-to-b hover:from-[#8800FF]/40 hover:to-[#220033]/40" : ""
             }`}
           >
             {/* Background glow - visible on home page at full brightness */}
