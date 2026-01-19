@@ -12,7 +12,7 @@ const MerchSection = memo(function MerchSection() {
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.2}>
-          <div className="inline-block px-8 py-4 rounded-2xl bg-card/20 shadow-md">
+          <div className="inline-block px-8 py-6 rounded-2xl bg-gradient-to-br from-muted/20 to-transparent border border-border/20 backdrop-blur-sm">
             <p className="text-2xl font-bold text-muted-foreground mb-2">Coming Soon</p>
             <p className="text-muted-foreground/70">Stay tuned for Layman merch...</p>
           </div>

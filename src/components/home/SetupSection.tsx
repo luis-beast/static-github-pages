@@ -25,7 +25,7 @@ interface SpecCardProps {
 const SpecCard = memo(function SpecCard({ spec, index }: SpecCardProps) {
   return (
     <ScrollRevealSection delay={0.15 + index * 0.05}>
-      <div className="p-6 rounded-2xl bg-card/30 backdrop-blur-sm shadow-md">
+      <div className="p-6 rounded-2xl bg-gradient-to-br from-muted/15 to-transparent border border-border/20 backdrop-blur-sm transition-all duration-300 hover:border-border/40">
         <dt className="text-sm text-muted-foreground uppercase tracking-wider">
           {spec.label}
         </dt>
