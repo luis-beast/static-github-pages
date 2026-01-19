@@ -16,18 +16,18 @@ const Navigation = memo(function Navigation() {
 
   useEffect(() => {
     if (isHomePage) {
-      // Going to home: hide text first, then show background after delay
+      // Going to home: hide text first, then show background after text fade completes
       setShowText(false);
       const timer = setTimeout(() => {
         setBgVisible(true);
-      }, 300); // Wait for text fade to complete
+      }, 500); // Wait for full text fade transition (matches duration-500)
       return () => clearTimeout(timer);
     } else {
-      // Leaving home: fade out background first, then show text after delay
+      // Leaving home: fade out background first, then show text after background fade completes
       setBgVisible(false);
       const timer = setTimeout(() => {
         setShowText(true);
-      }, 300); // Wait for background fade to complete
+      }, 300); // Wait for background fade to complete (matches duration-300)
       return () => clearTimeout(timer);
     }
   }, [isHomePage]);
@@ -92,13 +92,28 @@ const Navigation = memo(function Navigation() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
-                    isActive
-                      ? "bg-gradient-to-b from-[#8800FF] to-[#220033] text-white"
-                      : "text-muted-foreground hover:text-white hover:bg-white/10"
-                  }`}
+                  className="relative px-5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 overflow-hidden"
                 >
-                  {item.label}
+                  {/* Background layer with smooth opacity transition */}
+                  <span 
+                    className={`absolute inset-0 bg-gradient-to-b from-[#8800FF] to-[#220033] rounded-lg transition-opacity duration-300 ${
+                      isActive ? "opacity-100" : "opacity-0"
+                    }`}
+                    aria-hidden="true"
+                  />
+                  {/* Hover background for non-active state */}
+                  <span 
+                    className={`absolute inset-0 bg-white/10 rounded-lg transition-opacity duration-200 ${
+                      isActive ? "opacity-0" : "opacity-0 hover:opacity-100"
+                    }`}
+                    aria-hidden="true"
+                  />
+                  {/* Text layer */}
+                  <span className={`relative z-10 transition-colors duration-200 ${
+                    isActive ? "text-white" : "text-muted-foreground hover:text-white"
+                  }`}>
+                    {item.label}
+                  </span>
                 </Link>
               );
             })}
