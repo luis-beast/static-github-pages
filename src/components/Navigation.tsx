@@ -23,11 +23,11 @@ const Navigation = memo(function Navigation() {
       }, 300); // Wait for background fade to complete (matches duration-300)
       return () => clearTimeout(timer);
     } else {
-      // Leaving home: show text first, then fade out background after text appears
-      setShowText(true);
+      // Leaving home: fade out background first, then show text after background is gone
+      setBgVisible(false);
       const timer = setTimeout(() => {
-        setBgVisible(false);
-      }, 500); // Wait for text fade transition (matches duration-500)
+        setShowText(true);
+      }, 300); // Wait for background fade to complete (matches duration-300)
       return () => clearTimeout(timer);
     }
   }, [isHomePage]);
