@@ -13,8 +13,8 @@ const Home = () => {
       <HeroSection />
       <AboutSection />
       <SocialsSection />
-      <FeaturesSection />
       <InfoSection />
+      <FeaturesSection />
     </div>
   );
 };
