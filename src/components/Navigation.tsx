@@ -16,9 +16,12 @@ const Navigation = memo(function Navigation() {
 
   useEffect(() => {
     if (isHomePage) {
-      // Going to home: hide text immediately, show background
+      // Going to home: hide text first, then show background after delay
       setShowText(false);
-      setBgVisible(true);
+      const timer = setTimeout(() => {
+        setBgVisible(true);
+      }, 300); // Wait for text fade to complete
+      return () => clearTimeout(timer);
     } else {
       // Leaving home: fade out background first, then show text after delay
       setBgVisible(false);
@@ -46,7 +49,7 @@ const Navigation = memo(function Navigation() {
           <Link
             to="/"
             className={`group relative flex items-center justify-center rounded-xl overflow-hidden transition-all duration-500 ease-out -ml-3 ${
-              !isHomePage ? "hover:bg-gradient-to-b hover:from-[#8800FF]/40 hover:to-[#220033]/40" : ""
+              !isHomePage ? "hover:bg-gradient-to-b hover:from-[#8800FF]/50 hover:to-[#220033]/50" : ""
             }`}
           >
             {/* Background glow - visible on home page at full brightness */}
