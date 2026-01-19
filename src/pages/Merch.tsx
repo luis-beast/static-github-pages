@@ -29,7 +29,7 @@ const Merch = memo(function Merch() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, delay: 0.2, ease: EASING.smooth }}
           >
-            Rep the Layman Legion in style.
+            Rep the Layman in style
           </motion.p>
         </div>
       </section>
@@ -44,14 +44,13 @@ const Merch = memo(function Merch() {
           </ScrollRevealSection>
 
           <ScrollRevealSection delay={0.1}>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Coming Soon
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Coming Soon</h2>
           </ScrollRevealSection>
 
           <ScrollRevealSection delay={0.2}>
             <p className="text-lg text-muted-foreground mb-8">
-              We're cooking up something special. Apparel, accessories, and more — all designed with the Layman Legion in mind.
+              We're cooking up something special. Apparel, accessories, and more — all designed with the Layman Legion
+              in mind.
             </p>
           </ScrollRevealSection>
 
