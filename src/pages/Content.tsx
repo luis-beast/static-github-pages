@@ -31,7 +31,7 @@ const Content = memo(function Content() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, delay: 0.2, ease: EASING.smooth }}
           >
-            Everything about the streams, games, and what makes this community tick.
+            Everything about the streams, socials, and what makes The Layman such a Layman
           </motion.p>
         </div>
       </section>
