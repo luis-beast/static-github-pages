@@ -89,7 +89,7 @@ const Navigation = memo(function Navigation() {
                   to={item.path}
                   className={`relative px-5 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${
                     isActive
-                      ? "bg-gradient-to-b from-[#8800FF]/60 to-[#220033]/60 text-white"
+                      ? "bg-gradient-to-b from-[#8800FF] to-[#220033] text-white"
                       : "text-muted-foreground hover:text-white hover:bg-white/10"
                   }`}
                 >
