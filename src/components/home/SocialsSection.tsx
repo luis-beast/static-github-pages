@@ -119,12 +119,12 @@ const SocialButton = memo(function SocialButton({ social, index }: SocialButtonP
         rel="noopener noreferrer"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        className="group relative flex items-center justify-center rounded-3xl border border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden h-[120px] px-9 transition-all duration-500 ease-out"
+        className="group relative flex items-center justify-center rounded-xl border border-border/50 bg-secondary/50 hover:border-primary/30 backdrop-blur-sm overflow-hidden h-[120px] px-9 transition-all duration-200"
         aria-label={`Visit ${social.name}`}
       >
         {/* Background glow on hover */}
         <div
-          className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-300"
+          className="absolute inset-0 opacity-0 group-hover:opacity-60 transition-opacity duration-200"
           style={{ background: social.hoverBg }}
           aria-hidden="true"
         />
@@ -140,8 +140,8 @@ const SocialButton = memo(function SocialButton({ social, index }: SocialButtonP
           </div>
 
           {/* Text and external link - grid for smooth width animation */}
-          <div className="grid grid-cols-[0fr] group-hover:grid-cols-[1fr] transition-all duration-500 ease-out">
-            <div className="overflow-hidden flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out">
+          <div className="grid grid-cols-[0fr] group-hover:grid-cols-[1fr] transition-all duration-300 ease-out">
+            <div className="overflow-hidden flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out">
               <span className="font-semibold text-lg whitespace-nowrap ml-3">
                 {social.name}
               </span>
