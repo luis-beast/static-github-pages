@@ -9,6 +9,7 @@ import { normalizeForSearch } from "@/lib/searchUtils";
 import { PERMISSION_PRIORITY, DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import PageWrapper from "@/components/PageWrapper";
 
 const Commands = memo(function Commands() {
   const [alphabeticalOrder, setAlphabeticalOrder] = useState<AlphabeticalOrder>("asc");
@@ -93,7 +94,7 @@ const Commands = memo(function Commands() {
   }, []);
 
   return (
-    <div className="flex-1 flex flex-col">
+    <PageWrapper>
       <main className="flex-1 container mx-auto px-4 py-12 md:py-20">
         <motion.header
           className="text-center mb-16"
@@ -197,7 +198,7 @@ const Commands = memo(function Commands() {
           </AnimatePresence>
         </motion.div>
       </main>
-    </div>
+    </PageWrapper>
   );
 });
 

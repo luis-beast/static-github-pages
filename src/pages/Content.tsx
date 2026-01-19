@@ -6,14 +6,11 @@ import RulesSection from "@/components/home/RulesSection";
 import ScheduleSection from "@/components/home/ScheduleSection";
 import SetupSection from "@/components/home/SetupSection";
 import GamesSection from "@/components/home/GamesSection";
+import PageWrapper from "@/components/PageWrapper";
 
 const Content = memo(function Content() {
   return (
-    <div className="overflow-x-hidden relative">
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[1200px] bg-primary/10 rounded-full blur-[200px]" />
-      </div>
-
+    <PageWrapper>
       {/* Hero Header */}
       <section className="pt-24 pb-12 px-6">
         <div className="container mx-auto text-center">
@@ -40,7 +37,7 @@ const Content = memo(function Content() {
       <ScheduleSection />
       <RulesSection />
       <SetupSection />
-    </div>
+    </PageWrapper>
   );
 });
 

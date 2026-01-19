@@ -4,14 +4,11 @@ import { ShoppingBag, Bell } from "lucide-react";
 import { DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
 import ScrollRevealSection from "@/components/home/ScrollRevealSection";
+import PageWrapper from "@/components/PageWrapper";
 
 const Merch = memo(function Merch() {
   return (
-    <div className="overflow-x-hidden relative min-h-screen">
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[1200px] bg-primary/10 rounded-full blur-[200px]" />
-      </div>
-
+    <PageWrapper>
       {/* Hero Header */}
       <section className="pt-24 pb-12 px-6">
         <div className="container mx-auto text-center">
@@ -60,7 +57,7 @@ const Merch = memo(function Merch() {
           </ScrollRevealSection>
         </div>
       </section>
-    </div>
+    </PageWrapper>
   );
 });
 
