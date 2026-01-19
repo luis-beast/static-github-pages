@@ -4,6 +4,7 @@ import { Command } from "@/types/command";
 import ParameterBubble from "./ParameterBubble";
 import PermissionBadge from "./PermissionBadge";
 import TagBadge from "./TagBadge";
+import BaseCard from "./ui/BaseCard";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
@@ -109,24 +110,11 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
   }, []);
 
   return (
-    <motion.div
-      className={`group relative h-full ${canExpand ? "cursor-pointer" : ""}`}
+    <BaseCard
+      interactive={canExpand}
+      isActive={isFocused}
       onClick={handleCardClick}
-      whileHover={{ scale: isFocused ? 1 : canExpand ? 1.02 : 1 }}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
     >
-      {/* Glow effect - only for expandable cards */}
-      {canExpand && (
-        <div className={`absolute inset-0 bg-primary/5 rounded-2xl blur-xl transition-opacity duration-500 ${isFocused ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} />
-      )}
-
-      <div className={`relative bg-card/40 backdrop-blur-xl rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col ${
-        canExpand
-          ? isFocused 
-            ? "border border-primary/50 shadow-xl shadow-primary/20" 
-            : "border border-primary/20 shadow-lg shadow-primary/5 group-hover:border-primary/40 group-hover:shadow-xl group-hover:shadow-primary/10"
-          : "shadow-md"
-      }`}>
         <div className={cn("w-full p-5 text-left flex-1")}>
           <div className="flex items-start justify-between gap-4">
             <div className="flex-shrink-0">
@@ -303,8 +291,7 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-    </motion.div>
+    </BaseCard>
   );
 });
 
