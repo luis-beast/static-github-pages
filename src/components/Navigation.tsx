@@ -16,18 +16,18 @@ const Navigation = memo(function Navigation() {
 
   useEffect(() => {
     if (isHomePage) {
-      // Going to home: hide text first, then show background after text fade completes
-      setShowText(false);
+      // Going to home: show background first, then hide text after background appears
+      setBgVisible(true);
       const timer = setTimeout(() => {
-        setBgVisible(true);
-      }, 500); // Wait for full text fade transition (matches duration-500)
+        setShowText(false);
+      }, 300); // Wait for background fade to complete (matches duration-300)
       return () => clearTimeout(timer);
     } else {
-      // Leaving home: fade out background first, then show text after background fade completes
-      setBgVisible(false);
+      // Leaving home: show text first, then fade out background after text appears
+      setShowText(true);
       const timer = setTimeout(() => {
-        setShowText(true);
-      }, 300); // Wait for background fade to complete (matches duration-300)
+        setBgVisible(false);
+      }, 500); // Wait for text fade transition (matches duration-500)
       return () => clearTimeout(timer);
     }
   }, [isHomePage]);
