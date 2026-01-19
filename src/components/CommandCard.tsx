@@ -120,12 +120,12 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
         <div className={`absolute inset-0 bg-primary/5 rounded-2xl blur-xl transition-opacity duration-500 ${isFocused ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} />
       )}
 
-      <div className={`relative bg-card/40 backdrop-blur-xl rounded-2xl border overflow-hidden transition-all duration-300 h-full flex flex-col ${
+      <div className={`relative bg-card/40 backdrop-blur-xl rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col ${
         canExpand
           ? isFocused 
-            ? "border-primary/50 shadow-xl shadow-primary/20" 
-            : "border-primary/20 shadow-lg shadow-primary/5 group-hover:border-primary/40 group-hover:shadow-xl group-hover:shadow-primary/10"
-          : "border-border/30 shadow-md"
+            ? "border border-primary/50 shadow-xl shadow-primary/20" 
+            : "border border-primary/20 shadow-lg shadow-primary/5 group-hover:border-primary/40 group-hover:shadow-xl group-hover:shadow-primary/10"
+          : "shadow-md"
       }`}>
         <div className={cn("w-full p-5 text-left flex-1")}>
           <div className="flex items-start justify-between gap-4">

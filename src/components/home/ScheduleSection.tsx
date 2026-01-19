@@ -28,18 +28,17 @@ interface DayCardProps {
 
 const DayCard = memo(function DayCard({ item, index }: DayCardProps) {
   const cardStyles = item.stream
-    ? "border-primary/50 bg-primary/10"
+    ? "bg-primary/10"
     : item.isRandom
-      ? "border-border/50 bg-card/30"
-      : "border-border/30 bg-card/20";
+      ? "bg-card/30"
+      : "bg-card/20";
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.25 + index * 0.05 }}
-      whileHover={{ scale: 1.03, y: -2 }}
-      className={`relative flex flex-col items-center p-3 md:p-5 rounded-xl md:rounded-2xl border backdrop-blur-sm ${cardStyles}`}
+      className={`relative flex flex-col items-center p-3 md:p-5 rounded-xl md:rounded-2xl backdrop-blur-sm shadow-md ${cardStyles}`}
     >
       {/* Day header */}
       <span className="text-xs md:text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-2 md:mb-4">

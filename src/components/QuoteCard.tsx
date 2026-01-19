@@ -13,7 +13,7 @@ const QuoteCard = memo(function QuoteCard({
 }: QuoteCardProps) {
   return (
     <article className="relative h-full">
-      <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl border p-6 shadow-md transition-all duration-300 h-full flex flex-col border-border/30">
+      <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl p-6 shadow-md transition-all duration-300 h-full flex flex-col">
         <div className="flex items-start gap-5 flex-1">
           <div className="flex-shrink-0">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/20">

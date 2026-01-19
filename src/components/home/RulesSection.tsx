@@ -31,7 +31,7 @@ const RulesSection = memo(function RulesSection() {
         <ul className="grid gap-4 max-w-2xl mx-auto" role="list">
           {RULES.map((rule, index) => (
             <ScrollRevealSection key={rule} delay={0.15 + index * 0.05}>
-              <li className="flex items-center gap-4 p-5 rounded-2xl border border-border/50 bg-card/30 backdrop-blur-sm">
+              <li className="flex items-center gap-4 p-5 rounded-2xl bg-card/30 backdrop-blur-sm shadow-md">
                 <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10" aria-hidden="true">
                   <Heart className="w-5 h-5 text-primary" />
                 </div>
