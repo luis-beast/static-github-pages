@@ -89,10 +89,10 @@ const Navigation = memo(function Navigation() {
             {NAV_ITEMS.map((item) => {
               const isActive = location.pathname === item.path;
               return (
-                <Link
+              <Link
                   key={item.path}
                   to={item.path}
-                  className="relative px-5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 overflow-hidden"
+                  className="group relative px-5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200 overflow-hidden"
                 >
                   {/* Background layer with smooth opacity transition */}
                   <span 
@@ -104,13 +104,13 @@ const Navigation = memo(function Navigation() {
                   {/* Hover background for non-active state */}
                   <span 
                     className={`absolute inset-0 bg-white/10 rounded-lg transition-opacity duration-200 ${
-                      isActive ? "opacity-0" : "opacity-0 hover:opacity-100"
+                      isActive ? "opacity-0" : "opacity-0 group-hover:opacity-100"
                     }`}
                     aria-hidden="true"
                   />
                   {/* Text layer */}
                   <span className={`relative z-10 transition-colors duration-200 ${
-                    isActive ? "text-white" : "text-muted-foreground hover:text-white"
+                    isActive ? "text-white" : "text-muted-foreground group-hover:text-white"
                   }`}>
                     {item.label}
                   </span>
