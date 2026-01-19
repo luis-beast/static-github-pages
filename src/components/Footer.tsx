@@ -30,7 +30,7 @@ const Footer = memo(function Footer() {
               <Link
                 key={link.path}
                 to={link.path}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
+                className="px-4 py-2 rounded-lg text-base font-medium text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
               >
                 {link.label}
               </Link>
@@ -42,7 +42,7 @@ const Footer = memo(function Footer() {
               <a
                 key={link.label}
                 href={link.path}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
+                className="px-4 py-2 rounded-lg text-base font-medium text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
               >
                 {link.label}
               </a>
@@ -56,10 +56,10 @@ const Footer = memo(function Footer() {
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: DURATION.reveal, delay: 0.2, ease: EASING.smooth }}
         >
-          <p className="text-xs text-muted-foreground/60">
+          <p className="text-sm text-muted-foreground/60">
             Copyright © {currentYear} <BrandName />. All rights reserved.
           </p>
-          <p className="text-xs text-muted-foreground/60 flex items-center gap-1">
+          <p className="text-sm text-muted-foreground/60 flex items-center gap-1">
             Made with
             <Heart className="w-3 h-3 text-primary" aria-hidden="true" />
             by The Layman Legion

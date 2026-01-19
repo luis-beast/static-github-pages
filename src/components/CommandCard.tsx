@@ -199,7 +199,7 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
                 )}
               </div>
 
-              <p className="text-secondary-foreground/80 text-sm leading-relaxed">{command.description}</p>
+              <p className="text-secondary-foreground/80 text-base leading-relaxed">{command.description}</p>
 
               {(command.massCompatible || (command.commandGroups && command.commandGroups.filter((g) => g).length > 0)) && (
                 <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-border/20">
