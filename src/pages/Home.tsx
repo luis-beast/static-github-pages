@@ -1,10 +1,8 @@
 import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
-import RulesSection from "@/components/home/RulesSection";
 import SocialsSection from "@/components/home/SocialsSection";
-import ScheduleSection from "@/components/home/ScheduleSection";
-import SetupSection from "@/components/home/SetupSection";
-import MerchSection from "@/components/home/MerchSection";
+import FeaturesSection from "@/components/home/FeaturesSection";
+import InfoSection from "@/components/home/InfoSection";
 
 const Home = () => {
   return (
@@ -14,11 +12,9 @@ const Home = () => {
       </div>
       <HeroSection />
       <AboutSection />
-      <RulesSection />
       <SocialsSection />
-      <ScheduleSection />
-      <SetupSection />
-      <MerchSection />
+      <FeaturesSection />
+      <InfoSection />
     </div>
   );
 };
