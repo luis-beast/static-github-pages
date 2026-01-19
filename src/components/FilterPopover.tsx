@@ -3,6 +3,7 @@ import { Filter, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { APP_BUTTON_BASE, APP_BUTTON_DEFAULT, APP_BUTTON_ACTIVE } from "@/lib/buttonStyles";
 
 interface FilterSection<T extends string> {
   label: string;
@@ -33,10 +34,10 @@ const FilterPopover = memo(function FilterPopover({
           variant="outline"
           size="sm"
           className={cn(
-            "h-10 px-4 gap-2 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]",
-            totalSelected > 0
-              ? "bg-primary/10 border-primary/30 text-foreground hover:bg-primary/20"
-              : "bg-secondary/50 border-border/50 text-muted-foreground hover:bg-secondary"
+            "h-10 px-4 gap-2",
+            APP_BUTTON_BASE,
+            totalSelected > 0 ? APP_BUTTON_ACTIVE : APP_BUTTON_DEFAULT,
+            totalSelected === 0 && "text-muted-foreground"
           )}
         >
           <Filter className="w-4 h-4" />
@@ -66,7 +67,11 @@ const FilterPopover = memo(function FilterPopover({
                 {section.selectedItems.length >= (section.clearThreshold ?? 3) && (
                   <button
                     onClick={section.onClearAll}
-                    className="text-muted-foreground hover:text-foreground hover:bg-destructive/10 px-2.5 py-1 text-xs rounded-lg cursor-pointer transition-colors"
+                    className={cn(
+                      "px-2.5 py-1 text-xs cursor-pointer text-muted-foreground hover:text-foreground",
+                      APP_BUTTON_BASE,
+                      "hover:bg-destructive/10 hover:border-destructive/30 border-transparent"
+                    )}
                   >
                     Clear
                   </button>

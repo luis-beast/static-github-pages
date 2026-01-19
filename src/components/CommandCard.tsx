@@ -52,10 +52,10 @@ const CopyButton = memo(function CopyButton({ text }: CopyButtonProps) {
   return (
     <motion.button
       onClick={handleCopy}
-      className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"
+      className="inline-flex items-center justify-center w-8 h-8 rounded-xl border border-border/50 bg-secondary/50 hover:bg-primary/20 hover:border-primary/30 transition-all duration-200 text-muted-foreground hover:text-foreground"
       title="Copy command"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      whileHover={{ scale: 1.02 }}
+      whileTap={{ scale: 0.98 }}
     >
       <AnimatePresence mode="wait">
         {copied ? (
@@ -220,7 +220,7 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
 
             {canExpand && (
               <motion.div
-                className="flex-shrink-0 w-8 h-8 rounded-lg bg-secondary/50 flex items-center justify-center text-muted-foreground"
+                className="flex-shrink-0 w-8 h-8 rounded-xl border border-border/50 bg-secondary/50 flex items-center justify-center text-muted-foreground"
                 animate={{ rotate: isFocused ? 180 : 0 }}
                 transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
               >

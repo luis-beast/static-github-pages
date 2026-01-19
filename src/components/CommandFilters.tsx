@@ -7,6 +7,7 @@ import PermissionBadge from "@/components/PermissionBadge";
 import TagBadge from "@/components/TagBadge";
 import FilterPopover from "@/components/FilterPopover";
 import { cn } from "@/lib/utils";
+import { APP_BUTTON_BASE, APP_BUTTON_DEFAULT, APP_BUTTON_ACTIVE } from "@/lib/buttonStyles";
 
 export type AlphabeticalOrder = "asc" | "desc";
 export type RoleSort = "off" | "asc" | "desc";
@@ -124,7 +125,7 @@ const CommandFilters = memo(function CommandFilters({
                   variant="outline"
                   size="sm"
                   onClick={onAlphabeticalToggle}
-                  className="h-10 px-4 bg-primary/10 border-primary/30 text-foreground hover:bg-primary/20 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                  className={cn("h-10 px-4", APP_BUTTON_BASE, APP_BUTTON_ACTIVE)}
                 >
                   {alphabeticalOrder === "asc" ? (
                     <ArrowDownAZ className="w-4 h-4 mr-2" />
@@ -139,10 +140,10 @@ const CommandFilters = memo(function CommandFilters({
                   size="sm"
                   onClick={onRoleSortCycle}
                   className={cn(
-                    "h-10 px-4 rounded-xl transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]",
-                    roleSort === "off"
-                      ? "bg-secondary/50 border-border/50 text-muted-foreground hover:bg-secondary"
-                      : "bg-primary/10 border-primary/30 text-foreground hover:bg-primary/20"
+                    "h-10 px-4",
+                    APP_BUTTON_BASE,
+                    roleSort === "off" ? APP_BUTTON_DEFAULT : APP_BUTTON_ACTIVE,
+                    roleSort === "off" && "text-muted-foreground"
                   )}
                 >
                   {roleSort === "off" ? (
