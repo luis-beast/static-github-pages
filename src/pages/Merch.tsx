@@ -34,7 +34,6 @@ const Merch = memo(function Merch() {
         </div>
       </section>
 
-      {/* Coming Soon Section */}
       <section className="py-32 px-6">
         <div className="max-w-2xl mx-auto text-center">
           <ScrollRevealSection>
@@ -49,8 +48,7 @@ const Merch = memo(function Merch() {
 
           <ScrollRevealSection delay={0.2}>
             <p className="text-lg text-muted-foreground mb-8">
-              We're cooking up something special. Apparel, accessories, and more — all designed with the Layman Legion
-              in mind.
+              We're cooking up something special. Clothes, accessories, and more! All designed by the Layman Legion.
             </p>
           </ScrollRevealSection>
 
