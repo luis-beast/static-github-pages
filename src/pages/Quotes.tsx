@@ -24,7 +24,7 @@ const Quotes = memo(function Quotes() {
   const toggleGame = useCallback(
     (game: string) =>
       setSelectedGames((prev) => (prev.includes(game) ? prev.filter((g) => g !== game) : [...prev, game])),
-    []
+    [],
   );
 
   const clearGames = useCallback(() => setSelectedGames([]), []);
@@ -43,7 +43,7 @@ const Quotes = memo(function Quotes() {
           quote.quote.toLowerCase().includes(query) ||
           quote.game.toLowerCase().includes(query) ||
           quote.timestamp.toLowerCase().includes(query) ||
-          quote.number.toString().includes(query)
+          quote.number.toString().includes(query),
       );
     }
 
@@ -65,7 +65,7 @@ const Quotes = memo(function Quotes() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, delay: 0.1, ease: EASING.smooth }}
           >
-            <GradientText gradient="louie">Quotes</GradientText>
+            <GradientText gradient="louie">The Quotes</GradientText>
           </motion.h1>
           <motion.p
             className="text-xl md:text-2xl text-muted-foreground max-w-md mx-auto font-light"
@@ -98,7 +98,7 @@ const Quotes = memo(function Quotes() {
                   className="pl-12 h-12 w-full bg-secondary/50 border-0 rounded-xl text-base placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/30 transition-all"
                 />
               </div>
-              
+
               {/* Row 2: Popover buttons left, count right */}
               <div className="flex items-center justify-between pt-2 border-t border-border/30">
                 <div className="flex flex-wrap items-center gap-3">
@@ -121,7 +121,7 @@ const Quotes = memo(function Quotes() {
                     />
                   )}
                 </div>
-                
+
                 <div className="text-sm text-muted-foreground">
                   {filteredQuotes.length} quote{filteredQuotes.length !== 1 ? "s" : ""}
                 </div>
@@ -154,9 +154,7 @@ const Quotes = memo(function Quotes() {
                     scale: { duration: 0.2 },
                   }}
                 >
-                  <QuoteCard
-                    {...quote}
-                  />
+                  <QuoteCard {...quote} />
                 </motion.div>
               ))
             ) : (
