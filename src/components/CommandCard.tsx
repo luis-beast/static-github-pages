@@ -112,15 +112,20 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
     <motion.div
       className={`group relative h-full ${canExpand ? "cursor-pointer" : ""}`}
       onClick={handleCardClick}
-      whileHover={{ scale: isFocused ? 1 : canExpand ? 1.02 : 1.01 }}
+      whileHover={{ scale: isFocused ? 1 : canExpand ? 1.02 : 1 }}
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
     >
-      <div className={`absolute inset-0 bg-primary/5 rounded-2xl blur-xl transition-opacity duration-500 ${isFocused ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} />
+      {/* Glow effect - only for expandable cards */}
+      {canExpand && (
+        <div className={`absolute inset-0 bg-primary/5 rounded-2xl blur-xl transition-opacity duration-500 ${isFocused ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`} />
+      )}
 
-      <div className={`relative bg-card/40 backdrop-blur-xl rounded-2xl border overflow-hidden shadow-lg shadow-primary/5 transition-all duration-300 h-full flex flex-col ${
-        isFocused 
-          ? "border-primary/50 shadow-xl shadow-primary/20" 
-          : "border-border/50 group-hover:border-primary/30 group-hover:shadow-xl group-hover:shadow-primary/10"
+      <div className={`relative bg-card/40 backdrop-blur-xl rounded-2xl border overflow-hidden transition-all duration-300 h-full flex flex-col ${
+        canExpand
+          ? isFocused 
+            ? "border-primary/50 shadow-xl shadow-primary/20" 
+            : "border-primary/20 shadow-lg shadow-primary/5 group-hover:border-primary/40 group-hover:shadow-xl group-hover:shadow-primary/10"
+          : "border-border/30 shadow-md"
       }`}>
         <div className={cn("w-full p-5 text-left flex-1")}>
           <div className="flex items-start justify-between gap-4">
