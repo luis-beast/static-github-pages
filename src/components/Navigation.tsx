@@ -106,14 +106,14 @@ const Navigation = memo(function Navigation() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex relative items-center gap-1">
+          <nav className="hidden lg:flex relative items-center gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="group relative px-5 py-2.5 rounded-lg text-base font-medium transition-colors duration-200 overflow-hidden"
+                  className="group relative px-4 py-2.5 rounded-lg text-base font-medium transition-colors duration-200 overflow-hidden"
                 >
                   {/* Background layer with smooth opacity transition */}
                   <span 
@@ -143,7 +143,7 @@ const Navigation = memo(function Navigation() {
           {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden relative p-2 rounded-lg text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
+            className="lg:hidden relative p-2 rounded-lg text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
           >
@@ -182,7 +182,7 @@ const Navigation = memo(function Navigation() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: DURATION.normal, ease: EASING.snappy }}
-            className="md:hidden overflow-hidden bg-background/95 backdrop-blur-md border-b border-border/30"
+            className="lg:hidden overflow-hidden bg-background/95 backdrop-blur-md border-b border-border/30"
           >
             <nav className="container mx-auto px-4 py-4 flex flex-col items-end gap-1">
               {NAV_ITEMS.map((item, index) => {
