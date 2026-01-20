@@ -97,9 +97,9 @@ const SocialRow = memo(function SocialRow({ social, index, isReversed }: SocialR
         </div>
 
         {/* Content Side */}
-        <div className={`flex-1 text-center ${isReversed ? "md:text-right" : "md:text-left"}`}>
+        <div className={`flex-1 flex flex-col text-center ${isReversed ? "md:text-right md:items-end" : "md:text-left md:items-start"}`}>
           <h3 className="text-2xl md:text-3xl font-bold mb-3">{name}</h3>
-          <p className="text-muted-foreground text-lg mb-6 max-w-md mx-auto md:mx-0">
+          <p className={`text-muted-foreground text-lg mb-6 max-w-md ${isReversed ? "md:text-right" : "md:text-left"}`}>
             {description}
           </p>
           <a
@@ -119,7 +119,7 @@ const SocialRow = memo(function SocialRow({ social, index, isReversed }: SocialR
 
 const HomeSocialsSection = memo(function HomeSocialsSection() {
   return (
-    <section className="py-32 px-6">
+    <section className="py-24 px-6">
       <div className="max-w-5xl mx-auto">
         <ScrollRevealSection>
           <p className="text-xl md:text-2xl text-muted-foreground text-center mb-20 font-light max-w-2xl mx-auto">
