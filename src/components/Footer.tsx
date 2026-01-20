@@ -14,8 +14,8 @@ const Footer = memo(function Footer() {
     <motion.footer
       ref={footerRef}
       className="py-8 px-6 mt-auto"
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      initial={{ opacity: 0 }}
+      animate={isInView ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: DURATION.reveal, ease: EASING.smooth }}
     >
       <div className="container mx-auto">
