@@ -78,25 +78,12 @@ export const LayoutProvider = memo(function LayoutProvider({ children }: LayoutP
     window.addEventListener("scroll", handleScroll, { passive: true });
     window.addEventListener("resize", handleResize, { passive: true });
 
-    // Mutation observer for content changes
-    const mutationObserver = new MutationObserver(() => {
-      refreshScrollState();
-    });
-    
-    mutationObserver.observe(document.body, {
-      childList: true,
-      subtree: true,
-      attributes: false,
-      characterData: false,
-    });
-
     return () => {
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
       }
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
-      mutationObserver.disconnect();
     };
   }, [refreshScrollState, updateScrollState]);
 

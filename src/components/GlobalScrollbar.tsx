@@ -1,5 +1,5 @@
-import { useState, memo, useCallback, useRef } from "react";
-import { motion, useSpring, useMotionValue } from "framer-motion";
+import { useState, memo, useCallback, useRef, useEffect } from "react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useLayout } from "@/contexts/LayoutContext";
 
@@ -15,8 +15,8 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
   const scrollTimeoutRef = useRef<number>();
   const lastScrollY = useRef(scrollY);
 
-  // Calculate thumb dimensions
-  const visibleRatio = viewportHeight / scrollHeight;
+  // Calculate thumb dimensions directly (no springs to avoid layout shifts)
+  const visibleRatio = scrollHeight > 0 ? viewportHeight / scrollHeight : 1;
   const thumbHeightValue = canScroll 
     ? Math.max(MIN_THUMB_HEIGHT, viewportHeight * visibleRatio) 
     : 0;
@@ -26,29 +26,26 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
   const scrollProgress = scrollableDistance > 0 ? scrollY / scrollableDistance : 0;
   const thumbTopValue = scrollProgress * thumbTrackSpace;
 
-  // Animated values
-  const thumbHeight = useMotionValue(thumbHeightValue);
-  const thumbTop = useMotionValue(thumbTopValue);
-  const animatedThumbHeight = useSpring(thumbHeight, { stiffness: 300, damping: 30 });
-  const animatedThumbTop = useSpring(thumbTop, { stiffness: 300, damping: 30 });
-
-  // Update motion values when scroll state changes
-  thumbHeight.set(thumbHeightValue);
-  thumbTop.set(thumbTopValue);
-
   // Detect scrolling for visibility
-  if (scrollY !== lastScrollY.current) {
-    lastScrollY.current = scrollY;
-    if (!isScrolling) {
+  useEffect(() => {
+    if (scrollY !== lastScrollY.current) {
+      lastScrollY.current = scrollY;
       setIsScrolling(true);
+      
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        setIsScrolling(false);
+      }, SCROLL_HIDE_DELAY);
     }
-    if (scrollTimeoutRef.current) {
-      window.clearTimeout(scrollTimeoutRef.current);
-    }
-    scrollTimeoutRef.current = window.setTimeout(() => {
-      setIsScrolling(false);
-    }, SCROLL_HIDE_DELAY);
-  }
+    
+    return () => {
+      if (scrollTimeoutRef.current) {
+        window.clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, [scrollY]);
 
   const handleThumbDrag = useCallback(
     (e: React.MouseEvent) => {
@@ -92,16 +89,16 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
           "absolute right-0.5 w-2 rounded-full pointer-events-auto cursor-grab active:cursor-grabbing"
         )}
         style={{ 
-          height: animatedThumbHeight, 
-          top: animatedThumbTop,
+          height: thumbHeightValue, 
+          top: thumbTopValue,
           background: "var(--gradient-scrollbar)",
         }}
-        initial={{ opacity: 0 }}
+        initial={{ opacity: 0.4 }}
         animate={{
           opacity: canScroll ? (isThumbVisible ? 1 : 0.4) : 0,
           scale: isDragging ? 1.1 : isHovering ? 1.05 : 1,
         }}
-        transition={{ opacity: { duration: 0.3 }, scale: { duration: 0.15 } }}
+        transition={{ opacity: { duration: 0.2 }, scale: { duration: 0.1 } }}
         onMouseDown={handleThumbDrag}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
