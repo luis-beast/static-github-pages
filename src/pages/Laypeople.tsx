@@ -10,7 +10,7 @@ import CommunitySpotlightsSection from "@/components/community/CommunitySpotligh
 import JoinCommunitySection from "@/components/community/JoinCommunitySection";
 
 const Laypeople = memo(function Laypeople() {
-  usePageTitle("The Laypeople");
+  usePageTitle("Laypeople");
 
   return (
     <PageWrapper>

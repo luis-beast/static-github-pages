@@ -22,7 +22,7 @@ export const NAV_ITEMS = [
   { path: "/content", label: "Content" },
   { path: "/streams", label: "Streams" },
   { path: "/music", label: "Music" },
-  { path: "/laypeople", label: "The Laypeople" },
+  { path: "/laypeople", label: "Laypeople" },
   { path: "/merch", label: "Merch" },
   { path: "/quotes", label: "Quotes" },
   { path: "/commands", label: "Commands" },
