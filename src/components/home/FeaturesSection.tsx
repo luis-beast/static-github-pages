@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Tv, ShoppingBag, MessageSquareQuote, Terminal, ArrowRight, Radio } from "lucide-react";
 import ScrollRevealSection from "./ScrollRevealSection";
-import { siteConfig } from "@/config/siteConfig";
+import { useFeaturedPages } from "@/hooks/usePageAccess";
 
 interface Feature {
-  key: keyof typeof siteConfig.features;
+  id: string;
   title: string;
   description: string;
   icon: typeof Tv;
@@ -14,9 +14,10 @@ interface Feature {
   gradient: string;
 }
 
+// All possible features - visibility controlled by accessConfig
 const ALL_FEATURES: Feature[] = [
   {
-    key: "content",
+    id: "content",
     title: "The Content",
     description: "Check out the socials, clips, and the latest announcements from the stream.",
     icon: Tv,
@@ -24,7 +25,7 @@ const ALL_FEATURES: Feature[] = [
     gradient: "from-purple-500/20 to-pink-500/20",
   },
   {
-    key: "streams",
+    id: "streams",
     title: "The Streams",
     description: "Everything about the streams — schedule, rules, games, setup, and where to watch.",
     icon: Radio,
@@ -32,7 +33,7 @@ const ALL_FEATURES: Feature[] = [
     gradient: "from-rose-500/20 to-red-500/20",
   },
   {
-    key: "merch",
+    id: "merch",
     title: "The Merch",
     description: "Rep the Layman Legion with official merchandise. Apparel, accessories, and more coming soon.",
     icon: ShoppingBag,
@@ -40,7 +41,7 @@ const ALL_FEATURES: Feature[] = [
     gradient: "from-amber-500/20 to-orange-500/20",
   },
   {
-    key: "quotes",
+    id: "quotes",
     title: "The Quotes",
     description: "A collection of the most memorable, hilarious, and questionable things said on stream.",
     icon: MessageSquareQuote,
@@ -48,7 +49,7 @@ const ALL_FEATURES: Feature[] = [
     gradient: "from-cyan-500/20 to-blue-500/20",
   },
   {
-    key: "commands",
+    id: "commands",
     title: "The Commands",
     description: "All the chat commands you need to interact with the stream. From fun to functional.",
     icon: Terminal,
@@ -102,10 +103,13 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
 });
 
 const FeaturesSection = memo(function FeaturesSection() {
-  // Filter features based on visibility config
+  // Get featured page IDs from access config (respects user role)
+  const featuredPageIds = useFeaturedPages();
+  
+  // Filter features based on access control
   const visibleFeatures = useMemo(() => 
-    ALL_FEATURES.filter(feature => siteConfig.features[feature.key]),
-    []
+    ALL_FEATURES.filter(feature => featuredPageIds.includes(feature.id)),
+    [featuredPageIds]
   );
 
   if (visibleFeatures.length === 0) return null;
