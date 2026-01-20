@@ -39,6 +39,16 @@ export const siteConfig = {
     primary: "twitch",
     platforms: ["twitch", "youtube", "kick"],
   },
+
+  // Feature visibility flags (for homepage FeaturesSection)
+  // Set to false to hide a feature from the homepage
+  features: {
+    content: true,
+    streams: true,
+    merch: false, // Hidden until merch is available
+    quotes: true,
+    commands: true,
+  },
 } as const;
 
 export type SiteConfig = typeof siteConfig;

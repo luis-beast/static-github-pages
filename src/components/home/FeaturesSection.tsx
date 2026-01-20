@@ -1,10 +1,12 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Tv, ShoppingBag, MessageSquareQuote, Terminal, ArrowRight } from "lucide-react";
+import { Tv, ShoppingBag, MessageSquareQuote, Terminal, ArrowRight, Radio } from "lucide-react";
 import ScrollRevealSection from "./ScrollRevealSection";
+import { siteConfig } from "@/config/siteConfig";
 
 interface Feature {
+  key: keyof typeof siteConfig.features;
   title: string;
   description: string;
   icon: typeof Tv;
@@ -12,15 +14,25 @@ interface Feature {
   gradient: string;
 }
 
-const FEATURES: Feature[] = [
+const ALL_FEATURES: Feature[] = [
   {
+    key: "content",
     title: "The Content",
-    description: "Check out the stream schedule, community rules, what games I play, and the setup that makes it all happen.",
+    description: "Check out the socials, clips, and the latest announcements from the stream.",
     icon: Tv,
     path: "/content",
     gradient: "from-purple-500/20 to-pink-500/20",
   },
   {
+    key: "streams",
+    title: "The Streams",
+    description: "Everything about the streams — schedule, rules, games, setup, and where to watch.",
+    icon: Radio,
+    path: "/streams",
+    gradient: "from-rose-500/20 to-red-500/20",
+  },
+  {
+    key: "merch",
     title: "The Merch",
     description: "Rep the Layman Legion with official merchandise. Apparel, accessories, and more coming soon.",
     icon: ShoppingBag,
@@ -28,6 +40,7 @@ const FEATURES: Feature[] = [
     gradient: "from-amber-500/20 to-orange-500/20",
   },
   {
+    key: "quotes",
     title: "The Quotes",
     description: "A collection of the most memorable, hilarious, and questionable things said on stream.",
     icon: MessageSquareQuote,
@@ -35,6 +48,7 @@ const FEATURES: Feature[] = [
     gradient: "from-cyan-500/20 to-blue-500/20",
   },
   {
+    key: "commands",
     title: "The Commands",
     description: "All the chat commands you need to interact with the stream. From fun to functional.",
     icon: Terminal,
@@ -88,6 +102,14 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
 });
 
 const FeaturesSection = memo(function FeaturesSection() {
+  // Filter features based on visibility config
+  const visibleFeatures = useMemo(() => 
+    ALL_FEATURES.filter(feature => siteConfig.features[feature.key]),
+    []
+  );
+
+  if (visibleFeatures.length === 0) return null;
+
   return (
     <section className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
@@ -98,7 +120,7 @@ const FeaturesSection = memo(function FeaturesSection() {
         </ScrollRevealSection>
 
         <div className="space-y-24 md:space-y-32">
-          {FEATURES.map((feature, index) => (
+          {visibleFeatures.map((feature, index) => (
             <FeatureCard
               key={feature.path}
               feature={feature}
