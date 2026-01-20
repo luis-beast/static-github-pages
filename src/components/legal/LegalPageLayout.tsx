@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
 import PageWrapper from "@/components/PageWrapper";
+import LegalNavigation from "./LegalNavigation";
 
 interface LegalPageLayoutProps {
   title: string;
@@ -41,8 +42,11 @@ const LegalPageLayout = memo(function LegalPageLayout({
 
       {/* Content */}
       <section className="py-12 px-6">
-        <div className="max-w-3xl mx-auto space-y-12">
-          {children}
+        <div className="max-w-3xl mx-auto">
+          <div className="space-y-12">
+            {children}
+          </div>
+          <LegalNavigation />
         </div>
       </section>
     </PageWrapper>
