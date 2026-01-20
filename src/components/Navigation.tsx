@@ -184,7 +184,7 @@ const Navigation = memo(function Navigation() {
             transition={{ duration: DURATION.normal, ease: EASING.snappy }}
             className="md:hidden overflow-hidden bg-background/95 backdrop-blur-md border-b border-border/30"
           >
-            <nav className="container mx-auto px-4 py-4 flex flex-col gap-1">
+            <nav className="container mx-auto px-4 py-4 flex flex-col items-end gap-1">
               {NAV_ITEMS.map((item, index) => {
                 const isActive = location.pathname === item.path;
                 return (
