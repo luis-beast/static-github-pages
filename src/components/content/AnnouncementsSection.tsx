@@ -19,13 +19,13 @@ const AnnouncementsSection = memo(function AnnouncementsSection() {
     <section className="py-24 px-6 relative">
       <div className="max-w-3xl mx-auto">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-center mb-4 sm:mb-6">
             Announcements
           </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
-          <p className="text-xl text-muted-foreground text-center mb-12 font-light">
+          <p className="text-lg sm:text-xl text-muted-foreground text-center mb-8 sm:mb-12 font-light">
             News, milestones, and updates
           </p>
         </ScrollRevealSection>

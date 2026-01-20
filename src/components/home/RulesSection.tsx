@@ -15,27 +15,27 @@ const RulesSection = memo(function RulesSection() {
     <section className="py-32 px-6 relative">
       <div className="max-w-4xl mx-auto relative">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-center mb-4 sm:mb-6">
             The Rules
           </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
-          <p className="text-xl text-muted-foreground text-center mb-16 font-light">
+          <p className="text-lg sm:text-xl text-muted-foreground text-center mb-10 sm:mb-12 lg:mb-16 font-light">
             We keep things <span className="text-foreground">friendly</span>,{" "}
             <span className="text-foreground">respectful</span>, and{" "}
             <span className="text-foreground">cozy</span> for everyone.
           </p>
         </ScrollRevealSection>
 
-        <ul className="grid gap-4 max-w-2xl mx-auto" role="list">
+        <ul className="grid gap-3 sm:gap-4 max-w-2xl mx-auto" role="list">
           {RULES.map((rule, index) => (
             <ScrollRevealSection key={rule} delay={0.15 + index * 0.05}>
-              <li className="flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-r from-muted/15 to-transparent border border-border/20 backdrop-blur-sm transition-all duration-300 hover:border-border/40">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full bg-primary/10 border border-primary/20" aria-hidden="true">
-                  <Heart className="w-5 h-5 text-primary" />
+              <li className="flex items-center gap-3 sm:gap-4 p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-gradient-to-r from-muted/15 to-transparent border border-border/20 backdrop-blur-sm transition-all duration-300 hover:border-border/40">
+                <div className="flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/10 border border-primary/20 shrink-0" aria-hidden="true">
+                  <Heart className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                 </div>
-                <span className="text-lg font-medium">{rule}</span>
+                <span className="text-base sm:text-lg font-medium">{rule}</span>
               </li>
             </ScrollRevealSection>
           ))}

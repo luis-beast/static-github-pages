@@ -32,13 +32,13 @@ const EmoteShowcaseSection = memo(function EmoteShowcaseSection() {
     <section className="py-24 px-6 relative">
       <div className="max-w-4xl mx-auto">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-center mb-4 sm:mb-6">
             The Emotes
           </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
-          <p className="text-xl text-muted-foreground text-center mb-12 font-light">
+          <p className="text-lg sm:text-xl text-muted-foreground text-center mb-8 sm:mb-12 font-light">
             Express yourself with these channel emotes
           </p>
         </ScrollRevealSection>
@@ -57,7 +57,7 @@ const EmoteShowcaseSection = memo(function EmoteShowcaseSection() {
         </ScrollRevealSection>
 
         {/* Category cards for future use */}
-        <div className="grid md:grid-cols-3 gap-4 mt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-8">
           {EMOTE_CATEGORIES.map((category, index) => (
             <ScrollRevealSection key={category.name} delay={0.25 + index * 0.05}>
               <div className="p-6 rounded-2xl bg-gradient-to-br from-muted/15 to-transparent border border-border/20 backdrop-blur-sm text-center">

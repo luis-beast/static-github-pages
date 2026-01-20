@@ -147,7 +147,7 @@ const Commands = memo(function Commands() {
 
         <motion.div
           ref={gridRef}
-          className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch"
+          className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.4 }}
@@ -164,7 +164,7 @@ const Commands = memo(function Commands() {
                     key={command.id}
                     layout
                     layoutId={`command-${command.id}`}
-                    className={`${isFocused ? "md:col-span-2" : ""} h-full`}
+                    className={`${isFocused ? "lg:col-span-2" : ""} h-full`}
                     initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.98 }}
@@ -189,7 +189,7 @@ const Commands = memo(function Commands() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="md:col-span-2 text-center py-20"
+                className="lg:col-span-2 text-center py-20"
               >
                 <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
                   <Search className="w-8 h-8 text-muted-foreground/50" />

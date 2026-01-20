@@ -58,13 +58,13 @@ const GamesSection = memo(function GamesSection() {
     <section className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-center mb-4 sm:mb-6">
             The Games
           </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
-          <p className="text-xl text-muted-foreground text-center mb-12 font-light">
+          <p className="text-lg sm:text-xl text-muted-foreground text-center mb-8 sm:mb-12 font-light">
             What I play, what I've played, and what I want to play.
           </p>
         </ScrollRevealSection>
@@ -75,18 +75,24 @@ const GamesSection = memo(function GamesSection() {
             {CATEGORY_ORDER.map((category) => {
               const { label, icon: Icon } = GAME_CATEGORIES[category];
               const isActive = activeCategory === category;
+              // Short labels for narrow screens
+              const shortLabel = category === "current" ? "Now" 
+                : category === "played" ? "Past" 
+                : category === "wishlist" ? "Next" 
+                : "Faves";
 
               return (
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
-                  className={`flex items-center gap-2 px-5 py-3 rounded-xl font-medium transition-all duration-200 ${
+                  className={`flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 lg:px-5 py-2.5 sm:py-3 rounded-xl font-medium transition-all duration-200 text-sm sm:text-base ${
                     isActive
                       ? "bg-primary/20 text-primary border border-primary/30"
                       : "bg-muted/20 text-muted-foreground border border-border/20 hover:border-border/40 hover:bg-muted/30"
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-4 h-4 shrink-0" />
+                  <span className="sm:hidden">{shortLabel}</span>
                   <span className="hidden sm:inline">{label}</span>
                 </button>
               );

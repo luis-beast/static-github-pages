@@ -33,18 +33,18 @@ const StreamPlaylistsSection = memo(function StreamPlaylistsSection() {
     <section className="py-24 px-6 relative">
       <div className="max-w-4xl mx-auto">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-center mb-4 sm:mb-6">
             Stream Playlists
           </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
-          <p className="text-xl text-muted-foreground text-center mb-12 font-light">
+          <p className="text-lg sm:text-xl text-muted-foreground text-center mb-8 sm:mb-12 font-light">
             The music that keeps the streams going
           </p>
         </ScrollRevealSection>
 
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           {STREAM_PLAYLISTS.map((playlist, index) => (
             <ScrollRevealSection key={playlist.name} delay={0.15 + index * 0.05}>
               <a
