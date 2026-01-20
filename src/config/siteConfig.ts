@@ -4,6 +4,8 @@
  * This is the centralized configuration for the entire site.
  * In the future, this will be replaced with database-driven values
  * to support multi-tenant streamer sites.
+ * 
+ * NOTE: Page visibility/access control is now handled by accessConfig.ts
  */
 
 export const siteConfig = {
@@ -38,16 +40,6 @@ export const siteConfig = {
   streamingPlatforms: {
     primary: "twitch",
     platforms: ["twitch", "youtube", "kick"],
-  },
-
-  // Feature visibility flags (for homepage FeaturesSection)
-  // Set to false to hide a feature from the homepage
-  features: {
-    content: true,
-    streams: true,
-    merch: false, // Hidden until merch is available
-    quotes: true,
-    commands: true,
   },
 } as const;
 

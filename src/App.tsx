@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { KNOWN_ROUTES } from "@/lib/constants";
 import { LayoutProvider } from "@/contexts/LayoutContext";
+import { AuthProvider } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Home from "./pages/Home";
 import Content from "./pages/Content";
 import Streams from "./pages/Streams";
@@ -39,16 +41,56 @@ const AppRoutes = memo(function AppRoutes() {
         <AnimatePresence mode="wait">
           <Routes location={location} key={pathname}>
             <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-            <Route path="/content" element={<PageWrapper><Content /></PageWrapper>} />
-            <Route path="/streams" element={<PageWrapper><Streams /></PageWrapper>} />
-            <Route path="/music" element={<PageWrapper><Music /></PageWrapper>} />
-            <Route path="/laypeople" element={<PageWrapper><Laypeople /></PageWrapper>} />
-            <Route path="/merch" element={<PageWrapper><Merch /></PageWrapper>} />
-            <Route path="/quotes" element={<PageWrapper><Quotes /></PageWrapper>} />
-            <Route path="/commands" element={<PageWrapper><Commands /></PageWrapper>} />
-            <Route path="/privacy-policy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
-            <Route path="/terms-of-use" element={<PageWrapper><TermsOfUse /></PageWrapper>} />
-            <Route path="/sales-and-refunds" element={<PageWrapper><SalesAndRefunds /></PageWrapper>} />
+            <Route path="/content" element={
+              <ProtectedRoute pageId="content">
+                <PageWrapper><Content /></PageWrapper>
+              </ProtectedRoute>
+            } />
+            <Route path="/streams" element={
+              <ProtectedRoute pageId="streams">
+                <PageWrapper><Streams /></PageWrapper>
+              </ProtectedRoute>
+            } />
+            <Route path="/music" element={
+              <ProtectedRoute pageId="music">
+                <PageWrapper><Music /></PageWrapper>
+              </ProtectedRoute>
+            } />
+            <Route path="/laypeople" element={
+              <ProtectedRoute pageId="laypeople">
+                <PageWrapper><Laypeople /></PageWrapper>
+              </ProtectedRoute>
+            } />
+            <Route path="/merch" element={
+              <ProtectedRoute pageId="merch">
+                <PageWrapper><Merch /></PageWrapper>
+              </ProtectedRoute>
+            } />
+            <Route path="/quotes" element={
+              <ProtectedRoute pageId="quotes">
+                <PageWrapper><Quotes /></PageWrapper>
+              </ProtectedRoute>
+            } />
+            <Route path="/commands" element={
+              <ProtectedRoute pageId="commands">
+                <PageWrapper><Commands /></PageWrapper>
+              </ProtectedRoute>
+            } />
+            <Route path="/privacy-policy" element={
+              <ProtectedRoute pageId="privacy-policy">
+                <PageWrapper><PrivacyPolicy /></PageWrapper>
+              </ProtectedRoute>
+            } />
+            <Route path="/terms-of-use" element={
+              <ProtectedRoute pageId="terms-of-use">
+                <PageWrapper><TermsOfUse /></PageWrapper>
+              </ProtectedRoute>
+            } />
+            <Route path="/sales-and-refunds" element={
+              <ProtectedRoute pageId="sales-and-refunds">
+                <PageWrapper><SalesAndRefunds /></PageWrapper>
+              </ProtectedRoute>
+            } />
             <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
           </Routes>
         </AnimatePresence>
@@ -61,10 +103,12 @@ const AppRoutes = memo(function AppRoutes() {
 
 const AppContent = memo(function AppContent() {
   return (
-    <LayoutProvider>
-      <GlobalScrollbar />
-      <AppRoutes />
-    </LayoutProvider>
+    <AuthProvider>
+      <LayoutProvider>
+        <GlobalScrollbar />
+        <AppRoutes />
+      </LayoutProvider>
+    </AuthProvider>
   );
 });
 
