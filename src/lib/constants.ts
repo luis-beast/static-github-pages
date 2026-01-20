@@ -27,6 +27,10 @@ export const NAV_ITEMS = [
 
 export const FOOTER_NAV_LINKS = [
   { label: "Home", path: "/" },
+  { label: "Content", path: "/content" },
+  { label: "Merch", path: "/merch" },
+  { label: "Quotes", path: "/quotes" },
+  { label: "Commands", path: "/commands" },
 ] as const;
 
 export const FOOTER_LEGAL_LINKS = [

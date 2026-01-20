@@ -1,6 +1,8 @@
 import { memo, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { NAV_ITEMS } from "@/lib/constants";
+import { Menu, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { NAV_ITEMS, DURATION, EASING } from "@/lib/constants";
 import { useIsScrolled } from "@/contexts/LayoutContext";
 import { BrandName } from "@/components/ui/GradientText";
 import avatarClear from "@/assets/avatar-clear.png";
@@ -9,10 +11,16 @@ const Navigation = memo(function Navigation() {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
   const isScrolled = useIsScrolled();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   
   // Track animation sequence: background fades first, then text appears
   const [showText, setShowText] = useState(!isHomePage);
   const [bgVisible, setBgVisible] = useState(isHomePage);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
   useEffect(() => {
     if (isHomePage) {
@@ -32,10 +40,22 @@ const Navigation = memo(function Navigation() {
     }
   }, [isHomePage]);
 
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileMenuOpen]);
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
-        isScrolled
+        isScrolled || mobileMenuOpen
           ? "bg-background/80 backdrop-blur-md border-b border-border/30"
           : "bg-transparent"
       }`}
@@ -85,7 +105,8 @@ const Navigation = memo(function Navigation() {
             </div>
           </Link>
 
-          <nav className="relative flex items-center gap-1">
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex relative items-center gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -118,8 +139,79 @@ const Navigation = memo(function Navigation() {
               );
             })}
           </nav>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden relative p-2 rounded-lg text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+          >
+            <AnimatePresence mode="wait" initial={false}>
+              {mobileMenuOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ opacity: 0, rotate: -90 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: 90 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <X className="w-6 h-6" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ opacity: 0, rotate: 90 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: -90 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Menu className="w-6 h-6" />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </button>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: DURATION.normal, ease: EASING.snappy }}
+            className="md:hidden overflow-hidden bg-background/95 backdrop-blur-md border-b border-border/30"
+          >
+            <nav className="container mx-auto px-4 py-4 flex flex-col gap-1">
+              {NAV_ITEMS.map((item, index) => {
+                const isActive = location.pathname === item.path;
+                return (
+                  <motion.div
+                    key={item.path}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    transition={{ duration: 0.2, delay: index * 0.05 }}
+                  >
+                    <Link
+                      to={item.path}
+                      className={`block px-4 py-3 rounded-lg text-base font-medium transition-all duration-200 ${
+                        isActive
+                          ? "bg-gradient-to-r from-[#8800FF] to-[#220033] text-white"
+                          : "text-muted-foreground hover:text-white hover:bg-white/10"
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  </motion.div>
+                );
+              })}
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 });
