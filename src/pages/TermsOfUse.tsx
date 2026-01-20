@@ -25,7 +25,7 @@ const TermsOfUse = memo(function TermsOfUse() {
           The Layman's World is a community-driven platform created and guided by The Layman, with moderation and support provided by the Layman Legion.
         </LegalText>
         <LegalText>
-          When we say "Layman," "we," "us," or "our," we mean The Layman and the Layman Legion—the operator and moderators behind The Layman's World.
+          When we say "Layman," "we," "us," or "our," we mean The Layman and the Layman Legion: the operator and moderators behind The Layman's World.
         </LegalText>
         <LegalText>
           Members of the community are known as the <span className="text-foreground font-medium">Laypeople</span>.
@@ -117,7 +117,7 @@ const TermsOfUse = memo(function TermsOfUse() {
           <li>Use the Service to cheat, scam, or manipulate platform economies</li>
         </LegalList>
         <LegalText emphasis>
-          In Layman terms: good vibes only—don't be weird with it.
+          In Layman terms: good vibes only. Don't be weird with it.
         </LegalText>
       </LegalSection>
 

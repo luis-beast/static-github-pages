@@ -1,45 +1,38 @@
 import { memo } from "react";
-import { ChevronDown } from "lucide-react";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import ScrollRevealSection from "./ScrollRevealSection";
 
 interface InfoItem {
-  question: string;
-  answer: string;
+  title: string;
+  content: string;
 }
 
 const INFO_ITEMS: InfoItem[] = [
   {
-    question: "Who is Layman Louie?",
-    answer: "Just a guy who loves gaming, vibing with chat, and building a chill community. I stream a variety of games — from competitive to cozy — and the goal is always to have a good time together.",
+    title: "Who Am I?",
+    content: "I'm Louie, a content creator who found his passion in building genuine connections through gaming and community. What started as a hobby turned into something I truly care about.",
   },
   {
-    question: "What's the stream schedule like?",
-    answer: "I stream regularly on Fridays, Saturdays, and Sundays, with a surprise weekday stream thrown in! Check out the Content page for the full schedule and times.",
+    title: "Where I Come From",
+    content: "I grew up as a gamer at heart, always drawn to the social side of games. The friendships, the laughs, and the shared experiences are what kept me coming back.",
   },
   {
-    question: "How can I support the stream?",
-    answer: "Just being here is enough! But if you want to go the extra mile, following on Twitch, subscribing, or hanging out in the Discord all help grow the community. Merch is coming soon too!",
+    title: "Why I Do This",
+    content: "Creating content lets me be myself while bringing people together. There's something special about building a space where everyone feels welcome and can just be themselves.",
   },
   {
-    question: "Is there a Discord?",
-    answer: "Absolutely! The Layman Legion Discord is where the community hangs out between streams. It's a chill spot to chat, share memes, and connect with other Laypeople.",
+    title: "What Drives Me",
+    content: "I believe in keeping things real and accessible. No gatekeeping, no pretense. Just honest conversations and good times with good people.",
   },
   {
-    question: "What games do you play?",
-    answer: "A mix of everything! League of Legends, Valorant, and TFT are in the regular rotation, but I also love playing co-op games, horror games, and whatever catches my interest. Check the Content page for the full list!",
+    title: "The Goal",
+    content: "To build a community that feels like home. A place where people can hang out, laugh, and connect with others who share the same energy.",
   },
 ];
 
 const InfoSection = memo(function InfoSection() {
   return (
     <section className="py-32 px-6">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-4xl mx-auto">
         <ScrollRevealSection>
           <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
             Good to Know
@@ -48,29 +41,22 @@ const InfoSection = memo(function InfoSection() {
 
         <ScrollRevealSection delay={0.1}>
           <p className="text-xl text-muted-foreground text-center mb-16 font-light">
-            A few things you might be wondering about.
+            A little more about me and what this is all about.
           </p>
         </ScrollRevealSection>
 
-        <ScrollRevealSection delay={0.15}>
-          <Accordion type="single" collapsible className="space-y-3">
-            {INFO_ITEMS.map((item, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className="border border-border/20 rounded-2xl px-6 bg-gradient-to-r from-muted/10 to-transparent backdrop-blur-sm data-[state=open]:border-primary/20 transition-colors"
-              >
-                <AccordionTrigger className="text-left text-lg font-medium py-5 hover:no-underline [&[data-state=open]>svg]:rotate-180">
-                  {item.question}
-                  <ChevronDown className="h-5 w-5 shrink-0 text-muted-foreground transition-transform duration-200" />
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-5 text-base leading-relaxed">
-                  {item.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </ScrollRevealSection>
+        <div className="space-y-6">
+          {INFO_ITEMS.map((item, index) => (
+            <ScrollRevealSection key={index} delay={0.15 + index * 0.08}>
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-muted/10 to-transparent backdrop-blur-sm border border-border/10">
+                <h3 className="text-xl font-semibold mb-3">{item.title}</h3>
+                <p className="text-muted-foreground text-base leading-relaxed">
+                  {item.content}
+                </p>
+              </div>
+            </ScrollRevealSection>
+          ))}
+        </div>
       </div>
     </section>
   );

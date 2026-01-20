@@ -13,7 +13,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
       {/* Intro */}
       <LegalSection delay={0}>
         <LegalText>
-          Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your information when you use The Layman's World—whether through our website, app, or related services.
+          Your privacy is important to us. This Privacy Policy explains how we collect, use, and protect your information when you use The Layman's World, whether through our website, app, or related services.
         </LegalText>
         <LegalText emphasis>
           We aim to keep things clear, respectful, and transparent. No funny business.
@@ -26,7 +26,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
           The Layman's World is a community-driven platform created and guided by The Layman, with moderation and support provided by the Layman Legion.
         </LegalText>
         <LegalText>
-          When we say "Layman," "we," "us," or "our," we mean The Layman and the Layman Legion—the operator and moderators behind The Layman's World.
+          When we say "Layman," "we," "us," or "our," we mean The Layman and the Layman Legion: the operator and moderators behind The Layman's World.
         </LegalText>
         <LegalText>
           Members of the community are known as the <span className="text-foreground font-medium">Laypeople</span>.

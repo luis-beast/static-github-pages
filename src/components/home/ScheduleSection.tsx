@@ -60,7 +60,7 @@ const DayCard = memo(function DayCard({ item, index }: DayCardProps) {
             </p>
           </div>
         ) : (
-          <span className="text-muted-foreground/40 text-xs" aria-label="No stream">—</span>
+          <span className="text-muted-foreground/40 text-xs" aria-label="No stream">-</span>
         )}
       </div>
 

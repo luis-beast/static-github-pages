@@ -26,7 +26,7 @@ const SalesAndRefunds = memo(function SalesAndRefunds() {
           The Layman's World is a community-driven platform created and guided by The Layman, with moderation and support provided by the Layman Legion.
         </LegalText>
         <LegalText>
-          When we say "Layman," "we," "us," or "our," we mean The Layman and the Layman Legion—the operator and moderators behind The Layman's World.
+          When we say "Layman," "we," "us," or "our," we mean The Layman and the Layman Legion: the operator and moderators behind The Layman's World.
         </LegalText>
         <LegalText>
           Members of the community are known as the <span className="text-foreground font-medium">Laypeople</span>.
