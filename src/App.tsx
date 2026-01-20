@@ -20,7 +20,6 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import ScrollToTopButton from "./components/ScrollToTopButton";
 import GlobalScrollbar from "./components/GlobalScrollbar";
-import ScrollToTop from "./components/ScrollToTop";
 import PageWrapper from "./components/PageWrapper";
 
 const queryClient = new QueryClient();
@@ -58,7 +57,6 @@ const AppContent = memo(function AppContent() {
   return (
     <LayoutProvider>
       <GlobalScrollbar />
-      <ScrollToTop />
       <AppRoutes />
     </LayoutProvider>
   );
