@@ -2,6 +2,7 @@ import { memo } from "react";
 import { motion } from "framer-motion";
 import { DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
+import ContentSocialsSection from "@/components/content/ContentSocialsSection";
 import RulesSection from "@/components/home/RulesSection";
 import ScheduleSection from "@/components/home/ScheduleSection";
 import SetupSection from "@/components/home/SetupSection";
@@ -33,6 +34,7 @@ const Content = memo(function Content() {
         </div>
       </section>
 
+      <ContentSocialsSection />
       <GamesSection />
       <ScheduleSection />
       <RulesSection />
