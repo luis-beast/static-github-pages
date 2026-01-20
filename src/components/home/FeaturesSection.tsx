@@ -69,14 +69,14 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
         </div>
 
         {/* Content Side */}
-        <div className={`flex-1 text-center ${isReversed ? "md:text-right" : "md:text-left"}`}>
+        <div className={`flex-1 flex flex-col text-center ${isReversed ? "md:text-right md:items-end" : "md:text-left md:items-start"} items-center`}>
           <h3 className="text-2xl md:text-3xl font-bold mb-3">{title}</h3>
-          <p className="text-muted-foreground text-lg mb-6 max-w-md mx-auto md:mx-0">
+          <p className="text-muted-foreground text-lg mb-6 max-w-md">
             {description}
           </p>
           <Link
             to={path}
-            className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary/10 border border-primary/20 text-primary font-medium hover:bg-primary/20 hover:border-primary/30 transition-all duration-200 group`}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary/10 border border-primary/20 text-primary font-medium hover:bg-primary/20 hover:border-primary/30 transition-all duration-200 group"
           >
             Explore
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
