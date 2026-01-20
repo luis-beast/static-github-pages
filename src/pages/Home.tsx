@@ -1,10 +1,14 @@
+import { memo } from "react";
 import HeroSection from "@/components/home/HeroSection";
 import AboutSection from "@/components/home/AboutSection";
 import HomeSocialsSection from "@/components/home/HomeSocialsSection";
 import FeaturesSection from "@/components/home/FeaturesSection";
 import PageWrapper from "@/components/PageWrapper";
+import usePageTitle from "@/hooks/usePageTitle";
 
-const Home = () => {
+const Home = memo(function Home() {
+  usePageTitle(); // No page name = just streamer name
+
   return (
     <PageWrapper>
       <HeroSection />
@@ -13,6 +17,6 @@ const Home = () => {
       <FeaturesSection />
     </PageWrapper>
   );
-};
+});
 
 export default Home;

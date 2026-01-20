@@ -4,12 +4,13 @@ import { DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
 import PageWrapper from "@/components/PageWrapper";
 import usePageTitle from "@/hooks/usePageTitle";
-import ContentSocialsSection from "@/components/content/ContentSocialsSection";
-import ClipsHighlightsSection from "@/components/content/ClipsHighlightsSection";
-import AnnouncementsSection from "@/components/content/AnnouncementsSection";
+import { siteConfig } from "@/config/siteConfig";
+import FanArtGallerySection from "@/components/community/FanArtGallerySection";
+import CommunitySpotlightsSection from "@/components/community/CommunitySpotlightsSection";
+import JoinCommunitySection from "@/components/community/JoinCommunitySection";
 
-const Content = memo(function Content() {
-  usePageTitle("Content");
+const Laypeople = memo(function Laypeople() {
+  usePageTitle("The Laypeople");
 
   return (
     <PageWrapper>
@@ -22,24 +23,25 @@ const Content = memo(function Content() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, ease: EASING.smooth }}
           >
-            <GradientText gradient="louie">The Content</GradientText>
+            <GradientText gradient="louie">{siteConfig.streamer.communityName}</GradientText>
           </motion.h1>
           <motion.p
-            className="text-xl md:text-2xl text-muted-foreground max-w-xl mx-auto font-light"
+            className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto font-light"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, delay: 0.2, ease: EASING.smooth }}
           >
-            Socials, clips, announcements, and everything happening across platforms
+            The community that makes this all worth it. From fan art to inside jokes, 
+            this is where the Laypeople shine.
           </motion.p>
         </div>
       </section>
 
-      <ContentSocialsSection />
-      <ClipsHighlightsSection />
-      <AnnouncementsSection />
+      <FanArtGallerySection />
+      <CommunitySpotlightsSection />
+      <JoinCommunitySection />
     </PageWrapper>
   );
 });
 
-export default Content;
+export default Laypeople;

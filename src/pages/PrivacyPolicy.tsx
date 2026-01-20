@@ -6,8 +6,10 @@ import {
   LegalList,
   LegalText,
 } from "@/components/legal";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const PrivacyPolicy = memo(function PrivacyPolicy() {
+  usePageTitle("Privacy Policy");
   return (
     <LegalPageLayout title="Privacy Policy" lastUpdated="January 1, 2026">
       {/* Intro */}

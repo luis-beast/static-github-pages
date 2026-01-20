@@ -5,8 +5,11 @@ import { DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
 import ScrollRevealSection from "@/components/home/ScrollRevealSection";
 import PageWrapper from "@/components/PageWrapper";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const Merch = memo(function Merch() {
+  usePageTitle("Merch");
+
   return (
     <PageWrapper>
       {/* Hero Header */}

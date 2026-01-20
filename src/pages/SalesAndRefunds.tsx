@@ -6,8 +6,10 @@ import {
   LegalList,
   LegalText,
 } from "@/components/legal";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const SalesAndRefunds = memo(function SalesAndRefunds() {
+  usePageTitle("Sales & Refunds");
   return (
     <LegalPageLayout title="Sales & Refunds" lastUpdated="January 1, 2026">
       {/* Intro */}
