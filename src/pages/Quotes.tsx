@@ -9,8 +9,10 @@ import FilterPopover from "@/components/FilterPopover";
 import { DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
 import PageWrapper from "@/components/PageWrapper";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const Quotes = memo(function Quotes() {
+  usePageTitle("Quotes");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGames, setSelectedGames] = useState<string[]>([]);
   const gridRef = useRef<HTMLDivElement>(null);

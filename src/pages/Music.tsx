@@ -4,12 +4,11 @@ import { DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
 import PageWrapper from "@/components/PageWrapper";
 import usePageTitle from "@/hooks/usePageTitle";
-import ContentSocialsSection from "@/components/content/ContentSocialsSection";
-import ClipsHighlightsSection from "@/components/content/ClipsHighlightsSection";
-import AnnouncementsSection from "@/components/content/AnnouncementsSection";
+import PlaylistsSection from "@/components/music/PlaylistsSection";
+import MusicVibesSection from "@/components/music/MusicVibesSection";
 
-const Content = memo(function Content() {
-  usePageTitle("Content");
+const Music = memo(function Music() {
+  usePageTitle("Music");
 
   return (
     <PageWrapper>
@@ -22,7 +21,7 @@ const Content = memo(function Content() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, ease: EASING.smooth }}
           >
-            <GradientText gradient="louie">The Content</GradientText>
+            <GradientText gradient="louie">The Music</GradientText>
           </motion.h1>
           <motion.p
             className="text-xl md:text-2xl text-muted-foreground max-w-xl mx-auto font-light"
@@ -30,16 +29,15 @@ const Content = memo(function Content() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, delay: 0.2, ease: EASING.smooth }}
           >
-            Socials, clips, announcements, and everything happening across platforms
+            The vibes, the playlists, and everything that keeps the streams grooving
           </motion.p>
         </div>
       </section>
 
-      <ContentSocialsSection />
-      <ClipsHighlightsSection />
-      <AnnouncementsSection />
+      <PlaylistsSection />
+      <MusicVibesSection />
     </PageWrapper>
   );
 });
 
-export default Content;
+export default Music;

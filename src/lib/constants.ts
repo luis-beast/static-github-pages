@@ -20,6 +20,9 @@ export const DURATION = {
 
 export const NAV_ITEMS = [
   { path: "/content", label: "Content" },
+  { path: "/streams", label: "Streams" },
+  { path: "/music", label: "Music" },
+  { path: "/laypeople", label: "The Laypeople" },
   { path: "/merch", label: "Merch" },
   { path: "/quotes", label: "Quotes" },
   { path: "/commands", label: "Commands" },
@@ -28,6 +31,9 @@ export const NAV_ITEMS = [
 export const FOOTER_NAV_LINKS = [
   { label: "Home", path: "/" },
   { label: "Content", path: "/content" },
+  { label: "Streams", path: "/streams" },
+  { label: "Music", path: "/music" },
+  { label: "The Laypeople", path: "/laypeople" },
   { label: "Merch", path: "/merch" },
   { label: "Quotes", path: "/quotes" },
   { label: "Commands", path: "/commands" },
@@ -42,6 +48,9 @@ export const FOOTER_LEGAL_LINKS = [
 export const KNOWN_ROUTES = [
   "/",
   "/content",
+  "/streams",
+  "/music",
+  "/laypeople",
   "/merch",
   "/quotes",
   "/commands",

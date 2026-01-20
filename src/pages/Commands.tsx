@@ -10,8 +10,10 @@ import { PERMISSION_PRIORITY, DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import PageWrapper from "@/components/PageWrapper";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const Commands = memo(function Commands() {
+  usePageTitle("Commands");
   const [alphabeticalOrder, setAlphabeticalOrder] = useState<AlphabeticalOrder>("asc");
   const [roleSort, setRoleSort] = useState<RoleSort>("off");
   const [selectedPermissions, setSelectedPermissions] = useState<Permission[]>([]);

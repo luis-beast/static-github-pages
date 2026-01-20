@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PageWrapper from "@/components/PageWrapper";
+import usePageTitle from "@/hooks/usePageTitle";
 
 const PARTICLE_COUNT = 75;
 
@@ -24,6 +25,7 @@ interface ParticleConfig {
 }
 
 const NotFound = () => {
+  usePageTitle("Page Not Found");
   const location = useLocation();
   const mouseStateRef = useRef<"idle" | "active" | "returning">("idle");
   const [, forceRender] = useState(0);

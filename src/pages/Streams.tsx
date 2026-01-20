@@ -4,12 +4,16 @@ import { DURATION, EASING } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
 import PageWrapper from "@/components/PageWrapper";
 import usePageTitle from "@/hooks/usePageTitle";
-import ContentSocialsSection from "@/components/content/ContentSocialsSection";
-import ClipsHighlightsSection from "@/components/content/ClipsHighlightsSection";
-import AnnouncementsSection from "@/components/content/AnnouncementsSection";
+import StreamingPlatformsSection from "@/components/streams/StreamingPlatformsSection";
+import EmoteShowcaseSection from "@/components/streams/EmoteShowcaseSection";
+import StreamPlaylistsSection from "@/components/streams/StreamPlaylistsSection";
+import GamesSection from "@/components/home/GamesSection";
+import ScheduleSection from "@/components/home/ScheduleSection";
+import RulesSection from "@/components/home/RulesSection";
+import SetupSection from "@/components/home/SetupSection";
 
-const Content = memo(function Content() {
-  usePageTitle("Content");
+const Streams = memo(function Streams() {
+  usePageTitle("Streams");
 
   return (
     <PageWrapper>
@@ -22,7 +26,7 @@ const Content = memo(function Content() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, ease: EASING.smooth }}
           >
-            <GradientText gradient="louie">The Content</GradientText>
+            <GradientText gradient="louie">The Streams</GradientText>
           </motion.h1>
           <motion.p
             className="text-xl md:text-2xl text-muted-foreground max-w-xl mx-auto font-light"
@@ -30,16 +34,20 @@ const Content = memo(function Content() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: DURATION.reveal, delay: 0.2, ease: EASING.smooth }}
           >
-            Socials, clips, announcements, and everything happening across platforms
+            Everything about the streams — where to watch, what we play, and when we go live
           </motion.p>
         </div>
       </section>
 
-      <ContentSocialsSection />
-      <ClipsHighlightsSection />
-      <AnnouncementsSection />
+      <StreamingPlatformsSection />
+      <GamesSection />
+      <ScheduleSection />
+      <EmoteShowcaseSection />
+      <StreamPlaylistsSection />
+      <RulesSection />
+      <SetupSection />
     </PageWrapper>
   );
 });
 
-export default Content;
+export default Streams;

@@ -9,6 +9,9 @@ import { KNOWN_ROUTES } from "@/lib/constants";
 import { LayoutProvider } from "@/contexts/LayoutContext";
 import Home from "./pages/Home";
 import Content from "./pages/Content";
+import Streams from "./pages/Streams";
+import Music from "./pages/Music";
+import Laypeople from "./pages/Laypeople";
 import Merch from "./pages/Merch";
 import Quotes from "./pages/Quotes";
 import Commands from "./pages/Commands";
@@ -37,6 +40,9 @@ const AppRoutes = memo(function AppRoutes() {
           <Routes location={location} key={pathname}>
             <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
             <Route path="/content" element={<PageWrapper><Content /></PageWrapper>} />
+            <Route path="/streams" element={<PageWrapper><Streams /></PageWrapper>} />
+            <Route path="/music" element={<PageWrapper><Music /></PageWrapper>} />
+            <Route path="/laypeople" element={<PageWrapper><Laypeople /></PageWrapper>} />
             <Route path="/merch" element={<PageWrapper><Merch /></PageWrapper>} />
             <Route path="/quotes" element={<PageWrapper><Quotes /></PageWrapper>} />
             <Route path="/commands" element={<PageWrapper><Commands /></PageWrapper>} />
