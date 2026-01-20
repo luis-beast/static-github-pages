@@ -1,12 +1,10 @@
-import { memo, useMemo } from "react";
+import { memo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Tv, ShoppingBag, MessageSquareQuote, Terminal, ArrowRight, Radio } from "lucide-react";
+import { Tv, ShoppingBag, MessageSquareQuote, Terminal, ArrowRight } from "lucide-react";
 import ScrollRevealSection from "./ScrollRevealSection";
-import { siteConfig } from "@/config/siteConfig";
 
 interface Feature {
-  key: keyof typeof siteConfig.features;
   title: string;
   description: string;
   icon: typeof Tv;
@@ -14,25 +12,16 @@ interface Feature {
   gradient: string;
 }
 
-const ALL_FEATURES: Feature[] = [
+const FEATURES: Feature[] = [
   {
-    key: "content",
     title: "The Content",
-    description: "Check out the socials, clips, and the latest announcements from the stream.",
+    description:
+      "Check out the stream schedule, community rules, what games I play, and the setup that makes it all happen.",
     icon: Tv,
     path: "/content",
     gradient: "from-purple-500/20 to-pink-500/20",
   },
   {
-    key: "streams",
-    title: "The Streams",
-    description: "Everything about the streams — schedule, rules, games, setup, and where to watch.",
-    icon: Radio,
-    path: "/streams",
-    gradient: "from-rose-500/20 to-red-500/20",
-  },
-  {
-    key: "merch",
     title: "The Merch",
     description: "Rep the Layman Legion with official merchandise. Apparel, accessories, and more coming soon.",
     icon: ShoppingBag,
@@ -40,20 +29,18 @@ const ALL_FEATURES: Feature[] = [
     gradient: "from-amber-500/20 to-orange-500/20",
   },
   {
-    key: "quotes",
-    title: "The Quotes",
-    description: "A collection of the most memorable, hilarious, and questionable things said on stream.",
-    icon: MessageSquareQuote,
-    path: "/quotes",
-    gradient: "from-cyan-500/20 to-blue-500/20",
-  },
-  {
-    key: "commands",
     title: "The Commands",
     description: "All the chat commands you need to interact with the stream. From fun to functional.",
     icon: Terminal,
     path: "/commands",
     gradient: "from-green-500/20 to-emerald-500/20",
+  },
+  {
+    title: "The Quotes",
+    description: "A collection of the most memorable, hilarious, and questionable things said on stream.",
+    icon: MessageSquareQuote,
+    path: "/quotes",
+    gradient: "from-cyan-500/20 to-blue-500/20",
   },
 ];
 
@@ -77,17 +64,19 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
       >
         {/* Icon/Visual Side */}
         <div className="flex-shrink-0">
-          <div className={`w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center backdrop-blur-sm`}>
+          <div
+            className={`w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center backdrop-blur-sm`}
+          >
             <Icon className="w-12 h-12 md:w-16 md:h-16 text-white/80" />
           </div>
         </div>
 
         {/* Content Side */}
-        <div className={`flex-1 flex flex-col text-center ${isReversed ? "md:text-right md:items-end" : "md:text-left md:items-start"} items-center`}>
+        <div
+          className={`flex-1 flex flex-col text-center ${isReversed ? "md:text-right md:items-end" : "md:text-left md:items-start"} items-center`}
+        >
           <h3 className="text-2xl md:text-3xl font-bold mb-3">{title}</h3>
-          <p className="text-muted-foreground text-lg mb-6 max-w-md">
-            {description}
-          </p>
+          <p className="text-muted-foreground text-lg mb-6 max-w-md">{description}</p>
           <Link
             to={path}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary/10 border border-primary/20 text-primary font-medium hover:bg-primary/20 hover:border-primary/30 transition-all duration-200 group"
@@ -102,14 +91,6 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
 });
 
 const FeaturesSection = memo(function FeaturesSection() {
-  // Filter features based on visibility config
-  const visibleFeatures = useMemo(() => 
-    ALL_FEATURES.filter(feature => siteConfig.features[feature.key]),
-    []
-  );
-
-  if (visibleFeatures.length === 0) return null;
-
   return (
     <section className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
@@ -120,13 +101,8 @@ const FeaturesSection = memo(function FeaturesSection() {
         </ScrollRevealSection>
 
         <div className="space-y-24 md:space-y-32">
-          {visibleFeatures.map((feature, index) => (
-            <FeatureCard
-              key={feature.path}
-              feature={feature}
-              index={index}
-              isReversed={index % 2 === 0}
-            />
+          {FEATURES.map((feature, index) => (
+            <FeatureCard key={feature.path} feature={feature} index={index} isReversed={index % 2 === 0} />
           ))}
         </div>
       </div>
