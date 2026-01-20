@@ -33,8 +33,19 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
         </LegalText>
       </LegalSection>
 
+      {/* Changes to This Policy */}
+      <LegalSection title="Changes to This Policy" delay={0.1}>
+        <LegalText>
+          If we update this Privacy Policy:
+        </LegalText>
+        <LegalList>
+          <li>We'll update the "Last Updated" date</li>
+          <li>Significant changes will be communicated clearly</li>
+        </LegalList>
+      </LegalSection>
+
       {/* Information We Collect */}
-      <LegalSection title="Information We Collect" delay={0.1}>
+      <LegalSection title="Information We Collect" delay={0.15}>
         <LegalText>
           We collect only what we need to make the Service work.
         </LegalText>
@@ -104,7 +115,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
       </LegalSection>
 
       {/* What We Do Not Collect */}
-      <LegalSection title="What We Do Not Collect" delay={0.15}>
+      <LegalSection title="What We Do Not Collect" delay={0.2}>
         <LegalText>
           Let's be very clear. We do not collect:
         </LegalText>
@@ -118,7 +129,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
       </LegalSection>
 
       {/* How We Use Your Information */}
-      <LegalSection title="How We Use Your Information" delay={0.2}>
+      <LegalSection title="How We Use Your Information" delay={0.25}>
         <LegalText>
           We use your data to:
         </LegalText>
@@ -139,7 +150,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
       </LegalSection>
 
       {/* Sharing Your Information */}
-      <LegalSection title="Sharing Your Information" delay={0.25}>
+      <LegalSection title="Sharing Your Information" delay={0.3}>
         <LegalText>
           We only share data when necessary:
         </LegalText>
@@ -154,7 +165,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
       </LegalSection>
 
       {/* Third-Party Services */}
-      <LegalSection title="Third-Party Services" delay={0.3}>
+      <LegalSection title="Third-Party Services" delay={0.35}>
         <LegalText>
           The Layman's World may link to or integrate with third-party services such as Twitch, YouTube, Discord, and other platforms. These services have their own privacy policies, and we encourage you to review them.
         </LegalText>
@@ -164,7 +175,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
       </LegalSection>
 
       {/* Data Security */}
-      <LegalSection title="Data Security" delay={0.35}>
+      <LegalSection title="Data Security" delay={0.4}>
         <LegalText>
           We take reasonable steps to protect your data using:
         </LegalText>
@@ -182,7 +193,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
       </LegalSection>
 
       {/* Your Privacy Rights */}
-      <LegalSection title="Your Privacy Rights" delay={0.4}>
+      <LegalSection title="Your Privacy Rights" delay={0.45}>
         <LegalText>
           Depending on where you live, you may have the right to:
         </LegalText>
@@ -198,21 +209,21 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
       </LegalSection>
 
       {/* Data Retention */}
-      <LegalSection title="Data Retention" delay={0.45}>
+      <LegalSection title="Data Retention" delay={0.5}>
         <LegalText>
           We retain your data only as long as necessary to provide the Service, comply with legal obligations, resolve disputes, enforce our agreements, or until you request deletion.
         </LegalText>
       </LegalSection>
 
       {/* Children's Privacy */}
-      <LegalSection title="Children's Privacy" delay={0.5}>
+      <LegalSection title="Children's Privacy" delay={0.55}>
         <LegalText>
           The Layman's World is not intended for users under 13. We do not knowingly collect data from children. If we discover we have, we will delete it promptly.
         </LegalText>
       </LegalSection>
 
       {/* Cookies & Tracking */}
-      <LegalSection title="Cookies & Tracking" delay={0.55}>
+      <LegalSection title="Cookies & Tracking" delay={0.6}>
         <LegalText>
           If we use cookies or similar technologies:
         </LegalText>
@@ -226,21 +237,10 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
       </LegalSection>
 
       {/* International Users */}
-      <LegalSection title="International Users" delay={0.6}>
+      <LegalSection title="International Users" delay={0.65}>
         <LegalText>
           Your data may be stored or processed in countries other than your own. We take steps to ensure appropriate protections are in place.
         </LegalText>
-      </LegalSection>
-
-      {/* Changes to This Policy */}
-      <LegalSection title="Changes to This Policy" delay={0.65}>
-        <LegalText>
-          If we update this Privacy Policy:
-        </LegalText>
-        <LegalList>
-          <li>We'll update the "Last Updated" date</li>
-          <li>Significant changes will be communicated clearly</li>
-        </LegalList>
       </LegalSection>
 
       {/* Contact */}
