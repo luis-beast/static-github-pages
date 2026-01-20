@@ -1,14 +1,14 @@
 import { memo, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { NAV_ITEMS } from "@/lib/constants";
-import { useScrollState } from "@/hooks/useScrollState";
+import { useIsScrolled } from "@/contexts/LayoutContext";
 import { BrandName } from "@/components/ui/GradientText";
 import avatarClear from "@/assets/avatar-clear.png";
 
 const Navigation = memo(function Navigation() {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
-  const isScrolled = useScrollState();
+  const isScrolled = useIsScrolled();
   
   // Track animation sequence: background fades first, then text appears
   const [showText, setShowText] = useState(!isHomePage);
@@ -20,14 +20,14 @@ const Navigation = memo(function Navigation() {
       setBgVisible(true);
       const timer = setTimeout(() => {
         setShowText(false);
-      }, 300); // Wait for background fade to complete (matches duration-300)
+      }, 300);
       return () => clearTimeout(timer);
     } else {
       // Leaving home: fade out background first, then show text after background is gone
       setBgVisible(false);
       const timer = setTimeout(() => {
         setShowText(true);
-      }, 300); // Wait for background fade to complete (matches duration-300)
+      }, 300);
       return () => clearTimeout(timer);
     }
   }, [isHomePage]);
@@ -89,7 +89,7 @@ const Navigation = memo(function Navigation() {
             {NAV_ITEMS.map((item) => {
               const isActive = location.pathname === item.path;
               return (
-              <Link
+                <Link
                   key={item.path}
                   to={item.path}
                   className="group relative px-5 py-2.5 rounded-lg text-base font-medium transition-colors duration-200 overflow-hidden"
