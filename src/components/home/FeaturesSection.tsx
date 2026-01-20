@@ -92,14 +92,8 @@ const FeaturesSection = memo(function FeaturesSection() {
     <section className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
-            Explore More
-          </h2>
-        </ScrollRevealSection>
-
-        <ScrollRevealSection delay={0.1}>
-          <p className="text-xl text-muted-foreground text-center mb-20 font-light">
-            Everything the Layman's World has to offer.
+          <p className="text-xl md:text-2xl text-muted-foreground text-center mb-20 font-light max-w-2xl mx-auto">
+            If you want to dive deeper into what we've got going on...
           </p>
         </ScrollRevealSection>
 
