@@ -35,6 +35,7 @@
     --gradient-bg: linear-gradient(135deg, hsl(270, 60%, 8%) 0%, hsl(280, 70%, 12%) 50%, hsl(260, 50%, 6%) 100%);
     --gradient-primary: linear-gradient(135deg, hsl(270, 80%, 65%) 0%, hsl(290, 70%, 55%) 100%);
     --gradient-card: linear-gradient(145deg, hsl(270, 40%, 14%) 0%, hsl(270, 35%, 10%) 100%);
+    --gradient-scrollbar: linear-gradient(to bottom, hsl(270, 80%, 75%), hsl(270, 100%, 50%));
     --glass-bg: hsla(270, 40%, 15%, 0.6);
     --glass-border: hsla(270, 50%, 40%, 0.3);
     --perm-follower: 200 80% 55%;

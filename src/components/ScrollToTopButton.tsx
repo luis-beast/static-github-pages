@@ -1,17 +1,21 @@
 import { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp } from "lucide-react";
+import { useLayout } from "@/contexts/LayoutContext";
+
+const VISIBILITY_THRESHOLD = 400;
 
 const ScrollToTopButton = memo(function ScrollToTopButton() {
+  const { scrollY, canScroll } = useLayout();
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const toggleVisibility = () => setIsVisible(window.scrollY > 400);
-    window.addEventListener("scroll", toggleVisibility);
-    return () => window.removeEventListener("scroll", toggleVisibility);
-  }, []);
+    setIsVisible(canScroll && scrollY > VISIBILITY_THRESHOLD);
+  }, [scrollY, canScroll]);
 
-  const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <AnimatePresence>
