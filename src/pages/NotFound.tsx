@@ -3,6 +3,7 @@ import { useEffect, useState, useRef, useCallback } from "react";
 import { motion } from "framer-motion";
 import { Home, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import PageWrapper from "@/components/PageWrapper";
 
 const PARTICLE_COUNT = 75;
 
@@ -185,91 +186,93 @@ const NotFound = () => {
   }, [getPosition, getProgress]);
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
-        {configsRef.current.map((config, i) => {
-          const pos = particlesRef.current[i] || getPosition(i, config.phaseOffset);
-          return (
-            <div
-              key={i}
-              className="absolute rounded-full bg-primary will-change-transform"
+    <PageWrapper>
+      <div className="relative flex-1 flex items-center justify-center overflow-hidden min-h-[calc(100vh-200px)]">
+        <div className="absolute inset-0 overflow-hidden">
+          {configsRef.current.map((config, i) => {
+            const pos = particlesRef.current[i] || getPosition(i, config.phaseOffset);
+            return (
+              <div
+                key={i}
+                className="absolute rounded-full bg-primary will-change-transform"
+                style={{
+                  width: config.size,
+                  height: config.size,
+                  transform: `translate(${pos.x - config.size / 2}px, ${pos.y - config.size / 2}px) scale(${pos.scale})`,
+                  opacity: pos.opacity,
+                }}
+              />
+            );
+          })}
+        </div>
+
+        <motion.div
+          className="absolute w-96 h-96 rounded-full bg-primary/10 blur-3xl"
+          animate={{
+            scale: mouseStateRef.current === "active" ? 1.5 : 1,
+            opacity: mouseStateRef.current === "active" ? 0.3 : 0.1,
+          }}
+          transition={{ type: "spring", stiffness: 50, damping: 30 }}
+        />
+        <motion.div
+          className="absolute w-64 h-64 rounded-full bg-accent/20 blur-3xl"
+          animate={{
+            scale: mouseStateRef.current === "active" ? 1.3 : 1,
+            opacity: mouseStateRef.current === "active" ? 0.35 : 0.2,
+          }}
+          transition={{ type: "spring", stiffness: 50, damping: 30 }}
+        />
+
+        <div className="relative z-10 text-center px-6">
+          <motion.div className="relative mb-8" style={{ perspective: 1000 }}>
+            <motion.h1
+              className="text-[12rem] md:text-[16rem] font-black leading-none gradient-text select-none"
+              initial={{ opacity: 0, scale: 0.5, rotateX: -30 }}
+              animate={{ opacity: 1, scale: 1, rotateX: 0 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
               style={{
-                width: config.size,
-                height: config.size,
-                transform: `translate(${pos.x - config.size / 2}px, ${pos.y - config.size / 2}px) scale(${pos.scale})`,
-                opacity: pos.opacity,
+                textShadow: "0 0 100px hsl(var(--primary) / 0.3)",
               }}
-            />
-          );
-        })}
-      </div>
+            >
+              404
+            </motion.h1>
+          </motion.div>
 
-      <motion.div
-        className="absolute w-96 h-96 rounded-full bg-primary/10 blur-3xl"
-        animate={{
-          scale: mouseStateRef.current === "active" ? 1.5 : 1,
-          opacity: mouseStateRef.current === "active" ? 0.3 : 0.1,
-        }}
-        transition={{ type: "spring", stiffness: 50, damping: 30 }}
-      />
-      <motion.div
-        className="absolute w-64 h-64 rounded-full bg-accent/20 blur-3xl"
-        animate={{
-          scale: mouseStateRef.current === "active" ? 1.3 : 1,
-          opacity: mouseStateRef.current === "active" ? 0.35 : 0.2,
-        }}
-        transition={{ type: "spring", stiffness: 50, damping: 30 }}
-      />
-
-      <div className="relative z-10 text-center px-6">
-        <motion.div className="relative mb-8" style={{ perspective: 1000 }}>
-          <motion.h1
-            className="text-[12rem] md:text-[16rem] font-black leading-none gradient-text select-none"
-            initial={{ opacity: 0, scale: 0.5, rotateX: -30 }}
-            animate={{ opacity: 1, scale: 1, rotateX: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            style={{
-              textShadow: "0 0 100px hsl(var(--primary) / 0.3)",
-            }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
           >
-            404
-          </motion.h1>
-        </motion.div>
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Lost in Layman's Mind</h2>
+            <p className="text-muted-foreground text-lg mb-2">This is not the page you're looking for.</p>
+            <p className="text-muted-foreground/60 text-sm mb-8 font-mono">
+              Attempted path: <span className="text-primary">{location.pathname}</span>
+            </p>
+          </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-        >
-          <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">Lost in Layman's Mind</h2>
-          <p className="text-muted-foreground text-lg mb-2">This is not the page you're looking for.</p>
-          <p className="text-muted-foreground/60 text-sm mb-8 font-mono">
-            Attempted path: <span className="text-primary">{location.pathname}</span>
-          </p>
-        </motion.div>
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+          >
+            <Button asChild size="lg" className="group relative overflow-hidden">
+              <Link to="/">
+                <span className="relative z-10 flex items-center gap-2">
+                  <Home className="w-4 h-4" />
+                  Go Home
+                </span>
+              </Link>
+            </Button>
 
-        <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
-        >
-          <Button asChild size="lg" className="group relative overflow-hidden">
-            <Link to="/">
-              <span className="relative z-10 flex items-center gap-2">
-                <Home className="w-4 h-4" />
-                Go Home
-              </span>
-            </Link>
-          </Button>
-
-          <Button variant="outline" size="lg" onClick={() => window.history.back()} className="group">
-            <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
-            Go Back
-          </Button>
-        </motion.div>
+            <Button variant="outline" size="lg" onClick={() => window.history.back()} className="group">
+              <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+              Go Back
+            </Button>
+          </motion.div>
+        </div>
       </div>
-    </div>
+    </PageWrapper>
   );
 };
 
