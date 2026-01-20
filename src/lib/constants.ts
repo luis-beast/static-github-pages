@@ -19,18 +19,18 @@ export const DURATION = {
 } as const;
 
 export const NAV_ITEMS = [
+  { path: "/laypeople", label: "Laypeople" },
   { path: "/content", label: "Content" },
   { path: "/streams", label: "Streams" },
-  { path: "/music", label: "Music" },
-  { path: "/laypeople", label: "Laypeople" },
   { path: "/merch", label: "Merch" },
-  { path: "/quotes", label: "Quotes" },
   { path: "/commands", label: "Commands" },
+  { path: "/quotes", label: "Quotes" },
+  { path: "/music", label: "Music" },
 ] as const;
 
 export const FOOTER_NAV_LINKS = [
   { label: "Home", path: "/" },
-  { label: "The Laypeople", path: "/laypeople" },
+  { label: "Laypeople", path: "/laypeople" },
   { label: "Content", path: "/content" },
   { label: "Streams", path: "/streams" },
   { label: "Merch", path: "/merch" },
