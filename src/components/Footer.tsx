@@ -21,7 +21,7 @@ const Footer = memo(function Footer() {
       <div className="container mx-auto">
         {/* Navigation Links */}
         <motion.div
-          className="flex flex-col items-center justify-center gap-4 pb-6 border-b border-border/20"
+          className="flex flex-wrap items-center justify-center lg:justify-between gap-x-1 gap-y-2 pb-6 border-b border-border/20"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: DURATION.reveal, delay: 0.1, ease: EASING.smooth }}
@@ -32,7 +32,7 @@ const Footer = memo(function Footer() {
               <Link
                 key={link.path}
                 to={link.path}
-                className="px-3 py-2 rounded-lg text-sm sm:text-base font-medium text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200 whitespace-nowrap"
+                className="px-4 py-2 rounded-lg text-base font-medium text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
               >
                 {link.label}
               </Link>
@@ -45,7 +45,7 @@ const Footer = memo(function Footer() {
               <Link
                 key={link.path}
                 to={link.path}
-                className="px-3 py-2 rounded-lg text-sm sm:text-base font-medium text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200 whitespace-nowrap"
+                className="px-4 py-2 rounded-lg text-base font-medium text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
               >
                 {link.label}
               </Link>
@@ -55,15 +55,15 @@ const Footer = memo(function Footer() {
 
         {/* Copyright */}
         <motion.div
-          className="flex flex-col items-center justify-center gap-2 pt-6 text-center"
+          className="flex flex-wrap items-center justify-center lg:justify-between gap-x-4 gap-y-2 pt-6"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: DURATION.reveal, delay: 0.2, ease: EASING.smooth }}
         >
-          <p className="text-xs sm:text-sm text-muted-foreground/60">
+          <p className="text-sm text-muted-foreground/60">
             Copyright © {currentYear} <BrandName />. All rights reserved.
           </p>
-          <p className="text-xs sm:text-sm text-muted-foreground/60 flex items-center justify-center gap-1">
+          <p className="text-sm text-muted-foreground/60 flex items-center gap-1">
             Made with
             <Heart className="w-3 h-3 text-primary" aria-hidden="true" />
             by The Layman Legion
