@@ -29,7 +29,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
           When we say "Layman," "we," "us," or "our," we mean The Layman and the Layman Legion—the operator and moderators behind The Layman's World.
         </LegalText>
         <LegalText>
-          Members of the community are referred to as the <span className="text-foreground font-medium">Laypeople</span>.
+          Members of the community are known as the <span className="text-foreground font-medium">Laypeople</span>.
         </LegalText>
       </LegalSection>
 
