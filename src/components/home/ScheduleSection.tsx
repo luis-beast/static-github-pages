@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { motion } from "framer-motion";
 import ScrollRevealSection from "./ScrollRevealSection";
-import { convertScheduleTimeToLocal, getUserTimezoneAbbr } from "@/lib/timezone";
+import { convertScheduleTimeToLocal, getUserTimezoneAbbr } from "@/lib/dateTime";
 
 // Schedule configuration - times stored in MST
 interface ScheduleDay {
