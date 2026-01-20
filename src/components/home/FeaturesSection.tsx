@@ -41,20 +41,20 @@ const ALL_FEATURES: Feature[] = [
     gradient: "from-amber-500/20 to-orange-500/20",
   },
   {
-    id: "quotes",
-    title: "The Quotes",
-    description: "A collection of the most memorable, hilarious, and questionable things said on stream.",
-    icon: MessageSquareQuote,
-    path: "/quotes",
-    gradient: "from-cyan-500/20 to-blue-500/20",
-  },
-  {
     id: "commands",
     title: "The Commands",
     description: "All the chat commands you need to interact with the stream. From fun to functional.",
     icon: Terminal,
     path: "/commands",
     gradient: "from-green-500/20 to-emerald-500/20",
+  },
+  {
+    id: "quotes",
+    title: "The Quotes",
+    description: "A collection of the most memorable, hilarious, and questionable things said on stream.",
+    icon: MessageSquareQuote,
+    path: "/quotes",
+    gradient: "from-cyan-500/20 to-blue-500/20",
   },
 ];
 
@@ -78,17 +78,19 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
       >
         {/* Icon/Visual Side */}
         <div className="flex-shrink-0">
-          <div className={`w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center backdrop-blur-sm`}>
+          <div
+            className={`w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center backdrop-blur-sm`}
+          >
             <Icon className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 text-white/80" />
           </div>
         </div>
 
         {/* Content Side */}
-        <div className={`flex-1 flex flex-col text-center ${isReversed ? "sm:text-right sm:items-end" : "sm:text-left sm:items-start"} items-center`}>
+        <div
+          className={`flex-1 flex flex-col text-center ${isReversed ? "sm:text-right sm:items-end" : "sm:text-left sm:items-start"} items-center`}
+        >
           <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3">{title}</h3>
-          <p className="text-muted-foreground text-base lg:text-lg mb-4 sm:mb-6 max-w-md">
-            {description}
-          </p>
+          <p className="text-muted-foreground text-base lg:text-lg mb-4 sm:mb-6 max-w-md">{description}</p>
           <Link
             to={path}
             className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-primary/10 border border-primary/20 text-primary font-medium hover:bg-primary/20 hover:border-primary/30 transition-all duration-200 group text-sm sm:text-base"
@@ -105,11 +107,11 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
 const FeaturesSection = memo(function FeaturesSection() {
   // Get featured page IDs from access config (respects user role)
   const featuredPageIds = useFeaturedPages();
-  
+
   // Filter features based on access control
-  const visibleFeatures = useMemo(() => 
-    ALL_FEATURES.filter(feature => featuredPageIds.includes(feature.id)),
-    [featuredPageIds]
+  const visibleFeatures = useMemo(
+    () => ALL_FEATURES.filter((feature) => featuredPageIds.includes(feature.id)),
+    [featuredPageIds],
   );
 
   if (visibleFeatures.length === 0) return null;
@@ -125,12 +127,7 @@ const FeaturesSection = memo(function FeaturesSection() {
 
         <div className="space-y-16 sm:space-y-24 lg:space-y-32">
           {visibleFeatures.map((feature, index) => (
-            <FeatureCard
-              key={feature.path}
-              feature={feature}
-              index={index}
-              isReversed={index % 2 === 0}
-            />
+            <FeatureCard key={feature.path} feature={feature} index={index} isReversed={index % 2 === 0} />
           ))}
         </div>
       </div>
