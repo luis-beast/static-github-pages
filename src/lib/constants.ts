@@ -30,13 +30,10 @@ export const NAV_ITEMS = [
 
 export const FOOTER_NAV_LINKS = [
   { label: "Home", path: "/" },
+  { label: "The Laypeople", path: "/laypeople" },
   { label: "Content", path: "/content" },
   { label: "Streams", path: "/streams" },
-  { label: "Music", path: "/music" },
-  { label: "The Laypeople", path: "/laypeople" },
   { label: "Merch", path: "/merch" },
-  { label: "Quotes", path: "/quotes" },
-  { label: "Commands", path: "/commands" },
 ] as const;
 
 export const FOOTER_LEGAL_LINKS = [
