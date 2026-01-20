@@ -1,7 +1,8 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import GameBadge from "./GameBadge";
 import BaseCard from "./ui/BaseCard";
 import type { Quote } from "@/types/quote";
+import { formatMSTToLocal, getUserTimezoneAbbr } from "@/lib/timezone";
 
 type QuoteCardProps = Quote;
 
@@ -11,6 +12,11 @@ const QuoteCard = memo(function QuoteCard({
   game, 
   timestamp
 }: QuoteCardProps) {
+  // Convert MST timestamp to user's local timezone
+  const { localTimestamp, timezoneAbbr } = useMemo(() => ({
+    localTimestamp: formatMSTToLocal(timestamp),
+    timezoneAbbr: getUserTimezoneAbbr(),
+  }), [timestamp]);
   return (
     <BaseCard interactive={false}>
       <div className="w-full p-5 text-left flex-1">
@@ -29,7 +35,9 @@ const QuoteCard = memo(function QuoteCard({
             <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-border/20">
               <GameBadge game={game} size="md" isActive />
               <span className="text-muted-foreground/60">•</span>
-              <time className="text-muted-foreground text-base">{timestamp}</time>
+              <time className="text-muted-foreground text-base" title={`Original: ${timestamp} MST`}>
+                {localTimestamp} <span className="text-muted-foreground/60 text-sm">{timezoneAbbr}</span>
+              </time>
             </div>
           </div>
         </div>
