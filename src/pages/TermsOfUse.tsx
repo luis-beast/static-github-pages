@@ -35,8 +35,12 @@ const TermsOfUse = memo(function TermsOfUse() {
       {/* Changes to These Terms */}
       <LegalSection title="Changes to These Terms" delay={0.1}>
         <LegalText>
-          We may update these Terms from time to time. When we do, we'll update the "Last Updated" date. By continuing to use the Service after changes take effect, you agree to the updated Terms.
+          If we update these Terms of Use:
         </LegalText>
+        <LegalList>
+          <li>We'll update the "Last Updated" date</li>
+          <li>Significant changes will be communicated clearly</li>
+        </LegalList>
       </LegalSection>
 
       {/* Eligibility */}
@@ -217,7 +221,10 @@ const TermsOfUse = memo(function TermsOfUse() {
       {/* Contact */}
       <LegalSection title="Contact" delay={0.8}>
         <LegalText>
-          Questions about these Terms can be raised through our social channels or the Discord for The Layman's World.
+          If you have questions or concerns about these Terms, reach out through our social channels or the Discord for The Layman's World.
+        </LegalText>
+        <LegalText>
+          We take your concerns seriously and will respond as quickly as we can.
         </LegalText>
       </LegalSection>
     </LegalPageLayout>

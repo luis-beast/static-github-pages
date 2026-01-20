@@ -23,7 +23,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
       {/* Who We Are */}
       <LegalSection title="Who We Are" delay={0.05}>
         <LegalText>
-          The Layman's World is a community-focused platform created to share quotes, commands, stats, and tools connected to Twitch, Discord, and related services.
+          The Layman's World is a community-driven platform created and guided by The Layman, with moderation and support provided by the Layman Legion.
         </LegalText>
         <LegalText>
           When we say "Layman," "we," "us," or "our," we mean The Layman and the Layman Legion—the operator and moderators behind The Layman's World.
@@ -249,7 +249,7 @@ const PrivacyPolicy = memo(function PrivacyPolicy() {
           If you have questions or concerns about privacy, reach out through our social channels or the Discord for The Layman's World.
         </LegalText>
         <LegalText>
-          We take privacy seriously and will respond as quickly as we can.
+          We take your concerns seriously and will respond as quickly as we can.
         </LegalText>
       </LegalSection>
     </LegalPageLayout>
