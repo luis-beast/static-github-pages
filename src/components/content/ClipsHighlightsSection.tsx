@@ -20,13 +20,13 @@ const ClipsHighlightsSection = memo(function ClipsHighlightsSection() {
     <section className="py-24 px-6 relative">
       <div className="max-w-5xl mx-auto">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-center mb-4 sm:mb-6">
             Clips & Highlights
           </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
-          <p className="text-xl text-muted-foreground text-center mb-12 font-light">
+          <p className="text-lg sm:text-xl text-muted-foreground text-center mb-8 sm:mb-12 font-light">
             Best moments from the streams
           </p>
         </ScrollRevealSection>
@@ -44,7 +44,7 @@ const ClipsHighlightsSection = memo(function ClipsHighlightsSection() {
             </div>
           </ScrollRevealSection>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {clips.map((clip, index) => (
               <ScrollRevealSection key={clip.id} delay={0.15 + index * 0.03}>
                 <a

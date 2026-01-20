@@ -102,7 +102,7 @@ const Quotes = memo(function Quotes() {
               </div>
 
               {/* Row 2: Popover buttons left, count right */}
-              <div className="flex items-center justify-between pt-2 border-t border-border/30">
+              <div className="flex flex-wrap items-center justify-center sm:justify-between gap-3 pt-2 border-t border-border/30">
                 <div className="flex flex-wrap items-center gap-3">
                   {availableGames.length > 0 && (
                     <FilterPopover
@@ -124,7 +124,7 @@ const Quotes = memo(function Quotes() {
                   )}
                 </div>
 
-                <div className="text-sm text-muted-foreground">
+                <div className="text-sm text-muted-foreground whitespace-nowrap">
                   {filteredQuotes.length} quote{filteredQuotes.length !== 1 ? "s" : ""}
                 </div>
               </div>
@@ -134,7 +134,7 @@ const Quotes = memo(function Quotes() {
 
         <motion.div
           ref={gridRef}
-          className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-4 items-stretch"
+          className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.4 }}
@@ -165,7 +165,7 @@ const Quotes = memo(function Quotes() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="md:col-span-2 text-center py-20"
+                className="lg:col-span-2 text-center py-20"
               >
                 <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
                   <Search className="w-8 h-8 text-muted-foreground/50" />

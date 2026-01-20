@@ -101,7 +101,7 @@ const SocialButton = memo(function SocialButton({ social, index }: SocialButtonP
         rel="noopener noreferrer"
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        className="group relative flex items-center justify-center rounded-xl border border-border/50 bg-secondary/50 hover:border-primary/30 backdrop-blur-sm overflow-hidden h-[120px] px-9 transition-all duration-200"
+        className="group relative flex items-center justify-center rounded-xl border border-border/50 bg-secondary/50 hover:border-primary/30 backdrop-blur-sm overflow-hidden h-20 sm:h-24 lg:h-[120px] px-5 sm:px-7 lg:px-9 transition-all duration-200"
         aria-label={`Visit ${social.name}`}
       >
         {/* Background glow on hover */}
@@ -115,7 +115,7 @@ const SocialButton = memo(function SocialButton({ social, index }: SocialButtonP
         <div className="relative flex items-center justify-center">
           {/* Icon */}
           <div
-            className="w-12 h-12 shrink-0 relative"
+            className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 shrink-0 relative"
             style={{ "--brand-color": social.brandColor } as React.CSSProperties}
           >
             <SocialIcon social={social} />
@@ -141,13 +141,13 @@ const ContentSocialsSection = memo(function ContentSocialsSection() {
     <section className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-center mb-4 sm:mb-6">
             The Socials
           </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
-          <p className="text-xl text-muted-foreground text-center mb-16 font-light">
+          <p className="text-lg sm:text-xl text-muted-foreground text-center mb-10 sm:mb-12 lg:mb-16 font-light">
             All the places you can find me.
           </p>
         </ScrollRevealSection>

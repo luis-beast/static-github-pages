@@ -40,18 +40,18 @@ const SetupSection = memo(function SetupSection() {
     <section className="py-32 px-6 relative">
       <div className="max-w-4xl mx-auto relative">
         <ScrollRevealSection>
-          <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-center mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold tracking-tight text-center mb-4 sm:mb-6">
             The Setup
           </h2>
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.1}>
-          <p className="text-xl text-muted-foreground text-center mb-12 font-light">
+          <p className="text-lg sm:text-xl text-muted-foreground text-center mb-8 sm:mb-12 font-light">
             Curious about what I use to make the streams run?
           </p>
         </ScrollRevealSection>
 
-        <dl className="grid md:grid-cols-2 gap-4">
+        <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {SETUP_SPECS.map((spec, index) => (
             <SpecCard key={spec.label} spec={spec} index={index} />
           ))}

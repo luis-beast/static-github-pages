@@ -81,7 +81,7 @@ const SocialRow = memo(function SocialRow({ social, index, isReversed }: SocialR
   return (
     <ScrollRevealSection delay={0.1 + index * 0.1}>
       <motion.div
-        className={`flex flex-col ${isReversed ? "md:flex-row-reverse" : "md:flex-row"} items-center gap-8 md:gap-12`}
+        className={`flex flex-col ${isReversed ? "sm:flex-row-reverse" : "sm:flex-row"} items-center gap-6 sm:gap-8 lg:gap-12`}
         initial={{ opacity: 0, x: isReversed ? 50 : -50 }}
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -89,24 +89,24 @@ const SocialRow = memo(function SocialRow({ social, index, isReversed }: SocialR
       >
         {/* Icon Box */}
         <div className="flex-shrink-0">
-          <div className={`w-32 h-32 md:w-40 md:h-40 rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center backdrop-blur-sm`}>
-            <div className="w-12 h-12 md:w-16 md:h-16 text-white/80">
+          <div className={`w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center backdrop-blur-sm`}>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 text-white/80">
               {icon}
             </div>
           </div>
         </div>
 
         {/* Content Side */}
-        <div className={`flex-1 flex flex-col text-center ${isReversed ? "md:text-right md:items-end" : "md:text-left md:items-start"}`}>
-          <h3 className="text-2xl md:text-3xl font-bold mb-3">{name}</h3>
-          <p className={`text-muted-foreground text-lg mb-6 max-w-md ${isReversed ? "md:text-right" : "md:text-left"}`}>
+        <div className={`flex-1 flex flex-col text-center ${isReversed ? "sm:text-right sm:items-end" : "sm:text-left sm:items-start"} items-center`}>
+          <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3">{name}</h3>
+          <p className={`text-muted-foreground text-base lg:text-lg mb-4 sm:mb-6 max-w-md ${isReversed ? "sm:text-right" : "sm:text-left"}`}>
             {description}
           </p>
           <a
             href={href}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-primary/10 border border-primary/20 text-primary font-medium hover:bg-primary/20 hover:border-primary/30 transition-all duration-200 group"
+            className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-primary/10 border border-primary/20 text-primary font-medium hover:bg-primary/20 hover:border-primary/30 transition-all duration-200 group text-sm sm:text-base"
           >
             Visit {name}
             <ExternalLink className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -127,7 +127,7 @@ const HomeSocialsSection = memo(function HomeSocialsSection() {
           </p>
         </ScrollRevealSection>
 
-        <div className="space-y-24 md:space-y-32">
+        <div className="space-y-16 sm:space-y-24 lg:space-y-32">
           {SOCIALS.map((social, index) => (
             <SocialRow
               key={social.name}
