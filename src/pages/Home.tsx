@@ -10,8 +10,8 @@ const Home = () => {
     <PageWrapper>
       <HeroSection />
       <AboutSection />
-      <HomeSocialsSection />
       <InfoSection />
+      <HomeSocialsSection />
       <FeaturesSection />
     </PageWrapper>
   );
