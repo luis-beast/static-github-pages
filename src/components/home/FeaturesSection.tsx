@@ -103,7 +103,7 @@ const FeaturesSection = memo(function FeaturesSection() {
               key={feature.path}
               feature={feature}
               index={index}
-              isReversed={index % 2 !== 0}
+              isReversed={index % 2 === 0}
             />
           ))}
         </div>
