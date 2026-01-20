@@ -23,7 +23,7 @@ const SalesAndRefunds = memo(function SalesAndRefunds() {
       {/* Who We Are */}
       <LegalSection title="Who We Are" delay={0.05}>
         <LegalText>
-          The Layman's World is a community-focused platform created and guided by The Layman, with moderation and support provided by the Layman Legion.
+          The Layman's World is a community-driven platform created and guided by The Layman, with moderation and support provided by the Layman Legion.
         </LegalText>
         <LegalText>
           When we say "Layman," "we," "us," or "our," we mean The Layman and the Layman Legion—the operator and moderators behind The Layman's World.
@@ -33,8 +33,19 @@ const SalesAndRefunds = memo(function SalesAndRefunds() {
         </LegalText>
       </LegalSection>
 
+      {/* Changes to This Policy */}
+      <LegalSection title="Changes to This Policy" delay={0.1}>
+        <LegalText>
+          If we update this Sales and Refund Policy:
+        </LegalText>
+        <LegalList>
+          <li>We'll update the "Last Updated" date</li>
+          <li>Significant changes will be communicated clearly</li>
+        </LegalList>
+      </LegalSection>
+
       {/* What We Sell */}
-      <LegalSection title="What We Sell" delay={0.1}>
+      <LegalSection title="What We Sell" delay={0.15}>
         <LegalText>
           Depending on what's available, purchases may include:
         </LegalText>
@@ -50,7 +61,7 @@ const SalesAndRefunds = memo(function SalesAndRefunds() {
       </LegalSection>
 
       {/* Digital Purchases and Refunds */}
-      <LegalSection title="Digital Purchases and Refunds" delay={0.15}>
+      <LegalSection title="Digital Purchases and Refunds" delay={0.2}>
         <LegalText>
           Because digital products are delivered instantly, refunds can be limited. That said, we try to be reasonable.
         </LegalText>
@@ -80,7 +91,7 @@ const SalesAndRefunds = memo(function SalesAndRefunds() {
       </LegalSection>
 
       {/* App Store Purchases */}
-      <LegalSection title="App Store Purchases" delay={0.2}>
+      <LegalSection title="App Store Purchases" delay={0.25}>
         <LegalText>
           If you purchase through the Apple App Store, Google Play, or another platform store, refunds are handled by that platform's refund process and rules.
         </LegalText>
@@ -90,7 +101,7 @@ const SalesAndRefunds = memo(function SalesAndRefunds() {
       </LegalSection>
 
       {/* Subscriptions */}
-      <LegalSection title="Subscriptions" delay={0.25}>
+      <LegalSection title="Subscriptions" delay={0.3}>
         <LegalText>
           If we offer subscriptions:
         </LegalText>
@@ -103,14 +114,14 @@ const SalesAndRefunds = memo(function SalesAndRefunds() {
       </LegalSection>
 
       {/* Price Changes and Promotions */}
-      <LegalSection title="Price Changes and Promotions" delay={0.3}>
+      <LegalSection title="Price Changes and Promotions" delay={0.35}>
         <LegalText>
           We may change pricing or run promotions at any time. Unless required by law, we do not provide refunds for price drops or limited-time deals after your purchase.
         </LegalText>
       </LegalSection>
 
       {/* Chargebacks and Abuse */}
-      <LegalSection title="Chargebacks and Abuse" delay={0.35}>
+      <LegalSection title="Chargebacks and Abuse" delay={0.4}>
         <LegalText>
           If you file a chargeback without contacting us first, we may:
         </LegalText>
@@ -124,7 +135,7 @@ const SalesAndRefunds = memo(function SalesAndRefunds() {
       </LegalSection>
 
       {/* How to Request a Refund */}
-      <LegalSection title="How to Request a Refund" delay={0.4}>
+      <LegalSection title="How to Request a Refund" delay={0.45}>
         <LegalText>
           To request a refund, reach out through our community channels with:
         </LegalText>
@@ -140,7 +151,7 @@ const SalesAndRefunds = memo(function SalesAndRefunds() {
       </LegalSection>
 
       {/* Processing Time */}
-      <LegalSection title="Processing Time" delay={0.45}>
+      <LegalSection title="Processing Time" delay={0.5}>
         <LegalText>
           If a refund is approved:
         </LegalText>
@@ -152,9 +163,12 @@ const SalesAndRefunds = memo(function SalesAndRefunds() {
       </LegalSection>
 
       {/* Contact */}
-      <LegalSection title="Contact" delay={0.5}>
+      <LegalSection title="Contact" delay={0.55}>
         <LegalText>
-          Questions about purchases, refunds, or billing can be raised through the Discord for The Layman's World or our official social channels.
+          If you have questions or concerns about purchases, refunds, or billing, reach out through our social channels or the Discord for The Layman's World.
+        </LegalText>
+        <LegalText>
+          We take your concerns seriously and will respond as quickly as we can.
         </LegalText>
       </LegalSection>
     </LegalPageLayout>
