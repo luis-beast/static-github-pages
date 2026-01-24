@@ -7,7 +7,7 @@ import PageWrapper from "@/components/PageWrapper";
 import usePageTitle from "@/hooks/usePageTitle";
 
 const Home = memo(function Home() {
-  usePageTitle(); // No page name = just streamer name
+  usePageTitle();
 
   return (
     <PageWrapper>
