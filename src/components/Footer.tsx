@@ -40,17 +40,19 @@ const Footer = memo(function Footer() {
           </nav>
 
           {/* Legal Links */}
-          <nav className="flex flex-wrap items-center justify-center gap-1">
-            {FOOTER_LEGAL_LINKS.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className="px-4 py-2 rounded-lg text-base font-medium text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
-              >
-                {link.label}
-              </Link>
-            ))}
-          </nav>
+          {FOOTER_LEGAL_LINKS.length > 0 && (
+            <nav className="flex flex-wrap items-center justify-center gap-1">
+              {FOOTER_LEGAL_LINKS.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className="px-4 py-2 rounded-lg text-base font-medium text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </nav>
+          )}
         </motion.div>
 
         {/* Copyright */}
