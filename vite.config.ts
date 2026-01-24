@@ -7,7 +7,7 @@ export default defineConfig({
     host: "::",
     port: 8080,
   },
-  base: "/", // Change to your repo name for GitHub Pages, e.g., "/my-repo/"
+  base: "/",
   plugins: [react()],
   resolve: {
     alias: {
