@@ -2,7 +2,7 @@
  * Access Control Configuration
  * 
  * This config-only setup prepares for future database-driven access control.
- * When Lovable Cloud is enabled, this will be replaced with database queries.
+ * When a backend is connected, this can be replaced with database queries.
  * 
  * FUTURE: Twitch OAuth (primary) + Discord OAuth for authentication
  * FUTURE: Auto-detect Twitch subscribers + manual assignment

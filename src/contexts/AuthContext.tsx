@@ -2,7 +2,7 @@
  * Authentication Context
  * 
  * Config-only placeholder for future Twitch/Discord OAuth implementation.
- * When Lovable Cloud is enabled, this will connect to Supabase Auth.
+ * When a backend is connected, this will integrate with the auth provider.
  * 
  * FUTURE FEATURES:
  * - Twitch OAuth (primary)
@@ -68,8 +68,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const userRole = user?.role ?? null;
 
   const login = useCallback(async () => {
-    // FUTURE: Implement Twitch/Discord OAuth via Supabase
-    console.log("Login not yet implemented - waiting for Lovable Cloud");
+    // FUTURE: Implement Twitch/Discord OAuth
+    console.log("Login not yet implemented - requires backend integration");
   }, []);
 
   const logout = useCallback(async () => {
