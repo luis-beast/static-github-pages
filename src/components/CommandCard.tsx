@@ -6,7 +6,7 @@ import PermissionBadge from "./PermissionBadge";
 import TagBadge from "./TagBadge";
 import BaseCard from "./ui/BaseCard";
 import { cn } from "@/lib/utils";
-import { toast } from "@/hooks/use-toast";
+import { toast } from "@/components/ui/use-toast";
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedCount from "@/components/AnimatedCount";
 
