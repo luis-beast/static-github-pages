@@ -4,22 +4,12 @@ import { cn } from "@/lib/utils";
 
 interface BaseCardProps extends Omit<HTMLMotionProps<"div">, "children"> {
   children: ReactNode;
-  /** Whether this card is interactive/clickable */
   interactive?: boolean;
-  /** Whether this card is currently in an active/focused state */
   isActive?: boolean;
-  /** Additional className for the outer wrapper */
   wrapperClassName?: string;
-  /** Additional className for the inner card container */
   className?: string;
 }
 
-/**
- * BaseCard - A consistent card component used throughout the app
- * 
- * - Interactive cards have borders and hover effects
- * - Non-interactive cards have no border, just shadow
- */
 const BaseCard = memo(forwardRef<HTMLDivElement, BaseCardProps>(function BaseCard(
   { 
     children, 
@@ -43,7 +33,6 @@ const BaseCard = memo(forwardRef<HTMLDivElement, BaseCardProps>(function BaseCar
       transition={{ type: "spring", stiffness: 400, damping: 30 }}
       {...motionProps}
     >
-      {/* Glow effect - only for interactive cards */}
       {interactive && (
         <div 
           className={cn(

@@ -1,43 +1,14 @@
-/**
- * Access Control Configuration
- * 
- * This config-only setup prepares for future database-driven access control.
- * When a backend is connected, this can be replaced with database queries.
- * 
- * FUTURE: Twitch OAuth (primary) + Discord OAuth for authentication
- * FUTURE: Auto-detect Twitch subscribers + manual assignment
- */
+export type UserRole = "admin" | "moderator" | "subscriber" | "viewer";
 
-// ============================================================================
-// ROLE DEFINITIONS
-// ============================================================================
-
-export type UserRole = 
-  | "admin"        // Full access to everything, can see WIP pages
-  | "moderator"    // Trusted community members with elevated access
-  | "subscriber"   // Twitch/YouTube subscribers, supporters
-  | "viewer";      // Regular authenticated users
-
-export type PageVisibility = 
-  | "public"       // Everyone can see
-  | "hidden"       // Not visible anywhere, returns 404 for non-authorized users
-  | "wip"          // Work in progress, only admins can see
-  | "authenticated" // Only logged-in users
-  | "restricted";  // Only specific roles/groups
-
-// ============================================================================
-// GROUP DEFINITIONS (for future database)
-// ============================================================================
+export type PageVisibility = "public" | "hidden" | "wip" | "authenticated" | "restricted";
 
 export interface AccessGroup {
   id: string;
   name: string;
   description: string;
   roles: UserRole[];
-  // Future: specific user IDs can be added to groups
 }
 
-// Pre-defined groups (will be editable via admin later)
 export const ACCESS_GROUPS: AccessGroup[] = [
   {
     id: "supporters",
@@ -59,31 +30,21 @@ export const ACCESS_GROUPS: AccessGroup[] = [
   },
 ];
 
-// ============================================================================
-// PAGE ACCESS CONFIGURATION
-// ============================================================================
-
 export interface PageAccessConfig {
   visibility: PageVisibility;
-  featured: boolean;           // Show in homepage features section
-  showInNav: boolean;          // Show in navigation
-  showInFooter: boolean;       // Show in footer links
-  allowedRoles?: UserRole[];   // If restricted, which roles can access
-  allowedGroups?: string[];    // If restricted, which groups can access
-  // Future: allowedUserIds for specific user access
+  featured: boolean;
+  showInNav: boolean;
+  showInFooter: boolean;
+  allowedRoles?: UserRole[];
+  allowedGroups?: string[];
 }
 
-// Default access config for pages not explicitly configured
 export const DEFAULT_PAGE_ACCESS: PageAccessConfig = {
   visibility: "public",
   featured: false,
   showInNav: true,
   showInFooter: true,
 };
-
-// ============================================================================
-// PAGE REGISTRY
-// ============================================================================
 
 export const PAGE_ACCESS_CONFIG: Record<string, PageAccessConfig> = {
   home: {
@@ -106,17 +67,9 @@ export const PAGE_ACCESS_CONFIG: Record<string, PageAccessConfig> = {
   },
 };
 
-// ============================================================================
-// ACCESS CONTROL HELPERS
-// ============================================================================
-
-/**
- * Check if a user has access to a page based on their role
- * FUTURE: This will query the database for user roles and group memberships
- */
 export function canAccessPage(
   pageId: string,
-  userRole: UserRole | null // null = not authenticated
+  userRole: UserRole | null
 ): boolean {
   const config = PAGE_ACCESS_CONFIG[pageId] || DEFAULT_PAGE_ACCESS;
   
@@ -126,7 +79,6 @@ export function canAccessPage(
     
     case "hidden":
     case "wip":
-      // Only admins can see hidden/WIP pages
       return userRole === "admin";
     
     case "authenticated":
@@ -134,9 +86,7 @@ export function canAccessPage(
     
     case "restricted":
       if (!userRole) return false;
-      // Check if user's role is in allowed roles
       if (config.allowedRoles?.includes(userRole)) return true;
-      // Check if user's role is in any allowed group
       if (config.allowedGroups) {
         return config.allowedGroups.some(groupId => {
           const group = ACCESS_GROUPS.find(g => g.id === groupId);
@@ -150,19 +100,14 @@ export function canAccessPage(
   }
 }
 
-/**
- * Check if a page should be visible in navigation
- */
 export function isPageVisibleInNav(
   pageId: string,
   userRole: UserRole | null
 ): boolean {
   const config = PAGE_ACCESS_CONFIG[pageId] || DEFAULT_PAGE_ACCESS;
   
-  // Must be allowed in nav AND user must have access
   if (!config.showInNav) return false;
   
-  // For hidden/WIP pages, only show in nav if user is admin
   if (config.visibility === "hidden" || config.visibility === "wip") {
     return userRole === "admin";
   }
@@ -170,19 +115,14 @@ export function isPageVisibleInNav(
   return canAccessPage(pageId, userRole);
 }
 
-/**
- * Check if a page should be featured on the homepage
- */
 export function isPageFeatured(
   pageId: string,
   userRole: UserRole | null
 ): boolean {
   const config = PAGE_ACCESS_CONFIG[pageId] || DEFAULT_PAGE_ACCESS;
   
-  // Must be featured AND visible to the user
   if (!config.featured) return false;
   
-  // Hidden/WIP pages are never featured (even for admins)
   if (config.visibility === "hidden" || config.visibility === "wip") {
     return false;
   }
@@ -190,9 +130,6 @@ export function isPageFeatured(
   return canAccessPage(pageId, userRole);
 }
 
-/**
- * Get page visibility status for display purposes
- */
 export function getPageVisibilityStatus(pageId: string): PageVisibility {
   return PAGE_ACCESS_CONFIG[pageId]?.visibility || "public";
 }
