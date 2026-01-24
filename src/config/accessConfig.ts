@@ -86,42 +86,11 @@ export const DEFAULT_PAGE_ACCESS: PageAccessConfig = {
 // ============================================================================
 
 export const PAGE_ACCESS_CONFIG: Record<string, PageAccessConfig> = {
-  // Main pages
   home: {
     visibility: "public",
     featured: false,
-    showInNav: false, // Home is always accessible via logo
+    showInNav: false,
     showInFooter: false,
-  },
-  content: {
-    visibility: "public",
-    featured: true,
-    showInNav: true,
-    showInFooter: true,
-  },
-  streams: {
-    visibility: "public",
-    featured: true,
-    showInNav: true,
-    showInFooter: true,
-  },
-  music: {
-    visibility: "public",
-    featured: false,
-    showInNav: true,
-    showInFooter: true,
-  },
-  laypeople: {
-    visibility: "public",
-    featured: false,
-    showInNav: true,
-    showInFooter: true,
-  },
-  merch: {
-    visibility: "public", // Change to "hidden" or "wip" to hide
-    featured: true,
-    showInNav: true,
-    showInFooter: true,
   },
   quotes: {
     visibility: "public",
@@ -133,26 +102,6 @@ export const PAGE_ACCESS_CONFIG: Record<string, PageAccessConfig> = {
     visibility: "public",
     featured: true,
     showInNav: true,
-    showInFooter: true,
-  },
-  
-  // Legal pages (always public, not featured)
-  "privacy-policy": {
-    visibility: "public",
-    featured: false,
-    showInNav: false,
-    showInFooter: true,
-  },
-  "terms-of-use": {
-    visibility: "public",
-    featured: false,
-    showInNav: false,
-    showInFooter: true,
-  },
-  "sales-and-refunds": {
-    visibility: "public",
-    featured: false,
-    showInNav: false,
     showInFooter: true,
   },
 };

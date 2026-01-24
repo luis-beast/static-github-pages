@@ -19,41 +19,20 @@ export const DURATION = {
 } as const;
 
 export const NAV_ITEMS = [
-  { path: "/laypeople", label: "Laypeople" },
-  { path: "/content", label: "Content" },
-  { path: "/streams", label: "Streams" },
-  { path: "/merch", label: "Merch" },
   { path: "/commands", label: "Commands" },
   { path: "/quotes", label: "Quotes" },
-  { path: "/music", label: "Music" },
 ] as const;
 
 export const FOOTER_NAV_LINKS = [
   { label: "Home", path: "/" },
-  { label: "Laypeople", path: "/laypeople" },
-  { label: "Content", path: "/content" },
-  { label: "Streams", path: "/streams" },
-  { label: "Merch", path: "/merch" },
 ] as const;
 
-export const FOOTER_LEGAL_LINKS = [
-  { label: "Privacy Policy", path: "/privacy-policy" },
-  { label: "Terms of Use", path: "/terms-of-use" },
-  { label: "Sales and Refunds", path: "/sales-and-refunds" },
-] as const;
+export const FOOTER_LEGAL_LINKS: readonly { label: string; path: string }[] = [];
 
 export const KNOWN_ROUTES = [
   "/",
-  "/content",
-  "/streams",
-  "/music",
-  "/laypeople",
-  "/merch",
   "/quotes",
   "/commands",
-  "/privacy-policy",
-  "/terms-of-use",
-  "/sales-and-refunds",
 ] as const;
 
 export const SCROLL_THRESHOLD = 100;

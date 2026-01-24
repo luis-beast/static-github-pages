@@ -10,16 +10,8 @@ import { LayoutProvider } from "@/contexts/LayoutContext";
 import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Home from "./pages/Home";
-import Content from "./pages/Content";
-import Streams from "./pages/Streams";
-import Music from "./pages/Music";
-import Laypeople from "./pages/Laypeople";
-import Merch from "./pages/Merch";
 import Quotes from "./pages/Quotes";
 import Commands from "./pages/Commands";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfUse from "./pages/TermsOfUse";
-import SalesAndRefunds from "./pages/SalesAndRefunds";
 import NotFound from "./pages/NotFound";
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
@@ -41,31 +33,6 @@ const AppRoutes = memo(function AppRoutes() {
         <AnimatePresence mode="wait">
           <Routes location={location} key={pathname}>
             <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-            <Route path="/content" element={
-              <ProtectedRoute pageId="content">
-                <PageWrapper><Content /></PageWrapper>
-              </ProtectedRoute>
-            } />
-            <Route path="/streams" element={
-              <ProtectedRoute pageId="streams">
-                <PageWrapper><Streams /></PageWrapper>
-              </ProtectedRoute>
-            } />
-            <Route path="/music" element={
-              <ProtectedRoute pageId="music">
-                <PageWrapper><Music /></PageWrapper>
-              </ProtectedRoute>
-            } />
-            <Route path="/laypeople" element={
-              <ProtectedRoute pageId="laypeople">
-                <PageWrapper><Laypeople /></PageWrapper>
-              </ProtectedRoute>
-            } />
-            <Route path="/merch" element={
-              <ProtectedRoute pageId="merch">
-                <PageWrapper><Merch /></PageWrapper>
-              </ProtectedRoute>
-            } />
             <Route path="/quotes" element={
               <ProtectedRoute pageId="quotes">
                 <PageWrapper><Quotes /></PageWrapper>
@@ -74,21 +41,6 @@ const AppRoutes = memo(function AppRoutes() {
             <Route path="/commands" element={
               <ProtectedRoute pageId="commands">
                 <PageWrapper><Commands /></PageWrapper>
-              </ProtectedRoute>
-            } />
-            <Route path="/privacy-policy" element={
-              <ProtectedRoute pageId="privacy-policy">
-                <PageWrapper><PrivacyPolicy /></PageWrapper>
-              </ProtectedRoute>
-            } />
-            <Route path="/terms-of-use" element={
-              <ProtectedRoute pageId="terms-of-use">
-                <PageWrapper><TermsOfUse /></PageWrapper>
-              </ProtectedRoute>
-            } />
-            <Route path="/sales-and-refunds" element={
-              <ProtectedRoute pageId="sales-and-refunds">
-                <PageWrapper><SalesAndRefunds /></PageWrapper>
               </ProtectedRoute>
             } />
             <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />

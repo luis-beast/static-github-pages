@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Tv, ShoppingBag, MessageSquareQuote, Terminal, ArrowRight, Radio } from "lucide-react";
+import { MessageSquareQuote, Terminal, ArrowRight } from "lucide-react";
 import ScrollRevealSection from "./ScrollRevealSection";
 import { useFeaturedPages } from "@/hooks/usePageAccess";
 
@@ -9,37 +9,13 @@ interface Feature {
   id: string;
   title: string;
   description: string;
-  icon: typeof Tv;
+  icon: typeof Terminal;
   path: string;
   gradient: string;
 }
 
 // All possible features - visibility controlled by accessConfig
 const ALL_FEATURES: Feature[] = [
-  {
-    id: "content",
-    title: "The Content",
-    description: "Check out the socials, clips, and the latest announcements from the stream.",
-    icon: Tv,
-    path: "/content",
-    gradient: "from-purple-500/20 to-pink-500/20",
-  },
-  {
-    id: "streams",
-    title: "The Streams",
-    description: "Everything about the streams — schedule, rules, games, setup, and where to watch.",
-    icon: Radio,
-    path: "/streams",
-    gradient: "from-rose-500/20 to-red-500/20",
-  },
-  {
-    id: "merch",
-    title: "The Merch",
-    description: "Rep the Layman Legion with official merchandise. Apparel, accessories, and more coming soon.",
-    icon: ShoppingBag,
-    path: "/merch",
-    gradient: "from-amber-500/20 to-orange-500/20",
-  },
   {
     id: "commands",
     title: "The Commands",
