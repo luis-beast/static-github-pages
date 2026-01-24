@@ -16,17 +16,13 @@ const ScrollRevealSection = memo(function ScrollRevealSection({
   const ref = useRef<HTMLDivElement>(null);
   const [hasRevealed, setHasRevealed] = useState(false);
 
-  // Trigger reveal when scrolling down into view
   const isInView = useInView(ref, { once: false, margin: "-100px" });
-
-  // Reset only when scrolled far above the element (300px above viewport)
   const isAboveReset = useInView(ref, { once: false, margin: "300px 0px -100% 0px" });
 
   useEffect(() => {
     if (isInView && !hasRevealed) {
       setHasRevealed(true);
     }
-    // Reset when scrolled far above (element is no longer in the "above reset" zone)
     if (!isAboveReset && hasRevealed) {
       setHasRevealed(false);
     }

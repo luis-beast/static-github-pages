@@ -14,7 +14,6 @@ interface Feature {
   gradient: string;
 }
 
-// All possible features - visibility controlled by accessConfig
 const ALL_FEATURES: Feature[] = [
   {
     id: "commands",
@@ -52,7 +51,6 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Icon/Visual Side */}
         <div className="flex-shrink-0">
           <div
             className={`w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center backdrop-blur-sm`}
@@ -61,7 +59,6 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
           </div>
         </div>
 
-        {/* Content Side */}
         <div
           className={`flex-1 flex flex-col text-center ${isReversed ? "sm:text-right sm:items-end" : "sm:text-left sm:items-start"} items-center`}
         >
@@ -81,10 +78,8 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
 });
 
 const FeaturesSection = memo(function FeaturesSection() {
-  // Get featured page IDs from access config (respects user role)
   const featuredPageIds = useFeaturedPages();
 
-  // Filter features based on access control
   const visibleFeatures = useMemo(
     () => ALL_FEATURES.filter((feature) => featuredPageIds.includes(feature.id)),
     [featuredPageIds],

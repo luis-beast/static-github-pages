@@ -1,17 +1,11 @@
 import { createContext, useContext, useState, useEffect, useCallback, useRef, ReactNode, memo } from "react";
 
 interface LayoutContextValue {
-  /** Whether the page has been scrolled past the threshold */
   isScrolled: boolean;
-  /** Whether the page has scrollable content */
   canScroll: boolean;
-  /** Current scroll position */
   scrollY: number;
-  /** Total scrollable height */
   scrollHeight: number;
-  /** Viewport height */
   viewportHeight: number;
-  /** Trigger a scroll state refresh */
   refreshScrollState: () => void;
 }
 
@@ -59,10 +53,8 @@ export const LayoutProvider = memo(function LayoutProvider({ children }: LayoutP
   }, [updateScrollState]);
 
   useEffect(() => {
-    // Initial measurement
     refreshScrollState();
 
-    // Scroll handler
     const handleScroll = () => {
       if (rafRef.current) {
         cancelAnimationFrame(rafRef.current);
@@ -70,7 +62,6 @@ export const LayoutProvider = memo(function LayoutProvider({ children }: LayoutP
       rafRef.current = requestAnimationFrame(updateScrollState);
     };
 
-    // Resize handler
     const handleResize = () => {
       refreshScrollState();
     };
