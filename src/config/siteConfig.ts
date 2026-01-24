@@ -10,7 +10,8 @@ export const siteConfig = {
     description: "Check out everything Layman here!",
     author: "LaymanLouie",
     twitterHandle: "@LaymanLouie",
-    ogImage: "https://static-cdn.jtvnw.net/jtv_user_pictures/40a5eb03-da73-4e9c-8252-dc10c94499f6-profile_image-150x150.png",
+    ogImage:
+      "https://static-cdn.jtvnw.net/jtv_user_pictures/40a5eb03-da73-4e9c-8252-dc10c94499f6-profile_image-150x150.png",
   },
   socials: {
     twitch: "https://twitch.tv/laymanlouie",
@@ -22,7 +23,7 @@ export const siteConfig = {
   },
   streamingPlatforms: {
     primary: "twitch",
-    platforms: ["twitch", "youtube", "kick"],
+    platforms: ["twitch", "youtube", "tiktok"],
   },
 } as const;
 
