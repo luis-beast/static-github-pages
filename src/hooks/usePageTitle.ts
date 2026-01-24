@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { siteConfig } from "@/config/siteConfig";
+
+const SITE_NAME = "LaymanLouie";
 
 export function usePageTitle(pageTitle?: string) {
   useEffect(() => {
-    const baseTitle = siteConfig.streamer.name;
-    document.title = pageTitle ? `${pageTitle} | ${baseTitle}` : baseTitle;
+    document.title = pageTitle ? `${pageTitle} | ${SITE_NAME}` : SITE_NAME;
     return () => {
-      document.title = baseTitle;
+      document.title = SITE_NAME;
     };
   }, [pageTitle]);
 }

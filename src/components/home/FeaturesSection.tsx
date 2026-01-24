@@ -1,9 +1,8 @@
-import { memo, useMemo } from "react";
+import { memo } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { MessageSquareQuote, Terminal, ArrowRight } from "lucide-react";
 import ScrollRevealSection from "./ScrollRevealSection";
-import { useFeaturedPages } from "@/hooks/usePageAccess";
 
 interface Feature {
   id: string;
@@ -14,7 +13,7 @@ interface Feature {
   gradient: string;
 }
 
-const ALL_FEATURES: Feature[] = [
+const FEATURES: Feature[] = [
   {
     id: "commands",
     title: "The Commands",
@@ -78,15 +77,6 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
 });
 
 const FeaturesSection = memo(function FeaturesSection() {
-  const featuredPageIds = useFeaturedPages();
-
-  const visibleFeatures = useMemo(
-    () => ALL_FEATURES.filter((feature) => featuredPageIds.includes(feature.id)),
-    [featuredPageIds],
-  );
-
-  if (visibleFeatures.length === 0) return null;
-
   return (
     <section className="py-32 px-6">
       <div className="max-w-5xl mx-auto">
@@ -97,7 +87,7 @@ const FeaturesSection = memo(function FeaturesSection() {
         </ScrollRevealSection>
 
         <div className="space-y-16 sm:space-y-24 lg:space-y-32">
-          {visibleFeatures.map((feature, index) => (
+          {FEATURES.map((feature, index) => (
             <FeatureCard key={feature.path} feature={feature} index={index} isReversed={index % 2 === 0} />
           ))}
         </div>

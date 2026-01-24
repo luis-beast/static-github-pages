@@ -1,11 +1,9 @@
-import { memo, useState, useEffect, useMemo } from "react";
+import { memo, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_ITEMS, DURATION, EASING } from "@/lib/constants";
 import { useIsScrolled } from "@/contexts/LayoutContext";
-import { useAuth } from "@/contexts/AuthContext";
-import { isPageVisibleInNav } from "@/config/accessConfig";
 import { BrandName } from "@/components/ui/GradientText";
 import avatarClear from "@/assets/avatar-clear.png";
 
@@ -14,20 +12,10 @@ const Navigation = memo(function Navigation() {
   const isHomePage = location.pathname === "/";
   const isScrolled = useIsScrolled();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { userRole } = useAuth();
   
   // Track animation sequence: background fades first, then text appears
   const [showText, setShowText] = useState(!isHomePage);
   const [bgVisible, setBgVisible] = useState(isHomePage);
-
-  // Filter nav items based on access control
-  const visibleNavItems = useMemo(() => {
-    return NAV_ITEMS.filter(item => {
-      // Extract page ID from path (e.g., "/merch" -> "merch")
-      const pageId = item.path.slice(1);
-      return isPageVisibleInNav(pageId, userRole);
-    });
-  }, [userRole]);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -119,7 +107,7 @@ const Navigation = memo(function Navigation() {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex relative items-center gap-1">
-            {visibleNavItems.map((item) => {
+            {NAV_ITEMS.map((item) => {
               const isActive = location.pathname === item.path;
               return (
                 <Link
@@ -197,7 +185,7 @@ const Navigation = memo(function Navigation() {
             className="lg:hidden overflow-hidden bg-background/95 backdrop-blur-md border-b border-border/30"
           >
             <nav className="container mx-auto px-4 py-4 flex flex-col items-end gap-1">
-              {visibleNavItems.map((item, index) => {
+              {NAV_ITEMS.map((item, index) => {
                 const isActive = location.pathname === item.path;
                 return (
                   <motion.div
