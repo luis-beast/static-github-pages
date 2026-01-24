@@ -7,8 +7,6 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { KNOWN_ROUTES } from "@/lib/constants";
 import { LayoutProvider } from "@/contexts/LayoutContext";
-import { AuthProvider } from "@/contexts/AuthContext";
-import ProtectedRoute from "@/components/ProtectedRoute";
 import Home from "./pages/Home";
 import Quotes from "./pages/Quotes";
 import Commands from "./pages/Commands";
@@ -33,16 +31,8 @@ const AppRoutes = memo(function AppRoutes() {
         <AnimatePresence mode="wait">
           <Routes location={location} key={pathname}>
             <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-            <Route path="/quotes" element={
-              <ProtectedRoute pageId="quotes">
-                <PageWrapper><Quotes /></PageWrapper>
-              </ProtectedRoute>
-            } />
-            <Route path="/commands" element={
-              <ProtectedRoute pageId="commands">
-                <PageWrapper><Commands /></PageWrapper>
-              </ProtectedRoute>
-            } />
+            <Route path="/quotes" element={<PageWrapper><Quotes /></PageWrapper>} />
+            <Route path="/commands" element={<PageWrapper><Commands /></PageWrapper>} />
             <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
           </Routes>
         </AnimatePresence>
@@ -55,12 +45,10 @@ const AppRoutes = memo(function AppRoutes() {
 
 const AppContent = memo(function AppContent() {
   return (
-    <AuthProvider>
-      <LayoutProvider>
-        <GlobalScrollbar />
-        <AppRoutes />
-      </LayoutProvider>
-    </AuthProvider>
+    <LayoutProvider>
+      <GlobalScrollbar />
+      <AppRoutes />
+    </LayoutProvider>
   );
 });
 
