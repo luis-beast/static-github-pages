@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, useRef, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import QuoteCard from "@/components/QuoteCard";
 import GameBadge from "@/components/GameBadge";
 import { Input } from "@/components/ui/input";
@@ -54,7 +54,7 @@ const Quotes = memo(function Quotes() {
 
   return (
     <PageWrapper>
-      <main className="flex-1 container mx-auto px-4 py-12 md:py-20">
+      <main className="flex-1 mx-auto w-full max-w-[2400px] px-4 sm:px-6 lg:px-10 xl:px-16 py-12 md:py-20">
         <motion.header
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -80,7 +80,7 @@ const Quotes = memo(function Quotes() {
         </motion.header>
 
         <motion.div
-          className="max-w-5xl mx-auto mb-12"
+          className="mb-12"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DURATION.reveal, delay: 0.3, ease: EASING.smooth }}
@@ -88,7 +88,6 @@ const Quotes = memo(function Quotes() {
           <div className="relative group">
             <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
             <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl border border-border/50 p-6 shadow-2xl shadow-primary/5 space-y-4">
-              {/* Row 1: Full-width search bar */}
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input
@@ -97,11 +96,19 @@ const Quotes = memo(function Quotes() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   maxLength={50}
-                  className="pl-12 h-12 w-full bg-secondary/50 border-0 rounded-xl text-base placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/30 transition-all"
+                  className="pl-12 pr-10 h-12 w-full bg-secondary/50 border-0 rounded-xl text-base placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/30 transition-all"
                 />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors"
+                    aria-label="Clear search"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
               </div>
 
-              {/* Row 2: Popover buttons left, count right */}
               <div className="flex flex-wrap items-center justify-center sm:justify-between gap-3 pt-2 border-t border-border/30">
                 <div className="flex flex-wrap items-center gap-3">
                   {availableGames.length > 0 && (
@@ -134,27 +141,21 @@ const Quotes = memo(function Quotes() {
 
         <motion.div
           ref={gridRef}
-          className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 items-stretch"
+          className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 gap-4 items-stretch"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.4 }}
         >
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence mode="sync">
             {filteredQuotes.length > 0 ? (
               filteredQuotes.map((quote) => (
                 <motion.div
                   key={quote.number}
-                  layout
-                  layoutId={`quote-${quote.number}`}
                   className="h-full"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{
-                    layout: { type: "spring", stiffness: 400, damping: 35 },
-                    opacity: { duration: 0.2 },
-                    scale: { duration: 0.2 },
-                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                 >
                   <QuoteCard {...quote} />
                 </motion.div>
@@ -165,7 +166,7 @@ const Quotes = memo(function Quotes() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
-                className="lg:col-span-2 text-center py-20"
+                className="md:col-span-2 3xl:col-span-3 text-center py-20"
               >
                 <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
                   <Search className="w-8 h-8 text-muted-foreground/50" />
