@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Permission } from "@/components/PermissionBadge";
-import { Search, ArrowDownAZ, ArrowUpZA, ArrowDown01, ArrowUp10, ShieldCheck } from "lucide-react";
+import { Search, ArrowDownAZ, ArrowUpZA, ArrowDown01, ArrowUp10, ShieldCheck, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import PermissionBadge from "@/components/PermissionBadge";
@@ -48,7 +48,7 @@ const CommandFilters = memo(function CommandFilters({
   resultCount,
 }: CommandFiltersProps) {
   return (
-    <div className="max-w-5xl mx-auto mb-12">
+    <div className="mb-12">
       <div className="relative group">
         <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
         
@@ -62,8 +62,17 @@ const CommandFilters = memo(function CommandFilters({
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               maxLength={20}
-              className="pl-12 h-12 w-full bg-secondary/50 border-0 rounded-xl text-base placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/30 transition-all"
+              className="pl-12 pr-10 h-12 w-full bg-secondary/50 border-0 rounded-xl text-base placeholder:text-muted-foreground/60 focus:ring-2 focus:ring-primary/30 transition-all"
             />
+            {searchQuery && (
+              <button
+                onClick={() => onSearchChange("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-colors"
+                aria-label="Clear search"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
           </div>
 
           {/* Row 2: Popover buttons + Sort buttons left, count right */}
