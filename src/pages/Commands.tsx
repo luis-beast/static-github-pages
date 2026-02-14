@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef, memo } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import CommandCard from "@/components/CommandCard";
 import CommandFilters, { AlphabeticalOrder, RoleSort } from "@/components/CommandFilters";
@@ -145,54 +145,39 @@ const Commands = memo(function Commands() {
           />
         </motion.div>
 
-        <motion.div
+        <div
           ref={gridRef}
           className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 gap-4 items-stretch"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.4 }}
         >
-          <AnimatePresence mode="sync">
-            {filteredCommands.length > 0 ? (
-              filteredCommands.map((command, index) => {
-                const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
-                const canFocus = hasParameterGroups;
-                const isFocused = focusedId === command.id && canFocus;
+          {filteredCommands.length > 0 ? (
+            filteredCommands.map((command, index) => {
+              const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
+              const canFocus = hasParameterGroups;
+              const isFocused = focusedId === command.id && canFocus;
 
-                return (
-                  <motion.div
-                    key={command.id}
-                    className={`${isFocused ? "md:col-span-2 3xl:col-span-3" : ""} h-full`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <CommandCard
-                      command={command}
-                      orderNumber={index + 1}
-                      isFocused={isFocused}
-                      onFocus={canFocus ? () => handleFocus(command.id) : undefined}
-                    />
-                  </motion.div>
-                );
-              })
-            ) : (
-              <motion.div
-                key="empty"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="md:col-span-2 3xl:col-span-3 text-center py-20"
-              >
-                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-muted/50 flex items-center justify-center">
-                  <Search className="w-8 h-8 text-muted-foreground/50" />
+              return (
+                <div
+                  key={command.id}
+                  className={`${isFocused ? "md:col-span-2 3xl:col-span-3" : ""} h-full`}
+                >
+                  <CommandCard
+                    command={command}
+                    orderNumber={index + 1}
+                    isFocused={isFocused}
+                    onFocus={canFocus ? () => handleFocus(command.id) : undefined}
+                  />
                 </div>
-                <p className="text-muted-foreground text-lg">No commands match your filters.</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
+              );
+            })
+          ) : (
+            <div className="md:col-span-2 3xl:col-span-3 text-center py-8">
+              <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
+                <Search className="w-8 h-8 text-muted-foreground/50" />
+              </div>
+              <p className="text-muted-foreground text-lg">No commands match your filters.</p>
+            </div>
+          )}
+        </div>
       </main>
     </PageWrapper>
   );
