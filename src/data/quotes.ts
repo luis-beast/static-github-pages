@@ -21,15 +21,15 @@ export const quotes: Quote[] = [
   },
   {
     number: 4,
-    quote: "Nowat is so attractive. I think about him when I go to sleep.",
-    game: "Tetris Effect: Connected",
-    timestamp: "01/04/25 22:02",
-  },
-  {
-    number: 5,
     quote: "What quote can I come up with to make ViTaL cry?",
     game: "Tetris Effect: Connected",
     timestamp: "01/04/25 19:07",
+  },
+  {
+    number: 5,
+    quote: "Nowat is so attractive. I think about him when I go to sleep.",
+    game: "Tetris Effect: Connected",
+    timestamp: "01/04/25 22:02",
   },
   {
     number: 6,
@@ -129,13 +129,13 @@ export const quotes: Quote[] = [
   },
   {
     number: 22,
-    quote: "I can't go more than 4 seconds... especially with Oracle",
+    quote: "I can't go more than 4 seconds...especially with Oracle",
     game: "Dead by Daylight",
     timestamp: "11/18/25 23:57",
   },
   {
     number: 23,
-    quote: "You'd love to feel me..",
+    quote: "You'd love to feel me...",
     game: "Fever Meme",
     timestamp: "11/20/25 01:01",
   },
@@ -144,5 +144,17 @@ export const quotes: Quote[] = [
     quote: "I didn't plan to do a wall anyways.",
     game: "Dead by Daylight",
     timestamp: "12/10/25 00:19",
+  },
+  {
+    number: 25,
+    quote: "I am gonna hurt you so badly.",
+    game: "Just Chatting",
+    timestamp: "12/20/25 02:03",
+  },
+  {
+    number: 26,
+    quote: "Do me again.",
+    game: "Just Chatting",
+    timestamp: "02/07/26 11:53",
   },
 ];
