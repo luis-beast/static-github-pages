@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useLayoutEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -37,13 +37,20 @@ const AppRoutes = memo(function AppRoutes() {
           </Routes>
         </AnimatePresence>
       </main>
-      <Footer />
+      <Footer key={pathname} />
       {!isNotFoundPage && <ScrollToTopButton />}
     </div>
   );
 });
 
 const AppContent = memo(function AppContent() {
+  useLayoutEffect(() => {
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <LayoutProvider>
       <GlobalScrollbar />
