@@ -32,19 +32,35 @@ const Navigation = memo(function Navigation() {
     glowSequenceRef.current = [];
   }, []);
 
+  const allNavPaths = ["/", ...NAV_ITEMS.map((item) => item.path)];
+
   const startIdleTimer = useCallback(() => {
     clearTimeout(idleTimerRef.current);
     idleTimerRef.current = setTimeout(() => {
+      const eligible = allNavPaths
+        .map((_, i) => i)
+        .filter((i) => allNavPaths[i] !== location.pathname);
+      if (eligible.length === 0) return;
+
+      let step = 0;
       const runCycle = () => {
-        setIdleGlowIndex(0);
-        const t1 = setTimeout(() => setIdleGlowIndex(1), GLOW_STEP_DURATION);
-        const t2 = setTimeout(() => setIdleGlowIndex(2), GLOW_STEP_DURATION * 2);
-        const t3 = setTimeout(() => runCycle(), GLOW_STEP_DURATION * 3);
-        glowSequenceRef.current = [t1, t2, t3];
+        step = 0;
+        const advance = () => {
+          setIdleGlowIndex(eligible[step]);
+          step++;
+          if (step < eligible.length) {
+            const t = setTimeout(advance, GLOW_STEP_DURATION);
+            glowSequenceRef.current.push(t);
+          } else {
+            const t = setTimeout(runCycle, GLOW_STEP_DURATION);
+            glowSequenceRef.current.push(t);
+          }
+        };
+        advance();
       };
       runCycle();
     }, IDLE_GLOW_TIMEOUT);
-  }, []);
+  }, [location.pathname]);
 
   const resetIdle = useCallback(() => {
     setIdleGlowIndex(null);
