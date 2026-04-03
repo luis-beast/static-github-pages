@@ -3,7 +3,7 @@ import ScrollRevealSection from "./ScrollRevealSection";
 
 const AboutSection = memo(function AboutSection() {
   return (
-    <section className="py-32 px-6">
+    <section className="py-16 lg:py-24 px-6">
       <div className="max-w-4xl 3xl:max-w-6xl 5xl:max-w-7xl mx-auto text-center">
         <ScrollRevealSection>
           <h2 className="text-3xl sm:text-4xl lg:text-6xl 3xl:text-7xl font-bold tracking-tight mb-6 sm:mb-8">YELLOW, LAYPEOPLE!</h2>
