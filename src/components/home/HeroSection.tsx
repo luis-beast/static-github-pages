@@ -1,4 +1,4 @@
-import { memo, useRef, useState, useEffect, useCallback } from "react";
+import { memo, useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { EASING, DURATION } from "@/lib/constants";
@@ -21,24 +21,13 @@ const HeroSection = memo(function HeroSection() {
   const [showArrow, setShowArrow] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
-  const resetIdle = useCallback(() => {
-    setShowArrow(false);
-    clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => setShowArrow(true), IDLE_TIMEOUT);
-  }, []);
-
+  // Start 5s timer on mount — only scroll hides/resets it
   useEffect(() => {
     timerRef.current = setTimeout(() => setShowArrow(true), IDLE_TIMEOUT);
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
-    const events = ["mousemove", "keydown", "touchstart", "click"] as const;
-    events.forEach((e) => window.addEventListener(e, resetIdle, { passive: true }));
-
-    return () => {
-      clearTimeout(timerRef.current);
-      events.forEach((e) => window.removeEventListener(e, resetIdle));
-    };
-  }, [resetIdle]);
-
+  // Hide arrow when scrolled past hero, restart timer when back at top
   useEffect(() => {
     return scrollYProgress.on("change", (v) => {
       if (v > 0.05) {
@@ -49,7 +38,7 @@ const HeroSection = memo(function HeroSection() {
         timerRef.current = setTimeout(() => setShowArrow(true), IDLE_TIMEOUT);
       }
     });
-  }, [scrollYProgress, resetIdle]);
+  }, [scrollYProgress]);
 
   const scrollToContent = () => {
     const hero = ref.current;
@@ -77,7 +66,7 @@ const HeroSection = memo(function HeroSection() {
           className="relative mb-8 inline-block"
         >
           <div className="absolute inset-0 bg-primary/40 rounded-full blur-2xl scale-110" aria-hidden="true" />
-          <div className="relative w-32 h-32 md:w-44 md:h-44 rounded-full overflow-hidden ring-2 ring-primary/50">
+          <div className="relative w-32 h-32 md:w-44 md:h-44 3xl:w-56 3xl:h-56 rounded-full overflow-hidden ring-2 ring-primary/50">
             <img src={avatar} alt="LaymanLouie avatar" className="w-full h-full object-cover" loading="eager" />
           </div>
         </motion.div>
@@ -86,7 +75,7 @@ const HeroSection = memo(function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DURATION.reveal, delay: 0.2, ease: EASING.smooth }}
-          className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
+          className="text-5xl md:text-7xl lg:text-8xl 3xl:text-9xl font-bold tracking-tight mb-6"
         >
           <GradientText gradient="layman">Layman</GradientText>
           <GradientText gradient="louie">Louie</GradientText>
@@ -96,7 +85,7 @@ const HeroSection = memo(function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: DURATION.reveal, delay: 0.4, ease: EASING.smooth }}
-          className="text-xl md:text-2xl text-muted-foreground max-w-xl mx-auto mb-10 font-light"
+          className="text-xl md:text-2xl 3xl:text-3xl text-muted-foreground max-w-xl mx-auto mb-10 font-light"
         >
           Welcome to The Layman's World
         </motion.p>
