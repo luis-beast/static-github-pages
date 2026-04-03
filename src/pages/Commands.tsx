@@ -145,10 +145,7 @@ const Commands = memo(function Commands() {
           />
         </motion.div>
 
-        <div
-          ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 gap-4 items-stretch"
-        >
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 gap-4 items-stretch">
           {filteredCommands.length > 0 ? (
             filteredCommands.map((command, index) => {
               const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
@@ -156,10 +153,7 @@ const Commands = memo(function Commands() {
               const isFocused = focusedId === command.id && canFocus;
 
               return (
-                <div
-                  key={command.id}
-                  className={`${isFocused ? "md:col-span-2 3xl:col-span-3" : ""} h-full`}
-                >
+                <div key={command.id} className={`${isFocused ? "md:col-span-2 3xl:col-span-3" : ""} h-full`}>
                   <CommandCard
                     command={command}
                     orderNumber={index + 1}
