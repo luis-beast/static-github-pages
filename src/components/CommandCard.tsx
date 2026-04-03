@@ -232,7 +232,7 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
             transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="overflow-hidden"
           >
-            <div className="border-t border-border/30 bg-secondary/10 backdrop-blur-sm p-5 space-y-6">
+            <div className="border-t border-border/30 bg-secondary/10 p-5 space-y-6">
               {hasVariations && (
                 <div>
                   <h4 className="text-sm font-semibold text-foreground mb-3">Also works as</h4>
