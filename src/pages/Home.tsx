@@ -4,7 +4,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { ChevronDown, ExternalLink, Terminal, MessageSquareQuote, ArrowRight } from "lucide-react";
 import { EASING, DURATION } from "@/lib/constants";
 import GradientText from "@/components/ui/GradientText";
-import ScrollRevealSection from "@/components/home/ScrollRevealSection";
+import ScrollRevealSection from "@/components/ScrollRevealSection";
 import PageWrapper from "@/components/PageWrapper";
 import usePageTitle from "@/hooks/usePageTitle";
 import avatar from "@/assets/avatar.png";
