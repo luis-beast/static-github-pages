@@ -149,7 +149,7 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
                     {visibleAliases.map((alias, index) => (
                       <motion.span
                         key={alias}
-                        className="text-muted-foreground text-sm font-mono bg-secondary/30 backdrop-blur-sm px-2 py-1 rounded-lg"
+                        className="text-muted-foreground text-sm font-mono bg-secondary/30 px-2 py-1 rounded-lg"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
