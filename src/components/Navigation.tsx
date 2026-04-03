@@ -50,7 +50,7 @@ const Navigation = memo(function Navigation() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
-        isScrolled || mobileMenuOpen ? "bg-background/80 backdrop-blur-md border-b border-border/30" : "bg-transparent"
+        isScrolled || mobileMenuOpen ? "bg-background/95 border-b border-border/30" : "bg-transparent"
       }`}
     >
       <div className="w-full max-w-[95vw] mx-auto px-4">
