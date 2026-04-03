@@ -78,15 +78,15 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
 
 const FeaturesSection = memo(function FeaturesSection() {
   return (
-    <section className="py-32 px-6">
-      <div className="max-w-5xl 3xl:max-w-6xl 5xl:max-w-7xl mx-auto">
+    <section className="py-16 lg:py-24 px-6">
+      <div className="max-w-5xl 3xl:max-w-6xl 4xl:max-w-7xl 5xl:max-w-7xl mx-auto">
         <ScrollRevealSection>
-          <p className="text-xl md:text-2xl 3xl:text-3xl text-muted-foreground text-center mb-20 font-light max-w-2xl 3xl:max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl 3xl:text-3xl text-muted-foreground text-center mb-12 lg:mb-16 font-light max-w-2xl 3xl:max-w-3xl mx-auto">
             Look around, but check the ones below out!
           </p>
         </ScrollRevealSection>
 
-        <div className="space-y-16 sm:space-y-24 lg:space-y-32">
+        <div className="space-y-12 sm:space-y-16 lg:space-y-20">
           {FEATURES.map((feature, index) => (
             <FeatureCard key={feature.path} feature={feature} index={index} isReversed={index % 2 === 0} />
           ))}
