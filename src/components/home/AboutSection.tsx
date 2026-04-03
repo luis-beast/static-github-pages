@@ -23,7 +23,7 @@ const AboutSection = memo(function AboutSection() {
         </ScrollRevealSection>
 
         <ScrollRevealSection delay={0.3}>
-          <blockquote className="relative flex items-center justify-center gap-2 mb-12 sm:mb-16 lg:mb-20">
+          <blockquote className="relative flex items-center justify-center gap-2 mb-6 sm:mb-8 lg:mb-10">
             <span className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl 3xl:text-7xl text-primary font-serif leading-tight sm:leading-none">
               "Good vibes, good people, and a good time together."
             </span>

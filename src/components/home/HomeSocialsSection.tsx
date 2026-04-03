@@ -126,15 +126,15 @@ const SocialRow = memo(function SocialRow({ social, index, isReversed }: SocialR
 
 const HomeSocialsSection = memo(function HomeSocialsSection() {
   return (
-    <section className="py-24 px-6">
-      <div className="max-w-5xl 3xl:max-w-6xl 5xl:max-w-7xl mx-auto">
+    <section className="py-16 lg:py-20 px-6">
+      <div className="max-w-5xl 3xl:max-w-6xl 4xl:max-w-7xl 5xl:max-w-7xl mx-auto">
         <ScrollRevealSection>
-          <p className="text-xl md:text-2xl 3xl:text-3xl text-muted-foreground text-center mb-20 font-light max-w-2xl 3xl:max-w-3xl mx-auto">
+          <p className="text-xl md:text-2xl 3xl:text-3xl text-muted-foreground text-center mb-12 lg:mb-16 font-light max-w-2xl 3xl:max-w-3xl mx-auto">
             You can find me in a few places across the interwebs!
           </p>
         </ScrollRevealSection>
 
-        <div className="space-y-16 sm:space-y-24 lg:space-y-32">
+        <div className="space-y-12 sm:space-y-16 lg:space-y-20">
           {SOCIALS.map((social, index) => (
             <SocialRow key={social.name} social={social} index={index} isReversed={index % 2 !== 0} />
           ))}
