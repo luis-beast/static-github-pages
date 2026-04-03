@@ -921,7 +921,7 @@ export const commands: Command[] = [
     name: "!setquestionofthestream",
     usage: "[question]",
     aliases: ["!setqots", "!updatequestionofthestream", "!updateqots"],
-    permission: "follower",
+    permission: "streamer",
     commandGroups: ["Viewer", "Interactive"],
     description: "This command answers the question of the stream.",
   },
@@ -932,13 +932,6 @@ export const commands: Command[] = [
     permission: "moderator",
     commandGroups: ["Viewer", "Moderation"],
     description: "This command picks a random viewer from chat.",
-  },
-  {
-    id: "ranks",
-    name: "!ranks",
-    permission: "follower",
-    commandGroups: ["Layman", "Statistics"],
-    description: "This command shows your current rank in the community.",
   },
   {
     id: "refreshspotify",
@@ -1245,6 +1238,20 @@ export const commands: Command[] = [
     description: "This command tells us the current song The Layman is hearing.",
   },
   {
+    id: "lastsong",
+    name: "!lastsong",
+    permission: "follower",
+    commandGroups: ["Spotify"],
+    description: "This command tells us the song that The Layman had just played before this one.",
+  },
+  {
+    id: "songcorrection",
+    name: "!songcorrection",
+    permission: "moderator",
+    commandGroups: ["Spotify"],
+    description: "This command lets the Layman Legion queue the correct song since SOMEONEEEE messed it up.",
+  },
+  {
     id: "settimer",
     name: "!settimer",
     usage: "[time]",
@@ -1274,13 +1281,6 @@ export const commands: Command[] = [
         description: "These options set a timer for the amount of second(s) that you set.",
       },
     ],
-  },
-  {
-    id: "tal",
-    name: "tal",
-    permission: "follower",
-    commandGroups: ["Special", "Fun"],
-    description: "This command says a funny message designed by talopedia.",
   },
   {
     id: "test",
@@ -1460,7 +1460,7 @@ export const commands: Command[] = [
     name: "!startchase",
     permission: "follower",
     commandGroups: ["Fun", "Utility"],
-    description: "This command starts the chase!",
+    description: "This command starts the chase The Layman has entered.",
   },
   {
     id: "endchase",
@@ -1468,5 +1468,12 @@ export const commands: Command[] = [
     permission: "follower",
     commandGroups: ["Fun", "Utility"],
     description: "This command says how long The Layman was chased OR ACTUALLY ESCAPED!",
+  },
+  {
+    id: "spawn",
+    name: "!spawn game",
+    permission: "moderator",
+    commandGroups: ["Avatars", "Mini-game", "Fun"],
+    description: "This command spawns a star to catch!",
   },
 ];
