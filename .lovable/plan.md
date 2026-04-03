@@ -1,29 +1,49 @@
 
 
-# Plan: Reduce Wasted Space on Homepage
+# Plan: Consolidate Homepage + Smart Idle Glow
 
-The homepage has massive vertical padding between sections (`py-32` = 128px top+bottom, `py-24` = 96px) and large gaps between items (`space-y-32` = 128px on large screens, `mb-20` = 80px). On ultrawide, the content is narrow compared to available width, and the vertical spacing makes it feel very empty.
+Two changes: (1) inline all homepage sections into `Home.tsx` with unified spacing, and (2) make the navbar idle glow only highlight inactive pages.
 
-## Changes
+## 1. Consolidate Homepage
 
-### 1. Reduce Section Padding
-- **`AboutSection.tsx`**: `py-32` → `py-16 lg:py-24` (halved)
-- **`HomeSocialsSection.tsx`**: `py-24` → `py-16 lg:py-20`
-- **`FeaturesSection.tsx`**: `py-32` → `py-16 lg:py-24`
+Move all content from HeroSection, AboutSection, HomeSocialsSection, and FeaturesSection directly into `Home.tsx`. Delete the four component files.
 
-### 2. Reduce Internal Spacing
-- **`HomeSocialsSection.tsx`** and **`FeaturesSection.tsx`**: Reduce `mb-20` (intro text margin) to `mb-12 lg:mb-16`. Reduce `space-y-16 sm:space-y-24 lg:space-y-32` to `space-y-12 sm:space-y-16 lg:space-y-20`.
-- **`AboutSection.tsx`**: Reduce blockquote bottom margin `mb-12 sm:mb-16 lg:mb-20` to `mb-6 sm:mb-8 lg:mb-10`.
+**Structure:**
+```text
+<PageWrapper>
+  <section min-h-screen>  ← Hero (parallax, avatar, scroll arrow)
+  <section py-12 lg:py-16 px-6>  ← Single container
+    <div max-w-5xl 3xl:6xl 4xl:7xl mx-auto space-y-16 lg:space-y-20>
+      [About block]
+      [Socials block]
+      [Features block]
+    </div>
+  </section>
+</PageWrapper>
+```
 
-### 3. Widen Socials & Features for Ultrawide
-The alternating rows (icon + text) are capped at `max-w-5xl` (~1024px), which on a 3440px screen leaves ~70% of horizontal space empty. 
-- **`HomeSocialsSection.tsx`** and **`FeaturesSection.tsx`**: The container already scales to `5xl:max-w-7xl`, but add `4xl:max-w-7xl` to kick in earlier at 2200px+, filling more width sooner.
+Internal spacing tightened: socials/features row gaps `space-y-10 sm:space-y-12 lg:space-y-16`, intro text margins `mb-8 lg:mb-10`.
+
+## 2. Smart Idle Glow (Inactive Pages Only)
+
+Currently the glow cycles through indices 0 (brand), 1 (Commands), 2 (Quotes) regardless of which page you're on.
+
+**New behavior:** Build a filtered list of "glowable" items based on the current route. Each nav element (brand = `/`, Commands = `/commands`, Quotes = `/quotes`) is only eligible for the glow if its path does NOT match the current `location.pathname`.
+
+- On `/` (home): brand text is hidden anyway + is the active page, so glow only cycles between Commands and Quotes.
+- On `/commands`: glow cycles between LaymanLouie and Quotes.
+- On `/quotes`: glow cycles between LaymanLouie and Commands.
+
+Implementation: create an array of eligible glow indices filtered by `!isActive`, then cycle through only those indices. The `getGlowStyle` function checks if the current `idleGlowIndex` matches a given nav element's index -- only eligible items will ever be set as the active glow index, so active pages never glow. The cycle timing stays the same (1.5s per step), just with fewer steps per cycle.
 
 ## Files Changed
 
 | File | Change |
 |---|---|
-| `src/components/home/AboutSection.tsx` | Reduce vertical padding and bottom margins |
-| `src/components/home/HomeSocialsSection.tsx` | Reduce padding, item gaps, widen container earlier |
-| `src/components/home/FeaturesSection.tsx` | Same as Socials |
+| `src/pages/Home.tsx` | Rewrite: inline all section content with unified spacing |
+| `src/components/Navigation.tsx` | Filter glow sequence to only inactive pages |
+| `src/components/home/HeroSection.tsx` | Delete |
+| `src/components/home/AboutSection.tsx` | Delete |
+| `src/components/home/HomeSocialsSection.tsx` | Delete |
+| `src/components/home/FeaturesSection.tsx` | Delete |
 
