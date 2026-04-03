@@ -48,8 +48,8 @@ const NotFound = () => {
   const rafRef = useRef<number>();
   const transitionStartRef = useRef(0);
   const transitionFromRef = useRef<ParticleState[]>([]);
-  const activeTimeoutRef = useRef<NodeJS.Timeout>();
-  const returnTimeoutRef = useRef<NodeJS.Timeout>();
+  const activeTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const returnTimeoutRef = useRef<ReturnType<typeof setTimeout>>();
 
   const centerX = typeof window !== "undefined" ? window.innerWidth / 2 : 500;
   const centerY = typeof window !== "undefined" ? window.innerHeight / 2 : 400;
