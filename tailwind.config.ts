@@ -11,10 +11,10 @@ export default {
     },
     extend: {
       screens: {
-        "3xl": "1920px",
-        "4xl": "2560px",
-        "5xl": "3200px",
-        "6xl": "3840px",
+        "3xl": "1800px",
+        "4xl": "2200px",
+        "5xl": "3000px",
+        "6xl": "3600px",
       },
       fontFamily: {
         sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],
