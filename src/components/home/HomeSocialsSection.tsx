@@ -15,7 +15,8 @@ const SOCIALS: SocialPlatform[] = [
   {
     name: "Twitch",
     href: "https://www.twitch.tv/laymanlouie",
-    description: "The main stage. This is where the live streams happen, where chat gets wild, and where most of the action goes down. If you want to catch me live, this is the spot.",
+    description:
+      "The main stage. This is where I stream all the time! If you want to see how much The Layman really doesn't know, this is the spot.",
     gradient: "from-purple-500/20 to-violet-500/20",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -26,7 +27,8 @@ const SOCIALS: SocialPlatform[] = [
   {
     name: "YouTube",
     href: "https://www.youtube.com/@LaymanLouie",
-    description: "Highlights, full VODs, and shorts all live here. Perfect for catching up on streams you missed or watching the best moments on repeat.",
+    description:
+      "The goal is to make this the spot for highlights and shortened VOD's. Perfect for catching up on streams you missed or watching the best moments the Layman RARELY has.",
     gradient: "from-red-500/20 to-rose-500/20",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -37,7 +39,8 @@ const SOCIALS: SocialPlatform[] = [
   {
     name: "TikTok",
     href: "https://www.tiktok.com/@laymanlouie",
-    description: "Quick clips and funny moments in bite-sized form. Great for a quick laugh or sharing with friends.",
+    description:
+      "The goal is to make this the spot for quick clips that show how AMAZING or... funny The Layman can be in bite-sized form. Perfect for a quick laugh or sharing.",
     gradient: "from-cyan-500/20 to-pink-500/20",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -48,7 +51,8 @@ const SOCIALS: SocialPlatform[] = [
   {
     name: "Instagram",
     href: "https://www.instagram.com/laymanlouie/",
-    description: "Behind the scenes, personal updates, and a more casual look at life outside of streaming.",
+    description:
+      "The goal is to make this the spot for the behind the scenes, quick personal updates, and a more casual look at life outside of streaming.",
     gradient: "from-orange-500/20 via-pink-500/20 to-purple-500/20",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -59,7 +63,8 @@ const SOCIALS: SocialPlatform[] = [
   {
     name: "Discord",
     href: "https://discord.gg/PAy62ZZNzy",
-    description: "The community hub. Where the Laypeople hang out, chat, share memes, and connect. This is where the community lives.",
+    description:
+      "The place where ALL Laypeople live. This is where the entire community hangs out, chats, shares memes, and connects with one another. If there's a place where to grow within the community, it's here.",
     gradient: "from-indigo-500/20 to-blue-500/20",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -87,19 +92,21 @@ const SocialRow = memo(function SocialRow({ social, index, isReversed }: SocialR
         viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
-        {/* Icon Box */}
         <div className="flex-shrink-0">
-          <div className={`w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center backdrop-blur-sm`}>
-            <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 text-white/80">
-              {icon}
-            </div>
+          <div
+            className={`w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center backdrop-blur-sm`}
+          >
+            <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 text-white/80">{icon}</div>
           </div>
         </div>
 
-        {/* Content Side */}
-        <div className={`flex-1 flex flex-col text-center ${isReversed ? "sm:text-right sm:items-end" : "sm:text-left sm:items-start"} items-center`}>
+        <div
+          className={`flex-1 flex flex-col text-center ${isReversed ? "sm:text-right sm:items-end" : "sm:text-left sm:items-start"} items-center`}
+        >
           <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3">{name}</h3>
-          <p className={`text-muted-foreground text-base lg:text-lg mb-4 sm:mb-6 max-w-md ${isReversed ? "sm:text-right" : "sm:text-left"}`}>
+          <p
+            className={`text-muted-foreground text-base lg:text-lg mb-4 sm:mb-6 max-w-md ${isReversed ? "sm:text-right" : "sm:text-left"}`}
+          >
             {description}
           </p>
           <a
@@ -123,18 +130,13 @@ const HomeSocialsSection = memo(function HomeSocialsSection() {
       <div className="max-w-5xl mx-auto">
         <ScrollRevealSection>
           <p className="text-xl md:text-2xl text-muted-foreground text-center mb-20 font-light max-w-2xl mx-auto">
-            You can usually find me in a few places across the internet.
+            You can find me in a few places across the interwebs!
           </p>
         </ScrollRevealSection>
 
         <div className="space-y-16 sm:space-y-24 lg:space-y-32">
           {SOCIALS.map((social, index) => (
-            <SocialRow
-              key={social.name}
-              social={social}
-              index={index}
-              isReversed={index % 2 !== 0}
-            />
+            <SocialRow key={social.name} social={social} index={index} isReversed={index % 2 !== 0} />
           ))}
         </div>
       </div>
