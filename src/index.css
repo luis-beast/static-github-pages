@@ -62,7 +62,7 @@
     scrollbar-width: none;
     -ms-overflow-style: none;
   }
-  
+
   html::-webkit-scrollbar {
     display: none;
   }
@@ -71,13 +71,14 @@
     @apply bg-background text-foreground font-sans antialiased;
     background: var(--gradient-bg);
     min-height: 100vh;
-    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-family: "Plus Jakarta Sans", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  code, .font-mono {
-    font-family: 'JetBrains Mono', monospace;
+  code,
+  .font-mono {
+    font-family: "JetBrains Mono", monospace;
   }
 }
 
@@ -122,7 +123,9 @@
   }
 
   .hover-lift {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+      transform 0.2s ease,
+      box-shadow 0.2s ease;
   }
 
   .hover-lift:hover {

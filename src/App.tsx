@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { KNOWN_ROUTES } from "@/lib/constants";
 import { LayoutProvider } from "@/contexts/LayoutContext";
@@ -30,10 +30,38 @@ const AppRoutes = memo(function AppRoutes() {
       <main className="flex-1 flex flex-col">
         <AnimatePresence mode="wait">
           <Routes location={location} key={pathname}>
-            <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-            <Route path="/quotes" element={<PageWrapper><Quotes /></PageWrapper>} />
-            <Route path="/commands" element={<PageWrapper><Commands /></PageWrapper>} />
-            <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
+            <Route
+              path="/"
+              element={
+                <PageWrapper>
+                  <Home />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="/quotes"
+              element={
+                <PageWrapper>
+                  <Quotes />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="/commands"
+              element={
+                <PageWrapper>
+                  <Commands />
+                </PageWrapper>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <PageWrapper>
+                  <NotFound />
+                </PageWrapper>
+              }
+            />
           </Routes>
         </AnimatePresence>
       </main>
@@ -45,12 +73,11 @@ const AppRoutes = memo(function AppRoutes() {
 
 const AppContent = memo(function AppContent() {
   useLayoutEffect(() => {
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
     }
     window.scrollTo(0, 0);
   }, []);
-
   return (
     <LayoutProvider>
       <GlobalScrollbar />
@@ -64,9 +91,9 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <HashRouter>
         <AppContent />
-      </BrowserRouter>
+      </HashRouter>
     </TooltipProvider>
   </QueryClientProvider>
 );
