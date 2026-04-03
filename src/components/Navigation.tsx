@@ -23,7 +23,6 @@ const Navigation = memo(function Navigation() {
   const [showText, setShowText] = useState(!isHomePage);
   const [bgVisible, setBgVisible] = useState(isHomePage);
 
-  // Idle glow state: null = no glow, 0 = brand, 1+ = nav items
   const [idleGlowIndex, setIdleGlowIndex] = useState<number | null>(null);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const glowSequenceRef = useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -36,7 +35,6 @@ const Navigation = memo(function Navigation() {
   const startIdleTimer = useCallback(() => {
     clearTimeout(idleTimerRef.current);
     idleTimerRef.current = setTimeout(() => {
-      // Start sequential glow: 0 -> 1 -> 2 -> null
       const runCycle = () => {
         setIdleGlowIndex(0);
         const t1 = setTimeout(() => setIdleGlowIndex(1), GLOW_STEP_DURATION);
@@ -54,13 +52,11 @@ const Navigation = memo(function Navigation() {
     startIdleTimer();
   }, [clearGlowSequence, startIdleTimer]);
 
-  // Reset on route change
   useEffect(() => {
     setMobileMenuOpen(false);
     resetIdle();
   }, [location.pathname, resetIdle]);
 
-  // Listen for scroll and click (real interactions)
   useEffect(() => {
     startIdleTimer();
 
@@ -164,7 +160,7 @@ const Navigation = memo(function Navigation() {
           <nav className="hidden lg:flex relative items-center gap-1">
             {NAV_ITEMS.map((item, i) => {
               const isActive = location.pathname === item.path;
-              const glowIndex = i + 1; // 1 for Commands, 2 for Quotes
+              const glowIndex = i + 1;
               return (
                 <Link
                   key={item.path}
