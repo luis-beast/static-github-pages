@@ -11,6 +11,7 @@ interface TagBadgeProps {
 
 const TagBadge = memo(function TagBadge({ tag, size = "sm", isActive = true, onClick }: TagBadgeProps) {
   const color = getTagColor(tag);
+  const isPremium = tag.toLowerCase() === "layman";
 
   return (
     <BaseBadge
@@ -19,6 +20,7 @@ const TagBadge = memo(function TagBadge({ tag, size = "sm", isActive = true, onC
       size={size}
       isActive={isActive}
       onClick={onClick}
+      useEnhanced={isPremium}
     />
   );
 });

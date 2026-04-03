@@ -97,7 +97,7 @@ const Commands = memo(function Commands() {
 
   return (
     <PageWrapper>
-      <main className="flex-1 mx-auto w-full max-w-[2400px] px-4 sm:px-6 lg:px-10 xl:px-16 py-12 md:py-20">
+      <main className="flex-1 mx-auto w-full max-w-[95vw] px-4 sm:px-6 lg:px-10 xl:px-16 py-12 md:py-20">
         <motion.header
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -145,7 +145,7 @@ const Commands = memo(function Commands() {
           />
         </motion.div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 gap-4 items-stretch">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 5xl:grid-cols-5 gap-4 items-stretch">
           {filteredCommands.length > 0 ? (
             filteredCommands.map((command, index) => {
               const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
@@ -153,7 +153,7 @@ const Commands = memo(function Commands() {
               const isFocused = focusedId === command.id && canFocus;
 
               return (
-                <div key={command.id} className={`${isFocused ? "md:col-span-2 3xl:col-span-3" : ""} h-full`}>
+                <div key={command.id} className={`${isFocused ? "md:col-span-2 3xl:col-span-3 4xl:col-span-4 5xl:col-span-5" : ""} h-full`}>
                   <CommandCard
                     command={command}
                     orderNumber={index + 1}
@@ -164,7 +164,7 @@ const Commands = memo(function Commands() {
               );
             })
           ) : (
-            <div className="md:col-span-2 3xl:col-span-3 text-center py-8">
+            <div className="md:col-span-2 3xl:col-span-3 4xl:col-span-4 5xl:col-span-5 text-center py-8">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
                 <Search className="w-8 h-8 text-muted-foreground/50" />
               </div>

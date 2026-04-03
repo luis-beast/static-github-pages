@@ -54,7 +54,7 @@ const Quotes = memo(function Quotes() {
 
   return (
     <PageWrapper>
-      <main className="flex-1 mx-auto w-full max-w-[2400px] px-4 sm:px-6 lg:px-10 xl:px-16 py-12 md:py-20">
+      <main className="flex-1 mx-auto w-full max-w-[95vw] px-4 sm:px-6 lg:px-10 xl:px-16 py-12 md:py-20">
         <motion.header
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
@@ -139,7 +139,7 @@ const Quotes = memo(function Quotes() {
           </div>
         </motion.div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 gap-4 items-stretch">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 5xl:grid-cols-5 gap-4 items-stretch">
           {filteredQuotes.length > 0 ? (
             filteredQuotes.map((quote) => (
               <div key={quote.number} className="h-full">
@@ -147,7 +147,7 @@ const Quotes = memo(function Quotes() {
               </div>
             ))
           ) : (
-            <div className="md:col-span-2 3xl:col-span-3 text-center py-8">
+            <div className="md:col-span-2 3xl:col-span-3 4xl:col-span-4 5xl:col-span-5 text-center py-8">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
                 <Search className="w-8 h-8 text-muted-foreground/50" />
               </div>
