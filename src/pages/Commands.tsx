@@ -153,7 +153,7 @@ const Commands = memo(function Commands() {
               const isFocused = focusedId === command.id && canFocus;
 
               return (
-                <div key={command.id} className={`${isFocused ? "md:col-span-2 3xl:col-span-3 4xl:col-span-4 5xl:col-span-5" : ""} h-full`}>
+                <div key={command.id} className={`${isFocused ? "md:col-span-2 3xl:col-span-3 4xl:col-span-4 5xl:col-span-5 6xl:col-span-6" : ""} h-full`}>
                   <CommandCard
                     command={command}
                     orderNumber={index + 1}
