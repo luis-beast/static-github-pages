@@ -9,15 +9,10 @@ import {
   getTooltipDateTime,
   type SmartFormatOptions,
 } from "@/lib/dateTime";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
-export type DateTimeFormat = 'smart' | 'absolute' | 'relative' | 'compact';
+export type DateTimeFormat = "smart" | "absolute" | "relative" | "compact";
 
 export interface DateTimeProps {
   date: Date | string;
@@ -36,11 +31,11 @@ function parseDate(date: Date | string, isMST: boolean): Date {
   if (date instanceof Date) {
     return date;
   }
-  
+
   if (isMST) {
     return parseMSTDateTime(date);
   }
-  
+
   const parsed = new Date(date);
   if (isNaN(parsed.getTime())) {
     console.warn(`Invalid date string: ${date}`);
@@ -49,22 +44,17 @@ function parseDate(date: Date | string, isMST: boolean): Date {
   return parsed;
 }
 
-function formatDate(
-  date: Date,
-  format: DateTimeFormat,
-  showTimezone: boolean,
-  options?: SmartFormatOptions
-): string {
+function formatDate(date: Date, format: DateTimeFormat, showTimezone: boolean, options?: SmartFormatOptions): string {
   const opts = { ...options, includeTimezone: showTimezone };
-  
+
   switch (format) {
-    case 'smart':
+    case "smart":
       return formatSmartDateTime(date, opts);
-    case 'absolute':
+    case "absolute":
       return formatAbsoluteDateTime(date, opts);
-    case 'relative':
+    case "relative":
       return formatRelativeTime(date);
-    case 'compact':
+    case "compact":
       return formatCompact(date);
     default:
       return formatSmartDateTime(date, opts);
@@ -73,7 +63,7 @@ function formatDate(
 
 const DateTime = memo(function DateTime({
   date,
-  format = 'smart',
+  format = "smart",
   isMST = false,
   showTimezone = true,
   options,
@@ -85,33 +75,32 @@ const DateTime = memo(function DateTime({
 }: DateTimeProps) {
   const parsedDate = useMemo(() => parseDate(date, isMST), [date, isMST]);
   const [, setTick] = useState(0);
-  
+
   useEffect(() => {
     if (!autoUpdate) return;
-    
-    const usesRelative = format === 'relative' || format === 'smart' || format === 'compact';
+
+    const usesRelative = format === "relative" || format === "smart" || format === "compact";
     if (!usesRelative) return;
-    
+
     const interval = setInterval(() => {
-      setTick(t => t + 1);
+      setTick((t) => t + 1);
     }, updateInterval);
-    
+
     return () => clearInterval(interval);
   }, [autoUpdate, updateInterval, format]);
-  
+
   const formattedDate = useMemo(
     () => formatDate(parsedDate, format, showTimezone, options),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [parsedDate, format, showTimezone, options, autoUpdate && format]
+    [parsedDate, format, showTimezone, options, autoUpdate && format],
   );
-  
+
   const tooltipContent = useMemo(() => {
     if (!showTooltip) return null;
-    
-    if (isMST && typeof date === 'string') {
+
+    if (isMST && typeof date === "string") {
       return getTooltipDateTime(date);
     }
-    
+
     return formatAbsoluteDateTime(parsedDate, {
       includeDate: true,
       includeTime: true,
@@ -119,39 +108,32 @@ const DateTime = memo(function DateTime({
       includeTimezone: true,
     });
   }, [showTooltip, isMST, date, parsedDate]);
-  
+
   const timezoneAbbr = useMemo(() => {
     if (!showTimezone) return null;
-    if (format === 'compact' || format === 'relative') {
+    if (format === "compact" || format === "relative") {
       return getUserTimezoneAbbr();
     }
     return null;
   }, [showTimezone, format]);
-  
+
   const content = (
-    <time 
-      dateTime={parsedDate.toISOString()} 
-      className={cn("text-muted-foreground", className)}
-    >
+    <time dateTime={parsedDate.toISOString()} className={cn("text-muted-foreground", className)}>
       {formattedDate}
       {timezoneAbbr && (
-        <span className={cn("text-muted-foreground/60 text-sm ml-1", timezoneClassName)}>
-          {timezoneAbbr}
-        </span>
+        <span className={cn("text-muted-foreground/60 text-sm ml-1", timezoneClassName)}>{timezoneAbbr}</span>
       )}
     </time>
   );
-  
+
   if (!showTooltip || !tooltipContent) {
     return content;
   }
-  
+
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger asChild>
-          {content}
-        </TooltipTrigger>
+        <TooltipTrigger asChild>{content}</TooltipTrigger>
         <TooltipContent>
           <p>{tooltipContent}</p>
         </TooltipContent>
@@ -162,20 +144,14 @@ const DateTime = memo(function DateTime({
 
 export default DateTime;
 
-export const DateTimeCompact = memo(function DateTimeCompact(
-  props: Omit<DateTimeProps, 'format'>
-) {
+export const DateTimeCompact = memo(function DateTimeCompact(props: Omit<DateTimeProps, "format">) {
   return <DateTime {...props} format="compact" />;
 });
 
-export const DateTimeRelative = memo(function DateTimeRelative(
-  props: Omit<DateTimeProps, 'format'>
-) {
+export const DateTimeRelative = memo(function DateTimeRelative(props: Omit<DateTimeProps, "format">) {
   return <DateTime {...props} format="relative" showTimezone={false} />;
 });
 
-export const DateTimeAbsolute = memo(function DateTimeAbsolute(
-  props: Omit<DateTimeProps, 'format'>
-) {
+export const DateTimeAbsolute = memo(function DateTimeAbsolute(props: Omit<DateTimeProps, "format">) {
   return <DateTime {...props} format="absolute" />;
 });

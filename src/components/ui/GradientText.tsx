@@ -15,9 +15,7 @@ const GradientText = memo(function GradientText({
   as: Component = "span",
 }: GradientTextProps) {
   const gradientValue =
-    gradient in BRAND_GRADIENTS
-      ? BRAND_GRADIENTS[gradient as keyof typeof BRAND_GRADIENTS]
-      : gradient;
+    gradient in BRAND_GRADIENTS ? BRAND_GRADIENTS[gradient as keyof typeof BRAND_GRADIENTS] : gradient;
 
   return (
     <Component

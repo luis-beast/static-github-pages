@@ -36,7 +36,7 @@ const BaseBadge = memo(function BaseBadge({
         "inline-flex items-center rounded-md font-medium border transition-all duration-200",
         SIZE_CLASSES[size],
         onClick && "cursor-pointer hover:scale-105",
-        className
+        className,
       )}
       style={styles as CSSProperties}
     >
