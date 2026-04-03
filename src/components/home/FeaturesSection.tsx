@@ -82,7 +82,7 @@ const FeaturesSection = memo(function FeaturesSection() {
       <div className="max-w-5xl mx-auto">
         <ScrollRevealSection>
           <p className="text-xl md:text-2xl text-muted-foreground text-center mb-20 font-light max-w-2xl mx-auto">
-            If you want to dive deeper into what we've got going on...
+            Look around, but check the ones below out!
           </p>
         </ScrollRevealSection>
 
