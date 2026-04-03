@@ -39,14 +39,12 @@ const HeroSection = memo(function HeroSection() {
     };
   }, [resetIdle]);
 
-  // Hide arrow once user scrolls past hero
   useEffect(() => {
     return scrollYProgress.on("change", (v) => {
       if (v > 0.05) {
         setShowArrow(false);
         clearTimeout(timerRef.current);
       } else if (v <= 0.05) {
-        // Re-enable idle timer when back at top
         clearTimeout(timerRef.current);
         timerRef.current = setTimeout(() => setShowArrow(true), IDLE_TIMEOUT);
       }
