@@ -1,28 +1,38 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
-    "skipLibCheck": true,
-    "composite": true,
-    "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
+    "composite": true,
     "emitDeclarationOnly": true,
     "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": false,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "strict": false,
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "noEmit": false,
+    "noFallthroughCasesInSwitch": false,
+    "noImplicitAny": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noImplicitAny": false,
-    "noFallthroughCasesInSwitch": false,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      "@/*": [
+        "./src/*"
+      ]
+    },
+    "skipLibCheck": true,
+    "strict": false,
+    "target": "ES2020",
+    "useDefineForClassFields": true
   },
-  "include": ["src", "src/**/*.ts", "src/**/*.tsx", "src/declarations.d.ts"]
+  "include": [
+    "src",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/declarations.d.ts"
+  ]
 }
