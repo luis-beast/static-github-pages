@@ -103,7 +103,7 @@ const HeroSection = memo(function HeroSection() {
               opacity: { duration: 1.2, ease: "easeOut" },
               y: { duration: 2, repeat: Infinity, ease: "easeInOut" },
             }}
-            className="absolute bottom-10 z-20 p-3 rounded-full text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+            className="absolute bottom-[15vh] z-20 p-3 rounded-full text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
             aria-label="Scroll down"
           >
             <ChevronDown className="w-8 h-8" />
