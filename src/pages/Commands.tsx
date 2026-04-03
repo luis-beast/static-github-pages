@@ -97,7 +97,7 @@ const Commands = memo(function Commands() {
 
   return (
     <PageWrapper>
-      <main className="flex-1 mx-auto w-full max-w-[2400px] px-4 sm:px-6 lg:px-10 xl:px-16 py-12 md:py-20">
+      <main className="flex-1 mx-auto w-full max-w-[95vw] px-4 sm:px-6 lg:px-10 xl:px-16 py-12 md:py-20">
         <motion.header
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
