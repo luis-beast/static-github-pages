@@ -1,28 +1,29 @@
 
 
-# Plan: Arrow Position Fix & Glow Loop Fix
+# Plan: Reduce Wasted Space on Homepage
 
-## What fixed the white flash
-Removing `backdrop-blur` from `BaseCard`, `Navigation`, `CommandCard`, and `CommandFilters` in the previous round eliminated the expensive GPU compositing that caused the white flash during fast scrolling. The `background-attachment: fixed` on the body and `will-change: transform` on the glow div also helped.
+The homepage has massive vertical padding between sections (`py-32` = 128px top+bottom, `py-24` = 96px) and large gaps between items (`space-y-32` = 128px on large screens, `mb-20` = 80px). On ultrawide, the content is narrow compared to available width, and the vertical spacing makes it feel very empty.
 
-## 1. Move Chevron Arrow Higher
+## Changes
 
-**Problem**: `bottom-10` places the arrow too low, nearly off-screen.
+### 1. Reduce Section Padding
+- **`AboutSection.tsx`**: `py-32` → `py-16 lg:py-24` (halved)
+- **`HomeSocialsSection.tsx`**: `py-24` → `py-16 lg:py-20`
+- **`FeaturesSection.tsx`**: `py-32` → `py-16 lg:py-24`
 
-**Change in `src/components/home/HeroSection.tsx`**:
-- Change `className` from `absolute bottom-10` to `absolute bottom-[15vh]` — this places it roughly midway between the subtitle text and the screen bottom, and scales with viewport height.
+### 2. Reduce Internal Spacing
+- **`HomeSocialsSection.tsx`** and **`FeaturesSection.tsx`**: Reduce `mb-20` (intro text margin) to `mb-12 lg:mb-16`. Reduce `space-y-16 sm:space-y-24 lg:space-y-32` to `space-y-12 sm:space-y-16 lg:space-y-20`.
+- **`AboutSection.tsx`**: Reduce blockquote bottom margin `mb-12 sm:mb-16 lg:mb-20` to `mb-6 sm:mb-8 lg:mb-10`.
 
-## 2. Remove Pause Between Glow Loops
-
-**Problem**: After the sequence (Brand -> Commands -> Quotes), `setIdleGlowIndex(null)` fires, then `startIdleTimer()` waits another 10 seconds before restarting. The user wants continuous looping with no gap.
-
-**Change in `src/components/Navigation.tsx`**:
-- In `startIdleTimer`, after the sequence completes (at `GLOW_STEP_DURATION * 3`), instead of setting index to `null` and calling `startIdleTimer()` (which adds a 10s delay), immediately restart the sequence by setting index back to `0` and scheduling the next cycle. This creates a seamless loop: `0 -> 1 -> 2 -> 0 -> 1 -> 2 -> ...` until interrupted.
+### 3. Widen Socials & Features for Ultrawide
+The alternating rows (icon + text) are capped at `max-w-5xl` (~1024px), which on a 3440px screen leaves ~70% of horizontal space empty. 
+- **`HomeSocialsSection.tsx`** and **`FeaturesSection.tsx`**: The container already scales to `5xl:max-w-7xl`, but add `4xl:max-w-7xl` to kick in earlier at 2200px+, filling more width sooner.
 
 ## Files Changed
 
 | File | Change |
 |---|---|
-| `src/components/home/HeroSection.tsx` | Change arrow position from `bottom-10` to `bottom-[15vh]` |
-| `src/components/Navigation.tsx` | Loop glow sequence continuously without the 10s pause between cycles |
+| `src/components/home/AboutSection.tsx` | Reduce vertical padding and bottom margins |
+| `src/components/home/HomeSocialsSection.tsx` | Reduce padding, item gaps, widen container earlier |
+| `src/components/home/FeaturesSection.tsx` | Same as Socials |
 
