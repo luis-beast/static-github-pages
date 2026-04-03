@@ -1,4 +1,4 @@
-import { memo, useState, useEffect } from "react";
+import { memo, useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -6,6 +6,13 @@ import { NAV_ITEMS, DURATION, EASING } from "@/lib/constants";
 import { useIsScrolled } from "@/contexts/LayoutContext";
 import { BrandName } from "@/components/ui/GradientText";
 import avatarClear from "@/assets/avatar-clear.png";
+
+const IDLE_GLOW_TIMEOUT = 10000;
+const GLOW_STEP_DURATION = 1500;
+
+const BRAND_GLOW = "0 0 12px rgba(255,255,255,0.7), 0 0 20px rgba(187,102,255,0.5), 0 0 30px rgba(136,0,255,0.3)";
+const WHITE_GLOW = "0 0 12px rgba(255,255,255,0.8), 0 0 24px rgba(255,255,255,0.4)";
+const NO_GLOW = "0 0 0px transparent";
 
 const Navigation = memo(function Navigation() {
   const location = useLocation();
@@ -16,22 +23,74 @@ const Navigation = memo(function Navigation() {
   const [showText, setShowText] = useState(!isHomePage);
   const [bgVisible, setBgVisible] = useState(isHomePage);
 
+  // Idle glow state: null = no glow, 0 = brand, 1+ = nav items
+  const [idleGlowIndex, setIdleGlowIndex] = useState<number | null>(null);
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const glowSequenceRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  const clearGlowSequence = useCallback(() => {
+    glowSequenceRef.current.forEach(clearTimeout);
+    glowSequenceRef.current = [];
+  }, []);
+
+  const startIdleTimer = useCallback(() => {
+    clearTimeout(idleTimerRef.current);
+    idleTimerRef.current = setTimeout(() => {
+      // Start sequential glow: 0 -> 1 -> 2 -> null
+      setIdleGlowIndex(0);
+      const t1 = setTimeout(() => setIdleGlowIndex(1), GLOW_STEP_DURATION);
+      const t2 = setTimeout(() => setIdleGlowIndex(2), GLOW_STEP_DURATION * 2);
+      const t3 = setTimeout(() => {
+        setIdleGlowIndex(null);
+        startIdleTimer(); // restart cycle if still idle
+      }, GLOW_STEP_DURATION * 3);
+      glowSequenceRef.current = [t1, t2, t3];
+    }, IDLE_GLOW_TIMEOUT);
+  }, []);
+
+  const resetIdle = useCallback(() => {
+    setIdleGlowIndex(null);
+    clearGlowSequence();
+    startIdleTimer();
+  }, [clearGlowSequence, startIdleTimer]);
+
+  // Reset on route change
   useEffect(() => {
     setMobileMenuOpen(false);
-  }, [location.pathname]);
+    resetIdle();
+  }, [location.pathname, resetIdle]);
+
+  // Listen for scroll and click (real interactions)
+  useEffect(() => {
+    startIdleTimer();
+
+    const onScroll = () => resetIdle();
+    const onClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.closest("a, button, [role='button'], input, select, textarea")) {
+        resetIdle();
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("click", onClick, { capture: true });
+
+    return () => {
+      clearTimeout(idleTimerRef.current);
+      clearGlowSequence();
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("click", onClick, { capture: true });
+    };
+  }, [startIdleTimer, resetIdle, clearGlowSequence]);
 
   useEffect(() => {
     if (isHomePage) {
       setBgVisible(true);
-      const timer = setTimeout(() => {
-        setShowText(false);
-      }, 300);
+      const timer = setTimeout(() => setShowText(false), 300);
       return () => clearTimeout(timer);
     } else {
       setBgVisible(false);
-      const timer = setTimeout(() => {
-        setShowText(true);
-      }, 300);
+      const timer = setTimeout(() => setShowText(true), 300);
       return () => clearTimeout(timer);
     }
   }, [isHomePage]);
@@ -46,6 +105,11 @@ const Navigation = memo(function Navigation() {
       document.body.style.overflow = "";
     };
   }, [mobileMenuOpen]);
+
+  const getGlowStyle = (index: number) => ({
+    textShadow: idleGlowIndex === index ? (index === 0 ? BRAND_GLOW : WHITE_GLOW) : NO_GLOW,
+    transition: "text-shadow 0.5s ease",
+  });
 
   return (
     <nav
@@ -89,7 +153,7 @@ const Navigation = memo(function Navigation() {
                     showText ? "opacity-100" : "opacity-0"
                   }`}
                 >
-                  <span className="font-semibold text-lg whitespace-nowrap ml-3 mr-1">
+                  <span className="font-semibold text-lg whitespace-nowrap ml-3 mr-1" style={getGlowStyle(0)}>
                     <BrandName />
                   </span>
                 </div>
@@ -98,8 +162,9 @@ const Navigation = memo(function Navigation() {
           </Link>
 
           <nav className="hidden lg:flex relative items-center gap-1">
-            {NAV_ITEMS.map((item) => {
+            {NAV_ITEMS.map((item, i) => {
               const isActive = location.pathname === item.path;
+              const glowIndex = i + 1; // 1 for Commands, 2 for Quotes
               return (
                 <Link
                   key={item.path}
@@ -122,6 +187,7 @@ const Navigation = memo(function Navigation() {
                     className={`relative z-10 transition-colors duration-200 ${
                       isActive ? "text-white" : "text-muted-foreground group-hover:text-white"
                     }`}
+                    style={getGlowStyle(glowIndex)}
                   >
                     {item.label}
                   </span>

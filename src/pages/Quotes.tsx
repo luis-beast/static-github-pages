@@ -139,7 +139,7 @@ const Quotes = memo(function Quotes() {
           </div>
         </motion.div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 5xl:grid-cols-5 gap-4 items-stretch">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 5xl:grid-cols-5 6xl:grid-cols-6 gap-4 items-stretch">
           {filteredQuotes.length > 0 ? (
             filteredQuotes.map((quote) => (
               <div key={quote.number} className="h-full">
@@ -147,7 +147,7 @@ const Quotes = memo(function Quotes() {
               </div>
             ))
           ) : (
-            <div className="md:col-span-2 3xl:col-span-3 4xl:col-span-4 5xl:col-span-5 text-center py-8">
+            <div className="md:col-span-2 3xl:col-span-3 4xl:col-span-4 5xl:col-span-5 6xl:col-span-6 text-center py-8">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
                 <Search className="w-8 h-8 text-muted-foreground/50" />
               </div>

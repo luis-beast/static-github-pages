@@ -94,18 +94,18 @@ const SocialRow = memo(function SocialRow({ social, index, isReversed }: SocialR
       >
         <div className="flex-shrink-0">
           <div
-            className={`w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center`}
+            className={`w-28 h-28 sm:w-32 sm:h-32 lg:w-40 lg:h-40 3xl:w-48 3xl:h-48 rounded-2xl sm:rounded-3xl bg-gradient-to-br ${gradient} border border-border/20 flex items-center justify-center`}
           >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 text-white/80">{icon}</div>
+            <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 3xl:w-20 3xl:h-20 text-white/80">{icon}</div>
           </div>
         </div>
 
         <div
           className={`flex-1 flex flex-col text-center ${isReversed ? "sm:text-right sm:items-end" : "sm:text-left sm:items-start"} items-center`}
         >
-          <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-2 sm:mb-3">{name}</h3>
+          <h3 className="text-xl sm:text-2xl lg:text-3xl 3xl:text-4xl font-bold mb-2 sm:mb-3">{name}</h3>
           <p
-            className={`text-muted-foreground text-base lg:text-lg mb-4 sm:mb-6 max-w-md ${isReversed ? "sm:text-right" : "sm:text-left"}`}
+            className={`text-muted-foreground text-base lg:text-lg 3xl:text-xl mb-4 sm:mb-6 max-w-md 3xl:max-w-lg ${isReversed ? "sm:text-right" : "sm:text-left"}`}
           >
             {description}
           </p>
@@ -127,9 +127,9 @@ const SocialRow = memo(function SocialRow({ social, index, isReversed }: SocialR
 const HomeSocialsSection = memo(function HomeSocialsSection() {
   return (
     <section className="py-24 px-6">
-      <div className="max-w-5xl mx-auto">
+      <div className="max-w-5xl 3xl:max-w-6xl 5xl:max-w-7xl mx-auto">
         <ScrollRevealSection>
-          <p className="text-xl md:text-2xl text-muted-foreground text-center mb-20 font-light max-w-2xl mx-auto">
+          <p className="text-xl md:text-2xl 3xl:text-3xl text-muted-foreground text-center mb-20 font-light max-w-2xl 3xl:max-w-3xl mx-auto">
             You can find me in a few places across the interwebs!
           </p>
         </ScrollRevealSection>
