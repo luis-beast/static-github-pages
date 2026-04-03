@@ -145,7 +145,7 @@ const Commands = memo(function Commands() {
           />
         </motion.div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 5xl:grid-cols-5 gap-4 items-stretch">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 3xl:grid-cols-3 4xl:grid-cols-4 5xl:grid-cols-5 6xl:grid-cols-6 gap-4 items-stretch">
           {filteredCommands.length > 0 ? (
             filteredCommands.map((command, index) => {
               const hasParameterGroups = command.parameterGroups && command.parameterGroups.length > 0;
