@@ -18,7 +18,7 @@ const Footer = memo(function Footer() {
       animate={isInView ? { opacity: 1 } : { opacity: 0 }}
       transition={{ duration: DURATION.reveal, ease: EASING.smooth }}
     >
-      <div className="container mx-auto">
+      <div className="w-full max-w-[95vw] mx-auto px-4">
         <motion.div
           className="flex flex-wrap items-center justify-center lg:justify-between gap-x-1 gap-y-2 pb-6 border-b border-border/20"
           initial={{ opacity: 0 }}

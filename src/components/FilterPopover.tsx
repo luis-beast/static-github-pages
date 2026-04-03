@@ -49,7 +49,7 @@ const FilterPopover = memo(function FilterPopover({ sections, triggerLabel = "Fi
       </PopoverTrigger>
       <PopoverContent
         align="start"
-        className="w-auto max-w-[420px] p-5 bg-card/95 backdrop-blur-xl border-border/50 rounded-2xl shadow-2xl"
+        className="w-auto max-w-[420px] p-5 bg-card/95 border-border/50 rounded-2xl shadow-2xl"
       >
         <div className="space-y-5">
           {sections.map((section, sectionIndex) => (

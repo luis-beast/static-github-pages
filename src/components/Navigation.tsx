@@ -50,10 +50,10 @@ const Navigation = memo(function Navigation() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
-        isScrolled || mobileMenuOpen ? "bg-background/80 backdrop-blur-md border-b border-border/30" : "bg-transparent"
+        isScrolled || mobileMenuOpen ? "bg-background/95 border-b border-border/30" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4">
+      <div className="w-full max-w-[95vw] mx-auto px-4">
         <div
           className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? "h-12" : "h-16"}`}
         >
@@ -170,9 +170,9 @@ const Navigation = memo(function Navigation() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: DURATION.normal, ease: EASING.snappy }}
-            className="lg:hidden overflow-hidden bg-background/95 backdrop-blur-md border-b border-border/30"
+            className="lg:hidden overflow-hidden bg-background/95 border-b border-border/30"
           >
-            <nav className="container mx-auto px-4 py-4 flex flex-col items-end gap-1">
+            <nav className="w-full max-w-[95vw] mx-auto px-4 py-4 flex flex-col items-end gap-1">
               {NAV_ITEMS.map((item, index) => {
                 const isActive = location.pathname === item.path;
                 return (

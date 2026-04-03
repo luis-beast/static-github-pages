@@ -87,7 +87,7 @@ const Quotes = memo(function Quotes() {
         >
           <div className="relative group">
             <div className="absolute inset-0 bg-primary/10 rounded-2xl blur-xl opacity-0 group-focus-within:opacity-100 transition-opacity duration-500" />
-            <div className="relative bg-card/40 backdrop-blur-xl rounded-2xl border border-border/50 p-6 shadow-2xl shadow-primary/5 space-y-4">
+            <div className="relative bg-card/80 rounded-2xl border border-border/50 p-6 shadow-2xl shadow-primary/5 space-y-4">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                 <Input

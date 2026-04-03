@@ -149,7 +149,7 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
                     {visibleAliases.map((alias, index) => (
                       <motion.span
                         key={alias}
-                        className="text-muted-foreground text-sm font-mono bg-secondary/30 backdrop-blur-sm px-2 py-1 rounded-lg"
+                        className="text-muted-foreground text-sm font-mono bg-secondary/30 px-2 py-1 rounded-lg"
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.8 }}
@@ -232,7 +232,7 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
             transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="overflow-hidden"
           >
-            <div className="border-t border-border/30 bg-secondary/10 backdrop-blur-sm p-5 space-y-6">
+            <div className="border-t border-border/30 bg-secondary/10 p-5 space-y-6">
               {hasVariations && (
                 <div>
                   <h4 className="text-sm font-semibold text-foreground mb-3">Also works as</h4>
@@ -265,7 +265,7 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
                     {command.parameterGroups?.map((group, index) => (
                       <motion.div
                         key={index}
-                        className="bg-card/30 backdrop-blur-sm rounded-xl p-4 border border-border/20"
+                        className="bg-card/30 rounded-xl p-4 border border-border/20"
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.05 }}
