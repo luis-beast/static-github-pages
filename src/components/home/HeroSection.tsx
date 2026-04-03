@@ -21,13 +21,11 @@ const HeroSection = memo(function HeroSection() {
   const [showArrow, setShowArrow] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
-  // Start 5s timer on mount — only scroll hides/resets it
   useEffect(() => {
     timerRef.current = setTimeout(() => setShowArrow(true), IDLE_TIMEOUT);
     return () => clearTimeout(timerRef.current);
   }, []);
 
-  // Hide arrow when scrolled past hero, restart timer when back at top
   useEffect(() => {
     return scrollYProgress.on("change", (v) => {
       if (v > 0.05) {
