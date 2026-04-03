@@ -53,7 +53,7 @@ const Navigation = memo(function Navigation() {
         isScrolled || mobileMenuOpen ? "bg-background/80 backdrop-blur-md border-b border-border/30" : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4">
+      <div className="w-full max-w-[95vw] mx-auto px-4">
         <div
           className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? "h-12" : "h-16"}`}
         >
