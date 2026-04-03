@@ -23,17 +23,11 @@ export const NAV_ITEMS = [
   { path: "/quotes", label: "Quotes" },
 ] as const;
 
-export const FOOTER_NAV_LINKS = [
-  { label: "Home", path: "/" },
-] as const;
+export const FOOTER_NAV_LINKS = [{ label: "Home", path: "/" }] as const;
 
 export const FOOTER_LEGAL_LINKS: readonly { label: string; path: string }[] = [];
 
-export const KNOWN_ROUTES = [
-  "/",
-  "/quotes",
-  "/commands",
-] as const;
+export const KNOWN_ROUTES = ["/", "/quotes", "/commands"] as const;
 
 export const SCROLL_THRESHOLD = 100;
 
