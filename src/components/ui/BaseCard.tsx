@@ -34,7 +34,7 @@ const BaseCard = memo(
 
         <div
           className={cn(
-            "relative bg-card/60 backdrop-blur-xl rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col border border-border/30",
+            "relative bg-card rounded-2xl overflow-hidden transition-all duration-300 h-full flex flex-col border border-border/30",
             interactive
               ? isActive
                 ? "border-primary/60 shadow-2xl shadow-primary/25"

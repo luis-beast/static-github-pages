@@ -170,7 +170,7 @@ const Navigation = memo(function Navigation() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: DURATION.normal, ease: EASING.snappy }}
-            className="lg:hidden overflow-hidden bg-background/95 backdrop-blur-md border-b border-border/30"
+            className="lg:hidden overflow-hidden bg-background/95 border-b border-border/30"
           >
             <nav className="w-full max-w-[95vw] mx-auto px-4 py-4 flex flex-col items-end gap-1">
               {NAV_ITEMS.map((item, index) => {
