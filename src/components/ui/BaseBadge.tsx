@@ -33,7 +33,8 @@ const BaseBadge = memo(function BaseBadge({
     <Component
       onClick={onClick}
       className={cn(
-        "inline-flex items-center rounded-md font-medium border transition-all duration-200",
+        "inline-flex items-center rounded-md border transition-all duration-200",
+        useEnhanced ? "font-semibold" : "font-medium",
         SIZE_CLASSES[size],
         onClick && "cursor-pointer hover:scale-105",
         className,

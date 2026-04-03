@@ -13,6 +13,8 @@ export default {
       screens: {
         "3xl": "1920px",
         "4xl": "2560px",
+        "5xl": "3200px",
+        "6xl": "3840px",
       },
       fontFamily: {
         sans: ["Plus Jakarta Sans", "system-ui", "sans-serif"],

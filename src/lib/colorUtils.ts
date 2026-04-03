@@ -25,11 +25,13 @@ export const INNER_GLOW_OPACITY = 0.3;
 
 export const getBadgeStyles = (color: string, isActive: boolean, useEnhanced = false) => {
   const config = useEnhanced ? ENHANCED_INACTIVE_OPACITY : INACTIVE_OPACITY;
+  const activeBg = useEnhanced ? ENHANCED_ACTIVE_BG_OPACITY : ACTIVE_BG_OPACITY;
+  const outerGlow = useEnhanced ? `, 0 0 12px ${withOpacity(color, 0.4)}` : "";
 
   return {
-    backgroundColor: withOpacity(color, isActive ? ACTIVE_BG_OPACITY : config.background),
+    backgroundColor: withOpacity(color, isActive ? activeBg : config.background),
     color: isActive ? color : withOpacity(color, config.text),
     borderColor: isActive ? color : withOpacity(color, config.border),
-    boxShadow: `inset 0 0 8px ${withOpacity(color, INNER_GLOW_OPACITY)}`,
+    boxShadow: `inset 0 0 8px ${withOpacity(color, INNER_GLOW_OPACITY)}${outerGlow}`,
   };
 };

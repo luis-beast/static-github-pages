@@ -31,7 +31,7 @@ const PageWrapper = memo(function PageWrapper({ children, className = "" }: Page
       exit={{ opacity: 0 }}
       transition={{ duration: DURATION.fast, ease: EASING.smooth }}
     >
-      <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
+      <div className="fixed inset-0 pointer-events-none will-change-transform" aria-hidden="true">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[1200px] bg-primary/10 rounded-full blur-[200px]" />
       </div>
 

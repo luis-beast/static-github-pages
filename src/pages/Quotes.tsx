@@ -147,7 +147,7 @@ const Quotes = memo(function Quotes() {
               </div>
             ))
           ) : (
-            <div className="md:col-span-2 3xl:col-span-3 text-center py-8">
+            <div className="md:col-span-2 3xl:col-span-3 4xl:col-span-4 5xl:col-span-5 text-center py-8">
               <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted/50 flex items-center justify-center">
                 <Search className="w-8 h-8 text-muted-foreground/50" />
               </div>
