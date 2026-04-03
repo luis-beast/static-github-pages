@@ -12,26 +12,22 @@ const Navigation = memo(function Navigation() {
   const isHomePage = location.pathname === "/";
   const isScrolled = useIsScrolled();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
-  // Track animation sequence: background fades first, then text appears
+
   const [showText, setShowText] = useState(!isHomePage);
   const [bgVisible, setBgVisible] = useState(isHomePage);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
     if (isHomePage) {
-      // Going to home: show background first, then hide text after background appears
       setBgVisible(true);
       const timer = setTimeout(() => {
         setShowText(false);
       }, 300);
       return () => clearTimeout(timer);
     } else {
-      // Leaving home: fade out background first, then show text after background is gone
       setBgVisible(false);
       const timer = setTimeout(() => {
         setShowText(true);
@@ -40,7 +36,6 @@ const Navigation = memo(function Navigation() {
     }
   }, [isHomePage]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = "hidden";
@@ -55,16 +50,12 @@ const Navigation = memo(function Navigation() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
-        isScrolled || mobileMenuOpen
-          ? "bg-background/80 backdrop-blur-md border-b border-border/30"
-          : "bg-transparent"
+        isScrolled || mobileMenuOpen ? "bg-background/80 backdrop-blur-md border-b border-border/30" : "bg-transparent"
       }`}
     >
       <div className="container mx-auto px-4">
         <div
-          className={`flex items-center justify-between transition-all duration-300 ${
-            isScrolled ? "h-12" : "h-16"
-          }`}
+          className={`flex items-center justify-between transition-all duration-300 ${isScrolled ? "h-12" : "h-16"}`}
         >
           <Link
             to="/"
@@ -72,15 +63,13 @@ const Navigation = memo(function Navigation() {
               !isHomePage ? "hover:bg-gradient-to-b hover:from-[#8800FF]/50 hover:to-[#220033]/50" : ""
             }`}
           >
-            {/* Background glow - visible on home page at full brightness */}
-            <div 
+            <div
               className={`absolute inset-0 bg-gradient-to-b from-[#8800FF] to-[#220033] transition-opacity duration-300 ${
                 bgVisible ? "opacity-100" : "opacity-0"
               }`}
               aria-hidden="true"
             />
-            
-            {/* Content container */}
+
             <div className="relative flex items-center justify-center px-2 py-1.5">
               <img
                 src={avatarClear}
@@ -89,14 +78,17 @@ const Navigation = memo(function Navigation() {
                   isScrolled ? "w-8 h-8" : "w-10 h-10"
                 }`}
               />
-              
-              {/* Text - grid for smooth width animation */}
-              <div className={`grid transition-all duration-500 ease-out ${
-                showText ? "grid-cols-[1fr]" : "grid-cols-[0fr]"
-              }`}>
-                <div className={`overflow-hidden flex items-center transition-opacity duration-500 ease-out ${
-                  showText ? "opacity-100" : "opacity-0"
-                }`}>
+
+              <div
+                className={`grid transition-all duration-500 ease-out ${
+                  showText ? "grid-cols-[1fr]" : "grid-cols-[0fr]"
+                }`}
+              >
+                <div
+                  className={`overflow-hidden flex items-center transition-opacity duration-500 ease-out ${
+                    showText ? "opacity-100" : "opacity-0"
+                  }`}
+                >
                   <span className="font-semibold text-lg whitespace-nowrap ml-3 mr-1">
                     <BrandName />
                   </span>
@@ -105,7 +97,6 @@ const Navigation = memo(function Navigation() {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex relative items-center gap-1">
             {NAV_ITEMS.map((item) => {
               const isActive = location.pathname === item.path;
@@ -115,24 +106,23 @@ const Navigation = memo(function Navigation() {
                   to={item.path}
                   className="group relative px-4 py-2.5 rounded-lg text-base font-medium transition-colors duration-200 overflow-hidden"
                 >
-                  {/* Background layer with smooth opacity transition */}
-                  <span 
+                  <span
                     className={`absolute inset-0 bg-gradient-to-b from-[#8800FF] to-[#220033] rounded-lg transition-opacity duration-300 ${
                       isActive ? "opacity-100" : "opacity-0"
                     }`}
                     aria-hidden="true"
                   />
-                  {/* Hover background for non-active state */}
-                  <span 
+                  <span
                     className={`absolute inset-0 bg-white/10 rounded-lg transition-opacity duration-200 ${
                       isActive ? "opacity-0" : "opacity-0 group-hover:opacity-100"
                     }`}
                     aria-hidden="true"
                   />
-                  {/* Text layer */}
-                  <span className={`relative z-10 transition-colors duration-200 ${
-                    isActive ? "text-white" : "text-muted-foreground group-hover:text-white"
-                  }`}>
+                  <span
+                    className={`relative z-10 transition-colors duration-200 ${
+                      isActive ? "text-white" : "text-muted-foreground group-hover:text-white"
+                    }`}
+                  >
                     {item.label}
                   </span>
                 </Link>
@@ -140,7 +130,6 @@ const Navigation = memo(function Navigation() {
             })}
           </nav>
 
-          {/* Mobile Hamburger Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="lg:hidden relative p-2 rounded-lg text-muted-foreground hover:text-white hover:bg-white/10 transition-all duration-200"
@@ -174,7 +163,6 @@ const Navigation = memo(function Navigation() {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div

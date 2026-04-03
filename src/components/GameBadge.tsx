@@ -10,13 +10,7 @@ interface GameBadgeProps {
   className?: string;
 }
 
-const GameBadge = memo(function GameBadge({
-  game,
-  size = "sm",
-  isActive = true,
-  onClick,
-  className,
-}: GameBadgeProps) {
+const GameBadge = memo(function GameBadge({ game, size = "sm", isActive = true, onClick, className }: GameBadgeProps) {
   return (
     <BaseBadge
       label={game}

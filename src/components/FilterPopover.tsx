@@ -20,10 +20,7 @@ interface FilterPopoverProps {
   triggerLabel?: string;
 }
 
-const FilterPopover = memo(function FilterPopover({
-  sections,
-  triggerLabel = "Filters",
-}: FilterPopoverProps) {
+const FilterPopover = memo(function FilterPopover({ sections, triggerLabel = "Filters" }: FilterPopoverProps) {
   const [open, setOpen] = useState(false);
   const totalSelected = sections.reduce((acc, section) => acc + section.selectedItems.length, 0);
 
@@ -37,7 +34,7 @@ const FilterPopover = memo(function FilterPopover({
             "h-10 px-4 gap-2",
             APP_BUTTON_BASE,
             totalSelected > 0 ? APP_BUTTON_ACTIVE : APP_BUTTON_DEFAULT,
-            totalSelected === 0 && "text-muted-foreground"
+            totalSelected === 0 && "text-muted-foreground",
           )}
         >
           <Filter className="w-4 h-4" />
@@ -47,12 +44,7 @@ const FilterPopover = memo(function FilterPopover({
               {totalSelected}
             </span>
           )}
-          <ChevronDown
-            className={cn(
-              "w-4 h-4 transition-transform duration-200",
-              open && "rotate-180"
-            )}
-          />
+          <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", open && "rotate-180")} />
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -70,7 +62,7 @@ const FilterPopover = memo(function FilterPopover({
                     className={cn(
                       "px-2.5 py-1 text-xs cursor-pointer text-muted-foreground hover:text-foreground",
                       APP_BUTTON_BASE,
-                      "hover:bg-destructive/10 hover:border-destructive/30 border-transparent"
+                      "hover:bg-destructive/10 hover:border-destructive/30 border-transparent",
                     )}
                   >
                     Clear
@@ -84,9 +76,7 @@ const FilterPopover = memo(function FilterPopover({
                   </div>
                 ))}
               </div>
-              {sectionIndex < sections.length - 1 && (
-                <div className="border-b border-border/30 mt-5" />
-              )}
+              {sectionIndex < sections.length - 1 && <div className="border-b border-border/30 mt-5" />}
             </div>
           ))}
         </div>

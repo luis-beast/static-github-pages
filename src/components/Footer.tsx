@@ -19,14 +19,12 @@ const Footer = memo(function Footer() {
       transition={{ duration: DURATION.reveal, ease: EASING.smooth }}
     >
       <div className="container mx-auto">
-        {/* Navigation Links */}
         <motion.div
           className="flex flex-wrap items-center justify-center lg:justify-between gap-x-1 gap-y-2 pb-6 border-b border-border/20"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: DURATION.reveal, delay: 0.1, ease: EASING.smooth }}
         >
-          {/* Main Nav Links */}
           <nav className="flex flex-wrap items-center justify-center gap-1">
             {FOOTER_NAV_LINKS.map((link) => (
               <Link
@@ -39,7 +37,6 @@ const Footer = memo(function Footer() {
             ))}
           </nav>
 
-          {/* Legal Links */}
           {FOOTER_LEGAL_LINKS.length > 0 && (
             <nav className="flex flex-wrap items-center justify-center gap-1">
               {FOOTER_LEGAL_LINKS.map((link) => (
@@ -55,7 +52,6 @@ const Footer = memo(function Footer() {
           )}
         </motion.div>
 
-        {/* Copyright */}
         <motion.div
           className="flex flex-wrap items-center justify-center lg:justify-between gap-x-4 gap-y-2 pt-6"
           initial={{ opacity: 0 }}

@@ -10,13 +10,7 @@ interface TagBadgeProps {
   className?: string;
 }
 
-const TagBadge = memo(function TagBadge({
-  tag,
-  size = "sm",
-  isActive = true,
-  onClick,
-  className,
-}: TagBadgeProps) {
+const TagBadge = memo(function TagBadge({ tag, size = "sm", isActive = true, onClick, className }: TagBadgeProps) {
   return (
     <BaseBadge
       label={tag}

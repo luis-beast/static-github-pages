@@ -8,30 +8,26 @@ const SCROLL_HIDE_DELAY = 1000;
 
 const GlobalScrollbar = memo(function GlobalScrollbar() {
   const { canScroll, scrollY, scrollHeight, viewportHeight } = useLayout();
-  
+
   const [isHovering, setIsHovering] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollTimeoutRef = useRef<number>();
   const lastScrollY = useRef(scrollY);
 
-  // Calculate thumb dimensions directly (no springs to avoid layout shifts)
   const visibleRatio = scrollHeight > 0 ? viewportHeight / scrollHeight : 1;
-  const thumbHeightValue = canScroll 
-    ? Math.max(MIN_THUMB_HEIGHT, viewportHeight * visibleRatio) 
-    : 0;
-  
+  const thumbHeightValue = canScroll ? Math.max(MIN_THUMB_HEIGHT, viewportHeight * visibleRatio) : 0;
+
   const scrollableDistance = scrollHeight - viewportHeight;
   const thumbTrackSpace = viewportHeight - thumbHeightValue;
   const scrollProgress = scrollableDistance > 0 ? scrollY / scrollableDistance : 0;
   const thumbTopValue = scrollProgress * thumbTrackSpace;
 
-  // Detect scrolling for visibility
   useEffect(() => {
     if (scrollY !== lastScrollY.current) {
       lastScrollY.current = scrollY;
       setIsScrolling(true);
-      
+
       if (scrollTimeoutRef.current) {
         window.clearTimeout(scrollTimeoutRef.current);
       }
@@ -39,7 +35,7 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
         setIsScrolling(false);
       }, SCROLL_HIDE_DELAY);
     }
-    
+
     return () => {
       if (scrollTimeoutRef.current) {
         window.clearTimeout(scrollTimeoutRef.current);
@@ -74,22 +70,17 @@ const GlobalScrollbar = memo(function GlobalScrollbar() {
       document.addEventListener("mousemove", onMouseMove);
       document.addEventListener("mouseup", onMouseUp);
     },
-    [thumbHeightValue, viewportHeight, scrollHeight]
+    [thumbHeightValue, viewportHeight, scrollHeight],
   );
 
   const isThumbVisible = isHovering || isDragging || isScrolling;
 
   return (
-    <div 
-      className="fixed right-0 top-0 bottom-0 w-3 z-[9999] pointer-events-none"
-      aria-hidden="true"
-    >
+    <div className="fixed right-0 top-0 bottom-0 w-3 z-[9999] pointer-events-none" aria-hidden="true">
       <motion.div
-        className={cn(
-          "absolute right-0.5 w-2 rounded-full pointer-events-auto cursor-grab active:cursor-grabbing"
-        )}
-        style={{ 
-          height: thumbHeightValue, 
+        className={cn("absolute right-0.5 w-2 rounded-full pointer-events-auto cursor-grab active:cursor-grabbing")}
+        style={{
+          height: thumbHeightValue,
           top: thumbTopValue,
           background: "var(--gradient-scrollbar)",
         }}

@@ -8,10 +8,7 @@ interface PageWrapperProps {
   className?: string;
 }
 
-const PageWrapper = memo(function PageWrapper({ 
-  children, 
-  className = "" 
-}: PageWrapperProps) {
+const PageWrapper = memo(function PageWrapper({ children, className = "" }: PageWrapperProps) {
   const { refreshScrollState } = useLayout();
 
   useLayoutEffect(() => {
@@ -22,7 +19,7 @@ const PageWrapper = memo(function PageWrapper({
     const timeoutId = setTimeout(() => {
       refreshScrollState();
     }, 50);
-    
+
     return () => clearTimeout(timeoutId);
   }, [refreshScrollState]);
 
@@ -37,7 +34,7 @@ const PageWrapper = memo(function PageWrapper({
       <div className="fixed inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[800px] h-[1200px] bg-primary/10 rounded-full blur-[200px]" />
       </div>
-      
+
       {children}
     </motion.div>
   );

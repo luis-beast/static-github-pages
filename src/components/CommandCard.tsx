@@ -47,7 +47,7 @@ const CopyButton = memo(function CopyButton({ text }: CopyButtonProps) {
       toast({ description: `Copied: ${text}`, duration: 2000 });
       setTimeout(() => setCopied(false), 2000);
     },
-    [text]
+    [text],
   );
 
   return (
@@ -110,187 +110,190 @@ const CommandCard = memo(function CommandCard({ command, orderNumber, isFocused 
   }, []);
 
   return (
-    <BaseCard
-      interactive={canExpand}
-      isActive={isFocused}
-      onClick={handleCardClick}
-    >
-        <div className={cn("w-full p-5 text-left flex-1")}>
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex-shrink-0">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/20">
-                <span className="text-primary font-mono font-bold">{orderNumber}</span>
-              </div>
+    <BaseCard interactive={canExpand} isActive={isFocused} onClick={handleCardClick}>
+      <div className={cn("w-full p-5 text-left flex-1")}>
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex-shrink-0">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-primary/5 flex items-center justify-center border border-primary/20">
+              <span className="text-primary font-mono font-bold">{orderNumber}</span>
+            </div>
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <div className="mb-3 flex items-center gap-3 flex-wrap">
+              <span className="font-mono font-semibold text-primary text-xl">{command.name}</span>
+              {usageParams && (
+                <code className="text-muted-foreground text-base font-mono">
+                  {usageParams.split("[").map((part, i) => {
+                    if (i === 0) return part;
+                    const [param, rest] = part.split("]");
+                    return (
+                      <span key={i}>
+                        <span className="text-muted-foreground/50">[{param}]</span>
+                        {rest}
+                      </span>
+                    );
+                  })}
+                </code>
+              )}
+              <CopyButton text={getCopyableCommand(command.name, command.usage)} />
             </div>
 
-            <div className="flex-1 min-w-0">
-              <div className="mb-3 flex items-center gap-3 flex-wrap">
-                <span className="font-mono font-semibold text-primary text-xl">{command.name}</span>
-                {usageParams && (
-                  <code className="text-muted-foreground text-base font-mono">
-                    {usageParams.split("[").map((part, i) => {
-                      if (i === 0) return part;
-                      const [param, rest] = part.split("]");
-                      return (
-                        <span key={i}>
-                          <span className="text-muted-foreground/50">[{param}]</span>
-                          {rest}
-                        </span>
-                      );
-                    })}
-                  </code>
-                )}
-                <CopyButton text={getCopyableCommand(command.name, command.usage)} />
-              </div>
+            <div className="flex flex-wrap items-center gap-3 mb-4">
+              <PermissionBadge permission={command.permission} size="md" />
 
-              <div className="flex flex-wrap items-center gap-3 mb-4">
-                <PermissionBadge permission={command.permission} size="md" />
+              {aliases.length > 0 && (
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="text-muted-foreground/60 text-sm">also:</span>
+                  <AnimatePresence mode="popLayout">
+                    {visibleAliases.map((alias, index) => (
+                      <motion.span
+                        key={alias}
+                        className="text-muted-foreground text-sm font-mono bg-secondary/30 backdrop-blur-sm px-2 py-1 rounded-lg"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        transition={{
+                          duration: 0.2,
+                          delay:
+                            showAllAliases && index >= MAX_VISIBLE_ALIASES ? (index - MAX_VISIBLE_ALIASES) * 0.05 : 0,
+                        }}
+                      >
+                        {alias}
+                      </motion.span>
+                    ))}
+                  </AnimatePresence>
 
-                {aliases.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-muted-foreground/60 text-sm">also:</span>
-                    <AnimatePresence mode="popLayout">
-                      {visibleAliases.map((alias, index) => (
-                        <motion.span
-                          key={alias}
-                          className="text-muted-foreground text-sm font-mono bg-secondary/30 backdrop-blur-sm px-2 py-1 rounded-lg"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.8 }}
-                          transition={{
-                            duration: 0.2,
-                            delay: showAllAliases && index >= MAX_VISIBLE_ALIASES ? (index - MAX_VISIBLE_ALIASES) * 0.05 : 0,
-                          }}
-                        >
-                          {alias}
-                        </motion.span>
-                      ))}
-                    </AnimatePresence>
-
-                    <AnimatePresence mode="wait">
-                      {hiddenCount > 0 && !showAllAliases && (
-                        <motion.button
-                          key="more-button"
-                          onClick={handleToggleAliases}
-                          className="text-primary text-sm font-medium hover:text-primary/80 transition-colors px-2 py-1 rounded-lg hover:bg-primary/10"
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: 10 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          +<AnimatedCount value={hiddenCount} /> more
-                        </motion.button>
-                      )}
-                      {showAllAliases && hiddenCount > 0 && (
-                        <motion.button
-                          key="less-button"
-                          onClick={handleToggleAliases}
-                          className="text-primary text-sm font-medium hover:text-primary/80 transition-colors px-2 py-1 rounded-lg hover:bg-primary/10"
-                          initial={{ opacity: 0, x: 10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -10 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          show less
-                        </motion.button>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                )}
-              </div>
-
-              <p className="text-secondary-foreground/80 text-base leading-relaxed">{command.description}</p>
-
-              {(command.massCompatible || (command.commandGroups && command.commandGroups.filter((g) => g).length > 0)) && (
-                <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-border/20">
-                  {command.massCompatible && <TagBadge tag="!mass" size="sm" />}
-                  {command.commandGroups?.filter((group) => group).map((group) => (
-                    <TagBadge key={group} tag={group} size="sm" />
-                  ))}
+                  <AnimatePresence mode="wait">
+                    {hiddenCount > 0 && !showAllAliases && (
+                      <motion.button
+                        key="more-button"
+                        onClick={handleToggleAliases}
+                        className="text-primary text-sm font-medium hover:text-primary/80 transition-colors px-2 py-1 rounded-lg hover:bg-primary/10"
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: 10 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        +<AnimatedCount value={hiddenCount} /> more
+                      </motion.button>
+                    )}
+                    {showAllAliases && hiddenCount > 0 && (
+                      <motion.button
+                        key="less-button"
+                        onClick={handleToggleAliases}
+                        className="text-primary text-sm font-medium hover:text-primary/80 transition-colors px-2 py-1 rounded-lg hover:bg-primary/10"
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        show less
+                      </motion.button>
+                    )}
+                  </AnimatePresence>
                 </div>
               )}
             </div>
 
-            {canExpand && (
-              <motion.div
-                className="flex-shrink-0 w-8 h-8 rounded-xl border border-border/50 bg-secondary/50 flex items-center justify-center text-muted-foreground"
-                animate={{ rotate: isFocused ? 180 : 0 }}
-                transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-              >
-                <ChevronDown className="w-5 h-5" />
-              </motion.div>
+            <p className="text-secondary-foreground/80 text-base leading-relaxed">{command.description}</p>
+
+            {(command.massCompatible ||
+              (command.commandGroups && command.commandGroups.filter((g) => g).length > 0)) && (
+              <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-border/20">
+                {command.massCompatible && <TagBadge tag="!mass" size="sm" />}
+                {command.commandGroups
+                  ?.filter((group) => group)
+                  .map((group) => (
+                    <TagBadge key={group} tag={group} size="sm" />
+                  ))}
+              </div>
             )}
           </div>
-        </div>
 
-        <AnimatePresence>
-          {hasDetails && isFocused && (
+          {canExpand && (
             <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
+              className="flex-shrink-0 w-8 h-8 rounded-xl border border-border/50 bg-secondary/50 flex items-center justify-center text-muted-foreground"
+              animate={{ rotate: isFocused ? 180 : 0 }}
               transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="overflow-hidden"
             >
-              <div className="border-t border-border/30 bg-secondary/10 backdrop-blur-sm p-5 space-y-6">
-                {hasVariations && (
-                  <div>
-                    <h4 className="text-sm font-semibold text-foreground mb-3">Also works as</h4>
-                    <div className="space-y-2">
-                      {command.usageVariations!.map((variation, index) => (
-                        <code key={index} className="block text-muted-foreground text-sm font-mono bg-card/50 px-3 py-2 rounded-lg">
-                          {variation.split("(").map((part, i) => {
-                            if (i === 0) return part;
-                            const [param, rest] = part.split(")");
-                            return (
-                              <span key={i}>
-                                <span className="text-muted-foreground/50">({param})</span>
-                                {rest}
-                              </span>
-                            );
-                          })}
-                        </code>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {hasParameterGroups && (
-                  <div>
-                    <h4 className="text-sm font-semibold text-foreground mb-4">Variants</h4>
-                    <div className="space-y-3">
-                      {command.parameterGroups?.map((group, index) => (
-                        <motion.div
-                          key={index}
-                          className="bg-card/30 backdrop-blur-sm rounded-xl p-4 border border-border/20"
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.05 }}
-                        >
-                          <div className="flex items-center gap-3 mb-2">
-                            <span className="font-mono font-semibold text-primary text-base">{group.name}</span>
-                            {group.usage && (
-                              <code className="text-muted-foreground/60 text-sm font-mono">{group.usage}</code>
-                            )}
-                            <CopyButton text={getCopyableCommand(group.name, group.usage)} />
-                          </div>
-                          {group.aliases && group.aliases.length > 0 && (
-                            <div className="flex flex-wrap gap-2 mb-3">
-                              {group.aliases.map((alias, aliasIndex) => (
-                                <ParameterBubble key={aliasIndex} value={alias} />
-                              ))}
-                            </div>
-                          )}
-                          <p className="text-muted-foreground text-sm">{group.description}</p>
-                        </motion.div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
+              <ChevronDown className="w-5 h-5" />
             </motion.div>
           )}
-        </AnimatePresence>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {hasDetails && isFocused && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="overflow-hidden"
+          >
+            <div className="border-t border-border/30 bg-secondary/10 backdrop-blur-sm p-5 space-y-6">
+              {hasVariations && (
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground mb-3">Also works as</h4>
+                  <div className="space-y-2">
+                    {command.usageVariations!.map((variation, index) => (
+                      <code
+                        key={index}
+                        className="block text-muted-foreground text-sm font-mono bg-card/50 px-3 py-2 rounded-lg"
+                      >
+                        {variation.split("(").map((part, i) => {
+                          if (i === 0) return part;
+                          const [param, rest] = part.split(")");
+                          return (
+                            <span key={i}>
+                              <span className="text-muted-foreground/50">({param})</span>
+                              {rest}
+                            </span>
+                          );
+                        })}
+                      </code>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {hasParameterGroups && (
+                <div>
+                  <h4 className="text-sm font-semibold text-foreground mb-4">Variants</h4>
+                  <div className="space-y-3">
+                    {command.parameterGroups?.map((group, index) => (
+                      <motion.div
+                        key={index}
+                        className="bg-card/30 backdrop-blur-sm rounded-xl p-4 border border-border/20"
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                      >
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="font-mono font-semibold text-primary text-base">{group.name}</span>
+                          {group.usage && (
+                            <code className="text-muted-foreground/60 text-sm font-mono">{group.usage}</code>
+                          )}
+                          <CopyButton text={getCopyableCommand(group.name, group.usage)} />
+                        </div>
+                        {group.aliases && group.aliases.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {group.aliases.map((alias, aliasIndex) => (
+                              <ParameterBubble key={aliasIndex} value={alias} />
+                            ))}
+                          </div>
+                        )}
+                        <p className="text-muted-foreground text-sm">{group.description}</p>
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </BaseCard>
   );
 });
