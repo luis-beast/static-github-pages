@@ -11,8 +11,6 @@ import avatar from "@/assets/avatar.png";
 
 const IDLE_TIMEOUT = 5000;
 
-/* ── Social platforms ── */
-
 interface SocialPlatform {
   name: string;
   href: string;
@@ -84,8 +82,6 @@ const SOCIALS: SocialPlatform[] = [
   },
 ];
 
-/* ── Features ── */
-
 interface Feature {
   id: string;
   title: string;
@@ -113,8 +109,6 @@ const FEATURES: Feature[] = [
     gradient: "from-cyan-500/20 to-blue-500/20",
   },
 ];
-
-/* ── Sub-components ── */
 
 interface SocialRowProps {
   social: SocialPlatform;
@@ -192,7 +186,9 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
           className={`flex-1 flex flex-col text-center ${isReversed ? "sm:text-right sm:items-end" : "sm:text-left sm:items-start"} items-center`}
         >
           <h3 className="text-xl sm:text-2xl lg:text-3xl 3xl:text-4xl font-bold mb-2 sm:mb-3">{title}</h3>
-          <p className="text-muted-foreground text-base lg:text-lg 3xl:text-xl mb-4 sm:mb-6 max-w-md 3xl:max-w-lg">{description}</p>
+          <p className="text-muted-foreground text-base lg:text-lg 3xl:text-xl mb-4 sm:mb-6 max-w-md 3xl:max-w-lg">
+            {description}
+          </p>
           <Link
             to={path}
             className="inline-flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-primary/10 border border-primary/20 text-primary font-medium hover:bg-primary/20 hover:border-primary/30 transition-all duration-200 group text-sm sm:text-base"
@@ -205,8 +201,6 @@ const FeatureCard = memo(function FeatureCard({ feature, index, isReversed }: Fe
     </ScrollRevealSection>
   );
 });
-
-/* ── Main page ── */
 
 const Home = memo(function Home() {
   usePageTitle();
@@ -251,8 +245,10 @@ const Home = memo(function Home() {
 
   return (
     <PageWrapper>
-      {/* ── Hero ── */}
-      <section ref={heroRef} className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden">
+      <section
+        ref={heroRef}
+        className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      >
         <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
           <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] animate-pulse" />
           <div
@@ -315,19 +311,20 @@ const Home = memo(function Home() {
         </AnimatePresence>
       </section>
 
-      {/* ── All content in one container ── */}
       <section className="py-12 lg:py-16 px-6">
         <div className="max-w-5xl 3xl:max-w-6xl 4xl:max-w-7xl mx-auto space-y-16 lg:space-y-20">
           {/* About */}
           <div className="text-center">
             <ScrollRevealSection>
-              <h2 className="text-3xl sm:text-4xl lg:text-6xl 3xl:text-7xl font-bold tracking-tight mb-4 sm:mb-6">YELLOW, LAYPEOPLE!</h2>
+              <h2 className="text-3xl sm:text-4xl lg:text-6xl 3xl:text-7xl font-bold tracking-tight mb-4 sm:mb-6">
+                YELLOW, LAYPEOPLE!
+              </h2>
             </ScrollRevealSection>
 
             <ScrollRevealSection delay={0.1}>
               <p className="text-lg sm:text-xl lg:text-2xl 3xl:text-3xl text-muted-foreground leading-relaxed mb-4 sm:mb-6 font-light">
-                I'm LaymanLouie, but I always introduce myself and, NORMALLY, go by "Layman" or "The Layman". I'm here to
-                create a space full of fun moments, good laughs, and a community you can feel comfortable in.
+                I'm LaymanLouie, but I always introduce myself and, NORMALLY, go by "Layman" or "The Layman". I'm here
+                to create a space full of fun moments, good laughs, and a community you can feel comfortable in.
               </p>
             </ScrollRevealSection>
 
@@ -346,7 +343,6 @@ const Home = memo(function Home() {
             </ScrollRevealSection>
           </div>
 
-          {/* Socials */}
           <div>
             <ScrollRevealSection>
               <p className="text-xl md:text-2xl 3xl:text-3xl text-muted-foreground text-center mb-8 lg:mb-10 font-light max-w-2xl 3xl:max-w-3xl mx-auto">
@@ -361,7 +357,6 @@ const Home = memo(function Home() {
             </div>
           </div>
 
-          {/* Features */}
           <div>
             <ScrollRevealSection>
               <p className="text-xl md:text-2xl 3xl:text-3xl text-muted-foreground text-center mb-8 lg:mb-10 font-light max-w-2xl 3xl:max-w-3xl mx-auto">
